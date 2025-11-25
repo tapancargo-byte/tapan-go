@@ -65,15 +65,20 @@ async function loadNotifications(): Promise<DashboardNotification[]> {
     return [];
   }
 }
+ 
+const appBaseUrl =
+  process.env.NEXT_PUBLIC_APP_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
 export const metadata: Metadata = {
+  metadataBase: new URL(appBaseUrl),
   title: {
     template: "%s – Tapan Go",
     default: "Tapan Go",
   },
   description:
     "Logistics and cargo management platform for seamless nationwide transportation.",
-    generator: 'v0.app'
+  generator: "v0.app",
 };
 
 export default async function RootLayout({
