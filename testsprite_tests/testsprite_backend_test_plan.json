@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "verify_authentication_and_role_based_access_control",
+    "description": "Test that API endpoints correctly restrict access to authenticated users and enforce role-based access control (RBAC) according to user roles."
+  },
+  {
+    "id": "TC002",
+    "title": "validate_invoice_listing_with_pagination_and_filters",
+    "description": "Verify that the invoice listing API supports server-side pagination, sorting, status badges, and date range filtering accurately."
+  },
+  {
+    "id": "TC003",
+    "title": "test_partial_payment_processing_and_status_update",
+    "description": "Ensure that partial payments on invoices are processed correctly, updating invoice statuses and audit logs accordingly."
+  },
+  {
+    "id": "TC004",
+    "title": "barcode_scanner_input_and_scan_event_recording",
+    "description": "Validate that barcode scanning via camera and keyboard inputs successfully detects codes and records scan events linked to manifests."
+  },
+  {
+    "id": "TC005",
+    "title": "manifest_finalization_and_scan_aggregation",
+    "description": "Test that manifest finalization API correctly aggregates scanned barcodes and updates manifest records with origin, destination, and airline details."
+  },
+  {
+    "id": "TC006",
+    "title": "invoice_pdf_generation_with_barcode_and_tax_breakdown",
+    "description": "Verify that invoice PDF generation API completes successfully with embedded barcode images and includes tax breakdowns where applicable."
+  },
+  {
+    "id": "TC007",
+    "title": "signed_url_expiration_for_secure_pdf_access",
+    "description": "Ensure that signed URLs generated for invoice and barcode PDFs expire correctly to maintain privacy and security."
+  },
+  {
+    "id": "TC008",
+    "title": "whatsapp_integration_for_invoice_and_shipment_notifications",
+    "description": "Test that WhatsApp messaging API generates correct prefilled messages and integrates seamlessly with WhatsApp Business API for sending invoices and shipment notifications."
+  },
+  {
+    "id": "TC009",
+    "title": "offline_scan_queue_persistence_and_synchronization",
+    "description": "Validate that offline scan queue persists locally when offline and synchronizes automatically with the server upon reconnection, including retry mechanisms on failure."
+  },
+  {
+    "id": "TC010",
+    "title": "api_response_consistency_and_error_handling",
+    "description": "Verify that all API endpoints return consistent, typed responses and handle errors gracefully under normal and failure conditions."
+  }
+]

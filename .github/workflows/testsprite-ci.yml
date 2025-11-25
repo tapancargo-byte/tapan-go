@@ -1,0 +1,60 @@
+name: TestSprite E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  testsprite:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Start Next.js dev server
+        run: npm run dev -- --port 3000 &
+
+      - name: Wait for dev server to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://127.0.0.1:3000 > /dev/null; then
+              echo "Server is up";
+              exit 0;
+            fi
+            echo "Waiting for server... ($i)";
+            sleep 5;
+          done
+          echo "::error::Server did not start in time";
+          exit 1
+
+      - name: Run TestSprite tests
+        env:
+          CI: true
+        run: npm run test:testsprite
+
+      - name: Upload TestSprite report artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testsprite-report
+          path: |
+            testsprite_tests/testsprite-mcp-test-report.md
+            testsprite_tests/tmp/test_results.json
+            testsprite_tests/tmp/raw_report.md

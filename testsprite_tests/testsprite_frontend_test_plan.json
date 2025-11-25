@@ -1,0 +1,704 @@
+[
+  {
+    "id": "TC001",
+    "title": "User Login with Valid Credentials",
+    "description": "Verify successful login using valid Supabase credentials and role enforcement.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid username/email and password."
+      },
+      {
+        "type": "action",
+        "description": "Submit login form."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm user is authenticated and dashboard is displayed."
+      },
+      {
+        "type": "assertion",
+        "description": "Check role-based access control limits user to authorized resources."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Login with Invalid Credentials",
+    "description": "Verify login failure with incorrect username or password.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid username/email or password."
+      },
+      {
+        "type": "action",
+        "description": "Submit login form."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error message is displayed indicating invalid credentials."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm user remains on the login page without authentication."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Dashboard Overview Load and Widget Verification",
+    "description": "Verify the main dashboard loads with all summary widgets, charts, rebel rankings, security status and notifications.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as an authorized user."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the dashboard overview page."
+      },
+      {
+        "type": "assertion",
+        "description": "Check key statistics and summary widgets are displayed."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify charts render data correctly."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate rebel rankings are populated with correct data."
+      },
+      {
+        "type": "assertion",
+        "description": "Check security status widget displays appropriate statuses."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm notifications appear in the notification widget."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Warehouse Management Grid View and Filters",
+    "description": "Validate warehouse grid view displays correct capacity, utilization, health, and staff statistics with filtering.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as warehouse manager."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to Warehouse Management page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify warehouse grid shows warehouse names and statuses."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm capacity and utilization indicators show accurate numbers."
+      },
+      {
+        "type": "assertion",
+        "description": "Check health status badges display correct states."
+      },
+      {
+        "type": "action",
+        "description": "Apply filters on capacity utilization or health."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate filtered results match applied criteria."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Shipment Tracking - Search, Filter, and Progress Bar",
+    "description": "Verify shipment tracking table supports searching, filtering by status, and correct rendering of progress bars.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as an operator."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to shipment tracking page."
+      },
+      {
+        "type": "action",
+        "description": "Enter a shipment ID or customer name in the search box."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that shipment table filters results matching search term."
+      },
+      {
+        "type": "action",
+        "description": "Apply status filter (e.g., In Transit, Delivered)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify shipments are filtered by the selected status."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate progress bars visually represent shipment completion progress accurately."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Inventory Management - Stock Status and Criticality Badges",
+    "description": "Ensure inventory list displays stock levels with correct color-coded badges for OK, LOW, and CRITICAL and supports filtering.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as inventory manager."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to inventory management page."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm each inventory item shows current stock status."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify badges are color-coded correctly based on stock level thresholds."
+      },
+      {
+        "type": "action",
+        "description": "Apply filters to show only low or critical stock items."
+      },
+      {
+        "type": "assertion",
+        "description": "Check filtered inventory matches filter criteria."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Customer Management - Viewing and Sorting Customer Cards",
+    "description": "Validate display of customer cards with activity metrics, shipment count and revenue data, and sorting functionality.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as customer service user."
+      },
+      {
+        "type": "action",
+        "description": "Go to customer management page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify each customer card shows activity status, shipments, and revenue data."
+      },
+      {
+        "type": "action",
+        "description": "Sort customer cards by revenue descending."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm customers are sorted correctly by revenue amount."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Invoice Management - Server-side Pagination, Filtering, and Sorting",
+    "description": "Check invoice list supports server-side pagination, filtering by date range and status, sorting, and displays correct status badges.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as billing staff."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to invoice management page."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm initial page loads a limited set of invoices."
+      },
+      {
+        "type": "action",
+        "description": "Paginate to next set of invoices."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify invoices for the page load correctly without errors."
+      },
+      {
+        "type": "action",
+        "description": "Apply date range filter to show invoices within a specific billing cycle."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate filtered invoices conform to date filter."
+      },
+      {
+        "type": "action",
+        "description": "Sort invoices by status and amount."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that sorting works for both ascending and descending order."
+      },
+      {
+        "type": "assertion",
+        "description": "Status badges visually correspond to correct invoice statuses (paid, pending, partial, overdue)."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Invoice Partial Payments and Audit Log Update",
+    "description": "Test recording of partial payments on invoices updates invoice status correctly and creates audit log entries.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as billing staff."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to invoices page and select an unpaid invoice."
+      },
+      {
+        "type": "action",
+        "description": "Open partial payment slide-out and enter a partial payment amount."
+      },
+      {
+        "type": "action",
+        "description": "Submit partial payment."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify invoice status updates to partial payment."
+      },
+      {
+        "type": "assertion",
+        "description": "Check audit log for a new entry recording partial payment details."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Barcode Scanner Functionality with Camera Input",
+    "description": "Ensure barcode scanner detects barcodes using device camera and records scan events with manifest linkage.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as operator."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to barcode scanner page and select camera scanning mode."
+      },
+      {
+        "type": "action",
+        "description": "Scan a valid barcode using the camera."
+      },
+      {
+        "type": "assertion",
+        "description": "Detect barcode data is captured accurately."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm scan event is recorded and linked to the appropriate manifest session."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Barcode Scanner Functionality with Keyboard Input Fallback",
+    "description": "Verify barcode scanner processes manual barcode input from keyboard fallback and logs scan events properly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as operator."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to barcode scanner page and switch to keyboard input mode."
+      },
+      {
+        "type": "action",
+        "description": "Enter barcode manually using keyboard and submit."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate barcode is processed and event logged."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm manifest session linkage is accurate for the scan event."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Manifest Finalization and Scan Aggregation",
+    "description": "Test manifest scanning session finalization aggregates scanned barcodes and updates manifest records with origin, destination, and airline data.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as operator."
+      },
+      {
+        "type": "action",
+        "description": "Create a new manifest scanning session."
+      },
+      {
+        "type": "action",
+        "description": "Scan multiple barcodes belonging to the manifest."
+      },
+      {
+        "type": "action",
+        "description": "Finalize the manifest scanning session with required origin, destination, and airline details."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate manifest record updates include all scanned barcodes."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that origin, destination, and airline details are saved correctly."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Invoice PDF Generation with Barcode and Tax Breakdown",
+    "description": "Verify invoice PDF generation includes embedded barcode images and accurate tax breakdown details.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as billing staff."
+      },
+      {
+        "type": "action",
+        "description": "Open an invoice detail page."
+      },
+      {
+        "type": "action",
+        "description": "Trigger PDF generation for the invoice."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify PDF file is generated and available for download."
+      },
+      {
+        "type": "assertion",
+        "description": "Check barcode images are embedded within PDF."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm tax breakdown section matches invoice data."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Signed URL Expiry for Secure PDF and Barcode Access",
+    "description": "Test that signed URLs generated for downloading invoices and barcodes expire within configured time to prevent unauthorized access.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Request signed URL for an invoice PDF."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL allows access immediately after generation."
+      },
+      {
+        "type": "action",
+        "description": "Wait beyond URL expiry time."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm URL access is denied or expired after expiration time."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "WhatsApp Invoice Notification via Business API",
+    "description": "Verify invoice notifications can be sent via WhatsApp Business API with correct prefilled messages and invoice attachments.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as billing staff."
+      },
+      {
+        "type": "action",
+        "description": "Select invoice and trigger WhatsApp notification send."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify integration with WhatsApp Business API is invoked correctly."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that message prefilled content matches invoice details."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm invoice PDF link or attachment is included in sent message."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Offline Scan Queue Persistence and Synchronization",
+    "description": "Check offline scan queue persists scan data locally when disconnected and synchronizes automatically with retry when network is restored.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as operator."
+      },
+      {
+        "type": "action",
+        "description": "Disable network connectivity."
+      },
+      {
+        "type": "action",
+        "description": "Perform several barcode scans."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify scans are queued locally and no errors occur."
+      },
+      {
+        "type": "action",
+        "description": "Re-enable network connectivity."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm all queued scan events are synchronized to the server."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate error retry mechanisms handle intermittent failures gracefully."
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "API Route Input Validation Using Zod",
+    "description": "Ensure invalid data submissions to API routes and client forms are rejected by Zod validation with descriptive error messages.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send API requests with malformed or missing required fields to routes (e.g., barcode creation, invoice updates)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm API response returns 400 status with detailed validation errors."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to submit client form with invalid input values."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate frontend form shows inline validation errors preventing submission."
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Row Level Security (RLS) Enforcement on Data Access",
+    "description": "Verify that Supabase Row Level Security policies restrict data visibility appropriately based on user roles and ownership.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as user with restricted role."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access data outside user's permitted scope (e.g., invoices or shipments of other customers)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm data returned is restricted to authorized records only."
+      },
+      {
+        "type": "action",
+        "description": "Login as admin user."
+      },
+      {
+        "type": "action",
+        "description": "Access all relevant data sets."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify admin user has full data visibility."
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "UI Loading and Error States on Invoice Status Update",
+    "description": "Test that invoice status updates show loading indicators, handle error states gracefully, and use optimistic UI updates for better UX.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as billing staff."
+      },
+      {
+        "type": "action",
+        "description": "Trigger invoice status update (e.g., mark as paid)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify loading spinner or indicator appears during update."
+      },
+      {
+        "type": "assertion",
+        "description": "Check UI updates invoice status optimistically before server confirmation."
+      },
+      {
+        "type": "action",
+        "description": "Simulate server failure for status update."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate UI rolls back to previous status and shows error notification."
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Customer Portal Login via Magic Link",
+    "description": "Verify customer portal authentication initiates with magic link and maintains session independently from admin authentication.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to customer portal login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter registered customer email and request magic link."
+      },
+      {
+        "type": "action",
+        "description": "Simulate receiving and clicking magic link in email."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm customer is authenticated and redirected to active shipments and invoices view."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify session tokens differ from admin portals to protect separation of concerns."
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Audit Log Display and Filtering for Invoice and Scan Events",
+    "description": "Validate access to audit logs UI, proper listing of invoice generation and scan events, and filtering by date and event type.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as administrator."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to audit logs page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify audit log entries show invoice generation and scan event details."
+      },
+      {
+        "type": "action",
+        "description": "Apply date range and event type filters."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that filtered log entries correspond to filter choices."
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "API Endpoint Response Consistency and Error Handling",
+    "description": "Test key backend API routes return consistent typed responses under both normal operation and error scenarios with proper error codes and messages.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send well-formed API requests to endpoints for barcodes, invoices, manifests, finances and WhatsApp messaging."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm response object structure matches expected types and success codes."
+      },
+      {
+        "type": "action",
+        "description": "Send requests with invalid or incomplete data to same endpoints."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response returns standardized error format with appropriate HTTP status codes (4xx, 5xx)."
+      }
+    ]
+  }
+]

@@ -1,0 +1,215 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "React",
+    "Next.js 14 (App Router)",
+    "Supabase (Postgres, Auth, Storage)",
+    "Tailwind CSS",
+    "Radix UI",
+    "Shadcn-style UI components",
+    "Recharts",
+    "Puppeteer",
+    "Zod",
+    "React Hook Form",
+    "Zustand",
+    "Node.js"
+  ],
+  "features": [
+    {
+      "name": "Dashboard Overview",
+      "description": "Main logistics dashboard with stats, charts, rebel ranking, security status, widget and notifications.",
+      "files": [
+        "app/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/dashboard/stat/*",
+        "components/dashboard/chart/index.tsx",
+        "components/dashboard/rebels-ranking/*",
+        "components/dashboard/security-status/*",
+        "components/dashboard/widget/index.tsx",
+        "components/dashboard/notifications/*"
+      ]
+    },
+    {
+      "name": "Warehouse Management",
+      "description": "Warehouse grid with capacity, utilization, health and summary cards.",
+      "files": [
+        "app/warehouse/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/ui/table.tsx",
+        "components/ui/badge.tsx"
+      ]
+    },
+    {
+      "name": "Shipment Tracking",
+      "description": "Shipments table with status, progress, filters and search.",
+      "files": [
+        "app/shipments/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/ui/table.tsx",
+        "components/ui/badge.tsx",
+        "components/ui/progress.tsx"
+      ]
+    },
+    {
+      "name": "Inventory Management",
+      "description": "Inventory list with stock status (OK / LOW / CRITICAL) and filters.",
+      "files": [
+        "app/inventory/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/ui/table.tsx",
+        "components/ui/badge.tsx"
+      ]
+    },
+    {
+      "name": "Customer Management",
+      "description": "Customer cards with activity, shipments and revenue information.",
+      "files": [
+        "app/customers/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/ui/card.tsx"
+      ]
+    },
+    {
+      "name": "Invoice Management & Logs",
+      "description": "Invoice listing, detail logs, and links to PDF generation pipeline.",
+      "files": [
+        "app/invoices/page.tsx",
+        "app/invoices/[invoiceId]/page.tsx",
+        "app/invoices/logs/page.tsx",
+        "lib/invoicePdf.ts",
+        "components/ui/table.tsx",
+        "components/ui/badge.tsx"
+      ]
+    },
+    {
+      "name": "Aircargo Manifests & Scanner",
+      "description": "Aircargo manifests listing plus manifest scanning flows.",
+      "files": [
+        "app/aircargo/page.tsx",
+        "app/aircargo/manifest-scanner/page.tsx",
+        "app/aircargo/scan-session/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/ui/table.tsx"
+      ]
+    },
+    {
+      "name": "Barcode Tracking, Scanning & Labeling",
+      "description": "Barcode tracking table plus scanner and label generator components.",
+      "files": [
+        "app/barcodes/page.tsx",
+        "components/barcode/barcode-scanner.tsx",
+        "components/barcode/barcode-generator.tsx",
+        "components/barcode/barcode-label.tsx",
+        "components/ui/input.tsx",
+        "components/ui/button.tsx"
+      ]
+    },
+    {
+      "name": "Reports & Analytics",
+      "description": "Analytics dashboards with Recharts-based visualizations.",
+      "files": [
+        "app/reports/page.tsx",
+        "components/dashboard/chart/index.tsx",
+        "components/ui/chart.tsx"
+      ]
+    },
+    {
+      "name": "Settings",
+      "description": "System settings including general, notifications, security and integrations.",
+      "files": [
+        "app/settings/page.tsx",
+        "components/dashboard/layout/index.tsx",
+        "components/ui/tabs.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/input.tsx"
+      ]
+    },
+    {
+      "name": "Auth & Login Experience",
+      "description": "Login page and auth-related types for future Supabase integration.",
+      "files": [
+        "app/login/page.tsx",
+        "types/auth.ts",
+        "lib/supabaseClient.ts",
+        "lib/supabaseAdmin.ts",
+        "lib/supabaseMiddleware.ts"
+      ]
+    },
+    {
+      "name": "Chat & Notifications System",
+      "description": "In-app chat, mobile chat, notifications rail and utility hooks.",
+      "files": [
+        "components/chat/index.tsx",
+        "components/chat/chat-conversation.tsx",
+        "components/chat/chat-contact.tsx",
+        "components/chat/mobile-chat.tsx",
+        "components/dashboard/notifications/*",
+        "app/notifications/page.tsx",
+        "types/chat.ts",
+        "hooks/use-toast.ts"
+      ]
+    },
+    {
+      "name": "Offline Scan Queue & Alerts",
+      "description": "Offline scan queue management and Slack alert helpers for failed operations.",
+      "files": [
+        "lib/offlineScanQueue.ts",
+        "lib/slackAlerts.ts"
+      ]
+    },
+    {
+      "name": "Supabase-backed Logistics APIs",
+      "description": "Next.js API routes that integrate with Supabase for barcodes, invoices, manifests, finance, payments, search and WhatsApp.",
+      "files": [
+        "app/api/barcodes/*",
+        "app/api/customers/*",
+        "app/api/invoices/*",
+        "app/api/manifests/*",
+        "app/api/finance/*",
+        "app/api/payments/*",
+        "app/api/scans/*",
+        "app/api/search/*",
+        "app/api/ops/*",
+        "app/api/whatsapp/*",
+        "lib/supabaseClient.ts",
+        "lib/supabaseAdmin.ts"
+      ]
+    },
+    {
+      "name": "Shared UI Component Library",
+      "description": "Shared UI primitives (buttons, inputs, tables, sidebar, dialogs, etc.) used across all feature pages.",
+      "files": [
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/table.tsx",
+        "components/ui/sidebar.tsx",
+        "components/ui/dialog.tsx",
+        "components/ui/dropdown-menu.tsx",
+        "components/ui/accordion.tsx",
+        "components/ui/tabs.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert-dialog.tsx"
+      ]
+    },
+    {
+      "name": "Domain Types & Utilities",
+      "description": "Shared type definitions and utility helpers for logistics data, chat and dashboard.",
+      "files": [
+        "types/logistics.ts",
+        "types/dashboard.ts",
+        "types/chat.ts",
+        "lib/utils.ts",
+        "lib/companyConfig.ts",
+        "lib/storageHelpers.ts",
+        "lib/v0-context.tsx"
+      ]
+    },
+    {
+      "name": "Test Harness (Smoke Tests)",
+      "description": "Initial smoke test entrypoint for end-to-end checks.",
+      "files": [
+        "tests/smoke.js"
+      ]
+    }
+  ]
+}
