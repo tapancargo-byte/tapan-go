@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import EmailIcon from "@/components/icons/email";
@@ -85,7 +85,7 @@ const getPriorityColor = (priority: string) => {
   }
 };
 
-export default function SupportPage() {
+function SupportPageContent() {
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(
     () => searchParams.get("q") || ""
@@ -558,5 +558,13 @@ export default function SupportPage() {
         )}
       </div>
     </DashboardPageLayout>
+  );
+}
+
+export default function SupportPage() {
+  return (
+    <Suspense fallback={null}>
+      <SupportPageContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import EmailIcon from "@/components/icons/email";
@@ -77,7 +77,7 @@ const formatDate = (value: string) => {
   return format(date, "dd/MM/yyyy");
 };
 
-export default function InvoicesPage() {
+function InvoicesPageContent() {
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(
     () => searchParams.get("q") || ""
@@ -1859,5 +1859,12 @@ export default function InvoicesPage() {
         )}
       </div>
     </DashboardPageLayout>
+  );
+}
+export default function InvoicesPage() {
+  return (
+    <Suspense fallback={null}>
+      <InvoicesPageContent />
+    </Suspense>
   );
 }

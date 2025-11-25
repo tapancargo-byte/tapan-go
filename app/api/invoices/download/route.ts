@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 const DEFAULT_BUCKET = process.env.SUPABASE_STORAGE_BUCKET || "invoices";
 
 const downloadInvoiceSchema = z.object({

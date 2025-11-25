@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -65,7 +65,7 @@ const statusBadgeClasses = (status?: string | null) => {
   return "bg-gray-500/10 text-gray-300 border-gray-500/30";
 };
 
-export default function PublicTrackPage() {
+function PublicTrackPageContent() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -359,5 +359,13 @@ export default function PublicTrackPage() {
         </p>
       </div>
     </main>
+  );
+}
+
+export default function PublicTrackPage() {
+  return (
+    <Suspense fallback={null}>
+      <PublicTrackPageContent />
+    </Suspense>
   );
 }

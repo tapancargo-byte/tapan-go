@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -78,7 +78,7 @@ const shipmentSchema = z.object({
 
 type ShipmentFormValues = z.infer<typeof shipmentSchema>;
 
-export default function ShipmentsTracking() {
+function ShipmentsTrackingContent() {
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(
     () => searchParams.get("q") || ""
@@ -1324,5 +1324,13 @@ export default function ShipmentsTracking() {
       )}
       </Sheet>
     </DashboardPageLayout>
+  );
+}
+
+export default function ShipmentsTracking() {
+  return (
+    <Suspense fallback={null}>
+      <ShipmentsTrackingContent />
+    </Suspense>
   );
 }
