@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createSignedUrl } from "@/lib/storageHelpers";
 import { generateInvoicePdf } from "@/lib/invoicePdf";
+import { normalizePhoneToE164, sendWhatsAppInvoice } from "@/lib/twilioClient";
 
 interface WhatsAppBody {
   invoiceId?: string;
@@ -88,8 +89,8 @@ export async function POST(req: Request) {
     }
 
     // Use the same underlying phone value as on the invoice/customer.
-    // We only strip non-digits so that WhatsApp Web receives a clean
-    // numeric string, but we do not auto-prepend any country code.
+    // For WhatsApp Web we keep only digits, for Twilio WhatsApp we
+    // normalise to E.164 later.
     const rawPhone = (toPhone || customer?.phone || "").trim();
     const digits = rawPhone.replace(/\D/g, "");
     const phone = digits;
@@ -159,6 +160,19 @@ export async function POST(req: Request) {
 
     const message = encodeURIComponent(lines.join("\n"));
 
+    // Compact caption for Cloud API document messages
+    const captionLines: string[] = [
+      `Invoice ${invoice.invoice_ref ?? invoice.id}`,
+      `Amount: ${amountDisplay}`,
+    ];
+    if (trackUrl) {
+      captionLines.push(`Track: ${trackUrl}`);
+    }
+    if (webInvoiceUrl) {
+      captionLines.push(`View & pay: ${webInvoiceUrl}`);
+    }
+    const caption = captionLines.join("\n");
+
     // Simple MVP behaviour – use WhatsApp Web deep link when a phone is available.
     // If no phone is present, surface a clear error instead of opening a random chat.
     if (mode === "mvp") {
@@ -190,125 +204,66 @@ export async function POST(req: Request) {
       return NextResponse.json({ waUrl, signedUrl: pdfUrl, phone });
     }
 
-    const token = process.env.WHATSAPP_API_TOKEN;
-    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-
-    // If Cloud API is not configured, do NOT open WhatsApp Web automatically.
-    // Instead, return a clear error so the UI can show a toast and avoid
-    // opening a random chat.
-    if (!token || !phoneNumberId) {
-      if (!phone) {
-        await logWhatsAppEvent({
-          invoiceId: invoice.id,
-          phone: null,
-          mode,
-          status: "error",
-          errorMessage: "Recipient phone missing",
-        });
-        return NextResponse.json(
-          {
-            error: "Recipient phone missing",
-            signedUrl: pdfUrl,
-            note: "Add a phone number to the customer before sending via WhatsApp.",
-          },
-          { status: 400 }
-        );
-      }
-
+    const toE164 = normalizePhoneToE164(rawPhone);
+    if (!toE164) {
       await logWhatsAppEvent({
         invoiceId: invoice.id,
-        phone,
+        phone: null,
         mode,
         status: "error",
-        errorMessage: "WhatsApp Cloud API is not configured on the server.",
+        errorMessage: "Customer phone number is not valid for WhatsApp send",
       });
       return NextResponse.json(
         {
-          error: "WhatsApp Cloud API is not configured on the server.",
-          signedUrl: pdfUrl,
-          phone,
-          note:
-            "Ask an admin to set WHATSAPP_API_TOKEN and WHATSAPP_PHONE_NUMBER_ID to enable direct sending without opening WhatsApp Web.",
+          error: "Customer phone number is not valid for WhatsApp send",
+          note: "Update the phone number to include a valid country code.",
         },
-        { status: 500 }
-      );
-    }
-
-    if (!pdfUrl) {
-      await logWhatsAppEvent({
-        invoiceId: invoice.id,
-        phone,
-        mode,
-        status: "error",
-        errorMessage: "Invoice PDF not available for WhatsApp send",
-      });
-      return NextResponse.json(
-        {
-          error: "Invoice PDF not available for WhatsApp send",
-          note: "Try regenerating the invoice PDF and retry the WhatsApp send.",
-        },
-        { status: 500 }
-      );
-    }
-
-    const to = phone;
-    if (!to) {
-      return NextResponse.json(
-        { error: "Recipient phone missing" },
         { status: 400 }
       );
     }
 
-    const apiUrl = `https://graph.facebook.com/v17.0/${phoneNumberId}/messages`;
-    const payload = {
-      messaging_product: "whatsapp",
-      to,
-      type: "document",
-      document: {
-        link: pdfUrl,
-        filename: `${invoice.invoice_ref ?? invoice.id}.pdf`,
-      },
-    };
+    const body = lines.join("\n");
 
-    const resp = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const result = await sendWhatsAppInvoice({ to: toE164, body });
 
-    const json = await resp.json();
-    if (!resp.ok) {
-      console.error("WhatsApp API error", json);
       await logWhatsAppEvent({
         invoiceId: invoice.id,
-        phone: to,
+        phone: toE164,
+        mode,
+        status: "success",
+        providerMessageId: result.sid,
+        rawResponse: null,
+      });
+
+      return NextResponse.json({
+        success: true,
+        phone: toE164,
+        sid: result.sid,
+        status: result.status ?? undefined,
+      });
+    } catch (err: any) {
+      console.error("Twilio WhatsApp send error", err);
+      const messageText =
+        (typeof err?.message === "string" && err.message) ||
+        "Twilio WhatsApp send failed";
+
+      await logWhatsAppEvent({
+        invoiceId: invoice.id,
+        phone: toE164,
         mode,
         status: "error",
-        errorMessage: "WhatsApp API error",
-        rawResponse: json,
+        errorMessage: messageText,
+        rawResponse: null,
       });
+
       return NextResponse.json(
-        { error: "WhatsApp API error", detail: json },
+        {
+          error: messageText,
+        },
         { status: 500 }
       );
     }
-
-    await logWhatsAppEvent({
-      invoiceId: invoice.id,
-      phone: to,
-      mode,
-      status: "success",
-      providerMessageId:
-        ((json as any)?.messages?.[0]?.id as string | undefined) ??
-        ((json as any)?.messages?.[0]?.message_id as string | undefined) ??
-        null,
-      rawResponse: json,
-    });
-
-    return NextResponse.json({ success: true, result: json, phone: to });
   } catch (err: any) {
     console.error("/api/whatsapp/send error", err);
     return NextResponse.json(

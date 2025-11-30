@@ -59,15 +59,17 @@ export default function DashboardStat({
 
   return (
     <Card className="relative overflow-hidden">
-      <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2.5">
-          <Bullet />
+      <CardHeader className="flex items-center justify-between pb-2">
+        <CardTitle className="flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wider">
+          <Bullet className="text-brand" />
           {label}
         </CardTitle>
-        <Icon className="size-4 text-muted-foreground" />
+        <div className="rounded-md bg-brand/10 p-1.5">
+          <Icon className="size-4 text-brand" />
+        </div>
       </CardHeader>
 
-      <CardContent className="bg-accent flex-1 pt-2 md:pt-6 overflow-clip relative">
+      <CardContent className="bg-accent/50 flex-1 pt-3 md:pt-4 overflow-clip relative">
         <div className="flex items-center">
           <span className="text-4xl md:text-5xl font-display">
             {isNumeric ? (

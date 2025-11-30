@@ -16,11 +16,21 @@ const revenueData = [
   { month: 'Jun', revenue: 67000, shipments: 470 },
 ];
 
+// Using CSS custom properties for chart colors (oklch-based)
+const CHART_COLORS = {
+  brand: 'oklch(0.75 0.18 45)',      // Brand orange
+  blue: 'oklch(0.65 0.18 255)',     // Accent blue
+  green: 'oklch(0.72 0.17 145)',    // Success green
+  amber: 'oklch(0.77 0.19 70)',     // Warning amber
+  red: 'oklch(0.62 0.22 30)',       // Destructive red
+  purple: 'oklch(0.60 0.22 300)',   // Accent purple
+};
+
 const warehouseData = [
-  { name: 'Ahmedabad', value: 45, fill: '#f97316' },
-  { name: 'Delhi', value: 30, fill: '#0ea5e9' },
-  { name: 'Mumbai', value: 35, fill: '#10b981' },
-  { name: 'Bangalore', value: 25, fill: '#f59e0b' },
+  { name: 'Ahmedabad', value: 45, fill: CHART_COLORS.brand },
+  { name: 'Delhi', value: 30, fill: CHART_COLORS.blue },
+  { name: 'Mumbai', value: 35, fill: CHART_COLORS.green },
+  { name: 'Bangalore', value: 25, fill: CHART_COLORS.amber },
 ];
 
 const performanceData = [
@@ -98,8 +108,8 @@ export default function ReportsPage() {
               <CardContent>
                 <ChartContainer
                   config={{
-                    revenue: { label: 'Revenue', color: '#f97316' },
-                    shipments: { label: 'Shipments', color: '#0ea5e9' },
+                    revenue: { label: 'Revenue', color: CHART_COLORS.brand },
+                    shipments: { label: 'Shipments', color: CHART_COLORS.blue },
                   }}
                   className="h-80"
                 >
@@ -111,8 +121,8 @@ export default function ReportsPage() {
                       <YAxis yAxisId="right" orientation="right" />
                       <Tooltip />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="revenue" fill="#f97316" name="Revenue (₹)" />
-                      <Bar yAxisId="right" dataKey="shipments" fill="#0ea5e9" name="Shipments" />
+                      <Bar yAxisId="left" dataKey="revenue" fill={CHART_COLORS.brand} name="Revenue (₹)" />
+                      <Bar yAxisId="right" dataKey="shipments" fill={CHART_COLORS.blue} name="Shipments" />
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -130,10 +140,10 @@ export default function ReportsPage() {
                 <div className="grid gap-8 md:grid-cols-2">
                   <ChartContainer
                     config={{
-                      Ahmedabad: { label: 'Ahmedabad', color: '#f97316' },
-                      Delhi: { label: 'Delhi', color: '#0ea5e9' },
-                      Mumbai: { label: 'Mumbai', color: '#10b981' },
-                      Bangalore: { label: 'Bangalore', color: '#f59e0b' },
+                      Ahmedabad: { label: 'Ahmedabad', color: CHART_COLORS.brand },
+                      Delhi: { label: 'Delhi', color: CHART_COLORS.blue },
+                      Mumbai: { label: 'Mumbai', color: CHART_COLORS.green },
+                      Bangalore: { label: 'Bangalore', color: CHART_COLORS.amber },
                     }}
                     className="h-80"
                   >
@@ -182,8 +192,8 @@ export default function ReportsPage() {
               <CardContent>
                 <ChartContainer
                   config={{
-                    onTime: { label: 'On-Time', color: '#10b981' },
-                    delayed: { label: 'Delayed', color: '#ef4444' },
+                    onTime: { label: 'On-Time', color: CHART_COLORS.green },
+                    delayed: { label: 'Delayed', color: CHART_COLORS.red },
                   }}
                   className="h-80"
                 >
@@ -194,8 +204,8 @@ export default function ReportsPage() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Line type="monotone" dataKey="onTime" stroke="#10b981" strokeWidth={2} name="On-Time %" />
-                      <Line type="monotone" dataKey="delayed" stroke="#ef4444" strokeWidth={2} name="Delayed %" />
+                      <Line type="monotone" dataKey="onTime" stroke={CHART_COLORS.green} strokeWidth={2} name="On-Time %" />
+                      <Line type="monotone" dataKey="delayed" stroke={CHART_COLORS.red} strokeWidth={2} name="Delayed %" />
                     </LineChart>
                   </ResponsiveContainer>
                 </ChartContainer>

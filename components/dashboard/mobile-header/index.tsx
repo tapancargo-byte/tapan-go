@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import MonkeyIcon from "@/components/icons/monkey";
 import MobileNotifications from "@/components/dashboard/notifications/mobile-notifications";
 import type { Notification as DashboardNotification } from "@/types/dashboard";
 import BellIcon from "@/components/icons/bell";
+import { BrandLogo } from "@/components/ui/brand-logo";
 
 interface MobileHeaderProps {
   notifications: DashboardNotification[];
@@ -21,14 +21,8 @@ export function MobileHeader({ notifications }: MobileHeaderProps) {
         {/* Left: Sidebar Menu */}
         <SidebarTrigger />
 
-        {/* Center: Monkey Logo + Time */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-16 bg-primary rounded flex items-center justify-center">
-              <MonkeyIcon className="size-6 text-primary-foreground" />
-            </div>
-          </div>
-        </div>
+        {/* Center: Brand Logo */}
+        <BrandLogo size="xs" />
 
         <Sheet>
           {/* Right: Notifications Menu */}

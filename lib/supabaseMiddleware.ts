@@ -36,13 +36,17 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Public routes that don't require auth
+  // Include "/" so the dashboard landing overlay can show first and gate access.
   const isPublicRoute = 
+    request.nextUrl.pathname === '/' ||
     request.nextUrl.pathname.startsWith('/login') ||
     request.nextUrl.pathname.startsWith('/auth') ||
     request.nextUrl.pathname.startsWith('/api/public') ||
     request.nextUrl.pathname.startsWith('/track') ||
+    request.nextUrl.pathname.startsWith('/support/customer') ||
     request.nextUrl.pathname.startsWith('/fonts') ||
     request.nextUrl.pathname.startsWith('/images') ||
+    request.nextUrl.pathname.startsWith('/assets') ||
     request.nextUrl.pathname === '/favicon.ico';
 
   if (!user && !isPublicRoute) {

@@ -1,12 +1,14 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import { BrandLogo } from "@/components/ui/brand-logo";
 
 interface TrackShipment {
   id: string;
@@ -57,12 +59,12 @@ const formatDateTime = (value?: string | null) => {
 
 const statusBadgeClasses = (status?: string | null) => {
   const s = (status || "").toLowerCase();
-  if (s === "delivered") return "bg-green-500/10 text-green-400 border-green-500/30";
+  if (s === "delivered") return "bg-success/10 text-success border-success/30";
   if (s === "in-transit" || s === "in_transit")
-    return "bg-sky-500/10 text-sky-400 border-sky-500/30";
+    return "bg-accent-cyan/10 text-accent-cyan border-accent-cyan/30";
   if (s === "pending")
-    return "bg-yellow-500/10 text-yellow-400 border-yellow-500/30";
-  return "bg-gray-500/10 text-gray-300 border-gray-500/30";
+    return "bg-warning/10 text-warning border-warning/30";
+  return "bg-muted text-muted-foreground border-border";
 };
 
 function PublicTrackPageContent() {
@@ -126,16 +128,20 @@ function PublicTrackPageContent() {
   const hasScans = (result?.scans?.length ?? 0) > 0;
 
   return (
-    <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Track your shipment
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Enter your shipment reference or barcode number to view the latest
-            status.
-          </p>
+    <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-2xl space-y-8">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center gap-6">
+          <BrandLogo size="2xl" priority />
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Track your shipment
+            </h1>
+            <p className="text-sm text-muted-foreground max-w-md">
+              Enter your shipment reference or barcode number to view the latest
+              status and scan history.
+            </p>
+          </div>
         </div>
 
         <Card className="p-4 sm:p-6 border-pop">
@@ -356,6 +362,17 @@ function PublicTrackPageContent() {
           Data is updated as your packages are scanned at different locations. If
           you think there is an issue with your shipment, please contact customer
           support.
+        </p>
+        <p className="mt-1 text-[11px] text-center text-muted-foreground">
+          Tapan Go ops teams can access deeper telemetry in the internal
+          {" "}
+          <Link
+            href="/login"
+            className="underline underline-offset-4 hover:text-foreground"
+          >
+            dashboard
+          </Link>
+          .
         </p>
       </div>
     </main>

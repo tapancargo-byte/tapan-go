@@ -7,6 +7,33 @@ import { companyProfile, bankDetails, paymentConfig } from "./companyConfig";
 
 const STORAGE_PREFIX = "invoices";
 
+/**
+ * PDF Color Palette (oklch-based)
+ * 
+ * Using oklch colors for consistent perceptual uniformity.
+ * These colors match the design system defined in globals.css.
+ */
+const PDF_COLORS = {
+  // Base colors
+  text: "oklch(0.15 0.01 255)",           // Near black text
+  textMuted: "oklch(0.45 0.02 255)",      // Muted gray text
+  textLight: "oklch(0.55 0.02 255)",      // Light gray text
+  background: "oklch(0.97 0.005 255)",    // Light gray background
+  white: "oklch(1 0 0)",                   // Pure white
+  
+  // Borders
+  border: "oklch(0.90 0.01 255)",         // Light border
+  borderLight: "oklch(0.96 0.005 255)",   // Very light border
+  
+  // Brand/Accent
+  brand: "oklch(0.70 0.18 45)",           // Brand orange
+  brandGradientStart: "oklch(0.50 0.20 255)", // Blue gradient start
+  brandGradientEnd: "oklch(0.55 0.25 300)",   // Purple gradient end
+  
+  // Status
+  success: "oklch(0.60 0.18 145)",        // Green for positive amounts
+};
+
 export async function generateInvoicePdf(invoiceId: string) {
   const startedAt = Date.now();
   let logId: string | null = null;
@@ -315,9 +342,9 @@ function buildInvoiceHtml({
     <meta charset="utf-8" />
     <title>Invoice ${ref}</title>
   </head>
-  <body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:#111; padding:24px; background:#f3f4f6;">
-    <div style="max-width:800px; margin:0 auto; background:#fff; box-shadow:0 10px 30px rgba(15,23,42,0.12); border-radius:8px; overflow:hidden; border:1px solid #e5e7eb;">
-      <header style="display:flex; justify-content:space-between; padding:20px 24px; background:linear-gradient(135deg,#1d4ed8,#7c3aed); color:#fff;">
+  <body style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:${PDF_COLORS.text}; padding:24px; background:${PDF_COLORS.background};">
+    <div style="max-width:800px; margin:0 auto; background:${PDF_COLORS.white}; box-shadow:0 10px 30px oklch(0.20 0.02 255 / 12%); border-radius:8px; overflow:hidden; border:1px solid ${PDF_COLORS.border};">
+      <header style="display:flex; justify-content:space-between; padding:20px 24px; background:linear-gradient(135deg,${PDF_COLORS.brandGradientStart},${PDF_COLORS.brandGradientEnd}); color:${PDF_COLORS.white};">
         <div>
           <h1 style="margin:0 0 4px 0; font-size:22px; letter-spacing:0.06em; text-transform:uppercase;">${
             companyProfile.name
@@ -338,15 +365,15 @@ function buildInvoiceHtml({
         </div>
       </header>
 
-      <section style="display:flex; padding:16px 24px; border-bottom:1px solid #e5e7eb;">
+      <section style="display:flex; padding:16px 24px; border-bottom:1px solid ${PDF_COLORS.border};">
         <div style="flex:1; font-size:13px;">
-          <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:4px;">Bill To</div>
+          <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:4px;">Bill To</div>
           <div style="font-weight:600; font-size:14px;">${customerName}</div>
           <div>${customerCity || ""}</div>
           <div>${customerPhone}</div>
         </div>
         <div style="flex:1; font-size:12px; text-align:right;">
-          <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:6px;">Consignment</div>
+          <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:6px;">Consignment</div>
           <div><strong>Invoice No:</strong> ${ref || invoice.id}</div>
           <div><strong>Date:</strong> ${invoiceDate}</div>
           <div><strong>Due Date:</strong> ${dueDate || "-"}</div>
@@ -354,15 +381,15 @@ function buildInvoiceHtml({
         </div>
       </section>
 
-      <section style="padding:16px 24px; border-bottom:1px solid #e5e7eb;">
-        <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:6px;">Items</div>
+      <section style="padding:16px 24px; border-bottom:1px solid ${PDF_COLORS.border};">
+        <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:6px;">Items</div>
         <table style="width:100%; border-collapse:collapse; font-size:12px;">
           <thead>
             <tr>
-              <th style="text-align:left; padding:8px; border-bottom:1px solid #e5e7eb; width:40px;">Sr</th>
-              <th style="text-align:left; padding:8px; border-bottom:1px solid #e5e7eb;">Description</th>
-              <th style="text-align:right; padding:8px; border-bottom:1px solid #e5e7eb; width:110px;">Weight (kg)</th>
-              <th style="text-align:right; padding:8px; border-bottom:1px solid #e5e7eb; width:120px;">Amount (₹)</th>
+              <th style="text-align:left; padding:8px; border-bottom:1px solid ${PDF_COLORS.border}; width:40px;">Sr</th>
+              <th style="text-align:left; padding:8px; border-bottom:1px solid ${PDF_COLORS.border};">Description</th>
+              <th style="text-align:right; padding:8px; border-bottom:1px solid ${PDF_COLORS.border}; width:110px;">Weight (kg)</th>
+              <th style="text-align:right; padding:8px; border-bottom:1px solid ${PDF_COLORS.border}; width:120px;">Amount (₹)</th>
             </tr>
           </thead>
           <tbody>
@@ -381,71 +408,71 @@ function buildInvoiceHtml({
                         maximumFractionDigits: 2,
                       });
                       return `<tr>
-                        <td style="padding:8px; border-bottom:1px solid #f3f4f6;">${
+                        <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight};">${
                           index + 1
                         }</td>
-                        <td style="padding:8px; border-bottom:1px solid #f3f4f6;">${
+                        <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight};">${
                           item.description
                         }</td>
-                        <td style="padding:8px; border-bottom:1px solid #f3f4f6; text-align:right;">${weightDisplay}</td>
-                        <td style="padding:8px; border-bottom:1px solid #f3f4f6; text-align:right;">₹${amountDisplay}</td>
+                        <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight}; text-align:right;">${weightDisplay}</td>
+                        <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight}; text-align:right;">₹${amountDisplay}</td>
                       </tr>`;
                     })
                     .join("")
                 : `<tr>
-                    <td style="padding:8px; border-bottom:1px solid #f3f4f6;" colspan="4">No line items recorded for this invoice.</td>
+                    <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight};" colspan="4">No line items recorded for this invoice.</td>
                   </tr>`
             }
           </tbody>
         </table>
       </section>
 
-      <section style="display:flex; padding:16px 24px; border-bottom:1px solid #e5e7eb; align-items:flex-start; gap:24px;">
+      <section style="display:flex; padding:16px 24px; border-bottom:1px solid ${PDF_COLORS.border}; align-items:flex-start; gap:24px;">
         <div style="flex:2;">
-          <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:6px;">Summary</div>
+          <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:6px;">Summary</div>
           <table style="width:100%; border-collapse:collapse; font-size:12px;">
             <thead>
               <tr>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid #e5e7eb;">Description</th>
-                <th style="text-align:right; padding:8px; border-bottom:1px solid #e5e7eb;">Amount</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid ${PDF_COLORS.border};">Description</th>
+                <th style="text-align:right; padding:8px; border-bottom:1px solid ${PDF_COLORS.border};">Amount</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style="padding:8px; border-bottom:1px solid #f3f4f6;">Logistics services</td>
-                <td style="padding:8px; border-bottom:1px solid #f3f4f6; text-align:right;">₹${invoiceTotalDisplay}</td>
+                <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight};">Logistics services</td>
+                <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight}; text-align:right;">₹${invoiceTotalDisplay}</td>
               </tr>
               <tr>
-                <td style="padding:8px; border-bottom:1px solid #f3f4f6;">Previous balance</td>
-                <td style="padding:8px; border-bottom:1px solid #f3f4f6; text-align:right;">₹${previousBalanceDisplay}</td>
+                <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight};">Previous balance</td>
+                <td style="padding:8px; border-bottom:1px solid ${PDF_COLORS.borderLight}; text-align:right;">₹${previousBalanceDisplay}</td>
               </tr>
               <tr>
                 <td style="padding:8px; font-weight:600;">Amount due</td>
-                <td style="padding:8px; font-weight:700; text-align:right; color:#16a34a;">₹${amountDueDisplay}</td>
+                <td style="padding:8px; font-weight:700; text-align:right; color:${PDF_COLORS.success};">₹${amountDueDisplay}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div style="flex:1; text-align:center;">
-          <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:6px;">Scan to Pay</div>
-          <div style="background:#f9fafb; padding:8px; border-radius:8px; display:inline-block; border:1px solid #e5e7eb;">
+          <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:6px;">Scan to Pay</div>
+          <div style="background:${PDF_COLORS.background}; padding:8px; border-radius:8px; display:inline-block; border:1px solid ${PDF_COLORS.border};">
             <img src="${qrDataUrl}" alt="Scan to pay" style="width:140px; height:140px; display:block;" />
-            <div style="font-size:10px; color:#6b7280; margin-top:6px;">UPI / QR payment</div>
+            <div style="font-size:10px; color:${PDF_COLORS.textMuted}; margin-top:6px;">UPI / QR payment</div>
           </div>
         </div>
       </section>
 
-      <section style="padding:16px 24px; border-bottom:1px solid #e5e7eb; font-size:11px; display:flex; gap:24px;">
+      <section style="padding:16px 24px; border-bottom:1px solid ${PDF_COLORS.border}; font-size:11px; display:flex; gap:24px;">
         <div style="flex:1;">
-          <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:6px;">Bank Details</div>
+          <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:6px;">Bank Details</div>
           <div><strong>Bank:</strong> ${bankDetails.bankName}</div>
           <div><strong>Branch:</strong> ${bankDetails.branch}</div>
           <div><strong>Account Name:</strong> ${bankDetails.accountName}</div>
           <div><strong>Account No:</strong> ${bankDetails.accountNumber}</div>
           <div><strong>IFSC:</strong> ${bankDetails.ifsc}</div>
         </div>
-        <div style="flex:1; font-size:10px; color:#4b5563;">
-          <div style="font-size:11px; letter-spacing:0.08em; color:#6b7280; text-transform:uppercase; margin-bottom:6px;">Terms & Conditions</div>
+        <div style="flex:1; font-size:10px; color:${PDF_COLORS.textLight};">
+          <div style="font-size:11px; letter-spacing:0.08em; color:${PDF_COLORS.textMuted}; text-transform:uppercase; margin-bottom:6px;">Terms & Conditions</div>
           <ol style="margin:0; padding-left:16px; line-height:1.5;">
             <li>The consignee must declare the contents, value and condition of the items before booking.</li>
             <li>Fragile items will be considered as shipment at owner's risk unless booked under special arrangement.</li>
@@ -459,9 +486,9 @@ function buildInvoiceHtml({
       <section style="padding:16px 24px; font-size:11px; display:flex; justify-content:space-between; align-items:flex-end;">
         <div>
           <div>For: ${companyProfile.name}</div>
-          <div style="margin-top:28px; border-top:1px solid #d1d5db; width:160px; font-size:10px; padding-top:4px;">Authorised Signatory</div>
+          <div style="margin-top:28px; border-top:1px solid ${PDF_COLORS.border}; width:160px; font-size:10px; padding-top:4px;">Authorised Signatory</div>
         </div>
-        <div style="text-align:right; font-size:10px; color:#6b7280;">
+        <div style="text-align:right; font-size:10px; color:${PDF_COLORS.textMuted};">
           <div>Generated by TAPAN GO cargo system.</div>
         </div>
       </section>

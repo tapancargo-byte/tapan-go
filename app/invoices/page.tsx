@@ -90,6 +90,9 @@ function InvoicesPageContent() {
   const [whatsAppStatuses, setWhatsAppStatuses] = useState<
     Record<string, { status: string; errorMessage: string | null; createdAt: string }>
   >({});
+  const [twilioStatuses, setTwilioStatuses] = useState<
+    Record<string, { status: string; errorMessage: string | null; createdAt: string }>
+  >({});
   const [customers, setCustomers] = useState<{ id: string; name: string }[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
@@ -1028,7 +1031,7 @@ function InvoicesPageContent() {
       const res = await fetch("/api/whatsapp/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ invoiceId: invoice.dbId, mode: "mvp" }),
+        body: JSON.stringify({ invoiceId: invoice.dbId, mode: "prod" }),
       });
       const json = await res.json();
 
@@ -1160,6 +1163,78 @@ function InvoicesPageContent() {
           errorMessage:
             (error?.message as string | undefined) ||
             "Unexpected WhatsApp error",
+          createdAt: new Date().toISOString(),
+        },
+      }));
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [invoice.dbId]: false }));
+    }
+  };
+
+  const handleTwilioSmsSend = async (invoice: UIInvoice) => {
+    setActionLoading((prev) => ({ ...prev, [invoice.dbId]: true }));
+    try {
+      const customerLabel = invoice.customerName || "Unknown customer";
+      const amountDisplay = `₹${invoice.amount.toLocaleString("en-IN")}`;
+
+      const res = await fetch("/api/twilio/invoice/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId: invoice.dbId }),
+      });
+      const json = await res.json();
+
+      if (!res.ok || !json?.success) {
+        const message =
+          (typeof json?.error === "string" && json.error) ||
+          "Could not send SMS right now.";
+        setTwilioStatuses((prev) => ({
+          ...prev,
+          [invoice.dbId]: {
+            status: "error",
+            errorMessage: message,
+            createdAt: new Date().toISOString(),
+          },
+        }));
+        toast({
+          title: "SMS error",
+          description: message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const serverTo =
+        (typeof json?.to === "string" && json.to) || customerLabel;
+
+      setTwilioStatuses((prev) => ({
+        ...prev,
+        [invoice.dbId]: {
+          status: "success",
+          errorMessage: null,
+          createdAt: new Date().toISOString(),
+        },
+      }));
+
+      toast({
+        title: "SMS sent",
+        description: `Invoice ${invoice.id} was sent via SMS to ${serverTo}.`,
+      });
+    } catch (error: any) {
+      console.error("Failed to send invoice via Twilio SMS", error);
+      toast({
+        title: "SMS error",
+        description:
+          error?.message || "Something went wrong while sending the SMS.",
+        variant: "destructive",
+      });
+      setTwilioStatuses((prev) => ({
+        ...prev,
+        [invoice.dbId]: {
+          status: "error",
+          errorMessage:
+            (error?.message as string | undefined) ||
+            "Unexpected SMS error",
           createdAt: new Date().toISOString(),
         },
       }));
@@ -1317,6 +1392,31 @@ function InvoicesPageContent() {
         ? "text-emerald-500"
         : info.status === "mvp_redirect"
         ? "text-sky-500"
+        : info.status === "error"
+        ? "text-destructive"
+        : "text-muted-foreground";
+
+    return (
+      <span className={`text-[10px] uppercase mt-0.5 ${color}`}>
+        {label}
+      </span>
+    );
+  };
+
+  const renderSmsStatus = (invoiceId: string) => {
+    const info = twilioStatuses[invoiceId];
+    if (!info) return null;
+
+    const label =
+      info.status === "success"
+        ? "SMS: SENT"
+        : info.status === "error"
+        ? "SMS: ERROR"
+        : `SMS: ${info.status.toUpperCase()}`;
+
+    const color =
+      info.status === "success"
+        ? "text-emerald-500"
         : info.status === "error"
         ? "text-destructive"
         : "text-muted-foreground";
@@ -1648,6 +1748,7 @@ function InvoicesPageContent() {
                     <div className="flex flex-col">
                       <span>{invoice.id}</span>
                       {renderWhatsAppStatus(invoice.dbId)}
+                      {renderSmsStatus(invoice.dbId)}
                     </div>
                   </td>
                   <td className="px-6 py-4">{invoice.customerName}</td>
@@ -1729,6 +1830,14 @@ function InvoicesPageContent() {
                             {actionLoading[invoice.dbId]
                               ? "Sending via WhatsApp..."
                               : "Send via WhatsApp"}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleTwilioSmsSend(invoice)}
+                            disabled={!!actionLoading[invoice.dbId]}
+                          >
+                            {actionLoading[invoice.dbId]
+                              ? "Sending SMS..."
+                              : "Send via SMS"}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             variant="destructive"

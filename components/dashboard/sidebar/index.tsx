@@ -35,6 +35,7 @@ import EmailIcon from '@/components/icons/email';
 import { Bullet } from '@/components/ui/bullet';
 import LockIcon from '@/components/icons/lock';
 import { useIsV0 } from '@/lib/v0-context';
+import { BrandLogo } from '@/components/ui/brand-logo';
 
 import WarehouseIcon from '@/components/icons/warehouse';
 import TruckIcon from '@/components/icons/truck';
@@ -424,28 +425,11 @@ export function DashboardSidebar({
 
   return (
     <Sidebar {...props} className={cn('py-sides', className)}>
-      <SidebarHeader className="rounded-t-lg flex gap-3 flex-row rounded-b-none border-b border-sidebar-border pb-4">
-        <div className="flex overflow-hidden size-12 shrink-0 items-center justify-center rounded bg-transparent">
-          <Image
-            src="/assets/logo.png"
-            alt="Tapango logo"
-            width={48}
-            height={48}
-            className="w-full h-full object-contain"
-            priority
-          />
-        </div>
-        <div className="grid flex-1 text-left text-sm leading-tight">
-          <span className="text-lg font-display font-bold text-foreground">
-            TAPAN GO
-          </span>
-          <span className="text-xs uppercase tracking-wider text-muted-foreground">
-            Cargo Network
-          </span>
-        </div>
+      <SidebarHeader className="rounded-t-lg flex gap-3 flex-row items-center rounded-b-none border-b border-sidebar-border pb-4">
+        <BrandLogo size="xs" priority className="flex-1" />
         <div className="flex items-center justify-center gap-2">
           <ThemeToggle />
-          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
         </div>
       </SidebarHeader>
 

@@ -62,10 +62,13 @@ export function RootShell({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [pathname, router]);
 
-  const isAuthRoute = pathname === "/login";
+  const isStandaloneRoute =
+    pathname === "/login" ||
+    pathname === "/track" ||
+    pathname.startsWith("/support/customer");
 
-  if (isAuthRoute) {
-    // For auth routes (like /login), render the page without dashboard chrome.
+  if (isStandaloneRoute) {
+    // For standalone routes (like /login, /track, customer support), render without dashboard chrome.
     return <>{children}</>;
   }
 
