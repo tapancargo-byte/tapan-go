@@ -89,8 +89,8 @@ const appBaseUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(appBaseUrl),
   title: {
-    template: "%s – Tapan Go",
-    default: "Tapan Go",
+    template: "%s – Tapan Associate",
+    default: "Tapan Associate",
   },
   description:
     "Logistics and cargo management platform for seamless nationwide transportation.",
