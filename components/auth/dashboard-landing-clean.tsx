@@ -40,6 +40,10 @@ interface AuthState {
   authed: boolean;
 }
 
+interface DashboardAuthOverlayProps {
+  initialAuthed?: boolean;
+}
+
 function HeroInlineTracking() {
   const router = useRouter();
   const [value, setValue] = useState("");
@@ -182,12 +186,17 @@ function TrustedByMarquee() {
   );
 }
 
-export function DashboardAuthOverlay() {
-  const [authState, setAuthState] = useState<AuthState>({
-    checking: true,
-    authed: false,
-  });
+export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOverlayProps) {
+  const [authState, setAuthState] = useState<AuthState>(() => ({
+    checking: !initialAuthed,
+    authed: initialAuthed,
+  }));
   useEffect(() => {
+    if (initialAuthed) {
+      // If the server already knows the user is authenticated, skip the
+      // client-side check to avoid briefly showing the overlay after refresh.
+      return;
+    }
     let cancelled = false;
 
     async function checkSession() {
@@ -210,7 +219,7 @@ export function DashboardAuthOverlay() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [initialAuthed]);
 
   // Removed Lottie animation loading; keeping hero visual static for now.
 
@@ -232,7 +241,7 @@ export function DashboardAuthOverlay() {
   // Show the overlay by default (including while checking), and only hide it
   // once we know the user is authenticated. This prevents the underlying
   // dashboard from flashing briefly on page refresh.
-  if (authState.checking || authState.authed) {
+  if (!authState.checking && authState.authed) {
     return null;
   }
 

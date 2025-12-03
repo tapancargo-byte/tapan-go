@@ -7,6 +7,8 @@ import BracketsIcon from "@/components/icons/brackets";
 import GearIcon from "@/components/icons/gear";
 import ProcessorIcon from "@/components/icons/proccesor";
 import BoomIcon from "@/components/icons/boom";
+import { cookies } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
 import type {
   ChartData,
   DashboardStat as DashboardStatType,
@@ -661,6 +663,25 @@ function buildGrowthProjections(
 }
 
 export default async function DashboardOverview() {
+  const cookieStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const initialAuthed = !!user;
+
   const [
     revenueTrend,
     topStats,
@@ -716,7 +737,7 @@ export default async function DashboardOverview() {
       </div>
 
       {/* Landing/login overlay that gates access to the dashboard */}
-      <DashboardAuthOverlay />
+      <DashboardAuthOverlay initialAuthed={initialAuthed} />
     </DashboardPageLayout>
   );
 }

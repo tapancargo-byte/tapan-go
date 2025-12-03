@@ -32,9 +32,11 @@ try {
 
 // Redis connection (only if packages are available)
 let connection: any = null;
+const redisUrl = process.env.REDIS_URL;
+const queueConfigured = packagesAvailable && IORedis && !!redisUrl;
 
-if (packagesAvailable && IORedis) {
-  connection = new IORedis(process.env.REDIS_URL || "redis://localhost:6379", {
+if (queueConfigured) {
+  connection = new IORedis(redisUrl, {
     maxRetriesPerRequest: null,
     enableReadyCheck: false,
     retryStrategy: (times: number) => {
@@ -45,13 +47,17 @@ if (packagesAvailable && IORedis) {
       return Math.min(times * 100, 3000);
     },
   });
+} else if (packagesAvailable) {
+  console.warn(
+    "Background job queue packages installed but REDIS_URL not set. Queue system is disabled."
+  );
 }
 
 // ========================================
 // Invoice PDF Generation Queue
 // ========================================
 
-export const invoiceQueue = packagesAvailable && Queue ? new Queue("invoice-generation", {
+export const invoiceQueue = queueConfigured && Queue ? new Queue("invoice-generation", {
   connection,
   defaultJobOptions: {
     attempts: 3,
@@ -68,7 +74,7 @@ export const invoiceQueue = packagesAvailable && Queue ? new Queue("invoice-gene
   },
 }) : null;
 
-export const invoiceWorker = packagesAvailable && Worker ? new Worker(
+export const invoiceWorker = queueConfigured && Worker ? new Worker(
   "invoice-generation",
   async (job: any) => {
     const { invoiceId } = job.data;
@@ -115,7 +121,7 @@ export const invoiceWorker = packagesAvailable && Worker ? new Worker(
 // WhatsApp Notification Queue
 // ========================================
 
-export const whatsappQueue = packagesAvailable && Queue ? new Queue("whatsapp-notifications", {
+export const whatsappQueue = queueConfigured && Queue ? new Queue("whatsapp-notifications", {
   connection,
   defaultJobOptions: {
     attempts: 3,
@@ -126,7 +132,7 @@ export const whatsappQueue = packagesAvailable && Queue ? new Queue("whatsapp-no
   },
 }) : null;
 
-export const whatsappWorker = packagesAvailable && Worker ? new Worker(
+export const whatsappWorker = queueConfigured && Worker ? new Worker(
   "whatsapp-notifications",
   async (job: any) => {
     const { phone, message, mediaUrl, type } = job.data;
@@ -163,7 +169,7 @@ export const whatsappWorker = packagesAvailable && Worker ? new Worker(
 // Email Queue
 // ========================================
 
-export const emailQueue = packagesAvailable && Queue ? new Queue("email-notifications", {
+export const emailQueue = queueConfigured && Queue ? new Queue("email-notifications", {
   connection,
   defaultJobOptions: {
     attempts: 3,
@@ -174,7 +180,7 @@ export const emailQueue = packagesAvailable && Queue ? new Queue("email-notifica
   },
 }) : null;
 
-export const emailWorker = packagesAvailable && Worker ? new Worker(
+export const emailWorker = queueConfigured && Worker ? new Worker(
   "email-notifications",
   async (job: any) => {
     const { to, subject, html, attachments } = job.data;
@@ -199,7 +205,7 @@ export const emailWorker = packagesAvailable && Worker ? new Worker(
 // Event Listeners
 // ========================================
 
-if (packagesAvailable && QueueEvents) {
+if (queueConfigured && QueueEvents) {
   const invoiceEvents = new QueueEvents("invoice-generation", { connection });
   const whatsappEvents = new QueueEvents("whatsapp-notifications", { connection });
   const emailEvents = new QueueEvents("email-notifications", { connection });
@@ -234,7 +240,7 @@ if (packagesAvailable && QueueEvents) {
 // ========================================
 
 async function gracefulShutdown() {
-  if (!packagesAvailable) return;
+  if (!queueConfigured) return;
   
   console.log("Closing queue workers...");
   const closers = [];
@@ -247,7 +253,7 @@ async function gracefulShutdown() {
   console.log("Queue workers closed");
 }
 
-if (packagesAvailable) {
+if (queueConfigured) {
   process.on("SIGTERM", gracefulShutdown);
   process.on("SIGINT", gracefulShutdown);
 }
@@ -257,7 +263,7 @@ if (packagesAvailable) {
 // ========================================
 
 export async function queueInvoiceGeneration(invoiceId: string) {
-  if (!packagesAvailable || !invoiceQueue) {
+  if (!queueConfigured || !invoiceQueue) {
     throw new Error(
       "Background job queue not available. Install packages: npm install bullmq ioredis"
     );
@@ -278,7 +284,7 @@ export async function queueWhatsAppNotification(data: {
   mediaUrl?: string;
   type?: string;
 }) {
-  if (!packagesAvailable || !whatsappQueue) {
+  if (!queueConfigured || !whatsappQueue) {
     throw new Error(
       "Background job queue not available. Install packages: npm install bullmq ioredis"
     );
@@ -293,7 +299,7 @@ export async function queueEmail(data: {
   html: string;
   attachments?: any[];
 }) {
-  if (!packagesAvailable || !emailQueue) {
+  if (!queueConfigured || !emailQueue) {
     throw new Error(
       "Background job queue not available. Install packages: npm install bullmq ioredis"
     );
@@ -303,4 +309,4 @@ export async function queueEmail(data: {
 }
 
 // Export availability flag for checking
-export const queueSystemAvailable = packagesAvailable;
+export const queueSystemAvailable = queueConfigured;
