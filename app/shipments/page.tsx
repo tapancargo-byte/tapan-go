@@ -6,7 +6,7 @@ import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import AtomIcon from "@/components/icons/atom";
+import TruckIcon from "@/components/icons/truck";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface UIShipment {
   dbId: string;
@@ -743,7 +745,7 @@ function ShipmentsTrackingContent() {
       header={{
         title: "Shipment Tracking",
         description: "Real-time tracking of all active and completed shipments",
-        icon: AtomIcon,
+        icon: TruckIcon,
       }}
     >
       <Sheet
@@ -999,16 +1001,16 @@ function ShipmentsTrackingContent() {
 
           {/* Shipments Table */}
           <Card>
-          <CardHeader>
-            <CardTitle>
+          <CardHeader className="px-4 sm:px-6">
+            <CardTitle className="text-base sm:text-lg">
               {loading
                 ? "Loading shipments..."
                 : `Active Shipments (${filteredShipments.length})`}
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-0 sm:px-6">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm min-w-[800px]">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left py-2 px-2 font-semibold">Shipment ID</th>
@@ -1022,7 +1024,43 @@ function ShipmentsTrackingContent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredShipments.map((shipment) => (
+                  {loading && (
+                    <>
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <tr key={`shipment-skeleton-${index}`} className="border-b border-border">
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-4 w-24" />
+                          </td>
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-4 w-32" />
+                          </td>
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-4 w-28" />
+                          </td>
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-4 w-28" />
+                          </td>
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-4 w-16" />
+                          </td>
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-5 w-20" />
+                          </td>
+                          <td className="py-3 px-2">
+                            <Skeleton className="h-2 w-24" />
+                          </td>
+                          <td className="py-3 px-2 text-right">
+                            <div className="flex justify-end gap-2">
+                              <Skeleton className="h-8 w-16" />
+                              <Skeleton className="h-8 w-16" />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
+                  {!loading &&
+                    filteredShipments.map((shipment) => (
                     <tr
                       key={shipment.shipmentId}
                       className="border-b border-border hover:bg-muted/50 cursor-pointer"
@@ -1035,7 +1073,7 @@ function ShipmentsTrackingContent() {
                       <td className="py-3 px-2">{shipment.weight}kg</td>
                       <td className="py-3 px-2">
                         <span
-                          className={`px-2 py-1 rounded text-xs font-semibold ${getStatusColor(
+                          className={`px-2 py-1 text-xs font-semibold ${getStatusColor(
                             shipment.status
                           )}`}
                         >
@@ -1043,9 +1081,9 @@ function ShipmentsTrackingContent() {
                         </span>
                       </td>
                       <td className="py-3 px-2">
-                        <div className="w-24 bg-muted rounded-full h-1.5">
+                        <div className="w-24 bg-muted h-1.5">
                           <div
-                            className="bg-primary h-full rounded-full"
+                            className="bg-primary h-full"
                             style={{ width: `${shipment.progress}%` }}
                           ></div>
                         </div>
@@ -1090,6 +1128,16 @@ function ShipmentsTrackingContent() {
                   ))}
                 </tbody>
               </table>
+              {!loading && filteredShipments.length === 0 && (
+                <EmptyState 
+                  variant="shipments" 
+                  title={searchTerm || statusFilter !== "all" ? "No matching shipments" : "No shipments yet"}
+                  description={searchTerm || statusFilter !== "all" 
+                    ? "Try adjusting your search or filter criteria." 
+                    : "Create your first shipment to get started."
+                  }
+                />
+              )}
             </div>
           </CardContent>
         </Card>
@@ -1110,7 +1158,7 @@ function ShipmentsTrackingContent() {
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Status</p>
                 <span
-                  className={`inline-flex px-2 py-1 rounded text-xs font-semibold ${getStatusColor(
+                  className={`inline-flex px-2 py-1 text-xs font-semibold ${getStatusColor(
                     selectedShipment.status
                   )}`}
                 >
@@ -1123,9 +1171,9 @@ function ShipmentsTrackingContent() {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Progress</p>
-                <div className="w-32 bg-muted rounded-full h-1.5">
+                <div className="w-32 bg-muted h-1.5">
                   <div
-                    className="bg-primary h-full rounded-full"
+                    className="bg-primary h-full"
                     style={{ width: `${selectedShipment.progress}%` }}
                   ></div>
                 </div>
@@ -1135,7 +1183,7 @@ function ShipmentsTrackingContent() {
             <div className="space-y-2">
               <p className="text-xs text-muted-foreground">Update status</p>
               <select
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                className="w-full border border-input bg-background px-3 py-2 text-sm"
                 value={selectedShipment.status}
                 disabled={updatingStatus}
                 onChange={(e) => handleStatusChange(e.target.value)}
@@ -1199,7 +1247,7 @@ function ShipmentsTrackingContent() {
                             )}
                           </div>
                           <div className="text-right">
-                            <span className="inline-flex px-2 py-0.5 rounded-full bg-muted text-foreground/80">
+                            <span className="inline-flex px-2 py-0.5 bg-muted text-foreground/80">
                               {bc.status || "unknown"}
                             </span>
                             {bc.lastScannedAt && (

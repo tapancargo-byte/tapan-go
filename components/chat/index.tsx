@@ -42,7 +42,7 @@ export default function Chat() {
       />
 
       {/* Expandable Content - Below the header */}
-      <div className="pt-1 overflow-y-auto" style={{ height: CONTENT_HEIGHT }}>
+      <div className="pt-1 overflow-hidden" style={{ height: CONTENT_HEIGHT }}>
         <div className="bg-background text-foreground h-full">
           <AnimatePresence mode="wait">
             {chatState.state === "expanded" && (

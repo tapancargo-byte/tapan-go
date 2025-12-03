@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { BrandLogo } from "@/components/ui/brand-logo";
+import SearchIcon from "@/components/icons/search";
 
 interface TrackShipment {
   id: string;
@@ -155,9 +156,16 @@ function PublicTrackPageContent() {
             <Button
               type="submit"
               className="bg-primary hover:bg-primary/90 px-6"
-              disabled={loading}
+              disabled={loading || !query.trim()}
             >
-              {loading ? "Tracking..." : "Track"}
+              {loading ? (
+                "Tracking..."
+              ) : (
+                <>
+                  Track
+                  <SearchIcon className="ml-2 h-4 w-4" />
+                </>
+              )}
             </Button>
           </form>
 
@@ -210,16 +218,7 @@ function PublicTrackPageContent() {
                       <div className="text-xs text-muted-foreground">Route</div>
                       <div className="font-medium">
                         {result.shipment.origin || "-"}{" "}
-                        <span className="text-muted-foreground">
-                          											
-                          											
-                          											
-                          											
-                          									
-                          								
-                          					
-                          									
-                        </span>{" "}
+                        <span className="text-muted-foreground">→</span>{" "}
                         {result.shipment.destination || "-"}
                       </div>
                     </div>

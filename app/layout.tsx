@@ -1,4 +1,4 @@
-import { Roboto_Mono } from "next/font/google";
+import { Inter, Merriweather, JetBrains_Mono, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
 import { V0Provider } from "@/lib/v0-context";
@@ -11,6 +11,22 @@ import { Toaster } from "@/components/ui/toaster";
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const merriweather = Merriweather({
+  variable: "--font-merriweather",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
@@ -98,9 +114,14 @@ export default async function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <script
+          async
+          crossOrigin="anonymous"
+          src="https://tweakcn.com/live-preview.min.js"
+        />
       </head>
       <body
-        className={`${rebelGrotesk.variable} ${robotoMono.variable} antialiased`}
+        className={`${rebelGrotesk.variable} ${robotoMono.variable} ${inter.variable} ${merriweather.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <V0Provider isV0={isV0}>

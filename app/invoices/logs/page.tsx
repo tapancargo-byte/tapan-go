@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import DashboardPageLayout from '@/components/dashboard/layout';
-import EmailIcon from '@/components/icons/email';
+import GearIcon from '@/components/icons/gear';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -90,7 +90,7 @@ export default function InvoiceLogsPage() {
       header={{
         title: 'Invoice Generation Logs',
         description: 'Inspect invoice PDF generation attempts and retry if needed',
-        icon: EmailIcon,
+        icon: GearIcon,
       }}
     >
       <div className="flex flex-col gap-6">
@@ -131,7 +131,7 @@ export default function InvoiceLogsPage() {
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm min-w-[700px]">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="px-4 py-2 text-left">Status</th>

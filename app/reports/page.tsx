@@ -1,11 +1,15 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { DashboardLayout } from '@/components/dashboard/layout';
 import ProcessorIcon from '@/components/icons/proccesor';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { supabase } from '@/lib/supabaseClient';
 
 const revenueData = [
   { month: 'Jan', revenue: 45000, shipments: 320 },
@@ -27,10 +31,8 @@ const CHART_COLORS = {
 };
 
 const warehouseData = [
-  { name: 'Ahmedabad', value: 45, fill: CHART_COLORS.brand },
-  { name: 'Delhi', value: 30, fill: CHART_COLORS.blue },
-  { name: 'Mumbai', value: 35, fill: CHART_COLORS.green },
-  { name: 'Bangalore', value: 25, fill: CHART_COLORS.amber },
+  { name: 'Imphal', value: 60, fill: CHART_COLORS.brand },
+  { name: 'Delhi', value: 40, fill: CHART_COLORS.blue },
 ];
 
 const performanceData = [
@@ -41,6 +43,81 @@ const performanceData = [
 ];
 
 export default function ReportsPage() {
+  const [warehouseDistribution, setWarehouseDistribution] = useState(warehouseData);
+  const [loadingWarehouse, setLoadingWarehouse] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadWarehouseDistribution() {
+      setLoadingWarehouse(true);
+      try {
+        const { data, error } = await supabase
+          .from('warehouses')
+          .select('name, location, items_stored, items_in_transit');
+
+        if (error || !data) {
+          console.warn('Supabase warehouses analytics error', error?.message);
+          return;
+        }
+
+        const buckets: { Imphal: number; Delhi: number } = { Imphal: 0, Delhi: 0 };
+
+        (data as any[]).forEach((row) => {
+          const name = ((row.name as string | null) ?? '').toLowerCase();
+          const location = ((row.location as string | null) ?? '').toLowerCase();
+          const load =
+            Number(row.items_stored ?? 0) + Number(row.items_in_transit ?? 0);
+
+          if (!load) return;
+
+          if (name.includes('imphal') || location.includes('imphal')) {
+            buckets.Imphal += load;
+          } else if (
+            name.includes('delhi') ||
+            name.includes('new delhi') ||
+            location.includes('delhi') ||
+            location.includes('new delhi')
+          ) {
+            buckets.Delhi += load;
+          }
+        });
+
+        const total = buckets.Imphal + buckets.Delhi;
+        if (!total) return;
+
+        const next = [
+          {
+            name: 'Imphal',
+            value: Math.round((buckets.Imphal / total) * 100),
+            fill: CHART_COLORS.brand,
+          },
+          {
+            name: 'Delhi',
+            value: Math.round((buckets.Delhi / total) * 100),
+            fill: CHART_COLORS.blue,
+          },
+        ];
+
+        if (!cancelled) {
+          setWarehouseDistribution(next);
+        }
+      } catch (err) {
+        console.error('Failed to load warehouse distribution', err);
+      } finally {
+        if (!cancelled) {
+          setLoadingWarehouse(false);
+        }
+      }
+    }
+
+    void loadWarehouseDistribution();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <DashboardLayout
       header={{
@@ -137,48 +214,81 @@ export default function ReportsPage() {
                 <CardDescription>Cargo distribution across warehouses</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-8 md:grid-cols-2">
-                  <ChartContainer
-                    config={{
-                      Ahmedabad: { label: 'Ahmedabad', color: CHART_COLORS.brand },
-                      Delhi: { label: 'Delhi', color: CHART_COLORS.blue },
-                      Mumbai: { label: 'Mumbai', color: CHART_COLORS.green },
-                      Bangalore: { label: 'Bangalore', color: CHART_COLORS.amber },
-                    }}
-                    className="h-80"
-                  >
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={warehouseData}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          label={({ name, value }) => `${name} ${value}%`}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
+                {loadingWarehouse ? (
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <div className="space-y-4">
+                      <Skeleton className="h-6 w-32" />
+                      <Skeleton className="h-64 w-full" />
+                    </div>
+                    <div className="space-y-3">
+                      {Array.from({ length: 2 }).map((_, index) => (
+                        <div
+                          key={`warehouse-skeleton-${index}`}
+                          className="flex items-center justify-between p-3 rounded-lg bg-muted"
                         >
-                          {warehouseData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                  <div className="space-y-3">
-                    {warehouseData.map((warehouse) => (
-                      <div key={warehouse.name} className="flex items-center justify-between p-3 rounded-lg bg-muted">
-                        <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: warehouse.fill }} />
-                          <span className="font-medium">{warehouse.name}</span>
+                          <div className="flex items-center gap-2">
+                            <Skeleton className="h-3 w-3 rounded-full" />
+                            <Skeleton className="h-4 w-20" />
+                          </div>
+                          <Skeleton className="h-6 w-10" />
                         </div>
-                        <span className="text-2xl font-bold">{warehouse.value}%</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ) : warehouseDistribution.length ? (
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <ChartContainer
+                      config={{
+                        Imphal: { label: 'Imphal', color: CHART_COLORS.brand },
+                        Delhi: { label: 'Delhi', color: CHART_COLORS.blue },
+                      }}
+                      className="h-80"
+                    >
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={warehouseDistribution}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            label={({ name, value }) => `${name} ${value}%`}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                          >
+                            {warehouseDistribution.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                    <div className="space-y-3">
+                      {warehouseDistribution.map((warehouse) => (
+                        <div
+                          key={warehouse.name}
+                          className="flex items-center justify-between p-3 rounded-lg bg-muted"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: warehouse.fill }}
+                            />
+                            <span className="font-medium">{warehouse.name}</span>
+                          </div>
+                          <span className="text-2xl font-bold">{warehouse.value}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <EmptyState
+                    variant="default"
+                    title="No warehouse analytics yet"
+                    description="Once your Imphal and Delhi warehouses start processing cargo, distribution will appear here."
+                  />
+                )}
               </CardContent>
             </Card>
           </TabsContent>

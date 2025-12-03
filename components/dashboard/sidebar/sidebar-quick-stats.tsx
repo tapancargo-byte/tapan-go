@@ -24,7 +24,7 @@ export function SidebarQuickStat({
   return (
     <div
       className={cn(
-        'px-3 py-2 rounded-lg bg-sidebar-accent hover:bg-sidebar-accent-active transition-colors',
+        'px-3 py-2 bg-sidebar-accent hover:bg-sidebar-accent-active transition-colors',
         className
       )}
     >

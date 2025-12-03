@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -10,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import StorageIcon from "@/components/icons/gear";
+import WarehouseIcon from "@/components/icons/warehouse";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -424,27 +426,44 @@ export default function WarehouseManagement() {
     }
   };
 
+  const primaryWarehouses = useMemo(
+    () =>
+      warehouseData.filter((warehouse) => {
+        const name = warehouse.name.toLowerCase();
+        const location = warehouse.location.toLowerCase();
+        return (
+          name.includes("imphal") ||
+          location.includes("imphal") ||
+          name.includes("delhi") ||
+          name.includes("new delhi") ||
+          location.includes("delhi") ||
+          location.includes("new delhi")
+        );
+      }),
+    [warehouseData]
+  );
+
   const filteredWarehouse = useMemo(
     () =>
-      warehouseData.filter(
+      primaryWarehouses.filter(
         (warehouse) =>
           warehouse.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           warehouse.location.toLowerCase().includes(searchTerm.toLowerCase())
       ),
-    [warehouseData, searchTerm]
+    [primaryWarehouses, searchTerm]
   );
 
   const summary = useMemo(
     () => {
-      const totalStored = warehouseData.reduce(
+      const totalStored = primaryWarehouses.reduce(
         (sum, w) => sum + Number(w.itemsStored ?? 0),
         0
       );
-      const totalInTransit = warehouseData.reduce(
+      const totalInTransit = primaryWarehouses.reduce(
         (sum, w) => sum + Number(w.itemsInTransit ?? 0),
         0
       );
-      const totalWarehouses = warehouseData.length;
+      const totalWarehouses = primaryWarehouses.length;
 
       return {
         totalStored,
@@ -452,7 +471,7 @@ export default function WarehouseManagement() {
         totalWarehouses,
       };
     },
-    [warehouseData]
+    [primaryWarehouses]
   );
 
   return (
@@ -460,7 +479,7 @@ export default function WarehouseManagement() {
       header={{
         title: "Warehouse Management",
         description: "Real-time inventory status across all locations",
-        icon: StorageIcon,
+        icon: WarehouseIcon,
       }}
     >
       <div className="space-y-6">
@@ -636,172 +655,285 @@ export default function WarehouseManagement() {
         </Card>
 
         {/* Network Summary */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Network Summary</CardTitle>
-            <CardDescription className="text-xs">
-              Snapshot across all active warehouses in the network
+        <Card className="shadow-sm">
+          <CardHeader className="pb-2 px-4 sm:px-6 pt-4 sm:pt-6">
+            <CardTitle className="text-xs sm:text-sm">Network Summary</CardTitle>
+            <CardDescription className="text-[10px] sm:text-xs">
+              Snapshot across all warehouses
             </CardDescription>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <p className="text-xs text-muted-foreground mb-1">Total Stored</p>
-              <p className="text-lg font-bold">
-                {summary.totalStored.toLocaleString("en-IN")}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-1">Total In Transit</p>
-              <p className="text-lg font-bold text-primary">
-                {summary.totalInTransit.toLocaleString("en-IN")}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-1">Active Warehouses</p>
-              <p className="text-lg font-bold">{summary.totalWarehouses}</p>
-            </div>
+          <CardContent className="grid grid-cols-3 gap-2 sm:gap-4 px-4 sm:px-6 pb-4 sm:pb-6">
+            {loading ? (
+              <>
+                <div>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                    Stored
+                  </p>
+                  <Skeleton className="h-5 w-16" />
+                </div>
+                <div>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                    In Transit
+                  </p>
+                  <Skeleton className="h-5 w-20" />
+                </div>
+                <div>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                    Warehouses
+                  </p>
+                  <Skeleton className="h-5 w-12" />
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                    Stored
+                  </p>
+                  <p className="text-base sm:text-lg font-bold">
+                    {summary.totalStored.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                    In Transit
+                  </p>
+                  <p className="text-base sm:text-lg font-bold text-primary">
+                    {summary.totalInTransit.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                    Warehouses
+                  </p>
+                  <p className="text-base sm:text-lg font-bold">
+                    {summary.totalWarehouses}
+                  </p>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
         {/* Warehouse Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredWarehouse.map((warehouse) => (
-            <Card
-              key={warehouse.id}
-              className="hover:shadow-lg transition-shadow overflow-visible"
-            >
-              <CardHeader className="h-auto relative z-10">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle>{warehouse.name}</CardTitle>
-                    <CardDescription>{warehouse.location}</CardDescription>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="flex flex-col items-end gap-2">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          warehouse.status === "operational"
-                            ? "bg-green-500/20 text-green-400"
-                            : warehouse.status === "offline"
-                            ? "bg-red-500/20 text-red-400"
-                            : "bg-yellow-500/20 text-yellow-400"
-                        }`}
-                      >
-                        {warehouse.status.toUpperCase()}
-                      </span>
-                      <Select
-                        value={warehouse.status}
-                        onValueChange={(value) =>
-                          handleUpdateWarehouseStatus(
-                            warehouse.id,
-                            value as WarehouseFormValues["status"]
-                          )
-                        }
-                        disabled={updatingStatusId === warehouse.id || !canEdit}
-                      >
-                        <SelectTrigger
-                          size="sm"
-                          className="mt-1 w-auto text-[11px] uppercase tracking-wide"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="operational">Operational</SelectItem>
-                          <SelectItem value="constrained">Constrained</SelectItem>
-                          <SelectItem value="offline">Offline</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8 p-0"
-                          disabled={!canEdit}
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Open warehouse actions</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setEditingWarehouse(warehouse);
-                            form.reset({
-                              name: warehouse.name,
-                              location: warehouse.location,
-                              staff: warehouse.staff,
-                              docks: warehouse.docks,
-                              status:
-                                warehouse.status as WarehouseFormValues["status"],
-                            });
-                            setIsDialogOpen(true);
-                          }}
-                          disabled={!canEdit}
-                        >
-                          Edit warehouse
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          variant="destructive"
-                          onClick={() => handleDeleteWarehouse(warehouse)}
-                          disabled={!canEdit}
-                        >
-                          Delete warehouse
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="relative z-0 mt-1">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">Capacity Used</p>
-                      <div className="bg-muted rounded-full h-2 overflow-hidden">
-                        <div
-                          className="bg-primary h-full"
-                          style={{ width: `${warehouse.capacityUsed}%` }}
-                        ></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          {loading ? (
+            <>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <Card
+                  key={`warehouse-skeleton-${index}`}
+                  className="shadow-sm hover:shadow-lg transition-shadow overflow-visible"
+                >
+                  <CardHeader className="h-auto relative z-10 p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                      <div className="min-w-0 space-y-1">
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-3 w-40" />
                       </div>
-                      <p className="text-sm font-semibold mt-1">
-                        {warehouse.capacityUsed}%
+                      <div className="flex items-start gap-2 flex-shrink-0">
+                        <div className="flex flex-col items-end gap-2">
+                          <Skeleton className="h-6 w-20 rounded-full" />
+                          <Skeleton className="h-8 w-28" />
+                        </div>
+                        <Skeleton className="h-8 w-8" />
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="relative z-0 mt-1">
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">
+                            Capacity Used
+                          </p>
+                          <Skeleton className="h-2 w-full rounded-full" />
+                          <Skeleton className="h-4 w-8 mt-2" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">
+                            Items in Transit
+                          </p>
+                          <Skeleton className="h-6 w-12" />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2 text-center">
+                        {Array.from({ length: 3 }).map((_, metricIndex) => (
+                          <div
+                            key={`warehouse-metric-skeleton-${index}-${metricIndex}`}
+                            className="bg-muted rounded p-3 space-y-2"
+                          >
+                            <Skeleton className="h-3 w-12 mx-auto" />
+                            <Skeleton className="h-5 w-10 mx-auto" />
+                          </div>
+                        ))}
+                      </div>
+                      <Skeleton className="h-3 w-32" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </>
+          ) : filteredWarehouse.length === 0 ? (
+            <div className="col-span-1 md:col-span-2">
+              <EmptyState
+                variant="default"
+                title={
+                  searchTerm
+                    ? "No matching warehouses"
+                    : primaryWarehouses.length === 0
+                    ? "No Imphal or Delhi warehouses yet"
+                    : "No warehouses to display"
+                }
+                description={
+                  searchTerm
+                    ? "Try adjusting your search or clear it to see all hubs in Imphal and Delhi."
+                    : primaryWarehouses.length === 0
+                    ? "Add Imphal and Delhi hubs to start tracking capacity and staff here."
+                    : "There are no warehouses to display based on the current filters."
+                }
+              />
+            </div>
+          ) : (
+            <>
+              {filteredWarehouse.map((warehouse) => (
+                <Card
+                  key={warehouse.id}
+                  className="shadow-sm hover:shadow-lg transition-shadow overflow-visible"
+                >
+                  <CardHeader className="h-auto relative z-10 p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                      <div className="min-w-0">
+                        <CardTitle className="text-base sm:text-lg truncate">{warehouse.name}</CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">{warehouse.location}</CardDescription>
+                      </div>
+                      <div className="flex items-start gap-2 flex-shrink-0">
+                        <div className="flex flex-col items-end gap-2">
+                          <span
+                            className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${
+                              warehouse.status === "operational"
+                                ? "bg-green-500/20 text-green-400"
+                                : warehouse.status === "offline"
+                                ? "bg-red-500/20 text-red-400"
+                                : "bg-yellow-500/20 text-yellow-400"
+                            }`}
+                          >
+                            {warehouse.status.toUpperCase()}
+                          </span>
+                          <Select
+                            value={warehouse.status}
+                            onValueChange={(value) =>
+                              handleUpdateWarehouseStatus(
+                                warehouse.id,
+                                value as WarehouseFormValues["status"]
+                              )
+                            }
+                            disabled={updatingStatusId === warehouse.id || !canEdit}
+                          >
+                            <SelectTrigger
+                              size="sm"
+                              className="mt-1 w-auto text-[11px] uppercase tracking-wide"
+                            >
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="operational">Operational</SelectItem>
+                              <SelectItem value="constrained">Constrained</SelectItem>
+                              <SelectItem value="offline">Offline</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8 p-0"
+                              disabled={!canEdit}
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Open warehouse actions</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setEditingWarehouse(warehouse);
+                                form.reset({
+                                  name: warehouse.name,
+                                  location: warehouse.location,
+                                  staff: warehouse.staff,
+                                  docks: warehouse.docks,
+                                  status:
+                                    warehouse.status as WarehouseFormValues["status"],
+                                });
+                                setIsDialogOpen(true);
+                              }}
+                              disabled={!canEdit}
+                            >
+                              Edit warehouse
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              variant="destructive"
+                              onClick={() => handleDeleteWarehouse(warehouse)}
+                              disabled={!canEdit}
+                            >
+                              Delete warehouse
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="relative z-0 mt-1">
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">Capacity Used</p>
+                          <div className="bg-muted rounded-full h-2 overflow-hidden">
+                            <div
+                              className="bg-primary h-full"
+                              style={{ width: `${warehouse.capacityUsed}%` }}
+                            ></div>
+                          </div>
+                          <p className="text-sm font-semibold mt-1">
+                            {warehouse.capacityUsed}%
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">Items in Transit</p>
+                          <p className="text-lg font-bold text-primary">
+                            {warehouse.itemsInTransit}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2 text-center">
+                        <div className="bg-muted rounded p-3">
+                          <p className="text-xs text-muted-foreground">Stored</p>
+                          <p className="text-lg font-bold">{warehouse.itemsStored}</p>
+                        </div>
+                        <div className="bg-muted rounded p-3">
+                          <p className="text-xs text-muted-foreground">Staff</p>
+                          <p className="text-lg font-bold">{warehouse.staff}</p>
+                        </div>
+                        <div className="bg-muted rounded p-3">
+                          <p className="text-xs text-muted-foreground">Docks</p>
+                          <p className="text-lg font-bold">{warehouse.docks}</p>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-3">
+                        Last Updated:{" "}
+                        {warehouse.lastUpdated
+                          ? new Date(warehouse.lastUpdated).toLocaleString("en-IN")
+                          : "Not available"}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">Items in Transit</p>
-                      <p className="text-lg font-bold text-primary">
-                        {warehouse.itemsInTransit}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center">
-                    <div className="bg-muted rounded p-3">
-                      <p className="text-xs text-muted-foreground">Stored</p>
-                      <p className="text-lg font-bold">{warehouse.itemsStored}</p>
-                    </div>
-                    <div className="bg-muted rounded p-3">
-                      <p className="text-xs text-muted-foreground">Staff</p>
-                      <p className="text-lg font-bold">{warehouse.staff}</p>
-                    </div>
-                    <div className="bg-muted rounded p-3">
-                      <p className="text-xs text-muted-foreground">Docks</p>
-                      <p className="text-lg font-bold">{warehouse.docks}</p>
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-3">
-                    Last Updated:{" "}
-                    {warehouse.lastUpdated
-                      ? new Date(warehouse.lastUpdated).toLocaleString("en-IN")
-                      : "Not available"}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </CardContent>
+                </Card>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </DashboardPageLayout>

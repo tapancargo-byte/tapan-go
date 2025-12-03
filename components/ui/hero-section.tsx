@@ -1,12 +1,18 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import ArrowRightIcon from "@/components/icons/arrow-right";
+import { GridPattern } from "@/components/ui/grid-pattern";
+import { ShinyButton } from "@/components/ui/shiny-button";
+import { TextAnimate } from "@/components/ui/text-animate";
 
 interface FinancialHeroProps {
   title: React.ReactNode;
   description: React.ReactNode;
+  /** Optional small label above the title, e.g. a HUD-style overline. */
+  overline?: React.ReactNode;
+  /** Optional row of stat chips rendered between the title and description. */
+  stats?: React.ReactNode;
   buttonText?: string;
   buttonLink?: string;
   imageUrl1?: string;
@@ -62,6 +68,8 @@ const cardItemVariants = {
 export const FinancialHero = ({
   title,
   description,
+  overline,
+  stats,
   buttonText,
   buttonLink,
   imageUrl1,
@@ -69,12 +77,6 @@ export const FinancialHero = ({
   rightContent,
   className,
 }: FinancialHeroProps) => {
-  const gridBackgroundStyle: React.CSSProperties = {
-    backgroundImage:
-      "linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px)",
-    backgroundSize: "3rem 3rem",
-  };
-
   return (
     <section
       className={cn(
@@ -82,49 +84,74 @@ export const FinancialHero = ({
         className
       )}
     >
-      <div className="absolute inset-0" style={gridBackgroundStyle} />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
+      <div className="absolute inset-0 bg-background" />
+      <GridPattern className="text-border/20" width={56} height={56} x={-1} y={-1} />
 
       <motion.div
-        className="relative container mx-auto flex min-h-[80vh] flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:items-center lg:justify-between"
+        className="relative mx-auto flex w-full max-w-6xl min-h-[70vh] flex-col items-center gap-8 px-6 py-16 sm:gap-10 sm:py-20 md:px-10 md:py-24 lg:flex-row lg:items-start lg:justify-between lg:gap-12"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
         {/* Left: Text Content */}
-        <div className="flex w-full flex-col items-center text-center lg:w-1/2 lg:items-start lg:text-left">
+        <div className="flex w-full max-w-2xl flex-col items-center text-center lg:w-1/2 lg:items-start lg:text-left">
+          {overline && (
+            <motion.div variants={itemVariants} className="mb-3 w-full">
+              {overline}
+            </motion.div>
+          )}
           <motion.h1
-            className="text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl"
+            className="text-3xl font-semibold tracking-tight md:text-5xl lg:text-[3.5rem] lg:leading-[1.05]"
             variants={itemVariants}
           >
-            {title}
+            {typeof title === "string" ? (
+              <TextAnimate
+                as="span"
+                by="word"
+                animation="blurInUp"
+                duration={0.8}
+                className="inline-block"
+              >
+                {title}
+              </TextAnimate>
+            ) : (
+              title
+            )}
           </motion.h1>
+          {stats && (
+            <motion.div variants={itemVariants} className="mt-4 w-full">
+              {stats}
+            </motion.div>
+          )}
           <motion.div
-            className="mt-4 max-w-xl text-sm text-foreground/80 md:text-base"
+            className="mt-4 max-w-2xl text-sm leading-relaxed text-foreground/80 sm:text-base md:text-lg"
             variants={itemVariants}
           >
             {description}
           </motion.div>
           {buttonText && buttonLink && (
-            <motion.div variants={itemVariants} className="mt-6">
-              <Button asChild size="sm" className="h-9 px-4 text-xs md:text-sm">
-                <a href={buttonLink}>
+            <motion.div
+              variants={itemVariants}
+              className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:justify-start"
+            >
+              <ShinyButton className="h-10 px-5 text-xs md:text-sm font-semibold shadow-sm transition-all duration-200 hover:shadow-md">
+                <a href={buttonLink} className="inline-flex items-center">
                   {buttonText}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRightIcon className="ml-2 h-4 w-4" />
                 </a>
-              </Button>
+              </ShinyButton>
             </motion.div>
           )}
         </div>
 
         {/* Right: Visual */}
         <motion.div
-          className="relative flex w-full items-center justify-center lg:w-1/2"
+          className="relative flex w-full max-w-3xl items-center justify-center lg:w-[55%] lg:justify-end"
           variants={cardsVariants}
         >
           {rightContent ? (
             <motion.div
-              className="relative h-72 w-full max-w-lg md:h-96"
+              className="relative w-full"
               variants={cardItemVariants}
             >
               {rightContent}
@@ -141,7 +168,7 @@ export const FinancialHero = ({
                     rotate: -5,
                     transition: { duration: 0.3 },
                   }}
-                  className="absolute h-48 translate-x-24 transform rounded-2xl object-cover shadow-2xl md:h-80 rotate-[-6deg]"
+                  className="absolute h-48 translate-x-24 transform object-cover shadow-2xl md:h-80 rotate-[-6deg]"
                 />
               )}
               {imageUrl1 && (
@@ -154,7 +181,7 @@ export const FinancialHero = ({
                     rotate: 5,
                     transition: { duration: 0.3 },
                   }}
-                  className="absolute h-48 -translate-x-16 transform rounded-2xl object-cover shadow-2xl md:h-80 rotate-[6deg]"
+                  className="absolute h-48 -translate-x-16 transform object-cover shadow-2xl md:h-80 rotate-[6deg]"
                 />
               )}
             </>

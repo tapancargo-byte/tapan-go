@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 interface BentoGridProps {
   children: React.ReactNode;
@@ -47,7 +48,7 @@ const BentoGrid = ({ children, className }: BentoGridProps) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 gap-0 rounded-3xl border dark:border-neutral-800",
+        "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 gap-0 rounded-3xl border border-border/40 bg-background/80",
         className,
       )}
     >
@@ -81,7 +82,7 @@ const BentoCard = ({ id, children, className }: BentoCardProps) => {
     `linear-gradient(-45deg, var(--pattern-color2) 25%, transparent 25%, transparent 75%, var(--pattern-color1) 75%)`;
 
   const borderGradient =
-    "conic-gradient(from var(--rotation,0deg), var(--border-color-1) 0deg, var(--border-color-1) 90deg, var(--border-bg-color) 90deg, var(--border-bg-color) 360deg)";
+    "conic-gradient(from var(--rotation,0deg), var(--border-bg-color) 0deg, var(--border-bg-color) 360deg)";
 
   return (
     <div
@@ -96,16 +97,17 @@ const BentoCard = ({ id, children, className }: BentoCardProps) => {
           width: "100%",
           height: "100%",
           borderRadius: "1rem",
-          border: "3px solid transparent",
+          border: "1px solid var(--border-bg-color)",
           backgroundOrigin: "border-box",
           backgroundClip: "padding-box, border-box",
-          backgroundImage: `linear-gradient(var(--card-bg-color), var(--card-bg-color)), ${borderGradient}`,
+          backgroundImage: "none",
           padding: 12,
           boxSizing: "border-box",
           display: "flex",
           alignItems: "stretch",
           justifyContent: "stretch",
         } as React.CSSProperties}
+        className="relative"
       >
         <div
           style={{
@@ -115,8 +117,6 @@ const BentoCard = ({ id, children, className }: BentoCardProps) => {
             background: "var(--card-bg-color)",
             overflow: "hidden",
             boxSizing: "border-box",
-            backgroundImage: pattern,
-            backgroundSize: "20.84px 20.84px",
           } as React.CSSProperties}
           className="flex h-full w-full flex-col gap-3 p-4 sm:p-6"
         >

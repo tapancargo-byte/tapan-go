@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import EmailIcon from "@/components/icons/email";
+import GearIcon from "@/components/icons/gear";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -355,7 +355,7 @@ export default function PaymentsPage() {
       header={{
         title: "Payments",
         description: "View and reconcile invoice payments",
-        icon: EmailIcon,
+        icon: GearIcon,
       }}
     >
       <div className="flex flex-col gap-6">
@@ -435,9 +435,10 @@ export default function PaymentsPage() {
           </div>
         </Card>
 
-        <Card className="overflow-hidden border-pop">
-          <table className="w-full text-sm">
-            <thead className="bg-accent/50 border-b border-pop">
+        <Card className="border-pop">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[700px]">
+              <thead className="bg-accent/50 border-b border-pop">
               <tr>
                 <th className="px-6 py-3 text-left font-semibold">Date</th>
                 <th className="px-6 py-3 text-left font-semibold">Invoice</th>
@@ -494,7 +495,8 @@ export default function PaymentsPage() {
                 ))
               )}
             </tbody>
-          </table>
+            </table>
+          </div>
         </Card>
 
         {roleLoaded && userRole && userRole !== "admin" && userRole !== "manager" && (

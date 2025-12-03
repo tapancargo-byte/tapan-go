@@ -58,20 +58,20 @@ export default function DashboardStat({
   const { prefix, numericValue, suffix, isNumeric } = parseValue(value);
 
   return (
-    <Card className="relative overflow-hidden">
-      <CardHeader className="flex items-center justify-between pb-2">
-        <CardTitle className="flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wider">
+    <Card className="relative overflow-hidden shadow-sm">
+      <CardHeader className="flex items-center justify-between pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+        <CardTitle className="flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-wider">
           <Bullet className="text-brand" />
           {label}
         </CardTitle>
-        <div className="rounded-md bg-brand/10 p-1.5">
-          <Icon className="size-4 text-brand" />
+        <div className="bg-brand/10 p-1 sm:p-1.5">
+          <Icon className="size-3.5 sm:size-4 text-brand" />
         </div>
       </CardHeader>
 
-      <CardContent className="bg-accent/50 flex-1 pt-3 md:pt-4 overflow-clip relative">
+      <CardContent className="bg-accent/50 flex-1 pt-2 sm:pt-3 md:pt-4 pb-3 sm:pb-6 px-3 sm:px-6 overflow-clip relative">
         <div className="flex items-center">
-          <span className="text-4xl md:text-5xl font-display">
+          <span className="text-2xl sm:text-4xl md:text-5xl font-display">
             {isNumeric ? (
               <NumberFlow
                 value={numericValue}
@@ -83,23 +83,23 @@ export default function DashboardStat({
             )}
           </span>
           {tag && (
-            <Badge variant="default" className="uppercase ml-3">
+            <Badge variant="default" className="uppercase ml-2 sm:ml-3 text-[10px] sm:text-xs">
               {tag}
             </Badge>
           )}
         </div>
 
         {description && (
-          <div className="justify-between">
-            <p className="text-xs md:text-sm font-medium text-muted-foreground tracking-wide">
+          <div className="justify-between mt-1">
+            <p className="text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground tracking-wide uppercase">
               {description}
             </p>
           </div>
         )}
 
-        {/* Marquee Animation */}
+        {/* Marquee Animation - hidden on mobile for cleaner look */}
         {direction && (
-          <div className="absolute top-0 right-0 w-14 h-full pointer-events-none overflow-hidden group">
+          <div className="absolute top-0 right-0 w-10 sm:w-14 h-full pointer-events-none overflow-hidden group hidden sm:block">
             <div
               className={cn(
                 "flex flex-col transition-all duration-500",

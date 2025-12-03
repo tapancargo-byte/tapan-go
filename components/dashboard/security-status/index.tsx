@@ -9,13 +9,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Bullet } from "@/components/ui/bullet";
 
-const securityStatusItemVariants = cva("border rounded-md ring-2", {
+const securityStatusItemVariants = cva("border bg-card/80 text-foreground", {
   variants: {
     variant: {
-      success: "border-success bg-success/5 text-success ring-success/3",
-      warning: "border-warning bg-warning/5 text-warning ring-warning/3",
-      destructive:
-        "border-destructive bg-destructive/5 text-destructive ring-destructive/3",
+      success: "border-success/60 bg-success/5",
+      warning: "border-warning/60 bg-warning/5",
+      destructive: "border-destructive/60 bg-destructive/5",
     },
   },
   defaultVariants: {
@@ -63,9 +62,9 @@ export default function SecurityStatus({ statuses }: SecurityStatusProps) {
 
   return (
     <DashboardCard
-      title="GROWTH KPIS"
-      intent="success"
-      addon={<Badge variant="outline-success">TRACKING</Badge>}
+      title="Growth KPIs"
+      intent="default"
+      addon={<Badge variant="outline-success">Tracking</Badge>}
     >
       <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-4 items-stretch">
         <div className="flex flex-col">
@@ -75,7 +74,7 @@ export default function SecurityStatus({ statuses }: SecurityStatusProps) {
                 key={index}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className="text-left rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+                className="text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
               >
                 <SecurityStatusItem
                   title={item.title}
@@ -91,7 +90,7 @@ export default function SecurityStatus({ statuses }: SecurityStatusProps) {
             ))}
           </div>
           {activeStatus && (
-            <div className="mt-3 rounded-md border border-border bg-card/80 px-3 py-2 text-xs md:text-sm text-muted-foreground">
+            <div className="mt-3 border border-border bg-card/80 px-3 py-2 text-xs md:text-sm text-muted-foreground">
               <div className="flex items-center justify-between mb-1">
                 <span className="font-semibold text-foreground/80">
                   {activeStatus.title} insight
@@ -114,7 +113,7 @@ export default function SecurityStatus({ statuses }: SecurityStatusProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-center py-4">
+        <div className="hidden md:flex items-center justify-center py-4 opacity-70">
           <picture className="w-40 md:w-full md:h-full aspect-square max-w-xs md:max-w-none">
             <Image
               src="/assets/bot_greenprint.gif"

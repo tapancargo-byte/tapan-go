@@ -77,7 +77,7 @@ export default function NotificationItem({
   return (
     <div
       className={cn(
-        "group p-3 rounded-lg border transition-all duration-200 hover:shadow-sm",
+        "group p-3 border transition-all duration-200 hover:shadow-sm",
         !notification.read && "cursor-pointer",
         notification.read
           ? "bg-background/50 border-border/30"
@@ -88,7 +88,7 @@ export default function NotificationItem({
       <div className="flex items-start gap-3">
         <div
           className={cn(
-            "w-2 h-2 rounded-full mt-2 flex-shrink-0",
+            "w-2 h-2 mt-2 flex-shrink-0",
             getTypeColor(notification.type)
           )}
         />

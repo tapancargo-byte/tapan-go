@@ -78,13 +78,13 @@ export function RootShell({
       <MobileHeader notifications={notifications} />
 
       {/* Desktop Layout */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-gap lg:px-sides relative">
-        <div className="hidden lg:block col-span-2 top-0 relative">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-gap lg:px-sides relative lg:h-screen lg:overflow-hidden">
+        <div className="col-span-1 lg:col-span-2 top-0 relative">
           <DashboardSidebar />
         </div>
         <div
           className={cn(
-            "col-span-1 transition-all duration-300 ease-in-out",
+            "col-span-1 transition-all duration-300 ease-in-out lg:h-screen lg:overflow-y-auto",
             isRightPanelOpen ? "lg:col-span-7" : "lg:col-span-10"
           )}
         >
@@ -92,7 +92,7 @@ export function RootShell({
         </div>
         <div
           className={cn(
-            "hidden lg:block transition-all duration-300 ease-in-out",
+            "hidden lg:block transition-all duration-300 ease-in-out lg:h-screen",
             isRightPanelOpen ? "col-span-3 opacity-100" : "col-span-0 opacity-0 w-0 overflow-hidden"
           )}
         >

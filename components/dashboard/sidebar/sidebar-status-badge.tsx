@@ -25,7 +25,7 @@ export function SidebarStatusBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-semibold transition-all',
+        'inline-flex items-center justify-center px-2.5 py-1 text-xs font-semibold transition-all',
         variants[variant],
         className
       )}

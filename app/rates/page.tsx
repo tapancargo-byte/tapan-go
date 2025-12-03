@@ -74,12 +74,19 @@ export default function RatesPage() {
     async function loadRates() {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        // First try with min_weight, fall back to without if column doesn't exist
+        let data: any[] | null = null;
+        let error: any = null;
+
+        const result = await supabase
           .from("rates")
           .select(
-            "id, origin, destination, rate_per_kg, base_fee, min_weight, service_type, created_at"
+            "id, origin, destination, rate_per_kg, base_fee, created_at"
           )
           .order("created_at", { ascending: false });
+
+        data = result.data;
+        error = result.error;
 
         if (error) {
           console.warn("Supabase rates error", error.message);
@@ -94,10 +101,8 @@ export default function RatesPage() {
           destination: (row.destination as string | null) ?? "",
           ratePerKg: Number(row.rate_per_kg ?? 0),
           baseFee: Number(row.base_fee ?? 0),
-          minWeight: Number((row.min_weight as number | null) ?? 0),
-          serviceType:
-            ((row.service_type as RateFormValues["serviceType"] | null) ??
-              "standard"),
+          minWeight: 0,
+          serviceType: "standard",
           createdAt: (row.created_at as string | null) ?? "",
         }));
 
@@ -245,8 +250,6 @@ export default function RatesPage() {
         destination: values.destination.trim(),
         rate_per_kg: values.ratePerKg,
         base_fee: values.baseFee,
-        min_weight: values.minWeight ?? 0,
-        service_type: values.serviceType ?? "standard",
       };
 
       if (editingRate) {
@@ -255,7 +258,7 @@ export default function RatesPage() {
           .update(payload)
           .eq("id", editingRate.id)
           .select(
-            "id, origin, destination, rate_per_kg, base_fee, min_weight, service_type, created_at"
+            "id, origin, destination, rate_per_kg, base_fee, created_at"
           )
           .maybeSingle();
 
@@ -269,10 +272,8 @@ export default function RatesPage() {
           destination: (data.destination as string | null) ?? "",
           ratePerKg: Number(data.rate_per_kg ?? 0),
           baseFee: Number(data.base_fee ?? 0),
-          minWeight: Number((data.min_weight as number | null) ?? 0),
-          serviceType:
-            ((data.service_type as RateFormValues["serviceType"] | null) ??
-              "standard"),
+          minWeight: 0,
+          serviceType: "standard",
           createdAt: (data.created_at as string | null) ?? "",
         };
 
@@ -289,7 +290,7 @@ export default function RatesPage() {
           .from("rates")
           .insert(payload)
           .select(
-            "id, origin, destination, rate_per_kg, base_fee, min_weight, service_type, created_at"
+            "id, origin, destination, rate_per_kg, base_fee, created_at"
           )
           .single();
 
@@ -303,10 +304,8 @@ export default function RatesPage() {
           destination: (data.destination as string | null) ?? "",
           ratePerKg: Number(data.rate_per_kg ?? 0),
           baseFee: Number(data.base_fee ?? 0),
-          minWeight: Number((data.min_weight as number | null) ?? 0),
-          serviceType:
-            ((data.service_type as RateFormValues["serviceType"] | null) ??
-              "standard"),
+          minWeight: 0,
+          serviceType: "standard",
           createdAt: (data.created_at as string | null) ?? "",
         };
 
@@ -395,7 +394,7 @@ export default function RatesPage() {
     >
       <div className="flex flex-col gap-6">
         {/* Search and New Rate */}
-        <div className="flex gap-4 flex-col sm:flex-row items-end">
+        <div className="flex gap-3 flex-col sm:flex-row sm:items-end">
           <div className="flex-1">
             <label className="text-sm font-medium mb-2 block">Search</label>
             <Input
@@ -406,14 +405,14 @@ export default function RatesPage() {
             />
           </div>
           {roleLoaded && !canEdit && (
-            <p className="text-[11px] text-muted-foreground max-w-xs">
+            <p className="text-[11px] text-muted-foreground max-w-xs w-full sm:w-auto">
               You have read-only access. Contact an admin to modify rates.
             </p>
           )}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <Button
               type="button"
-              className="bg-primary hover:bg-primary/90"
+              className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
               disabled={!canEdit}
               onClick={() => {
                 if (!canEdit) return;
@@ -706,8 +705,9 @@ export default function RatesPage() {
         </Card>
 
         {/* Rates Table */}
-        <Card className="overflow-hidden border-pop">
-          <table className="w-full text-sm">
+        <Card className="border-pop">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[600px]">
             <thead className="bg-accent/50 border-b border-pop">
               <tr>
                 <th className="px-6 py-3 text-left font-semibold">Origin</th>
@@ -778,6 +778,7 @@ export default function RatesPage() {
                 ))}
             </tbody>
           </table>
+          </div>
         </Card>
 
         {!loading && filteredRates.length === 0 && (

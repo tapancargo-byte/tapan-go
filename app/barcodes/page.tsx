@@ -15,6 +15,7 @@ import BarcodeScanner from "@/components/barcode/barcode-scanner";
 import BarcodeGenerator from "@/components/barcode/barcode-generator";
 import SearchIcon from "@/components/icons/search";
 import ScanIcon from "@/components/icons/atom";
+import BracketsIcon from "@/components/icons/brackets";
 import { supabase } from "@/lib/supabaseClient";
 import { enqueueScan, flushOfflineScans } from "@/lib/offlineScanQueue";
 
@@ -252,7 +253,7 @@ export default function BarcodeManagementPage() {
   const headerConfig = {
     title: "Barcode Tracking",
     description: "Scan and manage shipment barcodes across your logistics network",
-    icon: ScanIcon,
+    icon: BracketsIcon,
   };
 
   return (
@@ -326,7 +327,7 @@ export default function BarcodeManagementPage() {
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm min-w-[800px]">
                 <thead>
                   <tr className="border-b">
                     <th className="text-left py-3 px-4 font-semibold">
@@ -369,7 +370,7 @@ export default function BarcodeManagementPage() {
                         </td>
                         <td className="py-3 px-4">
                           <span
-                            className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${getStatusColor(
+                            className={`px-3 py-1 text-xs font-semibold uppercase ${getStatusColor(
                               barcode.status
                             )}`}
                           >

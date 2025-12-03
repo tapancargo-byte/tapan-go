@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import CuteRobotIcon from "@/components/icons/cute-robot";
+import BracketsIcon from "@/components/icons/brackets";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -416,7 +416,7 @@ export default function AlertsPage() {
       header={{
         title: "Exceptions & Alerts",
         description: "Track overdue invoices, stalled shipments, and escalations",
-        icon: CuteRobotIcon,
+        icon: BracketsIcon,
       }}
     >
       <div className="space-y-6">

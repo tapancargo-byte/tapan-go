@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import ProcessorIcon from "@/components/icons/proccesor";
+import AtomIcon from "@/components/icons/atom";
 import DashboardCard from "@/components/dashboard/card";
 import DashboardChart from "@/components/dashboard/chart";
 import { Card } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/lib/supabaseClient";
 import type { ChartData, ChartDataPoint } from "@/types/dashboard";
 import { format, subDays, subYears } from "date-fns";
@@ -247,7 +249,7 @@ export default function AnalyticsPage() {
       header={{
         title: "Network Analytics",
         description: "Operational and financial KPIs for Tapan Go",
-        icon: ProcessorIcon,
+        icon: AtomIcon,
       }}
     >
       <div className="flex flex-col gap-6">
@@ -259,9 +261,13 @@ export default function AnalyticsPage() {
             className="bg-background border-pop"
           >
             <div className="flex flex-col justify-between h-full">
-              <p className="text-3xl font-semibold text-primary">
-                {stats ? stats.last30Shipments.toLocaleString("en-IN") : "—"}
-              </p>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <p className="text-3xl font-semibold text-primary">
+                  {stats ? stats.last30Shipments.toLocaleString("en-IN") : "—"}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mt-2">
                 Total shipments created in the last 30 days.
               </p>
@@ -274,11 +280,15 @@ export default function AnalyticsPage() {
             className="bg-background border-pop"
           >
             <div className="flex flex-col justify-between h-full">
-              <p className="text-3xl font-semibold text-primary">
-                {stats
-                  ? `₹${stats.last30Revenue.toLocaleString("en-IN")}`
-                  : "—"}
-              </p>
+              {loading ? (
+                <Skeleton className="h-8 w-32" />
+              ) : (
+                <p className="text-3xl font-semibold text-primary">
+                  {stats
+                    ? `₹${stats.last30Revenue.toLocaleString("en-IN")}`
+                    : "—"}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mt-2">
                 Billed invoice amount captured in the last 30 days.
               </p>
@@ -291,9 +301,13 @@ export default function AnalyticsPage() {
             className="bg-background border-pop"
           >
             <div className="flex flex-col justify-between h-full">
-              <p className="text-3xl font-semibold text-primary">
-                {stats ? `${stats.deliveredRate}%` : "—"}
-              </p>
+              {loading ? (
+                <Skeleton className="h-8 w-20" />
+              ) : (
+                <p className="text-3xl font-semibold text-primary">
+                  {stats ? `${stats.deliveredRate}%` : "—"}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground mt-2">
                 Share of shipments with status marked as delivered.
               </p>
@@ -303,14 +317,19 @@ export default function AnalyticsPage() {
 
         {/* Time-series Chart */}
         <Card className="border-pop bg-background p-4">
-          {chartData && chartData.week.length > 0 ? (
+          {loading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+          ) : chartData && chartData.week.length > 0 ? (
             <DashboardChart data={chartData} />
           ) : (
-            <p className="text-sm text-muted-foreground">
-              {loading
-                ? "Loading analytics..."
-                : "No analytics data available yet. Create shipments and invoices to see trends."}
-            </p>
+            <EmptyState
+              variant="default"
+              title="No analytics data yet"
+              description="Create shipments and invoices to see trends for the network."
+            />
           )}
         </Card>
       </div>

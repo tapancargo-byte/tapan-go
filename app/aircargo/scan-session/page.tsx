@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import ProcessorIcon from "@/components/icons/proccesor";
+import AtomIcon from "@/components/icons/atom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -201,7 +201,7 @@ export default function ManifestScanSessionPage() {
         title: "Manifest Scan Session",
         description:
           "Scan barcodes to build an aircargo manifest with live pieces and weight.",
-        icon: ProcessorIcon,
+        icon: AtomIcon,
       }}
     >
       <div className="flex flex-col gap-6">

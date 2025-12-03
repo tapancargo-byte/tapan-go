@@ -7,7 +7,12 @@
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
-    "test:smoke": "node tests/smoke.js"
+    "test:smoke": "node tests/smoke.js",
+    "install:core": "npm install @tanstack/react-table @tanstack/react-query",
+    "install:optional": "npm install bullmq ioredis @upstash/ratelimit @upstash/redis twilio",
+    "install:full": "npm run install:core && npm run install:optional",
+    "setup": "node install-tapango.js",
+    "check:features": "node check-features.js"
   },
   "dependencies": {
     "@eslint/eslintrc": "latest",
@@ -43,6 +48,8 @@
     "@radix-ui/react-tooltip": "latest",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.48.0",
+    "@tanstack/react-query": "^5.90.11",
+    "@tanstack/react-table": "^8.21.3",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

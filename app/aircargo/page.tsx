@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
-import ProcessorIcon from "@/components/icons/proccesor";
+import AtomIcon from "@/components/icons/atom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -443,7 +443,7 @@ export default function AircargoPage() {
       header={{
         title: "Aircargo Manifesto",
         description: "Manage air terminal shipments and manifests",
-        icon: ProcessorIcon,
+        icon: AtomIcon,
       }}
     >
       <div className="flex flex-col gap-6">
@@ -487,7 +487,7 @@ export default function AircargoPage() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 rounded bg-input text-foreground border border-pop"
+              className="px-3 py-2 bg-input text-foreground border border-pop"
             >
               <option value="all">All Status</option>
               <option value="scheduled">Scheduled</option>
@@ -614,7 +614,7 @@ export default function AircargoPage() {
                         <FormControl>
                           <select
                             {...field}
-                            className="w-full rounded-md border border-input bg-input text-foreground px-3 py-2 text-sm"
+                            className="w-full border border-input bg-input text-foreground px-3 py-2 text-sm"
                           >
                             <option value="scheduled">Scheduled</option>
                             <option value="dispatched">Dispatched</option>

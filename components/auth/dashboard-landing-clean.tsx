@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,14 +11,29 @@ import {
   BentoGridWithFeatures,
   type BentoFeature,
 } from "@/components/ui/bento-grid";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { CategoryList, type Category } from "@/components/ui/category-list";
 import { Input } from "@/components/ui/input";
-import { Shield, Users } from "lucide-react";
+import ShieldIcon from "@/components/icons/shield";
+import UsersIcon from "@/components/icons/users";
+import Lottie from "lottie-react";
+import landingAnimation from "@/public/assets/landing.json";
 import { FinancialHero } from "@/components/ui/hero-section";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { AboutApps } from "@/components/ui/about";
-import { Footer } from "../ui/footer";
+import { ServiceRouteVisual } from "@/components/ui/visuals/service-route-visual";
+import { NetworkMapVisual } from "@/components/ui/visuals/network-map-visual";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { RippleButton } from "@/components/ui/ripple-button";
+import { AnimatedCard } from "@/components/ui/animated-card";
+import { Marquee } from "@/components/ui/marquee";
+import { TextAnimate } from "@/components/ui/text-animate";
 
 interface AuthState {
   checking: boolean;
@@ -52,97 +67,118 @@ function HeroInlineTracking() {
           onChange={(e) => setValue(e.target.value)}
           className="flex-1 h-10 text-sm"
         />
-        <Button
+        <RippleButton
           type="submit"
-          size="sm"
-          className="px-5 py-2 text-[0.7rem] tracking-[0.16em]"
+          className="h-10 px-5 text-[0.7rem] tracking-[0.16em]"
         >
           Track
-        </Button>
+        </RippleButton>
       </form>
     </div>
   );
 }
 
 function HeroLottieCard() {
-  const borderRef = useRef<HTMLDivElement | null>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const border = borderRef.current;
-    if (!border) return;
-    const rect = border.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const angle = Math.atan2(y, x);
-    border.style.setProperty("--rotation", `${angle}rad`);
-  };
-
-  const handleMouseLeave = () => {
-    const border = borderRef.current;
-    if (!border) return;
-    border.style.setProperty("--rotation", "0deg");
-  };
-
-  const pattern =
-    `linear-gradient(45deg, var(--pattern-color1) 25%, transparent 25%, transparent 75%, var(--pattern-color2) 75%),` +
-    `linear-gradient(-45deg, var(--pattern-color2) 25%, transparent 25%, transparent 75%, var(--pattern-color1) 75%)`;
-
-  const borderGradient =
-    "conic-gradient(from var(--rotation,0deg), var(--border-color-2) 0deg, var(--border-color-2) 90deg, var(--border-bg-color) 90deg, var(--border-bg-color) 360deg)";
-
   return (
-    <div
-      ref={borderRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative h-full w-full"
-    >
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          borderRadius: "1rem",
-          border: "3px solid transparent",
-          backgroundOrigin: "border-box",
-          backgroundClip: "padding-box, border-box",
-          backgroundImage: `linear-gradient(var(--card-bg-color), var(--card-bg-color)), ${borderGradient}`,
-          padding: 16,
-          boxSizing: "border-box",
-          display: "flex",
-          alignItems: "stretch",
-          justifyContent: "stretch",
-        } as React.CSSProperties}
+    <div className="relative w-full max-w-2xl mx-auto">
+      <div className="pointer-events-none absolute -inset-x-6 -top-8 h-32 bg-gradient-to-tr from-primary/20 via-sky-500/5 to-transparent blur-3xl" />
+      <AnimatedCard
+        enableHover
+        hoverScale={1.02}
+        className="relative w-full aspect-[16/9] overflow-hidden border-border/70 bg-pop p-0 shadow-lg shadow-black/10"
       >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "0.9rem",
-            background: "var(--card-bg-color)",
-            overflow: "hidden",
-            boxSizing: "border-box",
-            backgroundImage: pattern,
-            backgroundSize: "20.84px 20.84px",
-          } as React.CSSProperties}
-          className="relative flex h-full w-full items-center justify-center px-6 pb-8 pt-10"
-        >
-          <div className="pointer-events-none absolute inset-x-6 top-3 flex items-center justify-between text-[0.6rem] tracking-[0.2em] uppercase text-muted-foreground/80">
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Cargo activity
-            </span>
-            <span className="rounded-full border border-border/60 bg-background/70 px-2 py-0.5">
-              Imphal ↔ New Delhi
-            </span>
-          </div>
-          <div className="relative flex h-full w-full items-center justify-center">
-            <span className="text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground/70">
-              Visual telemetry placeholder
-            </span>
+        <div className="relative flex h-full flex-col">
+          <div className="flex flex-1 flex-col gap-4 px-4 py-4">
+            <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(0,1.1fr)] gap-3 items-stretch">
+              <div className="rounded-lg bg-background/80 p-3 text-[0.7rem] text-muted-foreground">
+                <p className="text-[0.6rem] font-mono uppercase tracking-[0.2em] text-muted-foreground">
+                  On-time deliveries · last 90 days
+                </p>
+                <p className="mt-2 text-3xl font-semibold text-foreground">98.4%</p>
+                <p className="mt-1 text-[0.7rem] text-muted-foreground/90">
+                  Across the Imphal–Delhi corridor.
+                </p>
+                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-border/60">
+                  <div className="h-full w-[82%] rounded-full bg-primary" />
+                </div>
+              </div>
+
+              <div className="relative flex items-center justify-center rounded-lg bg-background">
+                <Lottie
+                  animationData={landingAnimation}
+                  loop
+                  autoplay
+                  style={{ width: "86%", height: "86%" }}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg bg-background/80 px-3 py-2 text-[0.65rem] text-muted-foreground">
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-medium text-foreground">27</span>
+                <span className="text-[0.6rem] uppercase tracking-[0.18em]">Active loads</span>
+              </div>
+              <div className="h-4 w-px bg-border/60" />
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-medium text-foreground">4</span>
+                <span className="text-[0.6rem] uppercase tracking-[0.18em]">Lanes monitored</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </AnimatedCard>
     </div>
+  );
+}
+
+function TrustedByMarquee() {
+  const items = [
+    {
+      label: "Imphal retail cluster",
+      dotClass: "bg-success",
+    },
+    {
+      label: "Delhi consolidation partners",
+      dotClass: "bg-primary/80",
+    },
+    {
+      label: "Imphal–Delhi FMCG shippers",
+      dotClass: "bg-warning",
+    },
+    {
+      label: "Northeast e-commerce shippers",
+      dotClass: "bg-accent",
+    },
+  ];
+
+  return (
+    <section className="border-t border-border/40 bg-background/90 py-4">
+      <div className="mx-auto max-w-6xl px-6 space-y-3 text-[0.7rem] text-muted-foreground md:text-xs">
+        <p className="hud-text text-[0.65rem] tracking-[0.24em] uppercase text-muted-foreground">
+          Trusted by operations teams at
+        </p>
+        <div className="relative">
+          <Marquee
+            className="rounded-full border border-border/40 bg-pop/40 [--duration:32s]"
+            pauseOnHover
+          >
+            <div className="flex items-center gap-6 px-6">
+              {items.map((item) => (
+                <span
+                  key={item.label}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-1.5 text-[0.7rem] text-foreground/80"
+                >
+                  <span className={`h-2 w-2 rounded-full ${item.dotClass}`} />
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          </Marquee>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -184,19 +220,19 @@ export function DashboardAuthOverlay() {
 
     const previousOverflow = document.body.style.overflow;
 
-    if (!authState.authed) {
+    if (!authState.checking && !authState.authed) {
       document.body.style.overflow = "hidden";
     }
 
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [authState.authed]);
+  }, [authState.checking, authState.authed]);
 
   // Show the overlay by default (including while checking), and only hide it
   // once we know the user is authenticated. This prevents the underlying
   // dashboard from flashing briefly on page refresh.
-  if (authState.authed) {
+  if (authState.checking || authState.authed) {
     return null;
   }
 
@@ -210,12 +246,12 @@ export function DashboardAuthOverlay() {
   const servicesFeatures: BentoFeature[] = [
     {
       id: "services-text",
-      title: "Services for Northeast lanes",
+      title: "Services for Imphal–Delhi lane",
       description:
-        "Direct line-haul and air movements between Imphal, Guwahati, Siliguri and New Delhi.",
+        "Direct air and road departures between Imphal and New Delhi.",
       content: (
         <ul className="space-y-1 text-[0.75rem] text-muted-foreground">
-          <li>• Scheduled runs tuned for Northeast routes.</li>
+          <li>• Scheduled departures on the Imphal–Delhi corridor.</li>
           <li>• Pickup and delivery windows agreed up front.</li>
           <li>• Single point of contact from booking to delivery.</li>
         </ul>
@@ -227,8 +263,8 @@ export function DashboardAuthOverlay() {
       title: undefined,
       description: undefined,
       content: (
-        <div className="flex h-40 md:h-48 items-center justify-center rounded-xl border border-dashed border-border/60 text-[0.7rem] text-muted-foreground">
-          Media placeholder – add service route image, Lottie or video
+        <div className="h-40 md:h-48 w-full">
+          <ServiceRouteVisual />
         </div>
       ),
       className: "col-span-1 md:col-span-3 lg:col-span-3",
@@ -255,8 +291,30 @@ export function DashboardAuthOverlay() {
       title: undefined,
       description: undefined,
       content: (
-        <div className="flex h-40 md:h-48 items-center justify-center rounded-xl border border-dashed border-border/60 text-[0.7rem] text-muted-foreground">
-          Media placeholder – add map, tracking UI or Lottie timeline
+        <div className="flex h-40 md:h-48 flex-col justify-between rounded-xl border border-border/60 bg-pop/40 p-4">
+          <div className="flex items-center justify-between text-[0.7rem] text-muted-foreground">
+            <span className="font-mono uppercase tracking-[0.18em]">Sample lane</span>
+            <span className="rounded-full border border-border/60 bg-background/80 px-2 py-0.5 text-[0.65rem]">
+              IMH · DEL
+            </span>
+          </div>
+          <div className="space-y-3 text-[0.7rem] text-muted-foreground">
+            <div className="flex items-center gap-3">
+              <span className="h-2 w-2 rounded-full bg-success" />
+              <span>Booked & pickup confirmed</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="h-2 w-2 rounded-full bg-primary" />
+              <span>In line-haul to Delhi hub</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="h-2 w-2 rounded-full bg-warning" />
+              <span>At Delhi hub · out for delivery</span>
+            </div>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-border/60">
+            <div className="h-full w-3/4 rounded-full bg-primary" />
+          </div>
         </div>
       ),
       className: "glass-panel col-span-1 md:col-span-3 lg:col-span-3",
@@ -266,12 +324,12 @@ export function DashboardAuthOverlay() {
   const networkFeatures: BentoFeature[] = [
     {
       id: "network-text",
-      title: "Northeast–Delhi network",
+      title: "Imphal–Delhi network",
       description:
-        "Hubs and fleet across Imphal, Guwahati, Siliguri and New Delhi for predictable transits.",
+        "Hubs and fleet anchored in Imphal and New Delhi for predictable transits.",
       content: (
         <ul className="space-y-1 text-[0.75rem] text-muted-foreground">
-          <li>• Dedicated Northeast–Delhi line-haul corridors.</li>
+          <li>• Dedicated Imphal–Delhi line-haul corridor.</li>
           <li>• Secure hubs with consistent departures.</li>
           <li>• Capacity tuned for regional demand.</li>
         </ul>
@@ -283,8 +341,8 @@ export function DashboardAuthOverlay() {
       title: undefined,
       description: undefined,
       content: (
-        <div className="flex h-40 md:h-48 items-center justify-center rounded-xl border border-dashed border-border/60 text-[0.7rem] text-muted-foreground">
-          Media placeholder – add network map or lane visualisation
+        <div className="h-40 md:h-48 w-full">
+          <NetworkMapVisual />
         </div>
       ),
       className: "glass-panel col-span-1 md:col-span-3 lg:col-span-3",
@@ -317,12 +375,12 @@ export function DashboardAuthOverlay() {
 
   return (
     <div className="fixed inset-0 z-50 bg-background text-foreground">
+      <ScrollProgress />
       <div className="relative flex h-full flex-col">
-        {/* HUD-style navbar */}
-        <header className="fixed inset-x-0 top-0 z-40 glass-panel border-b border-border/60 bg-background/95">
-          <div className="mx-auto flex h-16 md:h-20 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <header className="border-b border-border/60 bg-background/95">
+          <div className="mx-auto flex h-14 md:h-16 max-w-6xl items-center justify-between px-6">
             <div className="flex items-center">
-              <BrandLogo size="xs" priority />
+              <BrandLogo size="xs" />
             </div>
 
             <nav
@@ -379,74 +437,84 @@ export function DashboardAuthOverlay() {
           </div>
         </header>
 
-        <main className="flex-1 pt-20 md:pt-24 overflow-y-auto">
+        <main className="flex-1 pt-6 md:pt-8 overflow-y-auto">
           {/* Hero section */}
           <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
-            {/* Ambient background grid (neutral, no orange band) */}
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.08]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
-              }}
-            />
-            {/* Scanning line overlay */}
-            <div className="scan-line pointer-events-none" />
-
             <div className="relative z-10 w-full">
               <FinancialHero
+                overline={
+                  <p className="hud-text text-[0.7rem] tracking-[0.24em] text-muted-foreground uppercase">
+                    Northeast cargo operations
+                  </p>
+                }
                 title={
-                  <>
-                    15 Years on the
-                    <br />
-                    <span className="text-primary">Northeast–Delhi Link</span>
-                  </>
+                  <div className="space-y-1">
+                    <div>
+                      <TextAnimate
+                        as="span"
+                        by="word"
+                        animation="blurInUp"
+                        duration={0.8}
+                        className="inline-block mr-2"
+                      >
+                        15 Years Connecting
+                      </TextAnimate>
+                      <TextAnimate
+                        as="span"
+                        by="word"
+                        animation="blurInUp"
+                        duration={0.8}
+                        className="inline-block text-primary"
+                      >
+                        Imphal & Delhi
+                      </TextAnimate>
+                    </div>
+                    <TextAnimate
+                      as="span"
+                      by="word"
+                      animation="blurInUp"
+                      duration={0.8}
+                      className="block"
+                    >
+                      With Speed and Trust
+                    </TextAnimate>
+                  </div>
+                }
+                stats={
+                  <div className="flex flex-wrap items-center gap-2 text-[0.7rem] text-muted-foreground/90">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-3 py-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                      98.4% on-time · last 90 days
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-3 py-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary/80" />
+                      Direct corridor · Imphal · New Delhi
+                    </span>
+                  </div>
                 }
                 description={
-                  <p className="max-w-prose text-sm leading-relaxed text-foreground/80 md:text-base">
-                    15 years of trusted air and road cargo between Imphal and Delhi.
+                  <p className="text-sm leading-relaxed text-foreground/80 sm:text-base md:text-lg">
+                    The most experienced cargo partner for air & road shipments between Imphal and Delhi.
                   </p>
                 }
                 buttonText="Track shipment"
                 buttonLink="/track"
                 rightContent={<HeroLottieCard />}
               />
-            </div>
-          </section>
-
-          <section className="border-t border-border/40 bg-background/90 py-4">
-            <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 text-[0.7rem] text-muted-foreground md:flex-row md:items-center md:justify-between md:text-xs">
-              <p className="hud-text text-[0.65rem] tracking-[0.24em] uppercase text-muted-foreground">
-                Operational overview
-              </p>
-              <div className="flex flex-1 flex-wrap gap-4 md:justify-end">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-sm font-semibold text-foreground">98.4%</span>
-                  <span className="text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                    On-time last 90 days
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-sm font-semibold text-foreground">4</span>
-                  <span className="text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                    Core cities · Imphal · Guwahati · Siliguri · Delhi
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                  <span className="text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                    Live lanes monitored · Northeast ↔ Delhi
-                  </span>
+              <div className="mx-auto mt-10 w-full max-w-6xl px-6 md:px-10">
+                <div className="max-w-3xl">
+                  <HeroInlineTracking />
                 </div>
               </div>
             </div>
           </section>
 
+          <TrustedByMarquee />
+
           {/* Services section */}
           <section
             id="services"
-            className="border-t border-border/60 bg-pop/40 py-12 scroll-mt-24"
+            className="border-t border-border/60 bg-pop/40 py-10 sm:py-12 lg:py-16 scroll-mt-24"
           >
             <div className="mx-auto max-w-6xl px-6 space-y-6">
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -454,9 +522,15 @@ export function DashboardAuthOverlay() {
                   <p className="hud-text text-[0.7rem] tracking-[0.24em] text-muted-foreground uppercase">
                     Services
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    How Tapan Go moves freight between Northeast cities and New Delhi.
-                  </p>
+                  <TextAnimate
+                    as="p"
+                    by="word"
+                    animation="blurInUp"
+                    duration={0.6}
+                    className="text-sm text-muted-foreground sm:text-base"
+                  >
+                    How Tapan Associate moves freight between Imphal and New Delhi.
+                  </TextAnimate>
                 </div>
                 <p className="text-[0.7rem] font-mono text-muted-foreground/80 tracking-[0.16em] uppercase">
                   SYS_V.2.0.4 · LIVE
@@ -473,7 +547,7 @@ export function DashboardAuthOverlay() {
           {/* Tracking section */}
           <section
             id="tracking"
-            className="border-t border-border/40 bg-background py-12 scroll-mt-24"
+            className="border-t border-border/40 bg-background py-10 sm:py-12 lg:py-16 scroll-mt-24"
           >
             <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1.15fr)] md:items-start">
               <div className="space-y-4">
@@ -481,14 +555,19 @@ export function DashboardAuthOverlay() {
                   <p className="hud-text text-[0.7rem] tracking-[0.24em] text-muted-foreground uppercase">
                     Tracking
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    Keep customers and internal teams aligned with simple, live tracking and
-                    clear status signals.
-                  </p>
+                  <TextAnimate
+                    as="p"
+                    by="word"
+                    animation="blurInUp"
+                    duration={0.6}
+                    className="text-sm text-muted-foreground sm:text-base"
+                  >
+                    Live shipment status from pickup in Imphal to delivery in New Delhi.
+                  </TextAnimate>
                 </div>
 
-                <Card className="glass-panel border-border/60 bg-pop/40">
-                  <CardContent className="space-y-4 pt-4">
+                <AnimatedCard className="glass-panel border-border/60 bg-pop/40">
+                  <div className="space-y-4 pt-4">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <p className="text-[0.7rem] font-mono uppercase tracking-[0.2em] text-muted-foreground">
@@ -496,58 +575,55 @@ export function DashboardAuthOverlay() {
                         </p>
                         <p className="mt-2 text-3xl font-semibold text-foreground">98.4%</p>
                       </div>
-                      <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-primary/40 bg-pop">
-                        <Shield className="h-7 w-7 text-primary" strokeWidth={1.25} />
+                      <div className="relative flex h-16 w-16 items-center justify-center border border-primary/40 bg-pop">
+                        <ShieldIcon className="h-7 w-7 text-primary" strokeWidth={1.25} />
                       </div>
                     </div>
                     <p className="text-[0.75rem] text-muted-foreground">
-                      Based on confirmed departures and arrivals across Imphal, Guwahati,
-                      Siliguri and New Delhi.
+                      Based on confirmed departures and arrivals between Imphal and New Delhi.
                     </p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </AnimatedCard>
 
-                <Card className="glass-panel border-border/60">
-                  <CardContent className="space-y-3 pt-4">
+                <AnimatedCard className="glass-panel border-border/60">
+                  <div className="space-y-3 pt-4">
                     <p className="text-[0.7rem] font-mono uppercase tracking-[0.2em] text-muted-foreground">
                       Recent tracking events
                     </p>
                     <div className="space-y-1 text-[0.75rem] text-muted-foreground">
                       <p>· IMH → DEL line-haul departed · 04:12</p>
-                      <p>· Guwahati hub arrival scan · 01:47</p>
-                      <p>· Siliguri delivery out for run · Yesterday, 16:05</p>
+                      <p>· IMH → DEL line-haul arrived at Delhi hub · 09:45</p>
+                      <p>· Exception ticket acknowledged by ops desk · Today, 11:15</p>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </AnimatedCard>
               </div>
 
-              <div>
-                <Card className="glass-panel border-border/60">
-                  <CardContent className="bg-pop/40 p-4">
-                    <div className="relative w-full overflow-hidden rounded-xl border border-border/60 aspect-[16/9]">
+              <div className="md:self-end">
+                <AnimatedCard className="glass-panel border-border/60 bg-pop/40 p-4">
+                    <div className="relative w-full overflow-hidden border border-border/60 aspect-[16/9]">
                       <Image
                         src="/assets/tracking-map.jpeg"
-                        alt="Map visual showing Tapan Go tracking lanes between Northeast cities and Delhi"
+                        alt="Map visual showing Tapan Associate tracking lanes between Northeast cities and Delhi"
                         fill
                         className="object-cover"
                         priority={false}
                       />
                       <div className="pointer-events-none absolute inset-x-4 top-3 flex items-center justify-between text-[0.6rem] tracking-[0.2em] uppercase text-muted-foreground/80">
                         <span>Tracking lanes overview</span>
-                        <span className="rounded-full border border-border/60 bg-background/80 px-2 py-0.5">
-                          Imphal · Guwahati · Siliguri · Delhi
+                        <span className="border border-border/60 bg-background/80 px-2 py-0.5">
+                          Imphal · New Delhi
                         </span>
                       </div>
                       <div className="pointer-events-none absolute inset-x-4 bottom-3 flex items-center justify-between text-[0.6rem] text-muted-foreground/80">
                         <span className="flex items-center gap-1">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="h-1.5 w-1.5 bg-success animate-pulse" />
                           Live lane focus
                         </span>
                         <span>Illustrative map</span>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </AnimatedCard>
               </div>
             </div>
           </section>
@@ -555,16 +631,22 @@ export function DashboardAuthOverlay() {
           {/* Network section */}
           <section
             id="network"
-            className="border-t border-border/40 bg-pop/40 py-12 scroll-mt-24"
+            className="border-t border-border/40 bg-pop/40 py-10 sm:py-12 lg:py-16 scroll-mt-24"
           >
             <div className="mx-auto max-w-6xl px-6 space-y-6">
               <div className="max-w-md space-y-2">
                 <p className="hud-text text-[0.7rem] tracking-[0.24em] text-muted-foreground uppercase">
                   Network
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  The Northeast–Delhi hub and lane structure behind your shipments.
-                </p>
+                <TextAnimate
+                  as="p"
+                  by="word"
+                  animation="blurInUp"
+                  duration={0.6}
+                  className="text-sm text-muted-foreground sm:text-base"
+                >
+                  The Imphal–Delhi line-haul and hub structure behind your shipments.
+                </TextAnimate>
               </div>
 
               <BentoGridWithFeatures
@@ -577,23 +659,29 @@ export function DashboardAuthOverlay() {
           {/* Support section */}
           <section
             id="support"
-            className="border-t border-border/40 bg-background py-12 scroll-mt-24"
+            className="border-t border-border/40 bg-background py-10 sm:py-12 lg:py-16 scroll-mt-24"
           >
             <div className="mx-auto max-w-6xl px-6 space-y-8">
               <div className="max-w-md space-y-2">
                 <p className="hud-text text-[0.7rem] tracking-[0.24em] text-muted-foreground uppercase">
                   Support
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  When something goes wrong, how Tapan Go helps you recover quickly.
-                </p>
+                <TextAnimate
+                  as="p"
+                  by="word"
+                  animation="blurInUp"
+                  duration={0.6}
+                  className="text-sm text-muted-foreground sm:text-base"
+                >
+                  When something goes wrong on the Imphal–Delhi lane, how Tapan Associate helps you recover quickly.
+                </TextAnimate>
               </div>
 
               <CategoryList
                 title="Support channels"
                 subtitle="for customers & partners"
                 categories={supportCategories}
-                headerIcon={<Users className="h-8 w-8" />}
+                headerIcon={<UsersIcon className="h-8 w-8" />}
                 className="bg-transparent p-0"
               />
             </div>
@@ -602,18 +690,70 @@ export function DashboardAuthOverlay() {
           {/* About section */}
           <section
             id="about"
-            className="border-t border-border/40 bg-background py-10 scroll-mt-24"
+            className="border-t border-border/40 bg-background py-8 sm:py-10 lg:py-12 scroll-mt-24"
           >
             <div className="mx-auto max-w-6xl px-6">
               <AboutApps />
             </div>
           </section>
 
-          <div className="border-t border-border bg-background/95">
-            <div className="mx-auto max-w-6xl px-0 py-6">
-              <Footer />
+          <footer className="border-t border-border/60 bg-background/95">
+            <div className="mx-auto max-w-6xl px-6 py-5 space-y-3 text-[0.7rem] text-muted-foreground">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center gap-3">
+                  <BrandLogo size="xs" />
+                </div>
+
+                <div className="flex flex-col items-start gap-1 text-[0.65rem] md:items-end">
+                  <span className="text-muted-foreground/80">
+                    Powered by <span className="font-medium text-foreground">Arra-Core</span>.
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 text-[0.65rem] text-muted-foreground/80">
+                <nav className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick("services")}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Services
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick("tracking")}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Tracking
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick("network")}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Network
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick("support")}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Support
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick("about")}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    About
+                  </button>
+                </nav>
+
+                <span> {new Date().getFullYear()} Tapan Associate</span>
+              </div>
             </div>
-          </div>
+          </footer>
         </main>
       </div>
     </div>

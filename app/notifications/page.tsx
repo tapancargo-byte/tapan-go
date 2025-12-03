@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface UINotification {
   id: string;
@@ -206,13 +208,31 @@ export default function NotificationsPage() {
         <Card className="border-pop bg-background">
           <div className="divide-y divide-border">
             {loading ? (
-              <div className="p-6 text-sm text-muted-foreground">
-                Loading notifications...
-              </div>
+              <>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div
+                    key={`notification-skeleton-${index}`}
+                    className="p-4 flex items-start gap-3"
+                  >
+                    <div className="flex-1 space-y-2">
+                      <Skeleton className="h-4 w-40" />
+                      <Skeleton className="h-3 w-full" />
+                      <Skeleton className="h-3 w-3/4" />
+                      <Skeleton className="h-3 w-24" />
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <Skeleton className="h-5 w-20" />
+                      <Skeleton className="h-5 w-20" />
+                    </div>
+                  </div>
+                ))}
+              </>
             ) : notifications.length === 0 ? (
-              <div className="p-6 text-sm text-muted-foreground">
-                No notifications yet.
-              </div>
+              <EmptyState
+                variant="default"
+                title="No notifications yet"
+                description="System events and alerts will appear here as they happen."
+              />
             ) : (
               notifications.map((n) => (
                 <div

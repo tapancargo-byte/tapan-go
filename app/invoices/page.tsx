@@ -4,6 +4,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import EmailIcon from "@/components/icons/email";
+import GearIcon from "@/components/icons/gear";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,6 +38,8 @@ import {
   paymentSchema,
   type PaymentFormValues,
 } from "@/lib/validations";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type InvoiceStatus = "paid" | "pending" | "overdue" | string;
 
@@ -1478,7 +1481,7 @@ function InvoicesPageContent() {
       header={{
         title: "Invoices",
         description: "Track billing and payment status",
-        icon: EmailIcon,
+        icon: GearIcon,
       }}
     >
       <div className="flex flex-col gap-6">
@@ -1511,7 +1514,7 @@ function InvoicesPageContent() {
           </div>
         )}
         {/* Search and Filters */}
-        <div className="flex gap-4 flex-col sm:flex-row items-end">
+        <div className="flex gap-4 flex-col sm:flex-row items-start sm:items-end">
           <div className="flex-1">
             <label className="text-sm font-medium mb-2 block">Search</label>
             <Input
@@ -1521,13 +1524,13 @@ function InvoicesPageContent() {
               className="bg-input text-foreground"
             />
           </div>
-          <div>
+          <div className="w-full sm:w-auto">
             <label className="text-sm font-medium mb-2 block">Status</label>
             <Select
               value={filterStatus}
               onValueChange={(value) => setFilterStatus(value)}
             >
-              <SelectTrigger className="w-[160px]">
+              <SelectTrigger className="w-full sm:w-[160px]">
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
@@ -1725,21 +1728,54 @@ function InvoicesPageContent() {
         </div>
 
         {/* Invoices Table */}
-        <Card className="overflow-hidden border-pop">
-          <table className="w-full text-sm">
+        <Card className="border-pop">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[700px]">
             <thead className="bg-accent/50 border-b border-pop">
               <tr>
-                <th className="px-6 py-3 text-left font-semibold">Invoice ID</th>
-                <th className="px-6 py-3 text-left font-semibold">Customer</th>
-                <th className="px-6 py-3 text-left font-semibold">Amount</th>
-                <th className="px-6 py-3 text-left font-semibold">Status</th>
-                <th className="px-6 py-3 text-left font-semibold">Due Date</th>
-                <th className="px-6 py-3 text-left font-semibold">Shipments</th>
-                <th className="px-6 py-3 text-left font-semibold text-right">Actions</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Invoice ID</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Customer</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Amount</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Status</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Due Date</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Shipments</th>
+                <th className="px-4 sm:px-6 py-3 text-left font-semibold text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredInvoices.map((invoice) => (
+              {loading && (
+                <>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <tr key={`invoice-skeleton-${index}`} className="border-b border-pop">
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-32" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-40" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-24" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-5 w-20" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-28" />
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <Skeleton className="h-4 w-10 mx-auto" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex justify-end">
+                          <Skeleton className="h-8 w-8" />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              )}
+              {!loading &&
+                filteredInvoices.map((invoice) => (
                 <tr
                   key={invoice.id}
                   className="border-b border-pop hover:bg-accent/30 transition-colors"
@@ -1854,13 +1890,23 @@ function InvoicesPageContent() {
               ))}
             </tbody>
           </table>
+          {!loading && filteredInvoices.length === 0 && (
+            <EmptyState
+              variant="invoices"
+              title={
+                searchTerm || filterStatus !== "all"
+                  ? "No matching invoices"
+                  : "No invoices yet"
+              }
+              description={
+                searchTerm || filterStatus !== "all"
+                  ? "Try adjusting your search or filter criteria."
+                  : "Create your first invoice to start tracking payments."
+              }
+            />
+          )}
+          </div>
         </Card>
-
-        {filteredInvoices.length === 0 && (
-          <Card className="p-12 text-center border-pop">
-            <p className="text-muted-foreground">No invoices found</p>
-          </Card>
-        )}
 
         <Dialog
           open={!!activeInvoice}
@@ -1949,15 +1995,15 @@ function InvoicesPageContent() {
 
         {previewInvoiceId && (
           <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
-            <div className="relative bg-background rounded-lg shadow-xl w-[95vw] max-w-5xl h-[80vh] border">
+            <div className="relative bg-background shadow-xl w-[95vw] max-w-5xl h-[80vh] border">
               <button
                 type="button"
-                className="absolute top-3 right-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/40 text-white text-xs hover:bg-black/60"
+                className="absolute top-3 right-3 inline-flex h-7 w-7 items-center justify-center bg-black/40 text-white text-xs hover:bg-black/60"
                 onClick={() => setPreviewInvoiceId(null)}
               >
                 ×
               </button>
-              <div className="w-full h-full rounded-md overflow-hidden">
+              <div className="w-full h-full overflow-hidden">
                 <iframe
                   src={`/invoices/${previewInvoiceId}`}
                   className="w-full h-full"

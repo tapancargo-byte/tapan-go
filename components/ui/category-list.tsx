@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+import { AnimatedCard } from "@/components/ui/animated-card";
 
 export interface Category {
   id: string | number;
@@ -50,73 +51,62 @@ export const CategoryList = ({
         </div>
 
         {/* Categories List */}
-        <div className="space-y-3">
-          {categories.map((category) => (
-            <div
+        <div className="grid gap-4 md:grid-cols-2">
+          {categories.map((category, index) => (
+            <AnimatedCard
               key={category.id}
-              className="group relative"
+              delay={index * 0.05}
               onMouseEnter={() => setHoveredItem(category.id)}
               onMouseLeave={() => setHoveredItem(null)}
               onClick={category.onClick}
+              className={cn(
+                "group cursor-pointer border-border/60 bg-pop/40",
+                category.featured && "md:row-span-2",
+                hoveredItem === category.id &&
+                  "border-primary/70 shadow-lg shadow-primary/20"
+              )}
             >
-              <div
-                className={cn(
-                  "relative cursor-pointer overflow-hidden border bg-card transition-all duration-300 ease-in-out",
-                  hoveredItem === category.id
-                    ? "h-32 border-primary bg-primary/5 shadow-lg shadow-primary/20"
-                    : "h-24 border-border hover:border-primary/50"
-                )}
-              >
-                {hoveredItem === category.id && (
-                  <>
-                    <div className="absolute left-3 top-3 h-6 w-6">
-                      <div className="absolute left-0 top-0 h-0.5 w-4 bg-primary" />
-                      <div className="absolute left-0 top-0 h-4 w-0.5 bg-primary" />
-                    </div>
-                    <div className="absolute bottom-3 right-3 h-6 w-6">
-                      <div className="absolute bottom-0 right-0 h-0.5 w-4 bg-primary" />
-                      <div className="absolute bottom-0 right-0 h-4 w-0.5 bg-primary" />
-                    </div>
-                  </>
-                )}
-
-                <div className="flex h-full items-center justify-between px-6 md:px-8">
-                  <div className="flex-1">
-                    <h3
+              <div className="flex h-full flex-col justify-between gap-4">
+                <div className="flex flex-col gap-2">
+                  <h3
+                    className={cn(
+                      "font-bold tracking-tight",
+                      category.featured
+                        ? "text-2xl md:text-3xl"
+                        : "text-xl md:text-2xl",
+                      hoveredItem === category.id
+                        ? "text-primary"
+                        : "text-foreground"
+                    )}
+                  >
+                    {category.title}
+                  </h3>
+                  {category.subtitle && (
+                    <p
                       className={cn(
-                        "font-bold transition-colors duration-300",
-                        category.featured
-                          ? "text-2xl md:text-3xl"
-                          : "text-xl md:text-2xl",
+                        "text-sm md:text-base",
                         hoveredItem === category.id
-                          ? "text-primary"
-                          : "text-foreground"
+                          ? "text-foreground/90"
+                          : "text-muted-foreground"
                       )}
                     >
-                      {category.title}
-                    </h3>
-                    {category.subtitle && (
-                      <p
-                        className={cn(
-                          "mt-1 text-sm md:text-base transition-colors duration-300",
-                          hoveredItem === category.id
-                            ? "text-foreground/90"
-                            : "text-muted-foreground"
-                        )}
-                      >
-                        {category.subtitle}
-                      </p>
-                    )}
-                  </div>
-
-                  {category.icon && hoveredItem === category.id && (
-                    <div className="text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      {category.icon}
-                    </div>
+                      {category.subtitle}
+                    </p>
                   )}
                 </div>
+                {category.icon && (
+                  <div className="flex items-center justify-between text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+                    <span className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      <span>Priority channel</span>
+                    </span>
+                    <div className="text-primary opacity-70 group-hover:opacity-100">
+                      {category.icon}
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
+            </AnimatedCard>
           ))}
         </div>
       </div>

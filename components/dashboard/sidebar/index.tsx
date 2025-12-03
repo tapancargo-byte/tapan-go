@@ -425,11 +425,11 @@ export function DashboardSidebar({
 
   return (
     <Sidebar {...props} className={cn('py-sides', className)}>
-      <SidebarHeader className="rounded-t-lg flex gap-3 flex-row items-center rounded-b-none border-b border-sidebar-border pb-4">
+      <SidebarHeader className="flex gap-3 flex-row items-center border-b border-sidebar-border pb-4">
         <BrandLogo size="xs" priority className="flex-1" />
         <div className="flex items-center justify-center gap-2">
           <ThemeToggle />
-          <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+          <div className="w-2 h-2 bg-success animate-pulse" />
         </div>
       </SidebarHeader>
 
@@ -475,6 +475,7 @@ export function DashboardSidebar({
                         <Link
                           href={item.url}
                           className="flex items-center justify-between w-full gap-2"
+                          aria-current={pathname === item.url ? 'page' : undefined}
                         >
                           <div className="flex items-center gap-2 flex-1">
                             <item.icon className="size-4" />
@@ -506,7 +507,7 @@ export function DashboardSidebar({
                 <Popover>
                   <PopoverTrigger asChild>
                     <button className="flex gap-0.5 w-full group cursor-pointer hover:opacity-90 transition-opacity">
-                      <div className="shrink-0 flex size-14 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 text-sidebar-primary-foreground overflow-clip shadow-md">
+                      <div className="shrink-0 flex size-14 items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 text-sidebar-primary-foreground overflow-clip shadow-md">
                         {profileLoading ? (
                           <span className="text-xs font-semibold tracking-[0.18em] uppercase">
                             Loading
@@ -520,7 +521,7 @@ export function DashboardSidebar({
                           />
                         )}
                       </div>
-                      <div className="group/item pl-3 pr-1.5 pt-2 pb-1.5 flex-1 flex bg-sidebar-accent hover:bg-sidebar-accent-active/75 items-center rounded group-data-[state=open]:bg-sidebar-accent-active group-data-[state=open]:hover:bg-sidebar-accent-active group-data-[state=open]:text-sidebar-accent-foreground transition-colors">
+                      <div className="group/item pl-3 pr-1.5 pt-2 pb-1.5 flex-1 flex bg-sidebar-accent hover:bg-sidebar-accent-active/75 items-center group-data-[state=open]:bg-sidebar-accent-active group-data-[state=open]:hover:bg-sidebar-accent-active group-data-[state=open]:text-sidebar-accent-foreground transition-colors">
                         <div className="grid flex-1 text-left text-sm leading-tight">
                           <span className="truncate font-semibold text-foreground">
                             {profile?.name || 'Tapan Go Ops'}
@@ -534,7 +535,7 @@ export function DashboardSidebar({
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
-                    className="w-56 p-2 rounded-lg shadow-lg"
+                    className="w-56 p-2 shadow-lg"
                     side="bottom"
                     align="end"
                     sideOffset={8}
@@ -549,7 +550,7 @@ export function DashboardSidebar({
                           {profile?.email || 'ops@tapango.logistics'}
                         </div>
                         <div className="flex items-center gap-2 mt-2">
-                          <div className={cn('w-2 h-2 rounded-full', profile?.status === 'Active' ? 'bg-green-500' : 'bg-gray-500')} />
+                          <div className={cn('w-2 h-2', profile?.status === 'Active' ? 'bg-green-500' : 'bg-gray-500')} />
                           <span className="text-xs text-muted-foreground">
                             {profile?.status || 'Active'}
                           </span>
@@ -557,15 +558,15 @@ export function DashboardSidebar({
                       </div>
 
                       {/* Menu Items */}
-                      <button className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent rounded-md transition-colors">
+                      <button className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent transition-colors">
                         <MonkeyIcon className="h-4 w-4" />
                         <span>Profile Settings</span>
                       </button>
-                      <button className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent rounded-md transition-colors">
+                      <button className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent transition-colors">
                         <GearIcon className="h-4 w-4" />
                         <span>System Settings</span>
                       </button>
-                      <button className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent rounded-md transition-colors">
+                      <button className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent transition-colors">
                         <BracketsIcon className="h-4 w-4" />
                         <span>Help & Support</span>
                       </button>
@@ -576,7 +577,7 @@ export function DashboardSidebar({
                           type="button"
                           onClick={handleSignOut}
                           disabled={isSigningOut}
-                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-destructive hover:bg-red-50 dark:hover:bg-red-950 rounded-md transition-colors font-medium disabled:opacity-70 disabled:cursor-not-allowed"
+                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-destructive hover:bg-red-50 dark:hover:bg-red-950 transition-colors font-medium disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                           <span>{isSigningOut ? 'Signing out…' : 'Sign Out'}</span>
                         </button>

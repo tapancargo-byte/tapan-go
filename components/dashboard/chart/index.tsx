@@ -65,8 +65,8 @@ export default function DashboardChart({ data }: DashboardChartProps) {
     if (!isMounted) return null;
 
     return (
-      <div className="bg-card border border-border rounded-lg p-3 min-w-0">
-        <ChartContainer className="md:aspect-[3/1] w-full" config={chartConfig}>
+      <div className="bg-card border border-border p-3 min-w-0">
+        <ChartContainer className="w-full h-[200px] sm:h-[260px]" config={chartConfig}>
           <AreaChart
             accessibilityLayer
             data={data}

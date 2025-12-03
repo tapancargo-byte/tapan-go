@@ -30,6 +30,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TicketStatus = "open" | "in-progress" | "resolved" | string;
 type TicketPriority = "low" | "medium" | "high" | string;
@@ -353,7 +355,7 @@ function SupportPageContent() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 rounded bg-input text-foreground border border-pop"
+              className="px-3 py-2 bg-input text-foreground border border-pop"
             >
               <option value="all">All</option>
               <option value="open">Open</option>
@@ -366,7 +368,7 @@ function SupportPageContent() {
             <select
               value={filterPriority}
               onChange={(e) => setFilterPriority(e.target.value)}
-              className="px-3 py-2 rounded bg-input text-foreground border border-pop"
+              className="px-3 py-2 bg-input text-foreground border border-pop"
             >
               <option value="all">All</option>
               <option value="high">High</option>
@@ -422,7 +424,7 @@ function SupportPageContent() {
                         <FormControl>
                           <select
                             {...field}
-                            className="w-full rounded-md border border-input bg-input text-foreground px-3 py-2 text-sm"
+                            className="w-full border border-input bg-input text-foreground px-3 py-2 text-sm"
                           >
                             <option value="">Unassigned</option>
                             {customers.map((c) => (
@@ -446,7 +448,7 @@ function SupportPageContent() {
                         <FormControl>
                           <select
                             {...field}
-                            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            className="w-full border border-input bg-background px-3 py-2 text-sm"
                           >
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
@@ -482,8 +484,9 @@ function SupportPageContent() {
         </div>
 
         {/* Tickets Table */}
-        <Card className="overflow-hidden border-pop">
-          <table className="w-full text-sm">
+        <Card className="border-pop">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[800px]">
             <thead className="bg-accent/50 border-b border-pop">
               <tr>
                 <th className="px-6 py-3 text-left font-semibold">Subject</th>
@@ -496,6 +499,38 @@ function SupportPageContent() {
               </tr>
             </thead>
             <tbody>
+              {loading && (
+                <>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <tr
+                      key={`ticket-skeleton-${index}`}
+                      className="border-b border-pop"
+                    >
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-64" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-40" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-5 w-20" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-5 w-20" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-28" />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Skeleton className="h-4 w-28" />
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <Skeleton className="h-8 w-28 ml-auto" />
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              )}
               {!loading &&
                 filteredTickets.map((ticket) => (
                   <tr
@@ -537,7 +572,7 @@ function SupportPageContent() {
                             )
                           }
                           disabled={updatingStatusId === ticket.dbId}
-                          className="rounded-md border border-input bg-background px-2 py-1 text-[11px] uppercase tracking-wide"
+                          className="border border-input bg-background px-2 py-1 text-[11px] uppercase tracking-wide"
                         >
                           <option value="open">Open</option>
                           <option value="in-progress">In Progress</option>
@@ -549,12 +584,22 @@ function SupportPageContent() {
                 ))}
             </tbody>
           </table>
+          </div>
         </Card>
-
         {!loading && filteredTickets.length === 0 && (
-          <Card className="p-12 text-center border-pop">
-            <p className="text-muted-foreground">No tickets found</p>
-          </Card>
+          <EmptyState
+            variant="search"
+            title={
+              searchTerm || filterStatus !== "all" || filterPriority !== "all"
+                ? "No matching tickets"
+                : "No tickets yet"
+            }
+            description={
+              searchTerm || filterStatus !== "all" || filterPriority !== "all"
+                ? "Try adjusting your search, status, or priority filters."
+                : "When customers raise issues, they'll appear here for follow-up."
+            }
+          />
         )}
       </div>
     </DashboardPageLayout>

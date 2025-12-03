@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import ProcessorIcon from "@/components/icons/proccesor";
+import BoxIcon from "@/components/icons/box";
 import { supabase } from "@/lib/supabaseClient";
 import {
   Select,
@@ -160,7 +160,7 @@ export default function InventoryManagement() {
       header={{
         title: 'Inventory & Goods',
         description: 'Manage warehouse inventory and track goods location',
-        icon: ProcessorIcon,
+        icon: BoxIcon,
       }}
     >
       <div className="space-y-6">
@@ -202,31 +202,31 @@ export default function InventoryManagement() {
         )}
 
         {/* Inventory Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Total SKUs</CardTitle>
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <Card className="shadow-sm">
+            <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-[10px] sm:text-sm">Total SKUs</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">{inventoryData.length}</p>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <p className="text-xl sm:text-3xl font-bold">{inventoryData.length}</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Low Stock Items</CardTitle>
+          <Card className="shadow-sm">
+            <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-[10px] sm:text-sm">Low Stock</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-yellow-400">
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <p className="text-xl sm:text-3xl font-bold text-yellow-400">
                 {inventoryData.filter(i => getStockStatus(i.currentStock, i.minStock) === 'low').length}
               </p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Critical Stock</CardTitle>
+          <Card className="shadow-sm">
+            <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-[10px] sm:text-sm">Critical</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-red-400">
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <p className="text-xl sm:text-3xl font-bold text-red-400">
                 {inventoryData.filter(i => getStockStatus(i.currentStock, i.minStock) === 'critical').length}
               </p>
             </CardContent>
@@ -238,9 +238,9 @@ export default function InventoryManagement() {
           <CardHeader>
             <CardTitle>Inventory Items ({filteredInventory.length})</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm min-w-[650px]">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left py-2 px-2 font-semibold">SKU</th>
@@ -263,7 +263,7 @@ export default function InventoryManagement() {
                         <td className="py-3 px-2 font-bold">{item.currentStock}</td>
                         <td className="py-3 px-2">{item.minStock}</td>
                         <td className="py-3 px-2">
-                          <span className={`px-2 py-1 rounded text-xs font-semibold ${getStatusColor(status)}`}>
+                          <span className={`px-2 py-1 text-xs font-semibold ${getStatusColor(status)}`}>
                             {status.toUpperCase()}
                           </span>
                         </td>
