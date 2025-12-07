@@ -34,6 +34,7 @@ export async function uploadBufferToStorage(
   const attemptUpload = async () => {
     return supabaseAdmin.storage.from(DEFAULT_BUCKET).upload(path, buffer, {
       contentType,
+      cacheControl: "0",
       upsert: true,
     });
   };

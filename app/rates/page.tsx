@@ -20,17 +20,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { rateSchema, type RateFormValues } from "@/lib/validations";
-
-interface UIRate {
-  id: string;
-  origin: string;
-  destination: string;
-  ratePerKg: number;
-  baseFee: number;
-  minWeight: number;
-  serviceType: RateFormValues["serviceType"];
-  createdAt: string;
-}
+import type { UIRate } from "@/features/rates/types";
+import { RatesDialog } from "@/features/rates/rates-dialog";
+import { RatesTable } from "@/features/rates/rates-table";
 
 export default function RatesPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -409,191 +401,28 @@ export default function RatesPage() {
               You have read-only access. Contact an admin to modify rates.
             </p>
           )}
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <Button
-              type="button"
-              className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
-              disabled={!canEdit}
-              onClick={() => {
-                if (!canEdit) return;
-                setEditingRate(null);
-                form.reset({
-                  origin: "",
-                  destination: "",
-                  ratePerKg: 0,
-                  baseFee: 0,
-                  minWeight: 0,
-                  serviceType: "standard",
-                });
-                setIsDialogOpen(true);
-              }}
-            >
-              New Rate
-            </Button>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{editingRate ? "Edit rate" : "New rate"}</DialogTitle>
-                <DialogDescription>
-                  {editingRate
-                    ? "Update a pricing lane used when invoicing shipments."
-                    : "Define a pricing lane used when invoicing shipments."}
-                </DialogDescription>
-              </DialogHeader>
-
-              <Form {...form}>
-                <form
-                  className="space-y-4 mt-2"
-                  onSubmit={form.handleSubmit(handleSubmitRate)}
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="origin"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Origin</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Imphal" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="destination"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Destination</FormLabel>
-                          <FormControl>
-                            <Input placeholder="New Delhi" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="ratePerKg"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Rate per kg (₹)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              placeholder="e.g. 25"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="baseFee"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Base fee (₹)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              placeholder="e.g. 150"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="minWeight"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Minimum billable weight (kg)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              placeholder="e.g. 5"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="serviceType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Service type</FormLabel>
-                          <FormControl>
-                            <Select
-                              value={field.value}
-                              onValueChange={field.onChange}
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select service" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="standard">Standard</SelectItem>
-                                <SelectItem value="express">Express</SelectItem>
-                                <SelectItem value="air">Air</SelectItem>
-                                <SelectItem value="surface">Surface</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <DialogFooter className="pt-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setIsDialogOpen(false)}
-                      className="uppercase"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-primary hover:bg-primary/90"
-                      disabled={isCreating || !canEdit}
-                    >
-                      {isCreating
-                        ? editingRate
-                          ? "Saving..."
-                          : "Creating..."
-                        : editingRate
-                        ? "Save changes"
-                        : "Create rate"}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
+          <RatesDialog
+            open={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            canEdit={canEdit}
+            isCreating={isCreating}
+            editingRate={editingRate}
+            form={form}
+            onSubmit={handleSubmitRate}
+            onNewRateClick={() => {
+              if (!canEdit) return;
+              setEditingRate(null);
+              form.reset({
+                origin: "",
+                destination: "",
+                ratePerKg: 0,
+                baseFee: 0,
+                minWeight: 0,
+                serviceType: "standard",
+              });
+              setIsDialogOpen(true);
+            }}
+          />
         </div>
 
         {/* Quote Calculator */}
@@ -705,89 +534,25 @@ export default function RatesPage() {
         </Card>
 
         {/* Rates Table */}
-        <Card className="border-pop">
-          <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[600px]">
-            <thead className="bg-accent/50 border-b border-pop">
-              <tr>
-                <th className="px-6 py-3 text-left font-semibold">Origin</th>
-                <th className="px-6 py-3 text-left font-semibold">Destination</th>
-                <th className="px-6 py-3 text-left font-semibold">Rate / kg</th>
-                <th className="px-6 py-3 text-left font-semibold">Base fee</th>
-                <th className="px-6 py-3 text-left font-semibold">Created</th>
-                <th className="px-6 py-3 text-right font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {!loading &&
-                filteredRates.map((rate) => (
-                  <tr
-                    key={rate.id}
-                    className="border-b border-pop hover:bg-accent/30 transition-colors"
-                  >
-                    <td className="px-6 py-3 font-medium text-foreground">
-                      {rate.origin}
-                    </td>
-                    <td className="px-6 py-3 text-foreground">
-                      {rate.destination}
-                    </td>
-                    <td className="px-6 py-3">
-                      ₹{rate.ratePerKg.toLocaleString("en-IN")}
-                    </td>
-                    <td className="px-6 py-3">
-                      ₹{rate.baseFee.toLocaleString("en-IN")}
-                    </td>
-                    <td className="px-6 py-3 text-xs text-muted-foreground">
-                      {rate.createdAt
-                        ? new Date(rate.createdAt).toLocaleDateString("en-IN")
-                        : "—"}
-                    </td>
-                    <td className="px-6 py-3">
-                      <div className="flex justify-end gap-2 flex-wrap">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setEditingRate(rate);
-                            form.reset({
-                              origin: rate.origin,
-                              destination: rate.destination,
-                              ratePerKg: rate.ratePerKg,
-                              baseFee: rate.baseFee,
-                              minWeight: rate.minWeight,
-                              serviceType: rate.serviceType as RateFormValues["serviceType"],
-                            });
-                            setIsDialogOpen(true);
-                          }}
-                          disabled={!canEdit}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="text-destructive border-destructive/40 hover:bg-red-50 dark:hover:bg-red-950/40"
-                          onClick={() => handleDeleteRate(rate)}
-                          disabled={!!actionLoading[rate.id] || !canEdit}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-          </div>
-        </Card>
-
-        {!loading && filteredRates.length === 0 && (
-          <Card className="p-12 text-center border-pop">
-            <p className="text-muted-foreground">
-              No rates defined yet. Create your first lane to enable auto-pricing.
-            </p>
-          </Card>
-        )}
+        <RatesTable
+          loading={loading}
+          rates={filteredRates}
+          actionLoading={actionLoading}
+          canEdit={canEdit}
+          onEditRate={(rate) => {
+            setEditingRate(rate);
+            form.reset({
+              origin: rate.origin,
+              destination: rate.destination,
+              ratePerKg: rate.ratePerKg,
+              baseFee: rate.baseFee,
+              minWeight: rate.minWeight,
+              serviceType: rate.serviceType as RateFormValues["serviceType"],
+            });
+            setIsDialogOpen(true);
+          }}
+          onDeleteRate={handleDeleteRate}
+        />
       </div>
     </DashboardPageLayout>
   );

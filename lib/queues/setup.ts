@@ -86,21 +86,6 @@ export const invoiceWorker = queueConfigured && Worker ? new Worker(
       const result = await generateInvoicePdf(invoiceId);
 
       console.log(`[Invoice Worker] PDF generated: ${result.pdfUrl}`);
-
-      // Queue WhatsApp notification
-      if (whatsappQueue) {
-        await whatsappQueue.add(
-          "invoice-generated",
-          {
-            invoiceId,
-            pdfUrl: result.pdfUrl,
-          },
-          {
-            delay: 1000, // Wait 1 second before sending
-          }
-        );
-      }
-
       return result;
     } catch (error: any) {
       console.error(`[Invoice Worker] Error:`, error);
@@ -113,54 +98,6 @@ export const invoiceWorker = queueConfigured && Worker ? new Worker(
     limiter: {
       max: 10,
       duration: 1000, // Max 10 jobs per second
-    },
-  }
-) : null;
-
-// ========================================
-// WhatsApp Notification Queue
-// ========================================
-
-export const whatsappQueue = queueConfigured && Queue ? new Queue("whatsapp-notifications", {
-  connection,
-  defaultJobOptions: {
-    attempts: 3,
-    backoff: {
-      type: "exponential",
-      delay: 5000,
-    },
-  },
-}) : null;
-
-export const whatsappWorker = queueConfigured && Worker ? new Worker(
-  "whatsapp-notifications",
-  async (job: any) => {
-    const { phone, message, mediaUrl, type } = job.data;
-    console.log(`[WhatsApp Worker] Sending ${type || "message"} to ${phone}`);
-
-    try {
-      // Check if WhatsApp is configured
-      if (!process.env.TWILIO_ACCOUNT_SID) {
-        console.warn("[WhatsApp Worker] Twilio not configured, skipping");
-        return { skipped: true, reason: "not_configured" };
-      }
-
-      const { sendWhatsAppMessage } = await import("@/lib/whatsapp");
-      const result = await sendWhatsAppMessage(phone, message, mediaUrl);
-
-      console.log(`[WhatsApp Worker] Sent successfully`);
-      return result;
-    } catch (error: any) {
-      console.error(`[WhatsApp Worker] Error:`, error);
-      throw error;
-    }
-  },
-  {
-    connection,
-    concurrency: 10,
-    limiter: {
-      max: 20,
-      duration: 1000, // Max 20 messages per second
     },
   }
 ) : null;
@@ -207,7 +144,6 @@ export const emailWorker = queueConfigured && Worker ? new Worker(
 
 if (queueConfigured && QueueEvents) {
   const invoiceEvents = new QueueEvents("invoice-generation", { connection });
-  const whatsappEvents = new QueueEvents("whatsapp-notifications", { connection });
   const emailEvents = new QueueEvents("email-notifications", { connection });
 
   invoiceEvents.on("completed", ({ jobId, returnvalue }: { jobId: string; returnvalue: any }) => {
@@ -216,14 +152,6 @@ if (queueConfigured && QueueEvents) {
 
   invoiceEvents.on("failed", ({ jobId, failedReason }: { jobId: string; failedReason: string }) => {
     console.error(`❌ Invoice job ${jobId} failed:`, failedReason);
-  });
-
-  whatsappEvents.on("completed", ({ jobId }: { jobId: string }) => {
-    console.log(`✅ WhatsApp job ${jobId} sent`);
-  });
-
-  whatsappEvents.on("failed", ({ jobId, failedReason }: { jobId: string; failedReason: string }) => {
-    console.error(`❌ WhatsApp job ${jobId} failed:`, failedReason);
   });
 
   emailEvents.on("completed", ({ jobId }: { jobId: string }) => {
@@ -245,7 +173,6 @@ async function gracefulShutdown() {
   console.log("Closing queue workers...");
   const closers = [];
   if (invoiceWorker) closers.push(invoiceWorker.close());
-  if (whatsappWorker) closers.push(whatsappWorker.close());
   if (emailWorker) closers.push(emailWorker.close());
   
   await Promise.all(closers);
@@ -276,21 +203,6 @@ export async function queueInvoiceGeneration(invoiceId: string) {
       jobId: `invoice-${invoiceId}`, // Prevent duplicates
     }
   );
-}
-
-export async function queueWhatsAppNotification(data: {
-  phone: string;
-  message: string;
-  mediaUrl?: string;
-  type?: string;
-}) {
-  if (!queueConfigured || !whatsappQueue) {
-    throw new Error(
-      "Background job queue not available. Install packages: npm install bullmq ioredis"
-    );
-  }
-  
-  return await whatsappQueue.add("send-message", data);
 }
 
 export async function queueEmail(data: {

@@ -1,8 +1,11 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface BarcodeScannerProps {
   onScanResult?: (data: string) => void;
@@ -11,6 +14,7 @@ interface BarcodeScannerProps {
 export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
   const [manualInput, setManualInput] = useState("");
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -23,6 +27,7 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
   }, []);
 
   const startCamera = async () => {
+    setError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" },
@@ -32,9 +37,9 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
         videoRef.current.srcObject = stream;
         setIsCameraActive(true);
       }
-    } catch (error) {
-      console.error("Camera access denied:", error);
-      alert("Unable to access camera. Please use manual input instead.");
+    } catch (err: any) {
+      console.error("Camera access denied:", err);
+      setError("Unable to access camera. Please use manual input instead.");
     }
   };
 
@@ -46,14 +51,27 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
   };
 
   const handleManualScan = () => {
-    if (manualInput.trim()) {
-      onScanResult?.(manualInput.trim());
-      setManualInput("");
+    const trimmed = manualInput.trim();
+    if (!trimmed) {
+      setError("Please enter a valid barcode number.");
+      return;
     }
+    
+    setError(null);
+    onScanResult?.(trimmed);
+    setManualInput("");
   };
 
   return (
     <div className="space-y-4">
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
       {/* Camera Feed */}
       {isCameraActive ? (
         <div className="space-y-4">

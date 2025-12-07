@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { useTapanAssociateContext } from "@/components/layout/tapan-associate-context";
 
 type ManifestStatus = "scheduled" | "dispatched" | "in-transit" | "at-terminal" | "delivered" | string;
 
@@ -67,6 +68,7 @@ export default function AircargoPage() {
   const [linkingShipment, setLinkingShipment] = useState(false);
   const [newShipmentRef, setNewShipmentRef] = useState("");
   const { toast } = useToast();
+  const { setModuleContext } = useTapanAssociateContext();
 
   const form = useForm<ManifestFormValues>({
     resolver: zodResolver(manifestSchema),
@@ -420,6 +422,38 @@ export default function AircargoPage() {
     },
     [manifests]
   );
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    const statusCounts: Record<string, number> = {};
+    manifests.forEach((m) => {
+      const key = m.status || "unknown";
+      statusCounts[key] = (statusCounts[key] ?? 0) + 1;
+    });
+
+    const contextPayload = {
+      type: "aircargo",
+      summary: manifestSummary,
+      statusCounts,
+      sampleManifests: manifests.slice(0, 5).map((m) => ({
+        id: m.id,
+        reference: m.reference,
+        origin: m.origin,
+        destination: m.destination,
+        status: m.status,
+        shipments: m.shipments,
+      })),
+    };
+
+    setModuleContext(contextPayload);
+
+    return () => {
+      setModuleContext(null);
+    };
+  }, [loading, manifests, manifestSummary, setModuleContext]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

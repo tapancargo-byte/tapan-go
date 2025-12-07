@@ -85,13 +85,31 @@ export default function BarcodeGenerator() {
   };
 
   const handlePrint = () => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+
+    const body = document.body;
+    if (!body) return;
+
+    const className = "tg-print-labels-mode";
+
+    const handleAfterPrint = () => {
+      body.classList.remove(className);
+      window.removeEventListener("afterprint", handleAfterPrint);
+    };
+
+    body.classList.add(className);
+    window.addEventListener("afterprint", handleAfterPrint);
     window.print();
+
+    setTimeout(() => {
+      body.classList.remove(className);
+      window.removeEventListener("afterprint", handleAfterPrint);
+    }, 1000);
   };
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-2 md:flex-row">
+      <div className="flex flex-col gap-2 md:flex-row tg-print-hide">
         <Input
           placeholder="Enter shipment ID (e.g., TG-2024-0900)"
           value={shipmentId}
@@ -117,44 +135,22 @@ export default function BarcodeGenerator() {
           <p className="text-xs text-gray-500 tg-print-hide">
             These labels can be printed directly from your browser print dialog.
           </p>
-          <div className="flex justify-end gap-2 print:hidden tg-print-hide">
+          <div className="flex justify-end gap-2 tg-print-hide">
             <Button variant="outline" size="sm" onClick={handlePrint}>
               Print labels
             </Button>
           </div>
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 tg-print-hide">
-            {generatedBarcodes.map((barcode) => (
-              <Card
-                key={barcode.id}
-                className="p-4 flex items-center justify-between bg-gray-50"
-              >
-                <div className="flex items-center gap-4">
-                  <BarcodeLabel
-                    value={barcode.barcodeNumber}
-                    subtitle={barcode.shipmentId}
-                  />
-                  <div className="hidden sm:block">
-                    <p className="font-mono font-bold text-blue-600">
-                      {barcode.barcodeNumber}
-                    </p>
-                    <p className="text-sm text-gray-600">{barcode.shipmentId}</p>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => downloadBarcode(barcode)}
-                >
-                  Download
-                </Button>
-              </Card>
-            ))}
-          </div>
-          <div className="hidden print:grid tg-barcode-page">
+
+          {/* Unified label grid: visible on screen, and when printing only this
+              container is rendered via the scoped print mode. */}
+          <div
+            id="tg-print-labels-root"
+            className="tg-barcode-page grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 justify-items-center"
+          >
             {generatedBarcodes.map((barcode) => (
               <div
-                key={`print-${barcode.id}`}
-                className="tg-barcode-label"
+                key={barcode.id}
+                className="tg-barcode-label flex items-center justify-center"
               >
                 <BarcodeLabel
                   value={barcode.barcodeNumber}

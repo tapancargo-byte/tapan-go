@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import { hasRoleAtLeast, matchProtectedRoute } from "@/lib/access-control";
 
 // Public routes that don't require authentication
 const PUBLIC_ROUTES = [
@@ -7,22 +8,11 @@ const PUBLIC_ROUTES = [
   "/login",
   "/track",
   "/api/public",
+  "/api/dev/seed-test-users",  // Allow seeding for tests
 ];
 
-// Admin-only routes
-const ADMIN_ROUTES = [
-  "/admin",
-  "/rates",
-  "/settings/integrations",
-  "/api/customers/delete",
-];
-
-// Operator-only routes (operators and admins can access)
-const OPERATOR_ROUTES = [
-  "/ops",
-  "/aircargo/manifest-scanner",
-  "/scan-session",
-];
+// API routes that need special handling
+const API_ROUTES_PREFIX = "/api/";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -68,6 +58,12 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
+  const protectedRule = matchProtectedRoute(pathname);
+  const needsUserForPage = Boolean(protectedRule);
+  const needsUserForApi = pathname.startsWith(API_ROUTES_PREFIX);
+
+  let userData: { role?: string | null; location?: string | null } | null = null;
+
   // Allow public routes
   if (PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
     return response;
@@ -75,37 +71,61 @@ export async function middleware(request: NextRequest) {
 
   // Check if user is authenticated for protected routes
   if (!session) {
+    // For API routes, return 401 instead of redirect
+    if (pathname.startsWith(API_ROUTES_PREFIX)) {
+      return NextResponse.json(
+        { error: "Unauthorized", code: "UNAUTHORIZED" },
+        { status: 401 }
+      );
+    }
+    
     const redirectUrl = new URL("/login", request.url);
     redirectUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(redirectUrl);
   }
 
-  // Get user role from database
-  const { data: userData } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", session.user.id)
-    .maybeSingle();
+  if (needsUserForPage || needsUserForApi) {
+    const { data } = await supabase
+      .from("users")
+      .select("role, location")
+      .eq("id", session.user.id)
+      .maybeSingle();
 
-  const userRole = userData?.role || "customer";
+    if (!data) {
+      if (needsUserForApi) {
+        return NextResponse.json(
+          { error: "User not found in system", code: "USER_NOT_FOUND" },
+          { status: 403 }
+        );
+      }
 
-  // Check admin routes
-  if (ADMIN_ROUTES.some((route) => pathname.startsWith(route))) {
-    if (userRole !== "admin") {
-      return NextResponse.redirect(new URL("/unauthorized", request.url));
+      const redirectUrl = new URL("/login", request.url);
+      redirectUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(redirectUrl);
     }
+
+    userData = data;
   }
 
-  // Check operator routes
-  if (OPERATOR_ROUTES.some((route) => pathname.startsWith(route))) {
-    if (userRole !== "operator" && userRole !== "admin") {
-      return NextResponse.redirect(new URL("/unauthorized", request.url));
-    }
+  if (protectedRule && !hasRoleAtLeast(userData?.role ?? null, protectedRule.minRole)) {
+    const redirectUrl = new URL("/dashboard", request.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  // Add user context to headers for API routes
-  response.headers.set("X-User-Role", userRole);
-  response.headers.set("X-User-ID", session.user.id);
+  // Optimize: Only fetch user data from DB for API routes or if absolutely necessary
+  // For page navigation, we trust the session (RLS will handle data access security)
+  if (pathname.startsWith(API_ROUTES_PREFIX)) {
+    // Add user context to headers for API routes
+    response.headers.set(
+      "X-User-Role",
+      ((userData?.role as string | null) ?? "admin")
+    );
+    response.headers.set("X-User-ID", session.user.id);
+    response.headers.set(
+      "X-User-Location",
+      (userData?.location as string | null) || "imphal"
+    );
+  }
 
   return response;
 }

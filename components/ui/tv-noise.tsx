@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface TVNoiseProps {
@@ -18,15 +18,32 @@ export default function TVNoise({
 }: TVNoiseProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Only start animation when visible using IntersectionObserver
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!isVisible) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const frameDelay = 1000 / speed;
+    // Reduce frame rate for performance
+    const frameDelay = 1000 / Math.min(speed, 30);
 
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
@@ -106,10 +123,11 @@ export default function TVNoise({
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = undefined;
       }
       window.removeEventListener("resize", handleResize);
     };
-  }, [intensity, speed]);
+  }, [intensity, speed, isVisible]);
 
   return (
     <canvas

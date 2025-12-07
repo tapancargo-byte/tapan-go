@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { AiSupportChat } from "@/components/support/ai-support-chat";
 import {
   Form,
   FormControl,
@@ -164,7 +165,9 @@ export function CustomerSupportClient() {
             )}
           </section>
 
-          <section className="w-full max-w-md ml-auto">
+          <section className="w-full max-w-md ml-auto space-y-4">
+            <AiSupportChat />
+
             <Card className="p-6 bg-card/90 border-border/80 shadow-[0_18px_60px_rgba(0,0,0,0.7)]">
               <div className="mb-4 space-y-1">
                 <h2 className="text-sm font-semibold">Raise a ticket</h2>
@@ -187,7 +190,7 @@ export function CustomerSupportClient() {
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="you@example.com"
+                            placeholder="you@tapango.logistics"
                             autoComplete="email"
                             {...field}
                           />

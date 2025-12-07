@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/lib/supabaseClient";
+import { useTapanAssociateContext } from "@/components/layout/tapan-associate-context";
 import type { ChartData, ChartDataPoint } from "@/types/dashboard";
 import { format, subDays, subYears } from "date-fns";
 
@@ -45,6 +46,7 @@ export default function AnalyticsPage() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const { setModuleContext } = useTapanAssociateContext();
 
   useEffect(() => {
     let cancelled = false;
@@ -244,11 +246,36 @@ export default function AnalyticsPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    const contextPayload = {
+      type: "analytics",
+      stats,
+      trends: chartData
+        ? {
+            // Keep it compact: recent points only
+            week: chartData.week.slice(-7),
+            month: chartData.month.slice(-4),
+            year: chartData.year.slice(-6),
+          }
+        : null,
+    };
+
+    setModuleContext(contextPayload);
+
+    return () => {
+      setModuleContext(null);
+    };
+  }, [loading, stats, chartData, setModuleContext]);
+
   return (
     <DashboardPageLayout
       header={{
         title: "Network Analytics",
-        description: "Operational and financial KPIs for Tapan Go",
+        description: "Operational and financial KPIs for Tapan Associate",
         icon: AtomIcon,
       }}
     >

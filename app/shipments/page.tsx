@@ -1,7 +1,8 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState, lazy } from "react";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import type { ShipmentRecord } from "@/types/logistics";
+import type { UIShipment } from "@/features/shipments/types";
 import {
   Select,
   SelectContent,
@@ -25,18 +27,16 @@ import {
 } from "@/components/ui/select";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTapanAssociateContext } from "@/components/layout/tapan-associate-context";
+import { Clock } from "lucide-react";
+import { ShipmentsTable } from "@/features/shipments/shipments-table";
+import { ShipmentsDialog } from "@/features/shipments/shipments-dialog";
 
-interface UIShipment {
-  dbId: string;
-  shipmentId: string;
-  customerId: string | null;
-  customer: string;
-  origin: string;
-  destination: string;
-  weight: number;
-  status: string;
-  progress: number;
-}
+// Lazy load heavy dialog component
+const ETAUpdateDialog = dynamic(
+  () => import("@/components/shipments/eta-update-dialog").then((mod) => ({ default: mod.ETAUpdateDialog })),
+  { ssr: false }
+);
 
 interface ShipmentBarcode {
   id: string;
@@ -69,11 +69,16 @@ const SHIPMENT_STATUSES = [
   "cancelled",
 ] as const;
 
+// Service Routes - Imphal ↔ New Delhi only
+const SERVICE_ROUTES = [
+  { origin: "Imphal, MN", destination: "New Delhi, DL", location: "imphal", label: "Imphal → New Delhi" },
+  { origin: "New Delhi, DL", destination: "Imphal, MN", location: "newdelhi", label: "New Delhi → Imphal" },
+] as const;
+
 const shipmentSchema = z.object({
   shipmentRef: z.string().min(3, "Shipment reference is required"),
   customerId: z.string().optional().or(z.literal("")),
-  origin: z.string().min(2, "Origin is required"),
-  destination: z.string().min(2, "Destination is required"),
+  route: z.string().min(1, "Route is required"),
   weight: z.coerce.number().min(0.1, "Weight must be greater than 0"),
   status: z.enum(SHIPMENT_STATUSES).default("pending"),
 });
@@ -105,15 +110,17 @@ function ShipmentsTrackingContent() {
   const [roleLoaded, setRoleLoaded] = useState(false);
   const [editingShipment, setEditingShipment] = useState<UIShipment | null>(null);
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
+  const [etaDialogOpen, setEtaDialogOpen] = useState(false);
+  const [etaShipment, setEtaShipment] = useState<any>(null);
   const { toast } = useToast();
+  const { setModuleContext } = useTapanAssociateContext();
 
   const form = useForm<ShipmentFormValues>({
     resolver: zodResolver(shipmentSchema),
     defaultValues: {
       shipmentRef: "",
       customerId: "",
-      origin: "",
-      destination: "",
+      route: "0", // Default to first route (Imphal → New Delhi)
       weight: 1,
       status: "pending",
     },
@@ -267,6 +274,74 @@ function ShipmentsTrackingContent() {
     [shipments, searchTerm, statusFilter]
   );
 
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    const statusCounts: Record<string, number> = {};
+    shipments.forEach((s) => {
+      const key = s.status || "unknown";
+      statusCounts[key] = (statusCounts[key] ?? 0) + 1;
+    });
+
+    const contextPayload = {
+      type: "shipments",
+      total: shipments.length,
+      statusCounts,
+      sampleShipments: filteredShipments.slice(0, 10).map((s) => ({
+        id: s.dbId,
+        shipmentId: s.shipmentId,
+        customer: s.customer,
+        origin: s.origin,
+        destination: s.destination,
+        status: s.status,
+        progress: s.progress,
+        weight: s.weight,
+      })),
+    };
+
+    setModuleContext(contextPayload);
+
+    return () => {
+      setModuleContext(null);
+    };
+  }, [loading, shipments, filteredShipments, setModuleContext]);
+
+  // Realtime subscription for shipment updates
+  useEffect(() => {
+    const channel = supabase
+      .channel("shipments-realtime")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "shipments" },
+        (payload) => {
+          toast({
+            title: "Shipment updated",
+            description: `Shipment ${(payload.new as any).shipment_ref} has been updated.`,
+          });
+          
+          // Optimistic update in local state
+          setShipments((prev) =>
+            prev.map((s) =>
+              s.dbId === (payload.new as any).id
+                ? {
+                    ...s,
+                    status: (payload.new as any).status,
+                    progress: (payload.new as any).progress,
+                  }
+                : s
+            )
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [toast]);
+
   const canEdit = userRole === "manager" || userRole === "admin";
 
   const getStatusColor = (status: string) => {
@@ -296,11 +371,16 @@ function ShipmentsTrackingContent() {
 
     setIsCreating(true);
     try {
+      // Ensure customer_id is null if empty or "__unassigned__"
+      const customerId = values.customerId?.trim();
+      // Get origin/destination from selected route
+      const selectedRoute = SERVICE_ROUTES[parseInt(values.route, 10)] || SERVICE_ROUTES[0];
       const basePayload: any = {
         shipment_ref: values.shipmentRef.trim(),
-        customer_id: values.customerId?.trim() || null,
-        origin: values.origin.trim(),
-        destination: values.destination.trim(),
+        customer_id: customerId && customerId !== "__unassigned__" ? customerId : null,
+        origin: selectedRoute.origin,
+        destination: selectedRoute.destination,
+        location: selectedRoute.location,
         weight: values.weight,
         status: values.status,
       };
@@ -395,8 +475,7 @@ function ShipmentsTrackingContent() {
       form.reset({
         shipmentRef: "",
         customerId: "",
-        origin: "",
-        destination: "",
+        route: "0",
         weight: 1,
         status: "pending",
       });
@@ -740,6 +819,27 @@ function ShipmentsTrackingContent() {
     }
   };
 
+  const handleOpenEtaDialog = async (shipment: UIShipment) => {
+    // Fetch full shipment data with ETA fields
+    const { data, error } = await supabase
+      .from("shipments")
+      .select("id, shipment_ref, origin, destination, etd, atd, eta, ata, carrier_name, awb_number, transport_mode, eta_notes")
+      .eq("id", shipment.dbId)
+      .single();
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load shipment ETA data",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setEtaShipment(data);
+    setEtaDialogOpen(true);
+  };
+
   return (
     <DashboardPageLayout
       header={{
@@ -793,354 +893,64 @@ function ShipmentsTrackingContent() {
             )}
 
             <div className="flex justify-end">
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <Button
-                  type="button"
-                  className="bg-primary hover:bg-primary/90"
-                  disabled={!canEdit}
-                  onClick={() => {
-                    if (!canEdit) return;
-                    setEditingShipment(null);
-                    form.reset({
-                      shipmentRef: "",
-                      customerId: "",
-                      origin: "",
-                      destination: "",
-                      weight: 1,
-                      status: "pending",
-                    });
-                    setIsDialogOpen(true);
-                  }}
-                >
-                  New Shipment
-                </Button>
-
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>
-                      {editingShipment ? "Edit shipment" : "New shipment"}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {editingShipment
-                        ? "Update shipment details for operations and tracking."
-                        : "Create a new shipment for today&apos;s cargo operations."}
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <Form {...form}>
-                    <form
-                      className="space-y-4 mt-2"
-                      onSubmit={form.handleSubmit(handleSubmitShipment)}
-                    >
-                      <FormField
-                        control={form.control}
-                        name="shipmentRef"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Shipment reference</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="e.g. TG-IMPH-0001"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="customerId"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Customer</FormLabel>
-                            <FormControl>
-                              <Select
-                                value={field.value || "__unassigned__"}
-                                onValueChange={(value) =>
-                                  field.onChange(
-                                    value === "__unassigned__" ? "" : value
-                                  )
-                                }
-                              >
-                                <SelectTrigger className="w-full">
-                                  <SelectValue placeholder="Unassigned" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="__unassigned__">Unassigned</SelectItem>
-                                  {customers.map((customer) => (
-                                    <SelectItem key={customer.id} value={customer.id}>
-                                      {customer.name}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="origin"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Origin</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Imphal warehouse, New Delhi hub, ..."
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="destination"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Destination</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Consignee location or destination hub"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="weight"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Weight (kg)</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  step="0.1"
-                                  min="0"
-                                  placeholder="Total chargeable weight"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="status"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Status</FormLabel>
-                              <FormControl>
-                                <Select
-                                  value={field.value}
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                >
-                                  <SelectTrigger className="w-full">
-                                    <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {SHIPMENT_STATUSES.map((status) => (
-                                      <SelectItem key={status} value={status}>
-                                        {status.charAt(0).toUpperCase() + status.slice(1)}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <DialogFooter className="pt-2">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={() => setIsDialogOpen(false)}
-                          className="uppercase"
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          type="submit"
-                          className="bg-primary hover:bg-primary/90"
-                          disabled={isCreating || !canEdit}
-                        >
-                          {isCreating
-                            ? editingShipment
-                              ? "Saving..."
-                              : "Creating..."
-                            : editingShipment
-                            ? "Save changes"
-                            : "Create shipment"}
-                        </Button>
-                      </DialogFooter>
-                    </form>
-                  </Form>
-                </DialogContent>
-              </Dialog>
+              <ShipmentsDialog
+                open={isDialogOpen}
+                onOpenChange={setIsDialogOpen}
+                canEdit={canEdit}
+                isCreating={isCreating}
+                editingShipment={editingShipment}
+                customers={customers}
+                form={form}
+                onSubmit={handleSubmitShipment as any}
+                onNewShipmentClick={() => {
+                  if (!canEdit) return;
+                  setEditingShipment(null);
+                  form.reset({
+                    shipmentRef: "",
+                    customerId: "",
+                    route: "0",
+                    weight: 1,
+                    status: "pending",
+                  });
+                  setIsDialogOpen(true);
+                }}
+                serviceRoutes={SERVICE_ROUTES}
+                statusOptions={SHIPMENT_STATUSES}
+              />
             </div>
           </div>
 
           {/* Shipments Table */}
-          <Card>
-          <CardHeader className="px-4 sm:px-6">
-            <CardTitle className="text-base sm:text-lg">
-              {loading
-                ? "Loading shipments..."
-                : `Active Shipments (${filteredShipments.length})`}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="px-0 sm:px-6">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[800px]">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 px-2 font-semibold">Shipment ID</th>
-                    <th className="text-left py-2 px-2 font-semibold">Customer</th>
-                    <th className="text-left py-2 px-2 font-semibold">Origin</th>
-                    <th className="text-left py-2 px-2 font-semibold">Destination</th>
-                    <th className="text-left py-2 px-2 font-semibold">Weight</th>
-                    <th className="text-left py-2 px-2 font-semibold">Status</th>
-                    <th className="text-left py-2 px-2 font-semibold">Progress</th>
-                    <th className="text-right py-2 px-2 font-semibold">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading && (
-                    <>
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <tr key={`shipment-skeleton-${index}`} className="border-b border-border">
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-4 w-24" />
-                          </td>
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-4 w-32" />
-                          </td>
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-4 w-28" />
-                          </td>
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-4 w-28" />
-                          </td>
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-4 w-16" />
-                          </td>
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-5 w-20" />
-                          </td>
-                          <td className="py-3 px-2">
-                            <Skeleton className="h-2 w-24" />
-                          </td>
-                          <td className="py-3 px-2 text-right">
-                            <div className="flex justify-end gap-2">
-                              <Skeleton className="h-8 w-16" />
-                              <Skeleton className="h-8 w-16" />
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  )}
-                  {!loading &&
-                    filteredShipments.map((shipment) => (
-                    <tr
-                      key={shipment.shipmentId}
-                      className="border-b border-border hover:bg-muted/50 cursor-pointer"
-                      onClick={() => handleRowClick(shipment)}
-                    >
-                      <td className="py-3 px-2 font-mono text-xs">{shipment.shipmentId}</td>
-                      <td className="py-3 px-2">{shipment.customer}</td>
-                      <td className="py-3 px-2 text-xs">{shipment.origin}</td>
-                      <td className="py-3 px-2 text-xs">{shipment.destination}</td>
-                      <td className="py-3 px-2">{shipment.weight}kg</td>
-                      <td className="py-3 px-2">
-                        <span
-                          className={`px-2 py-1 text-xs font-semibold ${getStatusColor(
-                            shipment.status
-                          )}`}
-                        >
-                          {shipment.status.toUpperCase()}
-                        </span>
-                      </td>
-                      <td className="py-3 px-2">
-                        <div className="w-24 bg-muted h-1.5">
-                          <div
-                            className="bg-primary h-full"
-                            style={{ width: `${shipment.progress}%` }}
-                          ></div>
-                        </div>
-                      </td>
-                      <td className="py-3 px-2 text-right space-x-2">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setEditingShipment(shipment);
-                            form.reset({
-                              shipmentRef: shipment.shipmentId,
-                              customerId: shipment.customerId ?? "",
-                              origin: shipment.origin,
-                              destination: shipment.destination,
-                              weight: shipment.weight,
-                              status: shipment.status as (typeof SHIPMENT_STATUSES)[number],
-                            });
-                            setIsDialogOpen(true);
-                          }}
-                          disabled={!canEdit}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="text-destructive border-destructive/40 hover:bg-red-50 dark:hover:bg-red-950/40"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            void handleDeleteShipment(shipment);
-                          }}
-                          disabled={!!actionLoading[shipment.dbId] || !canEdit}
-                        >
-                          Delete
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {!loading && filteredShipments.length === 0 && (
-                <EmptyState 
-                  variant="shipments" 
-                  title={searchTerm || statusFilter !== "all" ? "No matching shipments" : "No shipments yet"}
-                  description={searchTerm || statusFilter !== "all" 
-                    ? "Try adjusting your search or filter criteria." 
-                    : "Create your first shipment to get started."
-                  }
-                />
-              )}
-            </div>
-          </CardContent>
-        </Card>
+          <ShipmentsTable
+            loading={loading}
+            shipments={filteredShipments}
+            actionLoading={actionLoading}
+            canEdit={canEdit}
+            getStatusColor={getStatusColor}
+            onRowClick={handleRowClick}
+            onEditShipment={(shipment) => {
+              setEditingShipment(shipment);
+              const routeIndex = SERVICE_ROUTES.findIndex(
+                (r) =>
+                  r.origin === shipment.origin &&
+                  r.destination === shipment.destination
+              );
+              form.reset({
+                shipmentRef: shipment.shipmentId,
+                customerId: shipment.customerId ?? "",
+                route: String(routeIndex >= 0 ? routeIndex : 0),
+                weight: shipment.weight,
+                status:
+                  shipment.status as (typeof SHIPMENT_STATUSES)[number],
+              });
+              setIsDialogOpen(true);
+            }}
+            onDeleteShipment={(shipment) => {
+              void handleDeleteShipment(shipment);
+            }}
+            searchTerm={searchTerm}
+            statusFilter={statusFilter}
+          />
       </div>
 
       {selectedShipment && (
@@ -1194,6 +1004,23 @@ function ShipmentsTrackingContent() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* ETA / Delivery Timeline */}
+            <div className="space-y-2 pt-4 border-t border-border/60">
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-muted-foreground">Delivery Timeline</p>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleOpenEtaDialog(selectedShipment)}
+                  className="gap-1"
+                >
+                  <Clock className="h-3 w-3" />
+                  Update ETA
+                </Button>
+              </div>
             </div>
 
             <div className="space-y-2 pt-4 border-t border-border/60">
@@ -1371,6 +1198,17 @@ function ShipmentsTrackingContent() {
         </SheetContent>
       )}
       </Sheet>
+
+      {/* ETA Update Dialog */}
+      <ETAUpdateDialog
+        shipment={etaShipment}
+        open={etaDialogOpen}
+        onOpenChange={setEtaDialogOpen}
+        onSuccess={() => {
+          // Close dialog - data will refresh on next open
+          setEtaDialogOpen(false);
+        }}
+      />
     </DashboardPageLayout>
   );
 }

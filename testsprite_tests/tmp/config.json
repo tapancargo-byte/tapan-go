@@ -1,0 +1,18 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "admin@tapango.logistics",
+  "loginPassword": "Test@1498",
+  "executionArgs": {
+    "projectName": "project-tapango",
+    "projectPath": "c:\\project-tapango",
+    "testIds": [],
+    "additionalInstruction": "Use TGINV000111. Expect /api/trigger-whatsapp-job, /reports-analytics, /api/invoices/TGINV000111/whatsapp-url to exist. Use direct URL navigation.",
+    "envs": {
+      "API_KEY": "sk-user-PJ5KdfyvSp_gh60S6byw_7GqwA0x5lIYLcLDzwOHlqqnp6qd9Ksf2zNovYD6tJJXXlhFi3TqomksiK__ng3GeomgexFpUYz3yfsGvh-A_2El4gaHbPIyROFCaCKm5xSdKtk"
+    }
+  },
+  "proxy": "http://22ffcd03-4d38-45b7-ae4d-10aa6d1f74e3:snf2F7RUHHYFpxKLVkKZhVPd7q7xOjOE@tun.testsprite.com:8080"
+}

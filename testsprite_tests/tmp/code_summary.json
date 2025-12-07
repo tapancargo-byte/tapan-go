@@ -1,0 +1,156 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "React 18",
+    "Next.js 14 (App Router)",
+    "Tailwind CSS 4",
+    "Radix UI",
+    "Zod",
+    "React Hook Form",
+    "TanStack React Query",
+    "TanStack React Table",
+    "Supabase (Postgres, Auth, SSR)",
+    "BullMQ",
+    "ioredis",
+    "Upstash Ratelimit/Redis",
+    "Twilio",
+    "Puppeteer",
+    "Framer Motion",
+    "Zustand"
+  ],
+  "features": [
+    {
+      "name": "Admin dashboard",
+      "description": "Admin dashboard shell and routing implemented with the Next.js App Router under /admin.",
+      "files": [
+        "app/admin/page.tsx"
+      ]
+    },
+    {
+      "name": "AI SDK documentation",
+      "description": "Documentation page for AI SDK and LLMs.",
+      "files": [
+        "app/ai-sdk.dev/llms.md"
+      ]
+    },
+    {
+      "name": "Aircargo dashboards and alerts",
+      "description": "Aircargo main page and alerts views for logistics operations.",
+      "files": [
+        "app/aircargo/page.tsx",
+        "app/alerts/page.tsx"
+      ]
+    },
+    {
+      "name": "Authentication and dashboard landing UI",
+      "description": "Authentication-related overlays and dashboard landing experiences.",
+      "files": [
+        "components/auth/dashboard-auth-overlay.tsx",
+        "components/auth/dashboard-landing-clean.tsx",
+        "components/auth/dashboard-landing.tsx"
+      ]
+    },
+    {
+      "name": "AI associate chat widget",
+      "description": "Tapan Associate AI chat widget and supporting chat state management.",
+      "files": [
+        "components/dashboard/tapan-associate-widget.tsx",
+        "components/chat/use-chat-state.ts",
+        "types/chat.ts"
+      ]
+    },
+    {
+      "name": "Barcode utilities and scanning",
+      "description": "Barcode generation, labels, and scanning components used in logistics workflows.",
+      "files": [
+        "components/barcode/barcode-generator.tsx",
+        "components/barcode/barcode-label.tsx",
+        "components/barcode/barcode-scanner.tsx"
+      ]
+    },
+    {
+      "name": "Reusable feature blocks",
+      "description": "Generic marketing or feature highlight blocks reused across pages.",
+      "files": [
+        "components/blocks/features-2.tsx",
+        "components/blocks/features-4.tsx"
+      ]
+    },
+    {
+      "name": "Custom React hooks",
+      "description": "Shared hooks for mobile detection, toast handling, debouncing, and local storage.",
+      "files": [
+        "hooks/use-mobile.ts",
+        "hooks/use-toast.ts",
+        "hooks/useDebounce.ts",
+        "hooks/useLocalStorage.ts"
+      ]
+    },
+    {
+      "name": "Core domain types",
+      "description": "Shared TypeScript types for auth, chat, dashboard, and logistics domains.",
+      "files": [
+        "types/auth.ts",
+        "types/chat.ts",
+        "types/dashboard.ts",
+        "types/logistics.ts"
+      ]
+    },
+    {
+      "name": "API middleware and validation",
+      "description": "Helpers for API route authentication and input validation.",
+      "files": [
+        "lib/api/withAuth.ts",
+        "lib/api/withValidation.ts"
+      ]
+    },
+    {
+      "name": "Authentication helpers and configuration",
+      "description": "Auth utilities and company-specific configuration logic.",
+      "files": [
+        "lib/auth.ts",
+        "lib/companyConfig.ts"
+      ]
+    },
+    {
+      "name": "Queues and background jobs",
+      "description": "Queue setup and configuration using BullMQ/ioredis.",
+      "files": [
+        "lib/queues/setup.ts"
+      ]
+    },
+    {
+      "name": "Global styling",
+      "description": "Global Tailwind and CSS configuration for the app UI.",
+      "files": [
+        "styles/globals.css"
+      ]
+    },
+    {
+      "name": "Database schema and migrations",
+      "description": "Postgres schema migrations for invoices and messaging logs. WhatsApp logs schema exists for future use only; WhatsApp notification UI and flows are not implemented in the current release.",
+      "files": [
+        "supabase/migrations/20251125_create_invoice_payments.sql",
+        "supabase/migrations/20251130_create_twilio_sms_logs.sql",
+        "supabase/migrations/20251130_create_whatsapp_logs.sql"
+      ]
+    },
+    {
+      "name": "Public assets and branding",
+      "description": "Logos, animations, avatar images, and other public assets used across the UI.",
+      "files": [
+        "public/assets/landing.json",
+        "public/assets/bot_greenprint.gif",
+        "public/assets/dark-theme-logo.png",
+        "public/icon.svg"
+      ]
+    },
+    {
+      "name": "Smoke test harness",
+      "description": "Node-based smoke test runner for basic health checks.",
+      "files": [
+        "tests/smoke.js"
+      ]
+    }
+  ]
+}

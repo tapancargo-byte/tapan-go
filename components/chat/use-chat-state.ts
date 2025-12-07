@@ -31,6 +31,7 @@ interface ChatStore {
   toggleExpanded: () => void;
   logSystemMessage: (conversationId: string, content: string) => void;
   loadInitialData: () => void;
+  createNewConversation: (subject?: string) => void;
 }
 
 const makeLocalMessageId = (prefix: string) =>
@@ -45,7 +46,6 @@ const CURRENT_USER: ChatUser = {
 };
 
 export const CURRENT_USER_ID = CURRENT_USER.id;
-export const WHATSAPP_CONVERSATION_ID = "whatsapp-invoices";
 
 const chatStore = create<ChatStore>((set, get) => ({
   // Initial state
@@ -55,7 +55,7 @@ const chatStore = create<ChatStore>((set, get) => ({
   conversations: [],
   newMessage: "",
   hasLoaded: false,
-   hasSubscribedToSupportMessages: false,
+  hasSubscribedToSupportMessages: false,
 
   // Actions
   setChatState: (chatState) => set({ chatState }),
@@ -112,6 +112,69 @@ const chatStore = create<ChatStore>((set, get) => ({
         }
       } catch (error) {
         console.error("Unexpected error persisting chat message", error);
+      }
+    })();
+  },
+
+  createNewConversation: (subject) => {
+    const title = (subject ?? "New support chat").trim() || "New support chat";
+    const now = new Date().toISOString();
+
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("support_tickets")
+          .insert({
+            subject: title,
+            status: "open",
+            priority: "medium",
+          })
+          .select("id, subject, created_at, customer_id")
+          .single();
+
+        if (error || !data) {
+          console.error("Failed to create support ticket", error?.message);
+          return;
+        }
+
+        const ticket = data as {
+          id: string;
+          subject: string | null;
+          created_at: string | null;
+          customer_id: string | null;
+        };
+
+        const otherUser: ChatUser = {
+          id: ticket.customer_id ?? "customer",
+          name: "Customer",
+          username: "@CUSTOMER",
+          avatar: "/avatars/user_mati.png",
+        };
+
+        const initialMessage: ChatMessage = {
+          id: makeLocalMessageId("ticket"),
+          content: ticket.subject ?? title,
+          timestamp: ticket.created_at ?? now,
+          senderId: otherUser.id,
+          isFromCurrentUser: false,
+        };
+
+        set((state) => {
+          const newConversation: ChatConversation = {
+            id: ticket.id,
+            participants: [CURRENT_USER, otherUser],
+            lastMessage: initialMessage,
+            unreadCount: 0,
+            messages: [initialMessage],
+          };
+
+          return {
+            conversations: [newConversation, ...state.conversations],
+            chatState: { state: "conversation", activeConversation: ticket.id },
+          } as ChatStore;
+        });
+      } catch (error) {
+        console.error("Unexpected error creating support ticket", error);
       }
     })();
   },
@@ -176,8 +239,8 @@ const chatStore = create<ChatStore>((set, get) => ({
     if (!found) {
       const systemUser: ChatUser = {
         id: conversationId,
-        name: "WhatsApp Invoices",
-        username: "@WHATSAPP",
+        name: "System Notifications",
+        username: "@SYSTEM",
         avatar: "/avatars/user_mati.png",
       };
 
@@ -416,7 +479,7 @@ export const useChatState = () => {
   const chatState = chatStore((state) => state.chatState);
   const conversations = chatStore((state) => state.conversations);
   const newMessage = chatStore((state) => state.newMessage);
-   const hasLoaded = chatStore((state) => state.hasLoaded);
+  const hasLoaded = chatStore((state) => state.hasLoaded);
   const setChatState = chatStore((state) => state.setChatState);
   const setConversations = chatStore((state) => state.setConversations);
   const setNewMessage = chatStore((state) => state.setNewMessage);
@@ -424,8 +487,11 @@ export const useChatState = () => {
   const openConversation = chatStore((state) => state.openConversation);
   const goBack = chatStore((state) => state.goBack);
   const toggleExpanded = chatStore((state) => state.toggleExpanded);
-   const logSystemMessage = chatStore((state) => state.logSystemMessage);
-   const loadInitialData = chatStore((state) => state.loadInitialData);
+  const logSystemMessage = chatStore((state) => state.logSystemMessage);
+  const loadInitialData = chatStore((state) => state.loadInitialData);
+  const createNewConversation = chatStore(
+    (state) => state.createNewConversation
+  );
 
   // Computed values
   const totalUnreadCount = conversations.reduce(
@@ -458,5 +524,6 @@ export const useChatState = () => {
     toggleExpanded,
     logSystemMessage,
     loadInitialData,
+    createNewConversation,
   };
 };

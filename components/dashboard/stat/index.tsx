@@ -1,5 +1,4 @@
 import React from "react";
-import NumberFlow from "@number-flow/react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bullet } from "@/components/ui/bullet";
@@ -73,11 +72,11 @@ export default function DashboardStat({
         <div className="flex items-center">
           <span className="text-2xl sm:text-4xl md:text-5xl font-display">
             {isNumeric ? (
-              <NumberFlow
-                value={numericValue}
-                prefix={prefix}
-                suffix={suffix}
-              />
+              <>
+                {prefix}
+                {numericValue}
+                {suffix}
+              </>
             ) : (
               value
             )}

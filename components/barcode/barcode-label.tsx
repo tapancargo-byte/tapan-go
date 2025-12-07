@@ -15,26 +15,24 @@ interface BarcodeLabelProps {
  */
 export default function BarcodeLabel({ value, subtitle }: BarcodeLabelProps) {
   return (
-    <div className="inline-flex flex-col items-center bg-card border border-border rounded-md p-2">
-      <div className="bg-white px-3 py-2 rounded">
-        <Barcode
-          value={value}
-          format="CODE128"
-          width={2}
-          height={60}
-          displayValue
-          font="monospace"
-          textAlign="center"
-          textPosition="bottom"
-          textMargin={4}
-          fontSize={14}
-          background="oklch(1 0 0)"
-          lineColor="oklch(0.15 0 0)"
-          margin={0}
-        />
-      </div>
+    <div className="inline-flex flex-col items-center gap-0.5">
+      <Barcode
+        value={value}
+        format="CODE128"
+        width={1.2}
+        height={40}
+        displayValue
+        font="monospace"
+        textAlign="center"
+        textPosition="bottom"
+        textMargin={1}
+        fontSize={10}
+        background="#ffffff"
+        lineColor="#000000"
+        margin={0}
+      />
       {subtitle && (
-        <div className="mt-1 text-xs text-muted-foreground font-medium">
+        <div className="text-[10px] text-muted-foreground font-medium tracking-wide">
           {subtitle}
         </div>
       )}

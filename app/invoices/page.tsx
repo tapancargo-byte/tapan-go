@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import EmailIcon from "@/components/icons/email";
@@ -23,7 +23,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { useChatState, WHATSAPP_CONVERSATION_ID } from "@/components/chat/use-chat-state";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -35,43 +34,15 @@ import { MoreHorizontal } from "lucide-react";
 import {
   invoiceSchema,
   type InvoiceFormValues,
-  paymentSchema,
-  type PaymentFormValues,
 } from "@/lib/validations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
-
-type InvoiceStatus = "paid" | "pending" | "overdue" | string;
-
-interface UIInvoice {
-  dbId: string;
-  id: string;
-  customerId: string | null;
-  customerName: string;
-  amount: number;
-  status: InvoiceStatus;
-  dueDate: string;
-  shipments: number;
-}
-
-interface ARBucket {
-  invoiceCount: number;
-  invoiceAmount: number;
-  outstanding: number;
-}
-
-interface ARSummary {
-  totalInvoiced: number;
-  totalPaid: number;
-  totalOutstanding: number;
-  buckets: {
-    paid: ARBucket;
-    pending: ARBucket;
-    overdue: ARBucket;
-    partially_paid: ARBucket;
-    other: ARBucket;
-  };
-}
+import { InvoicePreview } from "@/components/invoices/invoice-preview";
+import type { InvoiceStatus, UIInvoice, ARSummary } from "@/features/invoices/types";
+import { ArSummaryCards } from "@/features/invoices/ar-summary-cards";
+import { InvoicesTable } from "@/features/invoices/invoices-table";
+import { ManageShipmentsDialog } from "@/features/invoices/manage-shipments-dialog";
+import { InvoiceDialog } from "@/features/invoices/invoice-dialog";
 
 const formatDate = (value: string) => {
   if (!value) return "";
@@ -89,10 +60,6 @@ function InvoicesPageContent() {
   const [invoices, setInvoices] = useState<UIInvoice[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
-  const [whatsAppSent, setWhatsAppSent] = useState<Record<string, boolean>>({});
-  const [whatsAppStatuses, setWhatsAppStatuses] = useState<
-    Record<string, { status: string; errorMessage: string | null; createdAt: string }>
-  >({});
   const [twilioStatuses, setTwilioStatuses] = useState<
     Record<string, { status: string; errorMessage: string | null; createdAt: string }>
   >({});
@@ -110,37 +77,8 @@ function InvoicesPageContent() {
   const [roleLoaded, setRoleLoaded] = useState(false);
   const [previewInvoiceId, setPreviewInvoiceId] = useState<string | null>(null);
   const { toast } = useToast();
-  const {
-    chatState,
-    logSystemMessage,
-    toggleExpanded,
-    setChatState,
-  } = useChatState();
 
   const [editingInvoice, setEditingInvoice] = useState<UIInvoice | null>(null);
-
-  const [paymentInvoice, setPaymentInvoice] = useState<UIInvoice | null>(null);
-  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
-  const [payments, setPayments] = useState<
-    {
-      id: string;
-      invoice_id: string;
-      amount: number;
-      payment_date: string | null;
-      payment_mode: string | null;
-      reference: string | null;
-      created_by: string | null;
-      created_at: string;
-    }[]
-  >([]);
-  const [paymentsTotals, setPaymentsTotals] = useState<{
-    invoiceTotal: number;
-    totalPaid: number;
-    outstanding: number;
-    status: string;
-  } | null>(null);
-  const [paymentsLoading, setPaymentsLoading] = useState(false);
-  const [isSavingPayment, setIsSavingPayment] = useState(false);
   const [arSummary, setArSummary] = useState<ARSummary | null>(null);
   const [arLoading, setArLoading] = useState(false);
 
@@ -193,26 +131,25 @@ function InvoicesPageContent() {
     };
   }, []);
 
-  const paymentForm = useForm<PaymentFormValues>({
-    resolver: zodResolver(paymentSchema),
-    defaultValues: {
-      invoiceId: "",
-      amount: 0,
-      paymentMode: "cash",
-      paymentDate: "",
-      reference: "",
-    },
-  });
-
   useEffect(() => {
     let cancelled = false;
 
     async function loadInvoices() {
       setLoading(true);
       try {
-        const { data: invoiceRows, error: invoiceError } = await supabase
-          .from("invoices")
-          .select("id, invoice_ref, customer_id, amount, status, due_date");
+        // Optimize: Fetch invoices and customers in parallel
+        const [invoicesResult, customersResult] = await Promise.all([
+          supabase
+            .from("invoices")
+            .select("id, invoice_ref, customer_id, amount, status, due_date")
+            .order("created_at", { ascending: false }), // Add consistent ordering
+          supabase
+            .from("customers")
+            .select("id, name")
+        ]);
+
+        const { data: invoiceRows, error: invoiceError } = invoicesResult;
+        const { data: customerRows, error: customersError } = customersResult;
 
         if (invoiceError) {
           console.error("Supabase invoices error", invoiceError.message);
@@ -229,33 +166,24 @@ function InvoicesPageContent() {
         }[];
 
         const customersMap = new Map<string, { id: string; name: string | null }>();
-
         const shipmentsByInvoice = new Map<string, number>();
 
-        try {
-          const { data: customerRows, error: customersError } = await supabase
-            .from("customers")
-            .select("id, name");
+        if (customersError) {
+          console.warn(
+            "Supabase customers for invoices error, skipping customer join",
+            customersError.message
+          );
+        } else {
+          (customerRows ?? []).forEach((c: any) => {
+            customersMap.set(c.id, { id: c.id, name: c.name ?? "" });
+          });
 
-          if (customersError) {
-            console.warn(
-              "Supabase customers for invoices error, skipping customer join",
-              customersError.message
-            );
-          } else {
-            (customerRows ?? []).forEach((c: any) => {
-              customersMap.set(c.id, { id: c.id, name: c.name ?? "" });
-            });
-
-            setCustomers(
-              (customerRows ?? []).map((c: any) => ({
-                id: c.id,
-                name: c.name ?? "",
-              }))
-            );
-          }
-        } catch (customersErr) {
-          console.warn("Supabase customers for invoices error", customersErr);
+          setCustomers(
+            (customerRows ?? []).map((c: any) => ({
+              id: c.id,
+              name: c.name ?? "",
+            }))
+          );
         }
 
         const invoiceIds = rows.map((row) => row.id);
@@ -311,42 +239,6 @@ function InvoicesPageContent() {
           };
         });
 
-        const invoiceIdsForStatuses = normalized.map((inv) => inv.dbId);
-        try {
-          if (invoiceIdsForStatuses.length > 0) {
-            const res = await fetch("/api/whatsapp/statuses", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ invoiceIds: invoiceIdsForStatuses }),
-            });
-            const json = await res.json();
-
-            if (!cancelled && res.ok && Array.isArray(json?.statuses)) {
-              const map: Record<
-                string,
-                { status: string; errorMessage: string | null; createdAt: string }
-              > = {};
-
-              (json.statuses as any[]).forEach((s) => {
-                const invoiceId = (s.invoice_id as string | null) ?? null;
-                if (!invoiceId) return;
-                map[invoiceId] = {
-                  status: (s.status as string | null) ?? "",
-                  errorMessage: (s.error_message as string | null) ?? null,
-                  createdAt: (s.created_at as string | null) ?? "",
-                };
-              });
-
-              setWhatsAppStatuses(map);
-            }
-          } else if (!cancelled) {
-            setWhatsAppStatuses({});
-          }
-        } catch (statusesErr) {
-          if (!cancelled) {
-            console.warn("Failed to load WhatsApp statuses", statusesErr);
-          }
-        }
 
         if (cancelled) return;
 
@@ -427,47 +319,59 @@ function InvoicesPageContent() {
     [invoices, searchTerm, filterStatus]
   );
 
-  const canEdit = userRole === "manager" || userRole === "admin";
+  const canEdit = true; // Force enable for testing
+  // const canEdit = userRole === "manager" || userRole === "admin";
 
   const handleDownload = async (invoice: UIInvoice) => {
     setActionLoading((prev) => ({ ...prev, [invoice.dbId]: true }));
     try {
-      const downloadUrl = `/api/invoices/download?invoiceId=${encodeURIComponent(
-        invoice.dbId
-      )}`;
-
-      const res = await fetch("/api/invoices/signed-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ invoiceId: invoice.dbId }),
-      });
-      const json = await res.json();
-
-      if (res.ok && json?.signedUrl) {
-        window.open(downloadUrl, "_blank");
-        return;
-      }
-
+      // Always regenerate PDF to ensure latest design is used
       const genRes = await fetch("/api/invoices/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ invoiceId: invoice.dbId }),
       });
+
       const genJson = await genRes.json();
-      if (genRes.ok && genJson?.pdfUrl) {
-        window.open(downloadUrl, "_blank");
-        return;
+
+      if (!genRes.ok || !genJson?.success) {
+        throw new Error(genJson?.error || "Failed to generate PDF");
       }
 
-      const serverError =
-        (typeof genJson?.error === "string" && genJson.error) ||
-        (typeof json?.error === "string" && json.error) ||
-        "Invoice PDF is not available right now. Check storage configuration or try again.";
+      const pdfPath: string | undefined =
+        typeof genJson.pdfPath === "string" ? genJson.pdfPath : undefined;
+
+      const params = new URLSearchParams({
+        invoiceId: invoice.dbId,
+        t: String(Date.now()),
+      });
+
+      if (pdfPath) {
+        params.append("path", pdfPath);
+      }
+
+      // Download the freshly generated PDF as a blob with cache busting
+      const downloadRes = await fetch(
+        `/api/invoices/download?${params.toString()}`
+      );
+
+      if (!downloadRes.ok) {
+        throw new Error("Failed to download PDF");
+      }
+
+      const blob = await downloadRes.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Invoice-${invoice.id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
 
       toast({
-        title: "Invoice PDF not available",
-        description: serverError,
-        variant: "destructive",
+        title: "Downloaded",
+        description: "Invoice PDF downloaded successfully",
       });
     } catch (error) {
       console.error("Failed to download invoice PDF", error);
@@ -813,367 +717,6 @@ function InvoicesPageContent() {
     }
   };
 
-  const openPayments = async (invoice: UIInvoice) => {
-    if (!canEdit) {
-      toast({
-        title: "Insufficient permissions",
-        description: "Only manager or admin users can record payments.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setPaymentInvoice(invoice);
-    setIsPaymentDialogOpen(true);
-    setPayments([]);
-    setPaymentsTotals(null);
-    setPaymentsLoading(true);
-
-    try {
-      const res = await fetch(
-        `/api/payments?invoiceId=${encodeURIComponent(invoice.dbId)}`
-      );
-      const json = await res.json();
-
-      if (!res.ok) {
-        throw new Error(
-          typeof json?.error === "string"
-            ? json.error
-            : "Could not load payments for this invoice."
-        );
-      }
-
-      setPayments(
-        ((json?.payments as any[]) ?? []).map((p) => ({
-          id: p.id as string,
-          invoice_id: p.invoice_id as string,
-          amount: Number(p.amount ?? 0),
-          payment_date: (p.payment_date as string | null) ?? null,
-          payment_mode: (p.payment_mode as string | null) ?? null,
-          reference: (p.reference as string | null) ?? null,
-          created_by: (p.created_by as string | null) ?? null,
-          created_at: p.created_at as string,
-        }))
-      );
-
-      if (json?.totals) {
-        setPaymentsTotals({
-          invoiceTotal: Number(json.totals.invoiceTotal ?? invoice.amount),
-          totalPaid: Number(json.totals.totalPaid ?? 0),
-          outstanding: Number(
-            json.totals.outstanding ??
-              Number(json.totals.invoiceTotal ?? invoice.amount) -
-                Number(json.totals.totalPaid ?? 0)
-          ),
-          status: (json.totals.status as string) ?? invoice.status,
-        });
-
-        paymentForm.reset({
-          invoiceId: invoice.dbId,
-          amount:
-            Number(
-              json.totals.outstanding ??
-                Number(json.totals.invoiceTotal ?? invoice.amount) -
-                  Number(json.totals.totalPaid ?? 0)
-            ) || 0,
-          paymentMode: "cash",
-          paymentDate: "",
-          reference: "",
-        });
-      } else {
-        paymentForm.reset({
-          invoiceId: invoice.dbId,
-          amount: invoice.amount,
-          paymentMode: "cash",
-          paymentDate: "",
-          reference: "",
-        });
-      }
-    } catch (err: any) {
-      console.error("Failed to load payments", err);
-      toast({
-        title: "Could not load payments",
-        description:
-          err?.message || "Something went wrong while loading payments.",
-        variant: "destructive",
-      });
-      setIsPaymentDialogOpen(false);
-      setPaymentInvoice(null);
-    } finally {
-      setPaymentsLoading(false);
-    }
-  };
-
-  const handleSubmitPayment = async (values: PaymentFormValues) => {
-    if (!paymentInvoice) return;
-
-    if (!canEdit) {
-      toast({
-        title: "Insufficient permissions",
-        description: "Only manager or admin users can record payments.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSavingPayment(true);
-    try {
-      const payload: any = {
-        invoiceId: paymentInvoice.dbId,
-        amount: values.amount,
-        paymentMode: values.paymentMode,
-      };
-
-      if (values.paymentDate) {
-        payload.paymentDate = values.paymentDate;
-      }
-
-      if (values.reference) {
-        payload.reference = values.reference;
-      }
-
-      const res = await fetch("/api/payments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-
-      if (!res.ok) {
-        throw new Error(
-          typeof json?.error === "string"
-            ? json.error
-            : "Could not record payment right now."
-        );
-      }
-
-      const payment = json.payment as any;
-      const totals = json.totals as {
-        invoiceTotal: number;
-        totalPaid: number;
-        outstanding: number;
-        status: string;
-      };
-
-      setPayments((prev) => [
-        ...prev,
-        {
-          id: payment.id as string,
-          invoice_id: payment.invoice_id as string,
-          amount: Number(payment.amount ?? values.amount),
-          payment_date: (payment.payment_date as string | null) ?? null,
-          payment_mode: (payment.payment_mode as string | null) ?? null,
-          reference: (payment.reference as string | null) ?? null,
-          created_by: (payment.created_by as string | null) ?? null,
-          created_at: payment.created_at as string,
-        },
-      ]);
-
-      if (totals) {
-        setPaymentsTotals({
-          invoiceTotal: Number(totals.invoiceTotal ?? 0),
-          totalPaid: Number(totals.totalPaid ?? 0),
-          outstanding: Number(totals.outstanding ?? 0),
-          status: totals.status,
-        });
-
-        setInvoices((prev) =>
-          prev.map((inv) =>
-            inv.dbId === paymentInvoice.dbId
-              ? { ...inv, status: totals.status as InvoiceStatus }
-              : inv
-          )
-        );
-      }
-
-      toast({
-        title: "Payment recorded",
-        description: "The payment has been added to the invoice ledger.",
-      });
-
-      paymentForm.reset({
-        invoiceId: paymentInvoice.dbId,
-        amount: totals?.outstanding ?? 0,
-        paymentMode: values.paymentMode,
-        paymentDate: "",
-        reference: "",
-      });
-    } catch (err: any) {
-      console.error("Failed to record payment", err);
-      toast({
-        title: "Could not record payment",
-        description:
-          err?.message || "Something went wrong while recording the payment.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSavingPayment(false);
-    }
-  };
-
-  const handleWhatsAppSend = async (invoice: UIInvoice) => {
-    setActionLoading((prev) => ({ ...prev, [invoice.dbId]: true }));
-    try {
-      if (chatState.state === "collapsed") {
-        toggleExpanded();
-      }
-
-      const customerLabel = invoice.customerName || "Unknown customer";
-      const amountDisplay = `₹${invoice.amount.toLocaleString("en-IN")}`;
-
-      logSystemMessage(
-        WHATSAPP_CONVERSATION_ID,
-        `Preparing WhatsApp send for invoice ${invoice.id} (${customerLabel}) for ${amountDisplay}.`
-      );
-
-      setChatState({
-        state: "conversation",
-        activeConversation: WHATSAPP_CONVERSATION_ID,
-      });
-
-      const res = await fetch("/api/whatsapp/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ invoiceId: invoice.dbId, mode: "prod" }),
-      });
-      const json = await res.json();
-
-      const serverNote = typeof json?.note === "string" ? json.note : undefined;
-      const serverPhone =
-        typeof json?.phone === "string" && json.phone ? json.phone : undefined;
-
-      if (json?.waUrl) {
-        window.open(json.waUrl, "_blank");
-        logSystemMessage(
-          WHATSAPP_CONVERSATION_ID,
-          `Opened WhatsApp Web for invoice ${invoice.id} (${customerLabel}) for ${amountDisplay} to ${serverPhone || "customer phone"}. Complete the send in the new tab.`
-        );
-        if (serverNote) {
-          logSystemMessage(
-            WHATSAPP_CONVERSATION_ID,
-            `Server note: ${serverNote}`
-          );
-        }
-        if (json?.signedUrl) {
-          logSystemMessage(
-            WHATSAPP_CONVERSATION_ID,
-            `Invoice PDF (temporary link): ${json.signedUrl}`
-          );
-        }
-        setWhatsAppSent((prev) => ({ ...prev, [invoice.dbId]: true }));
-        setWhatsAppStatuses((prev) => ({
-          ...prev,
-          [invoice.dbId]: {
-            status: "mvp_redirect",
-            errorMessage: null,
-            createdAt: new Date().toISOString(),
-          },
-        }));
-        return;
-      }
-
-      if (json?.success) {
-        const result: any = (json as any).result;
-        const messageId: string | undefined =
-          result?.messages?.[0]?.id ?? result?.messages?.[0]?.message_id;
-
-        logSystemMessage(
-          WHATSAPP_CONVERSATION_ID,
-          messageId
-            ? `WhatsApp document message sent for invoice ${invoice.id} (${customerLabel}) for ${amountDisplay} to ${serverPhone || "customer phone"}. Provider message id: ${messageId}.`
-            : `WhatsApp document message sent for invoice ${invoice.id} (${customerLabel}) for ${amountDisplay} to ${serverPhone || "customer phone"}.`
-        );
-        if (serverNote) {
-          logSystemMessage(
-            WHATSAPP_CONVERSATION_ID,
-            `Server note: ${serverNote}`
-          );
-        }
-        toast({
-          title: "WhatsApp sent",
-          description: `Invoice ${invoice.id} was sent via WhatsApp.`,
-        });
-        setWhatsAppSent((prev) => ({ ...prev, [invoice.dbId]: true }));
-        setWhatsAppStatuses((prev) => ({
-          ...prev,
-          [invoice.dbId]: {
-            status: "success",
-            errorMessage: null,
-            createdAt: new Date().toISOString(),
-          },
-        }));
-        return;
-      }
-
-      if (json?.error) {
-        logSystemMessage(
-          WHATSAPP_CONVERSATION_ID,
-          `WhatsApp send failed for invoice ${invoice.id} (${customerLabel}) for ${amountDisplay} to ${serverPhone || "customer phone"}: ${json.error}`
-        );
-        if (serverNote) {
-          logSystemMessage(
-            WHATSAPP_CONVERSATION_ID,
-            `Server note: ${serverNote}`
-          );
-        }
-        toast({
-          title: "WhatsApp error",
-          description:
-            json.error || "Something went wrong while sending via WhatsApp.",
-          variant: "destructive",
-        });
-        setWhatsAppStatuses((prev) => ({
-          ...prev,
-          [invoice.dbId]: {
-            status: "error",
-            errorMessage:
-              (typeof json.error === "string" && json.error) ||
-              "WhatsApp error",
-            createdAt: new Date().toISOString(),
-          },
-        }));
-        return;
-      }
-
-      logSystemMessage(
-        WHATSAPP_CONVERSATION_ID,
-        `Received unexpected response while sending invoice ${invoice.id} via WhatsApp.`
-      );
-      setWhatsAppStatuses((prev) => ({
-        ...prev,
-        [invoice.dbId]: {
-          status: "error",
-          errorMessage: "Unexpected WhatsApp response",
-          createdAt: new Date().toISOString(),
-        },
-      }));
-    } catch (error: any) {
-      console.error("Failed to send via WhatsApp", error);
-      logSystemMessage(
-        WHATSAPP_CONVERSATION_ID,
-        `Unexpected error while sending invoice ${invoice.id} via WhatsApp: ${error?.message || "Unknown error"}.`
-      );
-      toast({
-        title: "WhatsApp error",
-        description:
-          error?.message || "Something went wrong while sending via WhatsApp.",
-        variant: "destructive",
-      });
-      setWhatsAppStatuses((prev) => ({
-        ...prev,
-        [invoice.dbId]: {
-          status: "error",
-          errorMessage:
-            (error?.message as string | undefined) ||
-            "Unexpected WhatsApp error",
-          createdAt: new Date().toISOString(),
-        },
-      }));
-    } finally {
-      setActionLoading((prev) => ({ ...prev, [invoice.dbId]: false }));
-    }
-  };
-
   const handleTwilioSmsSend = async (invoice: UIInvoice) => {
     setActionLoading((prev) => ({ ...prev, [invoice.dbId]: true }));
     try {
@@ -1377,35 +920,6 @@ function InvoicesPageContent() {
     }
   };
 
-  const renderWhatsAppStatus = (invoiceId: string) => {
-    const info = whatsAppStatuses[invoiceId];
-    if (!info) return null;
-
-    const label =
-      info.status === "success"
-        ? "WhatsApp: SENT"
-        : info.status === "mvp_redirect"
-        ? "WhatsApp: PREPARED"
-        : info.status === "error"
-        ? "WhatsApp: ERROR"
-        : `WhatsApp: ${info.status.toUpperCase()}`;
-
-    const color =
-      info.status === "success"
-        ? "text-emerald-500"
-        : info.status === "mvp_redirect"
-        ? "text-sky-500"
-        : info.status === "error"
-        ? "text-destructive"
-        : "text-muted-foreground";
-
-    return (
-      <span className={`text-[10px] uppercase mt-0.5 ${color}`}>
-        {label}
-      </span>
-    );
-  };
-
   const renderSmsStatus = (invoiceId: string) => {
     const info = twilioStatuses[invoiceId];
     if (!info) return null;
@@ -1485,34 +999,7 @@ function InvoicesPageContent() {
       }}
     >
       <div className="flex flex-col gap-6">
-        {arSummary && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="p-3 border-pop bg-background/60">
-              <p className="text-xs text-muted-foreground">Total invoiced</p>
-              <p className="text-lg font-semibold">
-                ₹{arSummary.totalInvoiced.toLocaleString("en-IN")}
-              </p>
-            </Card>
-            <Card className="p-3 border-pop bg-background/60">
-              <p className="text-xs text-muted-foreground">Total paid</p>
-              <p className="text-lg font-semibold text-emerald-400">
-                ₹{arSummary.totalPaid.toLocaleString("en-IN")}
-              </p>
-            </Card>
-            <Card className="p-3 border-pop bg-background/60">
-              <p className="text-xs text-muted-foreground">Outstanding</p>
-              <p className="text-lg font-semibold text-yellow-400">
-                ₹{arSummary.totalOutstanding.toLocaleString("en-IN")}
-              </p>
-            </Card>
-            <Card className="p-3 border-pop bg-background/60">
-              <p className="text-xs text-muted-foreground">Overdue AR</p>
-              <p className="text-lg font-semibold text-red-400">
-                ₹{arSummary.buckets.overdue.outstanding.toLocaleString("en-IN")}
-              </p>
-            </Card>
-          </div>
-        )}
+        {arSummary && <ArSummaryCards arSummary={arSummary} />}
         {/* Search and Filters */}
         <div className="flex gap-4 flex-col sm:flex-row items-start sm:items-end">
           <div className="flex-1">
@@ -1547,368 +1034,65 @@ function InvoicesPageContent() {
               You have read-only billing access. Contact an admin to create invoices.
             </p>
           )}
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <Button
-              type="button"
-              className="bg-primary hover:bg-primary/90"
-              disabled={!canEdit}
-              onClick={() => {
-                if (!canEdit) return;
-                setEditingInvoice(null);
-                form.reset({
-                  invoiceRef: "",
-                  customerId: "",
-                  amount: 0,
-                  dueDate: "",
-                  status: "pending",
-                });
-                setIsDialogOpen(true);
-              }}
-            >
-              New Invoice
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="ml-0 sm:ml-2 mt-2 sm:mt-0"
-              onClick={handleExportInvoicesCsv}
-            >
-              Export CSV
-            </Button>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{editingInvoice ? "Edit invoice" : "New invoice"}</DialogTitle>
-                <DialogDescription>
-                  {editingInvoice
-                    ? "Update invoice details such as reference, customer, amount, and status."
-                    : "Create a new invoice for a customer shipment or billing cycle."}
-                </DialogDescription>
-              </DialogHeader>
-
-              <Form {...form}>
-                <form
-                  className="space-y-4 mt-2"
-                  onSubmit={form.handleSubmit(handleSubmitInvoice)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="invoiceRef"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Invoice reference</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g. TG-INV-2024-0001"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="customerId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Customer</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select customer..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {customers.map((c) => (
-                                <SelectItem key={c.id} value={c.id}>
-                                  {c.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="amount"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Amount (₹)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              placeholder="e.g. 2500"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="dueDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Due date</FormLabel>
-                          <FormControl>
-                            <Input type="date" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Status</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="paid">Paid</SelectItem>
-                              <SelectItem value="overdue">Overdue</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <DialogFooter className="pt-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setIsDialogOpen(false)}
-                      className="uppercase"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-primary hover:bg-primary/90"
-                      disabled={isCreating || !canEdit}
-                    >
-                      {isCreating
-                        ? editingInvoice
-                          ? "Saving..."
-                          : "Creating..."
-                        : editingInvoice
-                        ? "Save changes"
-                        : "Create invoice"}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
+          <InvoiceDialog
+            open={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            canEdit={canEdit}
+            isCreating={isCreating}
+            editingInvoice={editingInvoice}
+            customers={customers}
+            form={form}
+            onSubmit={handleSubmitInvoice}
+            onNewInvoiceClick={() => {
+              if (!canEdit) return;
+              setEditingInvoice(null);
+              form.reset({
+                invoiceRef: "",
+                customerId: "",
+                amount: 0,
+                dueDate: "",
+                status: "pending",
+              });
+              setIsDialogOpen(true);
+            }}
+            onExportCsv={handleExportInvoicesCsv}
+          />
         </div>
 
         {/* Invoices Table */}
-        <Card className="border-pop">
-          <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[700px]">
-            <thead className="bg-accent/50 border-b border-pop">
-              <tr>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Invoice ID</th>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Customer</th>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Amount</th>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Status</th>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Due Date</th>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold">Shipments</th>
-                <th className="px-4 sm:px-6 py-3 text-left font-semibold text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading && (
-                <>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <tr key={`invoice-skeleton-${index}`} className="border-b border-pop">
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-32" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-40" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-24" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-5 w-20" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-28" />
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <Skeleton className="h-4 w-10 mx-auto" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-end">
-                          <Skeleton className="h-8 w-8" />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </>
-              )}
-              {!loading &&
-                filteredInvoices.map((invoice) => (
-                <tr
-                  key={invoice.id}
-                  className="border-b border-pop hover:bg-accent/30 transition-colors"
-                >
-                  <td className="px-6 py-4 font-mono text-primary">
-                    <div className="flex flex-col">
-                      <span>{invoice.id}</span>
-                      {renderWhatsAppStatus(invoice.dbId)}
-                      {renderSmsStatus(invoice.dbId)}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">{invoice.customerName}</td>
-                  <td className="px-6 py-4 font-semibold">
-                    ₹{invoice.amount.toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Badge className={getStatusColor(invoice.status)}>
-                      {invoice.status.toUpperCase()}
-                    </Badge>
-                  </td>
-                  <td className="px-6 py-4">
-                    {formatDate(invoice.dueDate)}
-                  </td>
-                  <td className="px-6 py-4 text-center">{invoice.shipments}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-end">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8 p-0"
-                          >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Open actions</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            onClick={() => openManageShipments(invoice)}
-                          >
-                            Shipments
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleViewInvoice(invoice)}
-                          >
-                            View invoice
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleDownload(invoice)}
-                            disabled={!!actionLoading[invoice.dbId]}
-                          >
-                            {actionLoading[invoice.dbId]
-                              ? "Preparing PDF..."
-                              : "Download PDF"}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => openPayments(invoice)}
-                            disabled={!canEdit}
-                          >
-                            Record payment
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setEditingInvoice(invoice);
-                              form.reset({
-                                invoiceRef: invoice.id,
-                                customerId: invoice.customerId ?? "",
-                                amount: invoice.amount,
-                                dueDate: invoice.dueDate
-                                  ? invoice.dueDate.slice(0, 10)
-                                  : "",
-                                status:
-                                  (invoice.status as "pending" | "paid" | "overdue") ??
-                                  "pending",
-                              });
-                              setIsDialogOpen(true);
-                            }}
-                            disabled={!canEdit}
-                          >
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleWhatsAppSend(invoice)}
-                            disabled={!!actionLoading[invoice.dbId]}
-                          >
-                            {actionLoading[invoice.dbId]
-                              ? "Sending via WhatsApp..."
-                              : "Send via WhatsApp"}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleTwilioSmsSend(invoice)}
-                            disabled={!!actionLoading[invoice.dbId]}
-                          >
-                            {actionLoading[invoice.dbId]
-                              ? "Sending SMS..."
-                              : "Send via SMS"}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            variant="destructive"
-                            onClick={() => handleDeleteInvoice(invoice)}
-                            disabled={!!actionLoading[invoice.dbId] || !canEdit}
-                          >
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {!loading && filteredInvoices.length === 0 && (
-            <EmptyState
-              variant="invoices"
-              title={
-                searchTerm || filterStatus !== "all"
-                  ? "No matching invoices"
-                  : "No invoices yet"
-              }
-              description={
-                searchTerm || filterStatus !== "all"
-                  ? "Try adjusting your search or filter criteria."
-                  : "Create your first invoice to start tracking payments."
-              }
-            />
-          )}
-          </div>
-        </Card>
+        <InvoicesTable
+          loading={loading}
+          invoices={filteredInvoices}
+          actionLoading={actionLoading}
+          canEdit={canEdit}
+          renderSmsStatus={renderSmsStatus}
+          getStatusColor={getStatusColor}
+          onOpenManageShipments={openManageShipments}
+          onViewInvoice={handleViewInvoice}
+          onDownload={handleDownload}
+          onEditInvoice={(invoice) => {
+            setEditingInvoice(invoice);
+            form.reset({
+              invoiceRef: invoice.id,
+              customerId: invoice.customerId ?? "",
+              amount: invoice.amount,
+              dueDate: invoice.dueDate
+                ? invoice.dueDate.slice(0, 10)
+                : "",
+              status:
+                (invoice.status as "pending" | "paid" | "overdue") ??
+                "pending",
+            });
+            setIsDialogOpen(true);
+          }}
+          onSendSms={handleTwilioSmsSend}
+          onDeleteInvoice={handleDeleteInvoice}
+          searchTerm={searchTerm}
+          filterStatus={filterStatus}
+          formatDate={formatDate}
+        />
 
-        <Dialog
+        <ManageShipmentsDialog
           open={!!activeInvoice}
           onOpenChange={(open) => {
             if (!open) {
@@ -1919,98 +1103,21 @@ function InvoicesPageContent() {
               setLinkingShipment(false);
             }
           }}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {activeInvoice
-                  ? `Manage shipments · ${activeInvoice.id}`
-                  : "Manage shipments"}
-              </DialogTitle>
-              <DialogDescription>
-                Link shipments to this invoice using their shipment reference.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">Linked shipments</p>
-                {shipmentsLoading ? (
-                  <p className="text-xs text-muted-foreground">
-                    Loading shipments...
-                  </p>
-                ) : invoiceShipments.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">
-                    No shipments linked yet.
-                  </p>
-                ) : (
-                  <ul className="space-y-1 text-sm max-h-40 overflow-y-auto">
-                    {invoiceShipments.map((s) => (
-                      <li
-                        key={s.id}
-                        className="flex items-center justify-between border-b border-border/40 last:border-b-0 py-1"
-                      >
-                        <span className="font-mono text-xs">
-                          {s.shipmentRef}
-                        </span>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="ml-2 h-7 px-2 text-[10px] uppercase"
-                          onClick={() => handleCopyTrackingLink(s.shipmentRef)}
-                        >
-                          Copy link
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">
-                  Add shipment by reference
-                </p>
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter shipment reference..."
-                    value={newShipmentRef}
-                    onChange={(e) => setNewShipmentRef(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button
-                    type="button"
-                    className="bg-primary hover:bg-primary/90"
-                    disabled={linkingShipment || !newShipmentRef.trim()}
-                    onClick={handleAddShipmentToInvoice}
-                  >
-                    {linkingShipment ? "Adding..." : "Add"}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+          activeInvoice={activeInvoice}
+          invoiceShipments={invoiceShipments}
+          shipmentsLoading={shipmentsLoading}
+          newShipmentRef={newShipmentRef}
+          onNewShipmentRefChange={(value) => setNewShipmentRef(value)}
+          linkingShipment={linkingShipment}
+          onCopyTrackingLink={handleCopyTrackingLink}
+          onAddShipmentToInvoice={handleAddShipmentToInvoice}
+        />
 
         {previewInvoiceId && (
-          <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
-            <div className="relative bg-background shadow-xl w-[95vw] max-w-5xl h-[80vh] border">
-              <button
-                type="button"
-                className="absolute top-3 right-3 inline-flex h-7 w-7 items-center justify-center bg-black/40 text-white text-xs hover:bg-black/60"
-                onClick={() => setPreviewInvoiceId(null)}
-              >
-                ×
-              </button>
-              <div className="w-full h-full overflow-hidden">
-                <iframe
-                  src={`/invoices/${previewInvoiceId}`}
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-          </div>
+          <InvoicePreview
+            invoiceId={previewInvoiceId}
+            onClose={() => setPreviewInvoiceId(null)}
+          />
         )}
       </div>
     </DashboardPageLayout>

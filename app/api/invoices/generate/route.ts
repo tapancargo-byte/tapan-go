@@ -20,9 +20,9 @@ export async function POST(req: Request) {
 
     const { invoiceId } = parsed.data;
 
-    const { pdfUrl } = await generateInvoicePdf(invoiceId);
+    const { pdfUrl, pdfPath } = await generateInvoicePdf(invoiceId);
 
-    return NextResponse.json({ success: true, pdfUrl, invoiceId });
+    return NextResponse.json({ success: true, pdfUrl, pdfPath, invoiceId });
   } catch (err: any) {
     console.error("/api/invoices/generate error", err);
     return NextResponse.json(

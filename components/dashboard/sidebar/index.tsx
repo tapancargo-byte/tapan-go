@@ -26,8 +26,6 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import BracketsIcon from '@/components/icons/brackets';
-import AtomIcon from '@/components/icons/atom';
-import ProcessorIcon from '@/components/icons/proccesor';
 import GearIcon from '@/components/icons/gear';
 import DotsVerticalIcon from '@/components/icons/dots-vertical';
 import MonkeyIcon from '@/components/icons/monkey';
@@ -37,24 +35,102 @@ import LockIcon from '@/components/icons/lock';
 import { useIsV0 } from '@/lib/v0-context';
 import { BrandLogo } from '@/components/ui/brand-logo';
 
-import WarehouseIcon from '@/components/icons/warehouse';
-import TruckIcon from '@/components/icons/truck';
-import BoxIcon from '@/components/icons/box';
+import { navMain, type NavBadgeKey } from '@/components/dashboard/nav-config';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { supabase } from '@/lib/supabaseClient';
+import { MapPin, Bell, ChevronDown } from 'lucide-react';
+import { useLocation } from '@/lib/location-context';
+import { LOCATIONS, type Location } from '@/types/auth';
 
-interface NavItem {
-  title: string;
-  url: string;
-  icon: React.ElementType;
-  locked?: boolean;
-  badge?: string | number;
-  badgeColor?: 'default' | 'success' | 'warning' | 'destructive';
-}
-
-interface NavGroup {
-  title: string;
-  items: NavItem[];
+// Compact Location & Notification Bar for sidebar
+function LocationNotificationBar() {
+  const { locationScope, setLocationScope } = useLocation();
+  const [notificationCount, setNotificationCount] = React.useState(0);
+  
+  // Fetch real notification count
+  React.useEffect(() => {
+    async function fetchNotificationCount() {
+      try {
+        const { count, error } = await supabase
+          .from('notifications')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_read', false);
+        
+        if (!error && count !== null) {
+          setNotificationCount(count);
+        }
+      } catch {
+        // Silently fail - notifications table may not exist
+        setNotificationCount(0);
+      }
+    }
+    fetchNotificationCount();
+  }, []);
+  
+  return (
+    <div className="flex items-center gap-2 px-2">
+      {/* Location Selector - Compact */}
+      <Popover>
+        <PopoverTrigger asChild>
+          <button className="flex-1 flex items-center gap-2 px-3 py-2 bg-sidebar-accent hover:bg-sidebar-accent-active transition-colors text-left">
+            <MapPin className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-medium truncate flex-1">
+              {locationScope === 'all' ? 'All' : LOCATIONS[locationScope as Location]?.code || 'IMF'}
+            </span>
+            <ChevronDown className="h-3 w-3 opacity-50" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-48 p-2 rounded-none" side="top" align="start">
+          <div className="space-y-1">
+            <p className="text-xs font-medium text-muted-foreground px-2 pb-1">Branch Location</p>
+            <button
+              onClick={() => setLocationScope('imphal')}
+              className={cn(
+                "w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors",
+                locationScope === 'imphal' ? "bg-primary text-primary-foreground" : "hover:bg-accent"
+              )}
+            >
+              <span className="font-mono text-xs">IMF</span>
+              <span>Imphal</span>
+            </button>
+            <button
+              onClick={() => setLocationScope('newdelhi')}
+              className={cn(
+                "w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors",
+                locationScope === 'newdelhi' ? "bg-primary text-primary-foreground" : "hover:bg-accent"
+              )}
+            >
+              <span className="font-mono text-xs">DEL</span>
+              <span>New Delhi</span>
+            </button>
+            <div className="border-t border-border my-1" />
+            <button
+              onClick={() => setLocationScope('all')}
+              className={cn(
+                "w-full flex items-center gap-2 px-3 py-2 text-xs transition-colors",
+                locationScope === 'all' ? "bg-blue-500/10 text-blue-600" : "hover:bg-accent text-muted-foreground"
+              )}
+            >
+              View all locations
+            </button>
+          </div>
+        </PopoverContent>
+      </Popover>
+      
+      {/* Notifications - Compact */}
+      <Link
+        href="/notifications"
+        className="relative flex items-center justify-center w-9 h-9 bg-sidebar-accent hover:bg-sidebar-accent-active transition-colors"
+      >
+        <Bell className="h-4 w-4" />
+        {notificationCount > 0 && (
+          <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-medium bg-destructive text-destructive-foreground">
+            {notificationCount > 9 ? '9+' : notificationCount}
+          </span>
+        )}
+      </Link>
+    </div>
+  );
 }
 
 export function DashboardSidebar({
@@ -66,12 +142,9 @@ export function DashboardSidebar({
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = React.useState(false);
 
-  const [sidebarCounts, setSidebarCounts] = React.useState<{
-    warehouses: number | null;
-    shipments: number | null;
-    invoices: number | null;
-    alerts: number | null;
-  }>({
+  const [sidebarCounts, setSidebarCounts] = React.useState<
+    Record<NavBadgeKey, number | null>
+  >({
     warehouses: null,
     shipments: null,
     invoices: null,
@@ -91,229 +164,59 @@ export function DashboardSidebar({
     }
   };
 
+  // Defer sidebar counts loading to not block initial render
   React.useEffect(() => {
     let cancelled = false;
 
-    async function loadSidebarCounts() {
+    // Delay loading counts to prioritize page content
+    const timeoutId = setTimeout(async () => {
+      if (cancelled) return;
+      
       try {
-        const warehousesQuery = supabase
-          .from('warehouses')
-          .select('*', { count: 'exact', head: true });
-
-        const activeShipmentsQuery = supabase
-          .from('shipments')
-          .select('*', { count: 'exact', head: true })
-          .in('status', ['pending', 'in-transit', 'at-warehouse']);
-
-        const billingInvoicesQuery = supabase
-          .from('invoices')
-          .select('*', { count: 'exact', head: true })
-          .in('status', ['pending', 'overdue']);
-
-        const today = new Date();
-        const todayISO = today.toISOString();
-        const stalledCutoff = new Date();
-        stalledCutoff.setDate(stalledCutoff.getDate() - 3);
-        const stalledCutoffISO = stalledCutoff.toISOString();
-
-        const overdueInvoicesQuery = supabase
-          .from('invoices')
-          .select('id', { count: 'exact', head: true })
-          .eq('status', 'overdue');
-
-        const pendingPastDueInvoicesQuery = supabase
-          .from('invoices')
-          .select('id', { count: 'exact', head: true })
-          .eq('status', 'pending')
-          .lt('due_date', todayISO);
-
-        const stalledShipmentsQuery = supabase
-          .from('shipments')
-          .select('id', { count: 'exact', head: true })
-          .in('status', ['pending', 'in-transit', 'at-warehouse'])
-          .lt('created_at', stalledCutoffISO);
-
-        const highPriorityTicketsQuery = supabase
-          .from('support_tickets')
-          .select('id', { count: 'exact', head: true })
-          .neq('status', 'resolved')
-          .eq('priority', 'high');
-
-        const [
-          warehousesRes,
-          shipmentsRes,
-          invoicesRes,
-          overdueInvoicesRes,
-          pendingPastDueInvoicesRes,
-          stalledShipmentsRes,
-          highPriorityTicketsRes,
-        ] = await Promise.all([
-          warehousesQuery,
-          activeShipmentsQuery,
-          billingInvoicesQuery,
-          overdueInvoicesQuery,
-          pendingPastDueInvoicesQuery,
-          stalledShipmentsQuery,
-          highPriorityTicketsQuery,
+        // Only fetch essential counts (3 queries instead of 7)
+        const [warehousesRes, shipmentsRes, invoicesRes] = await Promise.all([
+          supabase.from('warehouses').select('*', { count: 'exact', head: true }),
+          supabase.from('shipments').select('*', { count: 'exact', head: true })
+            .in('status', ['pending', 'in-transit', 'at-warehouse']),
+          supabase.from('invoices').select('*', { count: 'exact', head: true })
+            .in('status', ['pending', 'overdue']),
         ]);
 
         if (cancelled) return;
-
-        const alertsCount =
-          (overdueInvoicesRes.count ?? 0) +
-          (pendingPastDueInvoicesRes.count ?? 0) +
-          (stalledShipmentsRes.count ?? 0) +
-          (highPriorityTicketsRes.count ?? 0);
 
         setSidebarCounts({
           warehouses: warehousesRes.count ?? null,
           shipments: shipmentsRes.count ?? null,
           invoices: invoicesRes.count ?? null,
-          alerts: alertsCount > 0 ? alertsCount : null,
+          alerts: null, // Load alerts separately on alerts page
         });
       } catch (error) {
         if (cancelled) return;
         console.warn('Failed to load sidebar counts', error);
-        setSidebarCounts({
-          warehouses: null,
-          shipments: null,
-          invoices: null,
-          alerts: null,
-        });
       }
-    }
-
-    loadSidebarCounts();
+    }, 500); // Delay 500ms to let page content load first
 
     return () => {
       cancelled = true;
+      clearTimeout(timeoutId);
     };
   }, []);
 
   const toPositiveBadge = (value: number | null) =>
     typeof value === 'number' && value > 0 ? value : undefined;
 
-  const navMain: NavGroup[] = [
-    {
-      title: 'Core Operations',
-      items: [
-        {
-          title: 'Dashboard',
-          url: '/',
-          icon: BracketsIcon,
-          badge: 'Live',
-          badgeColor: 'success',
-        },
-        {
-          title: 'Warehouse',
-          url: '/warehouse',
-          icon: WarehouseIcon,
-          badge: toPositiveBadge(sidebarCounts.warehouses),
-        },
-        {
-          title: 'Shipments',
-          url: '/shipments',
-          icon: TruckIcon,
-          badge: toPositiveBadge(sidebarCounts.shipments),
-          badgeColor: 'warning',
-        },
-        {
-          title: 'Inventory',
-          url: '/inventory',
-          icon: BoxIcon,
-        },
-      ],
-    },
-    {
-      title: 'Management & Billing',
-      items: [
-        {
-          title: 'Customers',
-          url: '/customers',
-          icon: EmailIcon,
-        },
-        {
-          title: 'Invoices',
-          url: '/invoices',
-          icon: GearIcon,
-          badge: toPositiveBadge(sidebarCounts.invoices),
-          badgeColor: 'destructive',
-        },
-        {
-          title: 'Rates',
-          url: '/rates',
-          icon: ProcessorIcon,
-        },
-        {
-          title: 'Aircargo Manifesto',
-          url: '/aircargo',
-          icon: AtomIcon,
-        },
-        {
-          title: 'Manifest Scan Session',
-          url: '/aircargo/scan-session',
-          icon: AtomIcon,
-        },
-        {
-          title: 'Barcode Tracking',
-          url: '/barcodes',
-          icon: BracketsIcon,
-        },
-      ],
-    },
-    {
-      title: 'System',
-      items: [
-        {
-          title: 'Global Search',
-          url: '/search',
-          icon: ProcessorIcon,
-        },
-        {
-          title: 'Reports & Analytics',
-          url: '/reports',
-          icon: ProcessorIcon,
-        },
-        {
-          title: 'Network Analytics',
-          url: '/analytics',
-          icon: AtomIcon,
-        },
-        {
-          title: 'Exceptions & Alerts',
-          url: '/alerts',
-          icon: BracketsIcon,
-          badge: toPositiveBadge(sidebarCounts.alerts),
-          badgeColor: 'warning',
-        },
-        {
-          title: 'Notifications',
-          url: '/notifications',
-          icon: EmailIcon,
-        },
-        {
-          title: 'Support Tickets',
-          url: '/support',
-          icon: EmailIcon,
-        },
-        {
-          title: 'Ops Activity',
-          url: '/ops-activity',
-          icon: ProcessorIcon,
-        },
-        {
-          title: 'Settings',
-          url: '/settings',
-          icon: GearIcon,
-        },
-        {
-          title: 'Admin',
-          url: '/admin',
-          icon: GearIcon,
-        },
-      ],
-    },
-  ];
+  const navMainWithBadges = navMain.map((group) => ({
+    ...group,
+    items: group.items.map((item) => {
+      if (!item.badgeKey) return item;
+
+      const raw = sidebarCounts[item.badgeKey];
+      return {
+        ...item,
+        badge: toPositiveBadge(raw),
+      };
+    }),
+  }));
 
   const [profile, setProfile] = React.useState<{
     name: string;
@@ -325,10 +228,24 @@ export function DashboardSidebar({
 
   const [profileLoading, setProfileLoading] = React.useState(true);
 
+  const isAdmin = profile?.role
+    ? profile.role.toLowerCase() === 'admin'
+    : false;
+
+  const visibleNav = navMainWithBadges
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => !item.requiresAdmin || isAdmin),
+    }))
+    .filter((group) => group.items.length > 0);
+
   React.useEffect(() => {
     let cancelled = false;
 
-    async function loadProfile() {
+    // Defer profile loading to prioritize page content
+    const timeoutId = setTimeout(async () => {
+      if (cancelled) return;
+      
       try {
         const {
           data: { user },
@@ -371,29 +288,11 @@ export function DashboardSidebar({
           setProfileLoading(false);
         }
       }
-    }
-
-    void loadProfile();
-
-    const handleProfileUpdate = (event: Event) => {
-      // Optimistically update if URL is provided
-      const customEvent = event as CustomEvent;
-      if (customEvent.detail?.avatarUrl) {
-        setProfile((prev) =>
-          prev
-            ? { ...prev, avatar: customEvent.detail.avatarUrl }
-            : null
-        );
-      }
-      // Also fetch fresh data
-      void loadProfile();
-    };
-
-    window.addEventListener('profile-updated', handleProfileUpdate);
+    }, 300); // Delay 300ms to prioritize page content
 
     return () => {
       cancelled = true;
-      window.removeEventListener('profile-updated', handleProfileUpdate);
+      clearTimeout(timeoutId);
     };
   }, []);
 
@@ -434,7 +333,7 @@ export function DashboardSidebar({
       </SidebarHeader>
 
       <SidebarContent className="gap-4">
-        {navMain.map((group, i) => (
+        {visibleNav.map((group, i) => (
           <SidebarGroup key={group.title} className="gap-3">
             <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-2">
               <Bullet className="mr-2 opacity-60" />
@@ -455,9 +354,8 @@ export function DashboardSidebar({
                       disabled={item.locked}
                       className={cn(
                         'transition-all duration-200 cursor-pointer',
-                        'hover:bg-sidebar-accent-active hover:text-sidebar-accent-foreground',
-                        pathname === item.url &&
-                          'bg-sidebar-accent-active text-sidebar-accent-foreground font-medium shadow-sm',
+                        'sidebar-menu-item-hover',
+                        pathname === item.url && 'sidebar-menu-item-active',
                         item.locked && 'opacity-50 cursor-not-allowed hover:bg-transparent'
                       )}
                     >
@@ -479,7 +377,7 @@ export function DashboardSidebar({
                         >
                           <div className="flex items-center gap-2 flex-1">
                             <item.icon className="size-4" />
-                            <span className="text-sm md:text-base font-semibold tracking-[0.12em]">
+                            <span className="text-sm md:text-base font-medium">
                               {item.title}
                             </span>
                           </div>
@@ -496,51 +394,54 @@ export function DashboardSidebar({
       </SidebarContent>
 
       <SidebarFooter className="p-0 border-t border-sidebar-border">
-        <SidebarGroup className="gap-3 py-4">
+        <SidebarGroup className="gap-2 py-3">
           <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-2">
             <Bullet className="mr-2 opacity-60" />
             Account
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            {/* Location & Notifications Row */}
+            <LocationNotificationBar />
+            
+            <SidebarMenu className="mt-2">
               <SidebarMenuItem>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button className="flex gap-0.5 w-full group cursor-pointer hover:opacity-90 transition-opacity">
-                      <div className="shrink-0 flex size-14 items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 text-sidebar-primary-foreground overflow-clip shadow-md">
+                      <span className="shrink-0 flex size-12 items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 text-sidebar-primary-foreground overflow-clip shadow-md">
                         {profileLoading ? (
-                          <span className="text-xs font-semibold tracking-[0.18em] uppercase">
-                            Loading
+                          <span className="text-[10px] font-semibold tracking-wider uppercase">
+                            ...
                           </span>
                         ) : (
                           <Image
                             src={profile?.avatar || '/avatars/user_krimson.png'}
                             alt={profile?.name || 'Profile'}
-                            width={120}
-                            height={120}
+                            width={100}
+                            height={100}
                           />
                         )}
-                      </div>
-                      <div className="group/item pl-3 pr-1.5 pt-2 pb-1.5 flex-1 flex bg-sidebar-accent hover:bg-sidebar-accent-active/75 items-center group-data-[state=open]:bg-sidebar-accent-active group-data-[state=open]:hover:bg-sidebar-accent-active group-data-[state=open]:text-sidebar-accent-foreground transition-colors">
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                          <span className="truncate font-semibold text-foreground">
+                      </span>
+                      <span className="group/item pl-3 pr-1.5 py-2 flex-1 flex bg-sidebar-accent hover:bg-sidebar-accent-active/75 items-center group-data-[state=open]:bg-sidebar-accent-active transition-colors">
+                        <span className="grid flex-1 text-left text-sm leading-tight">
+                          <span className="truncate font-semibold text-foreground text-sm">
                             {profile?.name || 'Tapan Go Ops'}
                           </span>
-                          <span className="truncate text-xs text-muted-foreground group-hover/item:text-foreground">
+                          <span className="truncate text-[11px] text-muted-foreground">
                             {profile?.role || 'Operator'}
                           </span>
-                        </div>
+                        </span>
                         <DotsVerticalIcon className="ml-auto size-4 opacity-60" />
-                      </div>
+                      </span>
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
                     className="w-56 p-2 shadow-lg"
-                    side="bottom"
-                    align="end"
+                    side="top"
+                    align="start"
                     sideOffset={8}
                   >
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1">
                       {/* User Info Section */}
                       <div className="px-3 py-2 text-sm border-b border-border">
                         <div className="font-semibold text-foreground">
@@ -572,7 +473,7 @@ export function DashboardSidebar({
                       </button>
 
                       {/* Divider and Logout */}
-                      <div className="border-t border-border pt-2 mt-2">
+                      <div className="border-t border-border pt-2 mt-1">
                         <button
                           type="button"
                           onClick={handleSignOut}
@@ -585,6 +486,16 @@ export function DashboardSidebar({
                     </div>
                   </PopoverContent>
                 </Popover>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                 <SidebarMenuButton 
+                   onClick={handleSignOut} 
+                   disabled={isSigningOut}
+                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                 >
+                   <LockIcon className="size-4" />
+                   <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
+                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

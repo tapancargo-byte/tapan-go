@@ -10,33 +10,15 @@ import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { format, differenceInCalendarDays } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-
-interface UIInvoiceAlert {
-  id: string;
-  customerName: string;
-  amount: number;
-  status: string;
-  dueDate: string;
-  daysOverdue: number;
-}
-
-interface UIShipmentAlert {
-  id: string;
-  shipmentRef: string;
-  customerName: string;
-  status: string;
-  createdAt: string;
-  daysInState: number;
-}
-
-interface UITicketAlert {
-  id: string;
-  subject: string;
-  customerName: string;
-  priority: string;
-  status: string;
-  createdAt: string;
-}
+import { useTapanAssociateContext } from "@/components/layout/tapan-associate-context";
+import type {
+  UIInvoiceAlert,
+  UIShipmentAlert,
+  UITicketAlert,
+} from "@/features/alerts/types";
+import { InvoiceAlertsCard } from "@/features/alerts/invoice-alerts-card";
+import { ShipmentAlertsCard } from "@/features/alerts/shipment-alerts-card";
+import { TicketAlertsCard } from "@/features/alerts/ticket-alerts-card";
 
 const formatDate = (value: string) => {
   if (!value) return "";
@@ -55,6 +37,7 @@ export default function AlertsPage() {
   const [syncing, setSyncing] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { setModuleContext } = useTapanAssociateContext();
 
   useEffect(() => {
     let cancelled = false;
@@ -258,6 +241,43 @@ export default function AlertsPage() {
   }, []);
 
   useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    const contextPayload = {
+      type: "alerts",
+      counts: {
+        invoices: invoiceAlerts.length,
+        shipments: shipmentAlerts.length,
+        tickets: ticketAlerts.length,
+      },
+      invoiceAlerts: invoiceAlerts.slice(0, 10).map((a) => ({
+        id: a.id,
+        status: a.status,
+        amount: a.amount,
+        daysOverdue: a.daysOverdue,
+      })),
+      shipmentAlerts: shipmentAlerts.slice(0, 10).map((a) => ({
+        id: a.id,
+        status: a.status,
+        daysInState: a.daysInState,
+      })),
+      ticketAlerts: ticketAlerts.slice(0, 10).map((a) => ({
+        id: a.id,
+        status: a.status,
+        priority: a.priority,
+      })),
+    };
+
+    setModuleContext(contextPayload);
+
+    return () => {
+      setModuleContext(null);
+    };
+  }, [loading, invoiceAlerts, shipmentAlerts, ticketAlerts, setModuleContext]);
+
+  useEffect(() => {
     let cancelled = false;
 
     async function loadUserRole() {
@@ -440,177 +460,33 @@ export default function AlertsPage() {
           </div>
         </div>
         {/* Invoice Alerts */}
-        <Card className="p-6 border-pop bg-background">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-display">Overdue & At-Risk Invoices</h2>
-            <Badge variant="outline">
-              {invoiceAlerts.length} issue
-              {invoiceAlerts.length === 1 ? "" : "s"}
-            </Badge>
-          </div>
-
-          {loading ? (
-            <p className="text-sm text-muted-foreground">Loading alerts...</p>
-          ) : invoiceAlerts.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No invoice alerts.</p>
-          ) : (
-            <div className="space-y-2 text-sm">
-              {invoiceAlerts.map((alert) => (
-                <div
-                  key={alert.id}
-                  className="flex items-center justify-between border-b border-border/40 last:border-b-0 py-2"
-                >
-                  <div className="space-y-1">
-                    <p className="font-mono text-primary">{alert.id}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {alert.customerName || "Unknown customer"}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right space-y-1">
-                      <p className="text-sm font-semibold">
-                        ₹{alert.amount.toLocaleString("en-IN")}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Due {formatDate(alert.dueDate)} · {alert.daysOverdue} day
-                        {alert.daysOverdue === 1 ? "" : "s"} overdue
-                      </p>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        router.push(
-                          `/invoices?q=${encodeURIComponent(alert.id)}`
-                        )
-                      }
-                    >
-                      View
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </Card>
+        <InvoiceAlertsCard
+          loading={loading}
+          alerts={invoiceAlerts}
+          formatDate={formatDate}
+          onViewInvoice={(invoiceId) =>
+            router.push(`/invoices?q=${encodeURIComponent(invoiceId)}`)
+          }
+        />
 
         {/* Shipment Alerts */}
-        <Card className="p-6 border-pop bg-background">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-display">Stalled Shipments (&gt; 3 days)</h2>
-            <Badge variant="outline">
-              {shipmentAlerts.length} shipment
-              {shipmentAlerts.length === 1 ? "" : "s"}
-            </Badge>
-          </div>
-
-          {loading ? (
-            <p className="text-sm text-muted-foreground">Loading alerts...</p>
-          ) : shipmentAlerts.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No stalled shipments.</p>
-          ) : (
-            <div className="space-y-2 text-sm">
-              {shipmentAlerts.map((alert) => (
-                <div
-                  key={alert.id}
-                  className="flex items-center justify-between border-b border-border/40 last:border-b-0 py-2"
-                >
-                  <div className="space-y-1">
-                    <p className="font-mono text-primary">
-                      {alert.shipmentRef}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {alert.customerName || "Unknown customer"}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right space-y-1">
-                      <p className="text-xs text-muted-foreground uppercase">
-                        {alert.status}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        In state for {alert.daysInState} day
-                        {alert.daysInState === 1 ? "" : "s"}
-                      </p>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        router.push(
-                          `/shipments?q=${encodeURIComponent(
-                            alert.shipmentRef
-                          )}`
-                        )
-                      }
-                    >
-                      View
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </Card>
+        <ShipmentAlertsCard
+          loading={loading}
+          alerts={shipmentAlerts}
+          onViewShipment={(shipmentRef) =>
+            router.push(`/shipments?q=${encodeURIComponent(shipmentRef)}`)
+          }
+        />
 
         {/* Ticket Alerts */}
-        <Card className="p-6 border-pop bg-background">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-display">High-Priority Tickets</h2>
-            <Badge variant="outline">
-              {ticketAlerts.length} open
-              {ticketAlerts.length === 1 ? "" : ""}
-            </Badge>
-          </div>
-
-          {loading ? (
-            <p className="text-sm text-muted-foreground">Loading alerts...</p>
-          ) : ticketAlerts.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No high-priority tickets open.
-            </p>
-          ) : (
-            <div className="space-y-2 text-sm">
-              {ticketAlerts.map((alert) => (
-                <div
-                  key={alert.id}
-                  className="flex items-center justify-between border-b border-border/40 last:border-b-0 py-2"
-                >
-                  <div className="space-y-1">
-                    <p className="font-medium text-foreground">{alert.subject}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {alert.customerName || "Unknown customer"}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right space-y-1">
-                      <p className="text-xs text-muted-foreground uppercase">
-                        {alert.status}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Open since {formatDate(alert.createdAt)}
-                      </p>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        router.push(
-                          `/support?q=${encodeURIComponent(alert.subject)}`
-                        )
-                      }
-                    >
-                      View
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </Card>
+        <TicketAlertsCard
+          loading={loading}
+          alerts={ticketAlerts}
+          formatDate={formatDate}
+          onViewTicket={(subject) =>
+            router.push(`/support?q=${encodeURIComponent(subject)}`)
+          }
+        />
       </div>
     </DashboardPageLayout>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import WarehouseIcon from "@/components/icons/warehouse";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
+import { useTapanAssociateContext } from "@/components/layout/tapan-associate-context";
 import {
   Select,
   SelectContent,
@@ -30,19 +31,12 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-
-interface UIWarehouse {
-  id: string;
-  name: string;
-  location: string;
-  capacityUsed: number;
-  itemsInTransit: number;
-  itemsStored: number;
-  staff: number;
-  docks: number;
-  status: string;
-  lastUpdated: string;
-}
+import { useLocation, useLocationScopeChange } from "@/lib/location-context";
+import { LocationIndicator } from "@/components/dashboard/location-selector";
+import type { Location } from "@/types/auth";
+import type { UIWarehouse } from "@/features/warehouse/types";
+import { WarehouseGrid } from "@/features/warehouse/warehouse-grid";
+import { WarehouseDialog } from "@/features/warehouse/warehouse-dialog";
 
 const warehouseSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -65,6 +59,10 @@ export default function WarehouseManagement() {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [roleLoaded, setRoleLoaded] = useState(false);
   const { toast } = useToast();
+  const { setModuleContext } = useTapanAssociateContext();
+  
+  // Location context for filtering
+  const { locationScope, getLocationFilter, isViewingAll, scopeLabel } = useLocation();
 
   const form = useForm<WarehouseFormValues>({
     resolver: zodResolver(warehouseSchema),
@@ -75,58 +73,64 @@ export default function WarehouseManagement() {
     },
   });
 
-  useEffect(() => {
-    let cancelled = false;
+  // Load warehouses with location filter
+  const loadWarehouses = useCallback(async () => {
+    setLoading(true);
+    try {
+      let query = supabase
+        .from("warehouses")
+        .select(
+          "id, name, location, capacity_used, items_stored, items_in_transit, status, created_at, updated_at, staff_count, dock_count"
+        );
 
-    async function loadWarehouses() {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("warehouses")
-          .select(
-            "id, name, location, capacity_used, items_stored, items_in_transit, status, created_at, updated_at, staff_count, dock_count"
-          );
-
-        if (error) {
-          console.warn("Supabase warehouses error", error.message);
-          throw error;
-        }
-
-        const normalized: UIWarehouse[] = ((data as any[]) ?? []).map((row) => {
-          const location: string = row.location ?? "";
-
-          return {
-            id: row.id,
-            name: row.name ?? "",
-            location,
-            capacityUsed: Number(row.capacity_used ?? 0),
-            itemsInTransit: row.items_in_transit ?? 0,
-            itemsStored: row.items_stored ?? 0,
-            staff: Number(row.staff_count ?? 0),
-            docks: Number(row.dock_count ?? 0),
-            status: row.status ?? "operational",
-            lastUpdated: row.updated_at ?? row.created_at ?? "",
-          };
-        });
-
-        if (cancelled) return;
-
-        setWarehouseData(normalized);
-        setLoading(false);
-      } catch (err) {
-        if (cancelled) return;
-        console.error("Failed to load warehouses from Supabase", err);
-        setWarehouseData([]);
-        setLoading(false);
+      // Apply location filter if not viewing all
+      const locationFilter = getLocationFilter() as { location?: Location };
+      if (locationFilter.location) {
+        query = query.eq("location", locationFilter.location);
       }
-    }
 
+      const { data, error } = await query;
+
+      if (error) {
+        console.warn("Supabase warehouses error", error.message);
+        throw error;
+      }
+
+      const normalized: UIWarehouse[] = ((data as any[]) ?? []).map((row) => {
+        const location: string = row.location ?? "";
+
+        return {
+          id: row.id,
+          name: row.name ?? "",
+          location,
+          capacityUsed: Number(row.capacity_used ?? 0),
+          itemsInTransit: row.items_in_transit ?? 0,
+          itemsStored: row.items_stored ?? 0,
+          staff: Number(row.staff_count ?? 0),
+          docks: Number(row.dock_count ?? 0),
+          status: row.status ?? "operational",
+          lastUpdated: row.updated_at ?? row.created_at ?? "",
+        };
+      });
+
+      setWarehouseData(normalized);
+      setLoading(false);
+    } catch (err) {
+      console.error("Failed to load warehouses from Supabase", err);
+      setWarehouseData([]);
+      setLoading(false);
+    }
+  }, [getLocationFilter]);
+
+  // Initial load
+  useEffect(() => {
     loadWarehouses();
+  }, [loadWarehouses]);
 
-    return () => {
-      cancelled = true;
-    }
-  }, []);
+  // Reload when location scope changes
+  useLocationScopeChange(() => {
+    loadWarehouses();
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -247,6 +251,48 @@ export default function WarehouseManagement() {
       setIsCreating(false);
     }
   };
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    let totalStored = 0;
+    let totalInTransit = 0;
+    const statusCounts: Record<string, number> = {};
+
+    warehouseData.forEach((w) => {
+      totalStored += w.itemsStored || 0;
+      totalInTransit += w.itemsInTransit || 0;
+      const key = w.status || "unknown";
+      statusCounts[key] = (statusCounts[key] ?? 0) + 1;
+    });
+
+    const contextPayload = {
+      type: "warehouse",
+      summary: {
+        totalStored,
+        totalInTransit,
+        totalWarehouses: warehouseData.length,
+      },
+      statusCounts,
+      sampleWarehouses: warehouseData.slice(0, 5).map((w) => ({
+        id: w.id,
+        name: w.name,
+        location: w.location,
+        status: w.status,
+        capacityUsed: w.capacityUsed,
+        itemsStored: w.itemsStored,
+        itemsInTransit: w.itemsInTransit,
+      })),
+    };
+
+    setModuleContext(contextPayload);
+
+    return () => {
+      setModuleContext(null);
+    };
+  }, [loading, warehouseData, setModuleContext]);
 
   const handleUpdateWarehouse = async (
     current: UIWarehouse,
@@ -487,162 +533,20 @@ export default function WarehouseManagement() {
         <Card>
           <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <CardTitle>Warehouses</CardTitle>
-            <Dialog open={isDialogOpen} modal={false}>
-              <Button
-                type="button"
-                className="bg-primary hover:bg-primary/90"
-                disabled={!canEdit}
-                onClick={() => {
-                  if (!canEdit) return;
-                  setEditingWarehouse(null);
-                  setIsDialogOpen(true);
-                }}
-              >
-                New Warehouse
-              </Button>
-
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>
-                    {editingWarehouse ? "Edit warehouse" : "New warehouse"}
-                  </DialogTitle>
-                  <DialogDescription>
-                    Add a new warehouse or hub to the Tapan Go network.
-                  </DialogDescription>
-                </DialogHeader>
-
-                <Form {...form}>
-                  <form
-                    className="space-y-4 mt-2"
-                    onSubmit={form.handleSubmit(handleSubmitWarehouse)}
-                  >
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Singjamei Imphal, Kotla New Delhi, ..."
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="location"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Location</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Address or area name"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="staff"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Staff count</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                min="0"
-                                placeholder="e.g. 5"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="docks"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Dock doors</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                min="0"
-                                placeholder="e.g. 2"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="status"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Status</FormLabel>
-                          <FormControl>
-                            <Select
-                              value={field.value}
-                              onValueChange={field.onChange}
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="operational">Operational</SelectItem>
-                                <SelectItem value="constrained">Constrained</SelectItem>
-                                <SelectItem value="offline">Offline</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <DialogFooter className="pt-2">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={() => setIsDialogOpen(false)}
-                        className="uppercase"
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="bg-primary hover:bg-primary/90"
-                        disabled={isCreating}
-                      >
-                        {isCreating
-                          ? editingWarehouse
-                            ? "Saving..."
-                            : "Creating..."
-                          : editingWarehouse
-                          ? "Save changes"
-                          : "Create warehouse"}
-                      </Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              </DialogContent>
-            </Dialog>
+            <WarehouseDialog
+              open={isDialogOpen}
+              onOpenChange={setIsDialogOpen}
+              canEdit={canEdit}
+              isCreating={isCreating}
+              editingWarehouse={editingWarehouse}
+              form={form}
+              onSubmit={handleSubmitWarehouse as any}
+              onNewWarehouseClick={() => {
+                if (!canEdit) return;
+                setEditingWarehouse(null);
+                setIsDialogOpen(true);
+              }}
+            />
           </CardHeader>
           <CardContent>
             <Input
@@ -716,225 +620,27 @@ export default function WarehouseManagement() {
         </Card>
 
         {/* Warehouse Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {loading ? (
-            <>
-              {Array.from({ length: 4 }).map((_, index) => (
-                <Card
-                  key={`warehouse-skeleton-${index}`}
-                  className="shadow-sm hover:shadow-lg transition-shadow overflow-visible"
-                >
-                  <CardHeader className="h-auto relative z-10 p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                      <div className="min-w-0 space-y-1">
-                        <Skeleton className="h-4 w-32" />
-                        <Skeleton className="h-3 w-40" />
-                      </div>
-                      <div className="flex items-start gap-2 flex-shrink-0">
-                        <div className="flex flex-col items-end gap-2">
-                          <Skeleton className="h-6 w-20 rounded-full" />
-                          <Skeleton className="h-8 w-28" />
-                        </div>
-                        <Skeleton className="h-8 w-8" />
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="relative z-0 mt-1">
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">
-                            Capacity Used
-                          </p>
-                          <Skeleton className="h-2 w-full rounded-full" />
-                          <Skeleton className="h-4 w-8 mt-2" />
-                        </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">
-                            Items in Transit
-                          </p>
-                          <Skeleton className="h-6 w-12" />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-3 gap-2 text-center">
-                        {Array.from({ length: 3 }).map((_, metricIndex) => (
-                          <div
-                            key={`warehouse-metric-skeleton-${index}-${metricIndex}`}
-                            className="bg-muted rounded p-3 space-y-2"
-                          >
-                            <Skeleton className="h-3 w-12 mx-auto" />
-                            <Skeleton className="h-5 w-10 mx-auto" />
-                          </div>
-                        ))}
-                      </div>
-                      <Skeleton className="h-3 w-32" />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </>
-          ) : filteredWarehouse.length === 0 ? (
-            <div className="col-span-1 md:col-span-2">
-              <EmptyState
-                variant="default"
-                title={
-                  searchTerm
-                    ? "No matching warehouses"
-                    : primaryWarehouses.length === 0
-                    ? "No Imphal or Delhi warehouses yet"
-                    : "No warehouses to display"
-                }
-                description={
-                  searchTerm
-                    ? "Try adjusting your search or clear it to see all hubs in Imphal and Delhi."
-                    : primaryWarehouses.length === 0
-                    ? "Add Imphal and Delhi hubs to start tracking capacity and staff here."
-                    : "There are no warehouses to display based on the current filters."
-                }
-              />
-            </div>
-          ) : (
-            <>
-              {filteredWarehouse.map((warehouse) => (
-                <Card
-                  key={warehouse.id}
-                  className="shadow-sm hover:shadow-lg transition-shadow overflow-visible"
-                >
-                  <CardHeader className="h-auto relative z-10 p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                      <div className="min-w-0">
-                        <CardTitle className="text-base sm:text-lg truncate">{warehouse.name}</CardTitle>
-                        <CardDescription className="text-xs sm:text-sm">{warehouse.location}</CardDescription>
-                      </div>
-                      <div className="flex items-start gap-2 flex-shrink-0">
-                        <div className="flex flex-col items-end gap-2">
-                          <span
-                            className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${
-                              warehouse.status === "operational"
-                                ? "bg-green-500/20 text-green-400"
-                                : warehouse.status === "offline"
-                                ? "bg-red-500/20 text-red-400"
-                                : "bg-yellow-500/20 text-yellow-400"
-                            }`}
-                          >
-                            {warehouse.status.toUpperCase()}
-                          </span>
-                          <Select
-                            value={warehouse.status}
-                            onValueChange={(value) =>
-                              handleUpdateWarehouseStatus(
-                                warehouse.id,
-                                value as WarehouseFormValues["status"]
-                              )
-                            }
-                            disabled={updatingStatusId === warehouse.id || !canEdit}
-                          >
-                            <SelectTrigger
-                              size="sm"
-                              className="mt-1 w-auto text-[11px] uppercase tracking-wide"
-                            >
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="operational">Operational</SelectItem>
-                              <SelectItem value="constrained">Constrained</SelectItem>
-                              <SelectItem value="offline">Offline</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="icon"
-                              className="h-8 w-8 p-0"
-                              disabled={!canEdit}
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Open warehouse actions</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={() => {
-                                setEditingWarehouse(warehouse);
-                                form.reset({
-                                  name: warehouse.name,
-                                  location: warehouse.location,
-                                  staff: warehouse.staff,
-                                  docks: warehouse.docks,
-                                  status:
-                                    warehouse.status as WarehouseFormValues["status"],
-                                });
-                                setIsDialogOpen(true);
-                              }}
-                              disabled={!canEdit}
-                            >
-                              Edit warehouse
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              variant="destructive"
-                              onClick={() => handleDeleteWarehouse(warehouse)}
-                              disabled={!canEdit}
-                            >
-                              Delete warehouse
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="relative z-0 mt-1">
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">Capacity Used</p>
-                          <div className="bg-muted rounded-full h-2 overflow-hidden">
-                            <div
-                              className="bg-primary h-full"
-                              style={{ width: `${warehouse.capacityUsed}%` }}
-                            ></div>
-                          </div>
-                          <p className="text-sm font-semibold mt-1">
-                            {warehouse.capacityUsed}%
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">Items in Transit</p>
-                          <p className="text-lg font-bold text-primary">
-                            {warehouse.itemsInTransit}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-3 gap-2 text-center">
-                        <div className="bg-muted rounded p-3">
-                          <p className="text-xs text-muted-foreground">Stored</p>
-                          <p className="text-lg font-bold">{warehouse.itemsStored}</p>
-                        </div>
-                        <div className="bg-muted rounded p-3">
-                          <p className="text-xs text-muted-foreground">Staff</p>
-                          <p className="text-lg font-bold">{warehouse.staff}</p>
-                        </div>
-                        <div className="bg-muted rounded p-3">
-                          <p className="text-xs text-muted-foreground">Docks</p>
-                          <p className="text-lg font-bold">{warehouse.docks}</p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-3">
-                        Last Updated:{" "}
-                        {warehouse.lastUpdated
-                          ? new Date(warehouse.lastUpdated).toLocaleString("en-IN")
-                          : "Not available"}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </>
-          )}
-        </div>
+        <WarehouseGrid
+          loading={loading}
+          warehouses={filteredWarehouse}
+          primaryWarehousesCount={primaryWarehouses.length}
+          searchTerm={searchTerm}
+          canEdit={canEdit}
+          updatingStatusId={updatingStatusId}
+          onUpdateStatus={handleUpdateWarehouseStatus}
+          onEditWarehouse={(warehouse) => {
+            setEditingWarehouse(warehouse);
+            form.reset({
+              name: warehouse.name,
+              location: warehouse.location,
+              staff: warehouse.staff,
+              docks: warehouse.docks,
+              status: warehouse.status as WarehouseFormValues["status"],
+            });
+            setIsDialogOpen(true);
+          }}
+          onDeleteWarehouse={handleDeleteWarehouse}
+        />
       </div>
     </DashboardPageLayout>
   );

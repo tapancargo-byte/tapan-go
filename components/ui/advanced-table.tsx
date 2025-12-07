@@ -139,7 +139,7 @@ export function AdvancedDataTable<TData, TValue>({
 
         <div className="flex items-center gap-2">
           {enableFilters && (
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm">
                   <Filter className="mr-2 h-4 w-4" />

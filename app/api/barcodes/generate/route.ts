@@ -17,12 +17,23 @@ export async function POST(req: Request) {
       );
     }
 
+    const trimmedShipmentId =
+      typeof shipmentId === "string" ? shipmentId.trim() : "";
+
+    const uuidRegex =
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+    const shipmentUuid =
+      trimmedShipmentId && uuidRegex.test(trimmedShipmentId)
+        ? trimmedShipmentId
+        : null;
+
     const { data, error } = await supabaseAdmin
       .from("barcodes")
       .insert([
         {
           barcode_number: barcodeNumber,
-          shipment_id: shipmentId ?? null,
+          shipment_id: shipmentUuid,
           status: "pending",
         },
       ])

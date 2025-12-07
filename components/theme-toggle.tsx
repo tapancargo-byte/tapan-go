@@ -20,7 +20,7 @@ export function ThemeToggle() {
         type="button"
         aria-label="Toggle theme"
         disabled
-        className="inline-flex items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent-hover/80 transition-colors h-8 w-8 text-xs"
+        className="inline-flex items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80 transition-colors h-8 w-8 text-xs"
       >
         <span className="h-4 w-4 rounded-full bg-muted-foreground/40" />
       </button>
@@ -39,7 +39,7 @@ export function ThemeToggle() {
       type="button"
       aria-label="Toggle theme"
       onClick={handleToggle}
-      className="inline-flex items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent-hover/80 transition-colors h-8 w-8 text-xs"
+      className="inline-flex items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80 transition-colors h-8 w-8 text-xs"
     >
       {currentTheme === "dark" ? (
         <Sun className="h-4 w-4" />

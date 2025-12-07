@@ -126,7 +126,7 @@ export function withRateLimit(
     if (!rateLimit.success) {
       return NextResponse.json(
         {
-          error: "Too many requests",
+          error: "Rate limit exceeded: please try again later",
           code: "RATE_LIMIT_EXCEEDED",
           retryAfter: rateLimit.reset
             ? Math.ceil((rateLimit.reset - Date.now()) / 1000)

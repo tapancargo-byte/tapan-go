@@ -1,0 +1,545 @@
+[
+  {
+    "id": "TC001",
+    "title": "Role-Based Access Control (RBAC) Middleware Enforcement",
+    "description": "Verify middleware correctly restricts access to protected routes based on user roles, redirecting unauthorized users appropriately.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to access protected admin route as an unauthenticated user."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm user is redirected to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Log in as a user with operator role and access an admin-only route."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify access is denied and user is redirected to an unauthorized page."
+      },
+      {
+        "type": "action",
+        "description": "Log in as an admin user and access the protected admin route."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm access is granted and page content loads correctly."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Authentication Helpers for User Retrieval and Role Validation",
+    "description": "Ensure authentication helper functions retrieve user sessions accurately and validate user roles correctly across server components and API routes.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Invoke authentication helper to retrieve current user session on server with a valid session."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user data is returned with correct role information."
+      },
+      {
+        "type": "action",
+        "description": "Invoke authentication helper without a user session."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no user data is returned or null is returned."
+      },
+      {
+        "type": "action",
+        "description": "Call role validation function with allowed and disallowed roles."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that user roles are correctly accepted or denied."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "API Middleware Zod Schema Validation",
+    "description": "Confirm API endpoints apply Zod validation schemas properly and reject invalid inputs with standardized error messages.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send a valid API request with all required fields correctly typed."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify API accepts the request and processes it successfully."
+      },
+      {
+        "type": "action",
+        "description": "Send an API request missing required fields."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify API responds with a validation error containing informative messages."
+      },
+      {
+        "type": "action",
+        "description": "Send API request with invalid field types."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm API rejects the request with appropriate validation error and correct HTTP status."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Glassmorphic UI Components Rendering and Interaction",
+    "description": "Validate glassmorphic UI components render correctly across devices and support all interaction states including animations.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load various glassmorphic components such as versatile cards and animated cards on desktop."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that components render with correct glassmorphic styling and animations."
+      },
+      {
+        "type": "action",
+        "description": "Test interactive states such as hover, focus, and click on glassmorphic cards."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm animations respond smoothly and styles update as expected."
+      },
+      {
+        "type": "action",
+        "description": "Load components on mobile devices and smaller viewports."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure components remain visually consistent and usable with responsive layouts."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Advanced Data Table Functional Coverage",
+    "description": "Verify that the Advanced Data Table supports multi-column sorting, filtering, searching, pagination, CSV export, and responsive design without performance degradation on large datasets.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load a table with thousands of rows for stress testing."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm table loads and remains responsive."
+      },
+      {
+        "type": "action",
+        "description": "Apply multi-column sorting on sortable columns."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data sorts correctly according to all applied columns."
+      },
+      {
+        "type": "action",
+        "description": "Use filtering controls with various filters and check the resulting data."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm filtering applies accurately and integrates with sorting."
+      },
+      {
+        "type": "action",
+        "description": "Perform free-text searches within the table."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify search results are accurate and case-insensitive."
+      },
+      {
+        "type": "action",
+        "description": "Paginate through multiple pages of results."
+      },
+      {
+        "type": "assertion",
+        "description": "Check page transitions are smooth and data updates correctly."
+      },
+      {
+        "type": "action",
+        "description": "Export filtered and sorted data to CSV."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure exported CSV matches the current table view data precisely."
+      },
+      {
+        "type": "action",
+        "description": "Resize browser and test table responsiveness on smaller devices."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify table layout adapts for usability on all screen sizes."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Real-Time Shipment Updates and Presence Detection",
+    "description": "Test real-time hooks deliver live shipment updates and presence detection; toast notifications display on data changes.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate a shipment update event via Supabase Realtime."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify frontend UI updates instantly with new shipment data."
+      },
+      {
+        "type": "action",
+        "description": "Trigger presence detection events by multiple users coming online and offline."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm presence indicators update accurately to reflect online user status."
+      },
+      {
+        "type": "action",
+        "description": "Check that toast notifications appear on shipment updates with correct content."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure toasts close automatically and do not interfere with user actions."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Public Shipment Tracking Page Accessibility and Functionality",
+    "description": "Verify public tracking portal loads shipment status and timeline using valid invoice reference TGINV000111.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access public tracking page with reference TGINV000111."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm shipment data including status and timeline is displayed correctly."
+      },
+      {
+        "type": "action",
+        "description": "Refresh page and verify shipment data loads without any authentication."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure page is crawlable by SEO tools and metadata is present."
+      },
+      {
+        "type": "action",
+        "description": "Simulate shipment status update event."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the timeline visualization updates in real-time without page reload."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Background Job Queue Processing for Invoice PDF Generation and WhatsApp Notifications",
+    "description": "Confirm background jobs enqueue and process asynchronously; logs failures and retries as configured.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Trigger invoice creation to enqueue background job for PDF generation."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that job is added to BullMQ queue."
+      },
+      {
+        "type": "action",
+        "description": "Monitor job processing and confirm PDF invoice with barcode is generated and stored securely."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that signed URLs are created and accessible as per requirements."
+      },
+      {
+        "type": "action",
+        "description": "Trigger WhatsApp notification job manually."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that job executes, sends correct message (either MVP or Business API), and logs success."
+      },
+      {
+        "type": "action",
+        "description": "Force a job failure scenario (e.g., invalid data or network failure)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm failure is logged, alert triggered (e.g., Slack), and job is retried according to retry policy."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "API Rate Limiting Middleware Functionality and Protection",
+    "description": "Verify Upstash Redis-powered rate limiting triggers on excessive API requests and returns correct status codes without affecting normal users.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send API requests within allowed rate limit."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm all requests succeed with normal response codes."
+      },
+      {
+        "type": "action",
+        "description": "Send rapid, repeated API requests exceeding rate limits."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify API responds with 429 Too Many Requests error and rate limit headers."
+      },
+      {
+        "type": "action",
+        "description": "Send requests after cooldown period."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm API accepts requests again normally."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Barcode Scanner Component Input Detection and Scan Event Handling",
+    "description": "Test barcode scanner component detects both camera and keyboard-emulated scanner inputs seamlessly and triggers scan events correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Use camera input to scan a valid barcode."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify scan event fires with correct barcode data."
+      },
+      {
+        "type": "action",
+        "description": "Simulate barcode input via keyboard emulated scanner."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm scan event triggers with the correct scanned barcode string."
+      },
+      {
+        "type": "action",
+        "description": "Scan invalid or unreadable barcode."
+      },
+      {
+        "type": "assertion",
+        "description": "Check for appropriate error handling or user feedback."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Invoice PDF Generation Accuracy and Barcode Embedding",
+    "description": "Ensure invoice PDF generation produces accurate documents with embedded barcode images and secure signed URLs in Supabase Storage.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Generate invoice PDF for a sample order."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify PDF includes correct shipment and invoice data."
+      },
+      {
+        "type": "action",
+        "description": "Check that barcode images render correctly within the PDF."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm barcode matches the shipment or invoice number."
+      },
+      {
+        "type": "action",
+        "description": "Verify URL for the generated PDF is signed and provides secure access."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure unauthorized access to PDF storage is denied."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "WhatsApp Integration URL Creation and Business API Sending",
+    "description": "Validate WhatsApp integration returns correct URLs for MVP pre-filled messages and performs authenticated sends using the Business API in production mode.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Generate WhatsApp pre-filled web message URL with shipment/invoice details in MVP mode."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm URL is correctly formatted and launches WhatsApp Web with pre-filled message."
+      },
+      {
+        "type": "action",
+        "description": "Send WhatsApp message via Business API in production mode."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify message is sent successfully to the recipient phone number."
+      },
+      {
+        "type": "action",
+        "description": "Attempt sending with invalid or missing credentials."
+      },
+      {
+        "type": "assertion",
+        "description": "Check error handling and logging of authentication failure."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "CLI and UI Feature Checker Accuracy",
+    "description": "Test CLI and UI feature checker tools report accurate package installation status and feature availability.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run CLI feature checker in an environment with all required packages installed."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm output reports all features as available and correctly installed."
+      },
+      {
+        "type": "action",
+        "description": "Run CLI feature checker in an environment missing optional packages."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify output reports missing features and informs about optional package absence."
+      },
+      {
+        "type": "action",
+        "description": "Access UI feature checker and simulate different environment capabilities."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure UI displays accurate status for installed features and provides actionable messages."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "TypeScript Build and Error Verification",
+    "description": "Confirm that all TypeScript errors are resolved and the project builds successfully with or without optional packages installed.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Build the project with all optional packages included."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify build completes successfully with no TypeScript errors."
+      },
+      {
+        "type": "action",
+        "description": "Remove optional packages and rebuild the project."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm build still succeeds without TypeScript errors or warnings."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Comprehensive Middleware, API, Real-Time, UI and Background Processing Test Coverage",
+    "description": "Ensure test coverage includes middleware protection, API validation, live updates, UI rendering, and background job processing according to validation criteria.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Execute integration tests covering all middleware protection scenarios and RBAC."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all relevant routes enforce authentication and authorization correctly."
+      },
+      {
+        "type": "action",
+        "description": "Run API validation tests ensuring input schema enforcement and error handling."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that all API requests are properly validated and errors returned when inputs are invalid."
+      },
+      {
+        "type": "action",
+        "description": "Simulate real-time shipment and presence update events."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm UI updates instantly and persists correct state."
+      },
+      {
+        "type": "action",
+        "description": "Test UI rendering across supported devices and user interactions."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure UI components render without visual defects and support all expected states."
+      },
+      {
+        "type": "action",
+        "description": "Trigger background job processing for invoices and notifications."
+      },
+      {
+        "type": "assertion",
+        "description": "Check jobs execute reliably, handle failures, and are logged correctly."
+      }
+    ]
+  }
+]

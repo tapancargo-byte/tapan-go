@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { cn } from "@/lib/utils";
 
 export default function Example() {
-  const [email, setEmail] = useState("ops@example.com");
+  const [email, setEmail] = useState("ops@tapango.logistics");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);

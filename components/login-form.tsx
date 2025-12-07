@@ -1,24 +1,80 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+
+import { supabase } from "@/lib/supabaseClient";
+import type { LocationScope } from "@/types/auth";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [email, setEmail] = React.useState("admin@tapango.logistics");
+  const [password, setPassword] = React.useState("Test@1498");
+  const [selectedScope, setSelectedScope] = React.useState<LocationScope>("imphal");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (email.includes("delhi")) {
+      setSelectedScope("newdelhi");
+    } else if (email.includes("admin")) {
+      setSelectedScope("imphal");
+    }
+  }, [email]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (error || !data.session) {
+        setError(error?.message || "Invalid email or password");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        localStorage.setItem("tapango-location-scope", selectedScope);
+        if (selectedScope !== "all") {
+          localStorage.setItem("tapango-user-home-location", selectedScope);
+        }
+      } catch {
+      }
+
+      setLoading(false);
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err) {
+      console.error("Login error", err);
+      setError("Something went wrong while signing in");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -29,39 +85,56 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="you@tapango.logistics"
                   required
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Field>
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={loading || !email.trim() || !password}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
               </Field>
             </FieldGroup>
+            {error && (
+              <p className="text-sm text-destructive">{error}</p>
+            )}
           </form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

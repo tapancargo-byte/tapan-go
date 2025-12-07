@@ -5,54 +5,23 @@ import { useSearchParams } from "next/navigation";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import EmailIcon from "@/components/icons/email";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { EmptyState } from "@/components/ui/empty-state";
-import { Skeleton } from "@/components/ui/skeleton";
-
-type TicketStatus = "open" | "in-progress" | "resolved" | string;
-type TicketPriority = "low" | "medium" | "high" | string;
-
-interface UITicket {
-  dbId: string;
-  subject: string;
-  customerName: string;
-  status: TicketStatus;
-  priority: TicketPriority;
-  createdAt: string;
-  resolvedAt: string | null;
-}
-
-const ticketSchema = z.object({
-  subject: z.string().min(5, "Subject is required"),
-  customerId: z.string().optional().or(z.literal("")),
-  priority: z.enum(["low", "medium", "high"]).default("medium"),
-});
-
-type TicketFormValues = z.infer<typeof ticketSchema>;
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type {
+  UITicket,
+  TicketStatus,
+  TicketPriority,
+} from "@/features/support/types";
+import {
+  ticketSchema,
+  type TicketFormValues,
+} from "@/features/support/validation";
+import { SupportTicketDialog } from "@/features/support/support-dialog";
+import { SupportTicketsTable } from "@/features/support/tickets-table";
 
 const formatDateTime = (value: string | null) => {
   if (!value) return "";
@@ -376,216 +345,26 @@ function SupportPageContent() {
               <option value="low">Low</option>
             </select>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <Button
-              type="button"
-              className="bg-primary hover:bg-primary/90"
-              onClick={() => setIsDialogOpen(true)}
-            >
-              New Ticket
-            </Button>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>New support ticket</DialogTitle>
-                <DialogDescription>
-                  Log a customer issue or operational exception for follow-up.
-                </DialogDescription>
-              </DialogHeader>
-
-              <Form {...form}>
-                <form
-                  className="space-y-4 mt-2"
-                  onSubmit={form.handleSubmit(handleCreateTicket)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Subject</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g. Delivery delay for TG-IMPH-DEL-001"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="customerId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Customer</FormLabel>
-                        <FormControl>
-                          <select
-                            {...field}
-                            className="w-full border border-input bg-input text-foreground px-3 py-2 text-sm"
-                          >
-                            <option value="">Unassigned</option>
-                            {customers.map((c) => (
-                              <option key={c.id} value={c.id}>
-                                {c.name}
-                              </option>
-                            ))}
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="priority"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Priority</FormLabel>
-                        <FormControl>
-                          <select
-                            {...field}
-                            className="w-full border border-input bg-background px-3 py-2 text-sm"
-                          >
-                            <option value="high">High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option>
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <DialogFooter className="pt-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setIsDialogOpen(false)}
-                      className="uppercase"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-primary hover:bg-primary/90"
-                      disabled={isCreating}
-                    >
-                      {isCreating ? "Creating..." : "Create ticket"}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
+          <SupportTicketDialog
+            open={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            customers={customers}
+            form={form}
+            isCreating={isCreating}
+            onSubmit={handleCreateTicket}
+          />
         </div>
 
         {/* Tickets Table */}
-        <Card className="border-pop">
-          <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[800px]">
-            <thead className="bg-accent/50 border-b border-pop">
-              <tr>
-                <th className="px-6 py-3 text-left font-semibold">Subject</th>
-                <th className="px-6 py-3 text-left font-semibold">Customer</th>
-                <th className="px-6 py-3 text-left font-semibold">Status</th>
-                <th className="px-6 py-3 text-left font-semibold">Priority</th>
-                <th className="px-6 py-3 text-left font-semibold">Created</th>
-                <th className="px-6 py-3 text-left font-semibold">Resolved</th>
-                <th className="px-6 py-3 text-left font-semibold text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading && (
-                <>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <tr
-                      key={`ticket-skeleton-${index}`}
-                      className="border-b border-pop"
-                    >
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-64" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-40" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-5 w-20" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-5 w-20" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-28" />
-                      </td>
-                      <td className="px-6 py-4">
-                        <Skeleton className="h-4 w-28" />
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <Skeleton className="h-8 w-28 ml-auto" />
-                      </td>
-                    </tr>
-                  ))}
-                </>
-              )}
-              {!loading &&
-                filteredTickets.map((ticket) => (
-                  <tr
-                    key={ticket.dbId}
-                    className="border-b border-pop hover:bg-accent/30 transition-colors"
-                  >
-                    <td className="px-6 py-4 max-w-xs truncate">
-                      <span className="font-medium text-foreground">
-                        {ticket.subject}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      {ticket.customerName || "—"}
-                    </td>
-                    <td className="px-6 py-4">
-                      <Badge className={getStatusColor(ticket.status)}>
-                        {ticket.status.toUpperCase()}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Badge className={getPriorityColor(ticket.priority)}>
-                        {ticket.priority.toUpperCase()}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4">
-                      {formatDateTime(ticket.createdAt)}
-                    </td>
-                    <td className="px-6 py-4">
-                      {ticket.resolvedAt ? formatDateTime(ticket.resolvedAt) : "—"}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end">
-                        <select
-                          value={ticket.status}
-                          onChange={(e) =>
-                            handleUpdateStatus(
-                              ticket,
-                              e.target.value as TicketStatus
-                            )
-                          }
-                          disabled={updatingStatusId === ticket.dbId}
-                          className="border border-input bg-background px-2 py-1 text-[11px] uppercase tracking-wide"
-                        >
-                          <option value="open">Open</option>
-                          <option value="in-progress">In Progress</option>
-                          <option value="resolved">Resolved</option>
-                        </select>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-          </div>
-        </Card>
+        <SupportTicketsTable
+          loading={loading}
+          filteredTickets={filteredTickets}
+          formatDateTime={formatDateTime}
+          getStatusColor={getStatusColor}
+          getPriorityColor={getPriorityColor}
+          updatingStatusId={updatingStatusId}
+          onUpdateStatus={handleUpdateStatus}
+        />
         {!loading && filteredTickets.length === 0 && (
           <EmptyState
             variant="search"
