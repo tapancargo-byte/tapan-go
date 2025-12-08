@@ -16,7 +16,7 @@ import type {
   SecurityStatus as SecurityStatusType,
 } from "@/types/dashboard";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { DashboardAuthOverlay } from "@/components/auth/dashboard-landing-clean";
+import { DashboardLandingRefactored as DashboardAuthOverlay } from "@/components/auth/dashboard-landing-refactored";
 
 // Icon mapping
 const iconMap = {

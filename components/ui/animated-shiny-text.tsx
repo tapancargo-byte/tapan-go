@@ -16,20 +16,23 @@ export const AnimatedShinyText: FC<AnimatedShinyTextProps> = ({
   shimmerWidth = 100,
 }) => {
   return (
-    <p
+    <span
       style={
         {
           "--shimmer-width": `${shimmerWidth}px`,
         } as CSSProperties
       }
       className={cn(
-        "mx-auto max-w-md text-neutral-600/50 dark:text-neutral-400/50 ",
+        // High-contrast readable base color (driven by the gradient)
+        "font-semibold text-transparent",
+        // Shimmer overlay
         "animate-shiny-text bg-clip-text bg-no-repeat [background-position:0_0] [background-size:var(--shimmer-width)_100%] [transition:background-position_1s_cubic-bezier(.6,.6,0,1)_infinite]",
-        "bg-gradient-to-r from-transparent via-black/80 via-50% to-transparent  dark:via-white/80",
+        // Use `foreground` so it's dark on light theme and bright on dark theme
+        "bg-gradient-to-r from-foreground/60 via-foreground via-50% to-foreground/60 dark:from-foreground/60 dark:via-foreground dark:to-foreground/60",
         className
       )}
     >
       {children}
-    </p>
+    </span>
   )
 }

@@ -28,6 +28,9 @@ import Lottie from "lottie-react";
 import { MorphicNavbar } from "@/components/ui/morphic-navbar";
 import { KiboSectionHeader } from "@/components/ui/kibo-primitives";
 import { AppIcon } from "@/components/ui/app-icon";
+import { HyperText } from "@/components/ui/hyper-text";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+import { SparklesText } from "@/components/ui/sparkles-text";
 import { AiSupportChat } from "@/components/support/ai-support-chat";
 import { LandingTicketForm } from "@/components/support/landing-ticket-form";
 import { BorderBeam } from "@/components/ui/border-beam";
@@ -259,16 +262,18 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                 transition={{ duration: 0.7, ease: "easeOut" }}
               >
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary backdrop-blur-sm">
+                  <div className="inline-flex items-center gap-2 rounded-none border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary backdrop-blur-sm">
                     <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-                    Connecting the Northeast Corridor
+                    <AnimatedShinyText className="text-[11px] font-semibold">
+                      Connecting the Northeast Corridor
+                    </AnimatedShinyText>
                   </div>
-                  <h1 className="font-extrabold tracking-tight text-foreground text-5xl md:text-6xl lg:text-7xl leading-[1.1]">
-                    The Logistics <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                      Standard.
-                    </span>
-                  </h1>
+                  <HyperText
+                    as="h1"
+                    className="font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent text-5xl md:text-6xl lg:text-7xl leading-[1.1]"
+                  >
+                    {"The Logistics\nSTANDARD."}
+                  </HyperText>
                   <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
                     15 years of dedicated service. The OG Imphal ⇄ New Delhi operator you can count on.
                   </p>
@@ -322,11 +327,15 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
         <section className="py-24 bg-muted/10 relative">
           <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-[0.1] dark:bg-[radial-gradient(#333_1px,transparent_1px)]" />
           <div className="mx-auto max-w-6xl px-6 relative z-10">
-            <div className="mb-10 text-center">
-              <h2 className="text-3xl font-bold tracking-tight mb-2">Operations at a glance</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="mb-10 text-center space-y-2">
+              <h2 className="text-3xl font-bold tracking-tight">Operations at a glance</h2>
+              <SparklesText
+                className="text-base md:text-lg font-medium text-muted-foreground max-w-2xl mx-auto"
+                sparklesCount={12}
+                colors={{ first: "#A07CFE", second: "#FE8FB5" }}
+              >
                 Live insights from our primary corridor.
-              </p>
+              </SparklesText>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[400px]">

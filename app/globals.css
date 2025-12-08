@@ -443,15 +443,20 @@ html {
 }
 
 @keyframes shiny-text {
-  0%,
-  90%,
-  100% {
+  0% {
     background-position: calc(-100% - var(--shimmer-width)) 0;
   }
-  30%,
-  60% {
+  100% {
     background-position: calc(100% + var(--shimmer-width)) 0;
   }
+}
+
+.animate-shiny-text {
+  animation: shiny-text 10s infinite;
+}
+
+.animate-shine {
+  animation: shine 8s linear infinite;
 }
 
 @media print {

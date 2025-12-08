@@ -79,6 +79,7 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link rel="stylesheet" href="/icons/css/all.min.css" />
       </head>
       <body
         className={`${rebelGrotesk.variable} ${robotoMono.variable} ${inter.variable} ${merriweather.variable} ${jetbrainsMono.variable} antialiased`}
