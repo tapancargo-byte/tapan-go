@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "shipment_ref": "SHP-IMF-2412-001",
+    "customer_name": "Acme Industries",
+    "origin": "Imphal",
+    "destination": "New Delhi",
+    "status": "in_transit",
+    "weight": 45.5,
+    "created_at": "2024-12-01T10:30:00Z"
+  },
+  {
+    "id": 2,
+    "shipment_ref": "SHP-IMF-2412-002",
+    "customer_name": "Tech Solutions Pvt Ltd",
+    "origin": "Imphal",
+    "destination": "Mumbai",
+    "status": "pending",
+    "weight": 23.0,
+    "created_at": "2024-12-02T14:15:00Z"
+  },
+  {
+    "id": 3,
+    "shipment_ref": "SHP-DEL-2412-003",
+    "customer_name": "Global Trade Corp",
+    "origin": "New Delhi",
+    "destination": "Kolkata",
+    "status": "delivered",
+    "weight": 78.2,
+    "created_at": "2024-12-03T09:00:00Z"
+  },
+  {
+    "id": 4,
+    "shipment_ref": "SHP-IMF-2412-004",
+    "customer_name": "Northeast Exports",
+    "origin": "Imphal",
+    "destination": "Chennai",
+    "status": "in_transit",
+    "weight": 34.8,
+    "created_at": "2024-12-04T11:45:00Z"
+  },
+  {
+    "id": 5,
+    "shipment_ref": "SHP-DEL-2412-005",
+    "customer_name": "Sunrise Logistics",
+    "origin": "New Delhi",
+    "destination": "Bangalore",
+    "status": "delivered",
+    "weight": 56.3,
+    "created_at": "2024-12-05T08:20:00Z"
+  },
+  {
+    "id": 6,
+    "shipment_ref": "SHP-IMF-2412-006",
+    "customer_name": "Manipur Handicrafts",
+    "origin": "Imphal",
+    "destination": "Hyderabad",
+    "status": "pending",
+    "weight": 12.5,
+    "created_at": "2024-12-06T16:30:00Z"
+  },
+  {
+    "id": 7,
+    "shipment_ref": "SHP-IMF-2412-007",
+    "customer_name": "Eastern Traders",
+    "origin": "Imphal",
+    "destination": "Pune",
+    "status": "in_transit",
+    "weight": 89.0,
+    "created_at": "2024-12-07T13:00:00Z"
+  },
+  {
+    "id": 8,
+    "shipment_ref": "SHP-DEL-2412-008",
+    "customer_name": "Metro Supplies",
+    "origin": "New Delhi",
+    "destination": "Ahmedabad",
+    "status": "delivered",
+    "weight": 41.7,
+    "created_at": "2024-12-08T10:15:00Z"
+  },
+  {
+    "id": 9,
+    "shipment_ref": "SHP-IMF-2412-009",
+    "customer_name": "Hill View Enterprises",
+    "origin": "Imphal",
+    "destination": "Jaipur",
+    "status": "cancelled",
+    "weight": 28.4,
+    "created_at": "2024-12-09T07:45:00Z"
+  },
+  {
+    "id": 10,
+    "shipment_ref": "SHP-IMF-2412-010",
+    "customer_name": "Seven Sisters Trading",
+    "origin": "Imphal",
+    "destination": "Lucknow",
+    "status": "pending",
+    "weight": 63.2,
+    "created_at": "2024-12-09T15:30:00Z"
+  }
+]

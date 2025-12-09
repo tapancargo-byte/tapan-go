@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState, lazy } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import DashboardPageLayout from "@/components/dashboard/layout";
@@ -347,15 +347,15 @@ function ShipmentsTrackingContent() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "delivered":
-        return "bg-green-500/20 text-green-400";
+        return "bg-emerald-500/15 text-emerald-500 dark:text-emerald-300";
       case "in-transit":
-        return "bg-blue-500/20 text-blue-400";
+        return "bg-primary/10 text-primary";
       case "pending":
-        return "bg-yellow-500/20 text-yellow-400";
+        return "bg-secondary/10 text-secondary";
       case "at-warehouse":
-        return "bg-purple-500/20 text-purple-400";
+        return "bg-muted text-muted-foreground";
       default:
-        return "bg-gray-500/20 text-gray-400";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -1213,10 +1213,6 @@ function ShipmentsTrackingContent() {
   );
 }
 
-export default function ShipmentsTracking() {
-  return (
-    <Suspense fallback={null}>
-      <ShipmentsTrackingContent />
-    </Suspense>
-  );
+export default function ShipmentsTrackingPage() {
+  return <ShipmentsTrackingContent />;
 }

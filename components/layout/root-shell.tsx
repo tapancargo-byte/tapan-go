@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -13,26 +13,7 @@ const MobileHeader = dynamic(
 );
 import { TapanAssociateProvider } from "@/components/layout/tapan-associate-context";
 import type { Notification as DashboardNotification, WidgetData } from "@/types/dashboard";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-
-// Lazy load non-critical right panel widgets
-const Widget = dynamic(() => import("@/components/dashboard/widget"), {
-  loading: () => <Skeleton className="h-32 w-full" />,
-  ssr: false,
-});
-
-const TapanGoWidget = dynamic(
-  () => import("@/components/dashboard/widget").then((mod) => ({ default: mod.TapanGoWidget })),
-  { loading: () => <Skeleton className="h-16 w-full" />, ssr: false }
-);
-
-const TapanAssociateSidebarWidget = dynamic(
-  () => import("@/components/dashboard/tapan-associate-widget").then((mod) => ({ default: mod.TapanAssociateSidebarWidget })),
-  { loading: () => <Skeleton className="h-48 w-full" />, ssr: false }
-);
 
 const TapanAssociateDrawerLauncher = dynamic(
   () => import("@/components/layout/tapan-associate-drawer").then((mod) => ({ default: mod.TapanAssociateDrawerLauncher })),
@@ -51,7 +32,6 @@ export function RootShell({
   defaultWidgetData,
 }: RootShellProps) {
   const pathname = usePathname();
-  const [isRightPanelOpen, setIsRightPanelOpen] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -117,40 +97,11 @@ export function RootShell({
           </div>
           <div
             className={cn(
-              "col-span-1 transition-all duration-300 ease-in-out lg:h-screen lg:overflow-y-auto print:col-span-12 print:h-auto print:overflow-visible print:px-0 print:py-0",
-              isRightPanelOpen ? "lg:col-span-7" : "lg:col-span-10"
+              "col-span-1 transition-all duration-300 ease-in-out lg:h-screen lg:overflow-y-auto print:col-span-12 print:h-auto print:overflow-visible print:px-0 print:py-0 lg:col-span-10"
             )}
           >
             {children}
           </div>
-          <div
-            className={cn(
-              "hidden lg:block transition-all duration-300 ease-in-out lg:h-screen print:hidden",
-              isRightPanelOpen ? "col-span-3 opacity-100" : "col-span-0 opacity-0 w-0 overflow-hidden"
-            )}
-          >
-            <div className="flex flex-col gap-gap py-sides h-full justify-start">
-              <Widget
-                widgetData={defaultWidgetData}
-                onCollapse={() => setIsRightPanelOpen(false)}
-              />
-              <TapanGoWidget />
-              <TapanAssociateSidebarWidget />
-            </div>
-          </div>
-
-          {/* Floating expand button for right panel */}
-          {!isRightPanelOpen && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hidden lg:flex fixed right-4 top-4 z-50 h-9 w-9 bg-background/90 backdrop-blur-sm border shadow-sm hover:bg-accent"
-              onClick={() => setIsRightPanelOpen(true)}
-            >
-              <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Expand panel</span>
-            </Button>
-          )}
         </div>
 
         {/* Global Tapan Associate launcher (mobile only; desktop uses sidebar widget) */}

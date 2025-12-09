@@ -21,7 +21,7 @@ interface ShipmentFormValuesShape {
   customerId?: string;
   route: string;
   weight: number;
-  status: string;
+  status: "pending" | "in-transit" | "at-warehouse" | "delivered" | "cancelled" | string;
 }
 
 type ShipmentStatusOption = string;

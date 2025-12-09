@@ -4,7 +4,4 @@ node_modules
 .env.local
 .env.*.local
 .DS_Store
-free-nextjs-admin-dashboard-main/
-next-shadcn-dashboard-starter-main/
-signalist_stock-tracker-app-main/
-resources-project/
+
