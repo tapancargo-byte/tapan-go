@@ -4,6 +4,7 @@ import BracketsIcon from "@/components/icons/brackets"
 import { ShipmentsDataTable } from "@/components/dashboard/shipments-data-table"
 import { RecentShipments } from "@/components/dashboard/recent-shipments"
 import { SectionCards } from "@/components/section-cards"
+import * as Sentry from "@sentry/nextjs"
 
 import shipmentsTableData from "./shipments-table-data.json"
 
@@ -20,51 +21,78 @@ type TypedShipment = {
 
 // Fetch dashboard stats from Supabase (safe if env missing)
 async function getDashboardStats() {
-  try {
-    const { supabaseAdmin } = await import("@/lib/supabaseAdmin")
+  const { logger } = Sentry
 
-    const [shipmentsRes, customersRes, invoicesRes, warehouseRes] = await Promise.all([
-      supabaseAdmin.from("shipments").select("id, status", { count: "exact" }),
-      supabaseAdmin.from("customers").select("id", { count: "exact" }),
-      supabaseAdmin.from("invoices").select("id, amount, status", { count: "exact" }),
-      supabaseAdmin.from("warehouses").select("id, capacity_used", { count: "exact" }),
-    ]);
+  return Sentry.startSpan(
+    {
+      op: "db.query",
+      name: "dashboard:getDashboardStats",
+    },
+    async (span) => {
+      try {
+        const { supabaseAdmin } = await import("@/lib/supabaseAdmin")
 
-    const activeShipments = shipmentsRes.data?.filter(s => 
-      ["pending", "in_transit", "processing"].includes(s.status)
-    ).length ?? 0;
+        const [shipmentsRes, customersRes, invoicesRes, warehouseRes] = await Promise.all([
+          supabaseAdmin.from("shipments").select("id, status", { count: "exact" }),
+          supabaseAdmin.from("customers").select("id", { count: "exact" }),
+          supabaseAdmin.from("invoices").select("id, amount, status", { count: "exact" }),
+          supabaseAdmin.from("warehouses").select("id, capacity_used", { count: "exact" }),
+        ])
 
-    const pendingInvoices = invoicesRes.data?.filter(i => 
-      i.status === "pending" || i.status === "unpaid"
-    ).length ?? 0;
+        span.setAttribute("dashboard.shipments.count", shipmentsRes.count ?? 0)
+        span.setAttribute("dashboard.customers.count", customersRes.count ?? 0)
+        span.setAttribute("dashboard.invoices.count", invoicesRes.count ?? 0)
+        span.setAttribute("dashboard.warehouses.count", warehouseRes.count ?? 0)
 
-    const avgCapacity = warehouseRes.data?.length 
-      ? warehouseRes.data.reduce((sum, w) => sum + (Number(w.capacity_used) || 0), 0) / warehouseRes.data.length 
-      : 0;
+        const activeShipments =
+          shipmentsRes.data?.filter((s) =>
+            ["pending", "in_transit", "processing"].includes(s.status),
+          ).length ?? 0
 
-    return {
-      totalShipments: shipmentsRes.count ?? activeShipments,
-      activeCustomers: customersRes.count ?? 0,
-      pendingInvoices: pendingInvoices,
-      warehouseCapacity: Math.round(avgCapacity),
-      shipmentsTrend: 12.5,
-      customersTrend: 8.2,
-      invoicesTrend: -5.3,
-      capacityTrend: -2.3,
-    };
-  } catch (error) {
-    console.error("Error fetching dashboard stats:", error);
-    return {
-      totalShipments: 1247,
-      activeCustomers: 156,
-      pendingInvoices: 23,
-      warehouseCapacity: 79,
-      shipmentsTrend: 12.5,
-      customersTrend: 8.2,
-      invoicesTrend: -5.3,
-      capacityTrend: -2.3,
-    };
-  }
+        const pendingInvoices =
+          invoicesRes.data?.filter((i) => i.status === "pending" || i.status === "unpaid")
+            .length ?? 0
+
+        const avgCapacity = warehouseRes.data?.length
+          ?
+              warehouseRes.data.reduce(
+                (sum, w) => sum + (Number(w.capacity_used) || 0),
+                0,
+              ) / warehouseRes.data.length
+          : 0
+
+        return {
+          totalShipments: shipmentsRes.count ?? activeShipments,
+          activeCustomers: customersRes.count ?? 0,
+          pendingInvoices: pendingInvoices,
+          warehouseCapacity: Math.round(avgCapacity),
+          shipmentsTrend: 12.5,
+          customersTrend: 8.2,
+          invoicesTrend: -5.3,
+          capacityTrend: -2.3,
+        }
+      } catch (error) {
+        Sentry.captureException(error)
+
+        logger.error(
+          logger.fmt`Error fetching dashboard stats: ${
+            error instanceof Error ? error.message : "unknown error"
+          }`,
+        )
+
+        return {
+          totalShipments: 1247,
+          activeCustomers: 156,
+          pendingInvoices: 23,
+          warehouseCapacity: 79,
+          shipmentsTrend: 12.5,
+          customersTrend: 8.2,
+          invoicesTrend: -5.3,
+          capacityTrend: -2.3,
+        }
+      }
+    },
+  )
 }
 
 export default async function Page({ searchParams }: { searchParams?: { q?: string; status?: "pending" | "in_transit" | "delivered" | "cancelled" } }) {
