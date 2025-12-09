@@ -1,0 +1,60 @@
+# CodeRabbit configuration for Tapan Associate (Next.js + Supabase + Sentry)
+
+reviews:
+  auto_review:
+    enabled: true
+    # Only review PRs that change application code, not generated artifacts
+    paths:
+      include:
+        - "app/**"
+        - "components/**"
+        - "features/**"
+        - "hooks/**"
+        - "lib/**"
+        - "supabase/**"
+        - "types/**"
+      exclude:
+        - "supabase/migrations/**"
+        - "testsprite_tests/**"
+        - "public/**"
+        - ".github/**"
+
+  # Ask for deeper review when code touches critical areas
+  critical_paths:
+    - "app/login/**"
+    - "app/api/**"
+    - "lib/auth*"
+    - "lib/supabase*"
+    - "middleware.ts"
+
+  high_level_summary:
+    enabled: true
+
+  finishing_touches:
+    docstrings:
+      enabled: false
+    unit_tests:
+      enabled: false
+
+  focus:
+    - "auth correctness and security (Supabase, middleware, RBAC)"
+    - "error handling and Sentry instrumentation"
+    - "database access patterns and Supabase queries"
+    - "performance of API routes and expensive operations (PDF, background jobs)"
+    - "clarity and maintainability of React components and hooks"
+
+style:
+  language: "typescript"
+  framework: "nextjs"
+  conventions:
+    - "Prefer server components and app router patterns for new pages."
+    - "Keep API route logic thin and move shared logic into lib/ modules."
+    - "Avoid leaking secrets in logs or error messages."
+
+comments:
+  max_comments: 120
+  severity_threshold: "info"  # include nitpicks, but group related ones
+  group_similar_comments: true
+
+knowledge_base:
+  enabled: false
