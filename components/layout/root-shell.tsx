@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 
 // Lazy load mobile header (only needed on mobile)
@@ -85,31 +85,30 @@ export function RootShell({
           <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-accent-blue/35 blur-3xl" />
           <div className="absolute -right-48 -top-24 h-96 w-96 rounded-full bg-brand/25 blur-3xl" />
         </div>
-        {/* Mobile Header - only visible on mobile */}
-        <div className="print:hidden">
-          <MobileHeader notifications={notifications} />
-        </div>
-
-        {/* Desktop Layout */}
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-gap lg:px-sides relative lg:h-screen lg:overflow-hidden print:block print:px-0 print:py-0 print:h-auto">
-          <div className="col-span-1 lg:col-span-2 top-0 relative print:hidden">
-            <DashboardSidebar />
+        {/* Sidebar + Inset layout */}
+        <DashboardSidebar />
+        <SidebarInset>
+          {/* Mobile Header - only visible on mobile */}
+          <div className="lg:hidden print:hidden">
+            <MobileHeader notifications={notifications} />
           </div>
+
+          {/* Page content */}
           <div
             className={cn(
-              "col-span-1 transition-all duration-300 ease-in-out lg:h-screen lg:overflow-y-auto print:col-span-12 print:h-auto print:overflow-visible print:px-0 print:py-0 lg:col-span-10"
+              "min-h-[100svh] flex flex-col lg:h-screen lg:overflow-y-auto print:h-auto print:overflow-visible"
             )}
           >
             {children}
           </div>
-        </div>
 
-        {/* Global Tapan Associate launcher (mobile only; desktop uses sidebar widget) */}
-        {!isStandaloneRoute && pathname !== "/tapan-associate" && (
-          <div className="lg:hidden print:hidden">
-            <TapanAssociateDrawerLauncher />
-          </div>
-        )}
+          {/* Global Tapan Associate launcher (mobile only; desktop uses sidebar widget) */}
+          {!isStandaloneRoute && pathname !== "/tapan-associate" && (
+            <div className="lg:hidden print:hidden">
+              <TapanAssociateDrawerLauncher />
+            </div>
+          )}
+        </SidebarInset>
 
       </TapanAssociateProvider>
     </SidebarProvider>

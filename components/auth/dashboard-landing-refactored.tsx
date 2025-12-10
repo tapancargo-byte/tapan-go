@@ -55,6 +55,7 @@ import {
   DrawerTrigger,
   DrawerClose,
 } from "@/components/ui/drawer";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 interface AuthState {
   checking: boolean;
@@ -88,7 +89,7 @@ function BoxCard({
 // Hero Collage Component
 function HeroCollage() {
   return (
-    <div className="relative w-full h-[500px] lg:h-[600px] p-4">
+    <div className="relative w-full h-[360px] sm:h-[420px] lg:h-[600px] p-4">
       <div className="grid grid-cols-2 grid-rows-3 gap-4 h-full w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto">
         {/* Top Left: Happy Customers */}
         <BoxCard className="col-span-1 row-span-2 flex flex-col items-center justify-center !p-5">
@@ -165,7 +166,7 @@ function Navbar({ onNavClick, mobileOpen, setMobileOpen }: { onNavClick: (id: st
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border transition-colors duration-200">
-            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
                 <div className="flex-shrink-0">
                     <BrandLogo size="sm" />
                 </div>
@@ -185,36 +186,50 @@ function Navbar({ onNavClick, mobileOpen, setMobileOpen }: { onNavClick: (id: st
 
                 {/* Right Actions */}
                 <div className="flex items-center gap-3">
-                    <ThemeToggle />
-                    <Button asChild size="sm" className="rounded-none">
+                    <div className="hidden md:inline-flex">
+                      <ThemeToggle />
+                    </div>
+                    <Button asChild size="sm" className="hidden md:inline-flex rounded-none">
                         <Link href="/login">Login</Link>
                     </Button>
-                    <button 
-                        className="md:hidden p-2 text-muted-foreground"
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                    >
-                        {mobileOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
-            </div>
-
-             {/* Mobile Menu */}
-             {mobileOpen && (
-                <div className="md:hidden bg-background border-t border-border px-6 py-4 space-y-4">
-                     {navItems.map((item) => (
-                        <button
-                            key={item.id}
-                            onClick={() => {
+                    <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                      <SheetTrigger asChild>
+                        <button className="md:hidden p-2 text-muted-foreground" aria-label="Open menu">
+                          {mobileOpen ? <X /> : <Menu />}
+                        </button>
+                      </SheetTrigger>
+                      {/* Mobile Menu */}
+                      <SheetContent side="right" className="w-[85%] max-w-sm p-0">
+                        <div className="px-6 py-6 space-y-4">
+                          {navItems.map((item) => (
+                            <button
+                              key={item.id}
+                              onClick={() => {
                                 onNavClick(item.id);
                                 setMobileOpen(false);
-                            }}
-                            className="block w-full text-left text-base font-medium text-muted-foreground hover:text-primary"
-                        >
-                            {item.label}
-                        </button>
-                    ))}
+                              }}
+                              className="block w-full text-left text-base font-medium text-muted-foreground hover:text-primary"
+                            >
+                              {item.label}
+                            </button>
+                          ))}
+                          <div className="pt-3 mt-2 border-t border-border/60" />
+                          <Link
+                            href="/login"
+                            className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            Login
+                          </Link>
+                          <div className="mt-2">
+                            <ThemeToggle />
+                          </div>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
                 </div>
-            )}
+            </div>
+            
         </nav>
     );
 }

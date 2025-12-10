@@ -78,7 +78,14 @@ export async function middleware(request: NextRequest) {
   let userData: { role?: string | null; location?: string | null } | null = null;
 
   // Allow public routes
-  if (PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
+  const isPublicRoute = PUBLIC_ROUTES.some((route) => {
+    if (route === "/") {
+      return pathname === "/";
+    }
+    return pathname === route || pathname.startsWith(`${route}/`);
+  });
+
+  if (isPublicRoute) {
     return response;
   }
 

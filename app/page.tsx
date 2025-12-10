@@ -682,6 +682,15 @@ export default async function DashboardOverview() {
 
   const initialAuthed = !!user;
 
+  if (!initialAuthed) {
+    return (
+      <>
+        {/* Landing/login overlay that gates access to the dashboard */}
+        <DashboardAuthOverlay initialAuthed={initialAuthed} />
+      </>
+    );
+  }
+
   const [
     revenueTrend,
     topStats,
@@ -735,9 +744,6 @@ export default async function DashboardOverview() {
         <RebelsRanking rebels={growthProjections} />
         <SecurityStatus statuses={growthKpis} />
       </div>
-
-      {/* Landing/login overlay that gates access to the dashboard */}
-      <DashboardAuthOverlay initialAuthed={initialAuthed} />
     </DashboardPageLayout>
   );
 }
