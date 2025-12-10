@@ -1,7 +1,7 @@
 // Location-based admin roles
 export type Location = 'imphal' | 'newdelhi';
 export type LocationScope = Location | 'all';  // 'all' for cross-location view
-export type UserRole = 'admin';
+export type UserRole = 'admin' | 'manager' | 'operator' | 'viewer';
 
 export interface UserProfile {
   id: string;
@@ -44,18 +44,56 @@ export const LOCATION_SCOPES: { value: LocationScope; label: string; icon?: stri
   { value: 'newdelhi', label: 'New Delhi (DEL)', icon: '📍' },
 ];
 
-// Admin permissions - all admins have full access
-export const ROLE_PERMISSIONS = {
+// Role permissions - conservative defaults
+export const ROLE_PERMISSIONS: Record<
+  UserRole,
+  {
+    canDeleteInvoices: boolean;
+    canManageRates: boolean;
+    canManageUsers: boolean;
+    canViewAnalytics: boolean;
+    canViewSensitiveData: boolean;
+    canAccessAllLocations: boolean;
+    canCreateCrossLocationShipments: boolean;
+  }
+> = {
   admin: {
     canDeleteInvoices: true,
     canManageRates: true,
     canManageUsers: true,
     canViewAnalytics: true,
     canViewSensitiveData: true,
-    canAccessAllLocations: true,  // Admins can access both locations
+    canAccessAllLocations: true,
     canCreateCrossLocationShipments: true,
   },
-} as const;
+  manager: {
+    canDeleteInvoices: false,
+    canManageRates: true,
+    canManageUsers: false,
+    canViewAnalytics: true,
+    canViewSensitiveData: false,
+    canAccessAllLocations: true,
+    canCreateCrossLocationShipments: false,
+  },
+  operator: {
+    canDeleteInvoices: false,
+    canManageRates: false,
+    canManageUsers: false,
+    canViewAnalytics: false,
+    canViewSensitiveData: false,
+    canAccessAllLocations: false,
+    canCreateCrossLocationShipments: false,
+  },
+  viewer: {
+    canDeleteInvoices: false,
+    canManageRates: false,
+    canManageUsers: false,
+    canViewAnalytics: true,
+    canViewSensitiveData: false,
+    canAccessAllLocations: false,
+    canCreateCrossLocationShipments: false,
+  },
+};
 
 export function hasPermission<K extends keyof typeof ROLE_PERMISSIONS['admin']>(
   role: UserRole,

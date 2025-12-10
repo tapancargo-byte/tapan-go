@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
+import { createHash } from "crypto";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -23,13 +24,21 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
       name: "auth:signInAction",
     },
     async (span) => {
-      span.setAttribute("auth.email_domain", emailDomain);
+      span.setAttribute("auth.login_attempt", true);
 
       // 1. Rate Limiting
       const ip = (await headers()).get("x-forwarded-for") || "unknown";
       try {
         await requireRateLimit("auth", ip);
       } catch (error) {
+        Sentry.captureMessage("Rate limit reached for auth (ip)", {
+          level: "warning",
+          extra: {
+            ip,
+            error: error instanceof Error ? error.message : String(error),
+          },
+        });
+
         logger.warn(
           logger.fmt`Rate limit reached for auth from IP: ${ip}`,
         );
@@ -37,6 +46,34 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
         return {
           success: false,
           error: "Too many login attempts. Please try again in a minute.",
+        };
+      }
+
+      // Per-account rate limiting (email-based)
+      const emailHash = createHash("sha256")
+        .update(email.toLowerCase())
+        .digest("hex")
+        .slice(0, 16);
+
+      try {
+        await requireRateLimit("auth", `account:${emailHash}`);
+      } catch (error) {
+        Sentry.captureMessage("Rate limit reached for auth (account)", {
+          level: "warning",
+          extra: {
+            emailHash,
+            error: error instanceof Error ? error.message : String(error),
+          },
+        });
+
+        logger.warn("Rate limit reached for auth account", {
+          emailHash,
+        });
+
+        return {
+          success: false,
+          error:
+            "Too many login attempts for this account. Please try again in a minute.",
         };
       }
 
@@ -53,14 +90,14 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
       try {
         // 3. Supabase Auth
         const supabase = await createClient();
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (error) {
           Sentry.captureException(error, {
-            extra: { emailDomain },
+            extra: { context: "auth.signInAction" },
           });
 
           logger.error(
@@ -70,7 +107,29 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
           return { success: false, error: error.message };
         }
 
-        logger.info("User signed in", { emailDomain });
+        if (!data?.session) {
+          logger.error(
+            logger.fmt`Supabase sign-in returned no session for domain ${emailDomain}`,
+          );
+
+          return {
+            success: false,
+            error: "Failed to create session. Please try again.",
+          };
+        }
+
+        const user = data.user;
+
+        if (!user?.email_confirmed_at) {
+          logger.warn("Unverified email attempted login", { emailDomain });
+
+          return {
+            success: false,
+            error: "Please verify your email address before signing in.",
+          };
+        }
+
+        logger.info("User signed in", { emailDomain, userId: user.id });
 
         return { success: true };
       } catch (error) {
