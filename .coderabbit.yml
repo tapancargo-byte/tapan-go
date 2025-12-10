@@ -27,8 +27,7 @@ reviews:
     - "lib/supabase*"
     - "middleware.ts"
 
-  high_level_summary:
-    enabled: true
+  high_level_summary: true
 
   finishing_touches:
     docstrings:
