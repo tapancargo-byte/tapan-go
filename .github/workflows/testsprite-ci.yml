@@ -2,11 +2,6 @@ name: TestSprite E2E
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
 
 jobs:
   testsprite:

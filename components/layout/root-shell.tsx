@@ -103,7 +103,7 @@ export function RootShell({
           </div>
 
           {/* Global Tapan Associate launcher (mobile only; desktop uses sidebar widget) */}
-          {!isStandaloneRoute && pathname !== "/tapan-associate" && (
+          {pathname !== "/tapan-associate" && (
             <div className="lg:hidden print:hidden">
               <TapanAssociateDrawerLauncher />
             </div>

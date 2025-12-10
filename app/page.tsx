@@ -684,10 +684,8 @@ export default async function DashboardOverview() {
 
   if (!initialAuthed) {
     return (
-      <>
-        {/* Landing/login overlay that gates access to the dashboard */}
-        <DashboardAuthOverlay initialAuthed={initialAuthed} />
-      </>
+      /* Landing/login overlay that gates access to the dashboard */
+      <DashboardAuthOverlay initialAuthed={initialAuthed} />
     );
   }
 
