@@ -1,4 +1,6 @@
-export type AppRole = "admin" | "manager" | "operator" | "viewer";
+import type { UserRole } from "@/types/auth";
+
+export type AppRole = UserRole;
 
 export interface RouteAccessRule {
   /** Glob-style path matcher, e.g. /admin, /settings, /reports */

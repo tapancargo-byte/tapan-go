@@ -8,11 +8,24 @@ const PUBLIC_ROUTES = [
   "/login",
   "/track",
   "/api/public",
-  "/api/dev/seed-test-users",  // Allow seeding for tests
+  // Only expose dev seeding endpoint in development
+  ...(process.env.NODE_ENV === "development"
+    ? ["/api/dev/seed-test-users"]
+    : []),
 ];
 
 // API routes that need special handling
 const API_ROUTES_PREFIX = "/api/";
+
+function isSafeRedirect(path: string): boolean {
+  if (!path) return false;
+  // Only allow internal paths
+  if (!path.startsWith("/")) return false;
+  if (path.startsWith("//")) return false;
+  // Disallow protocol-prefixed values like http:// or https://
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(path)) return false;
+  return true;
+}
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -78,9 +91,11 @@ export async function middleware(request: NextRequest) {
         { status: 401 }
       );
     }
-    
+
     const redirectUrl = new URL("/login", request.url);
-    redirectUrl.searchParams.set("redirect", pathname);
+    if (isSafeRedirect(pathname)) {
+      redirectUrl.searchParams.set("redirect", pathname);
+    }
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -100,7 +115,9 @@ export async function middleware(request: NextRequest) {
       }
 
       const redirectUrl = new URL("/login", request.url);
-      redirectUrl.searchParams.set("redirect", pathname);
+      if (isSafeRedirect(pathname)) {
+        redirectUrl.searchParams.set("redirect", pathname);
+      }
       return NextResponse.redirect(redirectUrl);
     }
 
@@ -115,16 +132,24 @@ export async function middleware(request: NextRequest) {
   // Optimize: Only fetch user data from DB for API routes or if absolutely necessary
   // For page navigation, we trust the session (RLS will handle data access security)
   if (pathname.startsWith(API_ROUTES_PREFIX)) {
+    if (!userData?.role) {
+      return NextResponse.json(
+        { error: "User role not configured", code: "INVALID_USER_STATE" },
+        { status: 403 }
+      );
+    }
+
+    if (!userData.location) {
+      return NextResponse.json(
+        { error: "User location not configured", code: "INVALID_USER_STATE" },
+        { status: 403 }
+      );
+    }
+
     // Add user context to headers for API routes
-    response.headers.set(
-      "X-User-Role",
-      ((userData?.role as string | null) ?? "admin")
-    );
+    response.headers.set("X-User-Role", userData.role);
     response.headers.set("X-User-ID", session.user.id);
-    response.headers.set(
-      "X-User-Location",
-      (userData?.location as string | null) || "imphal"
-    );
+    response.headers.set("X-User-Location", userData.location);
   }
 
   return response;
