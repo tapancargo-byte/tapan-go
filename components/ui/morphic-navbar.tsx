@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 interface MorphicNavbarProps {
   mode?: "landing" | "login";
@@ -101,19 +102,12 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
         )}
 
         <div className="flex items-center gap-2">
-          {mode === "landing" && (
-            <button
-              type="button"
-              onClick={() => setMobileOpen((prev) => !prev)}
-              className="inline-flex items-center justify-center border border-border bg-background/80 p-2 text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors md:hidden"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
-          )}
-          <ThemeToggle />
+          {/* Hide theme toggle and action buttons on mobile to declutter */}
+          <div className="hidden md:inline-flex">
+            <ThemeToggle />
+          </div>
           {mode === "landing" ? (
-            <Button asChild size="sm" className="h-9 px-4 rounded-none">
+            <Button asChild size="sm" className="hidden md:inline-flex h-9 px-4 rounded-none">
               <Link href="/login">Login</Link>
             </Button>
           ) : (
@@ -121,41 +115,69 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
               asChild
               variant="outline"
               size="sm"
-              className="h-8 px-4 text-xs rounded-none"
+              className="hidden md:inline-flex h-8 px-4 text-xs rounded-none"
             >
               <Link href="/">Back to site</Link>
             </Button>
           )}
+
+          {/* Mobile hamburger with Sheet for both modes */}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center border border-border bg-background/80 p-2 text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors md:hidden"
+                aria-label="Open menu"
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[85%] max-w-sm p-0">
+              <nav className="px-6 py-6 space-y-2 text-sm">
+                {mode === "landing" && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleNavClick("services")}
+                      className={`${navButtonClasses("services")} w-full text-left`}
+                    >
+                      Services
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleNavClick("tracking")}
+                      className={`${navButtonClasses("tracking")} w-full text-left`}
+                    >
+                      Track
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleNavClick("contact")}
+                      className={`${navButtonClasses("contact")} w-full text-left`}
+                    >
+                      Contact
+                    </button>
+                  </>
+                )}
+
+                {/* Shared mobile actions */}
+                <div className="pt-3 mt-3 border-t border-border/60" />
+                {mode === "landing" ? (
+                  <Link href="/login" className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60">Login</Link>
+                ) : (
+                  <Link href="/" className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60">Back to site</Link>
+                )}
+                {/* Theme toggle inside menu on mobile */}
+                <div className="mt-2">
+                  <ThemeToggle />
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
 
-      {mode === "landing" && mobileOpen && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-sm md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-3 text-sm text-muted-foreground">
-            <button
-              type="button"
-              onClick={() => handleNavClick("services")}
-              className={`${navButtonClasses("services")} w-full text-left`}
-            >
-              Services
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("tracking")}
-              className={`${navButtonClasses("tracking")} w-full text-left`}
-            >
-              Track
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("contact")}
-              className={`${navButtonClasses("contact")} w-full text-left`}
-            >
-              Contact
-            </button>
-          </nav>
-        </div>
-      )}
+      
     </div>
   );
 }
