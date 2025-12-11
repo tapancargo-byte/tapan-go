@@ -168,7 +168,7 @@ function Navbar({ onNavClick, mobileOpen, setMobileOpen }: { onNavClick: (id: st
         <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border transition-colors duration-200">
             <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
                 <div className="flex-shrink-0">
-                    <BrandLogo size="sm" />
+                    <BrandLogo size="md" className="h-12 md:h-14 lg:h-16" />
                 </div>
 
                 {/* Desktop Nav - Centered */}
@@ -917,9 +917,23 @@ export function DashboardLandingRefactored({ initialAuthed = false }: DashboardA
                      <p className="text-xs text-muted-foreground">
                          © {new Date().getFullYear()} Tapan Associate · Powered by Arra-Core
                      </p>
-                     <div className="flex gap-4">
-                         <Mail className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
-                         <Phone className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                     <div className="flex flex-wrap items-center gap-4 text-xs">
+                         <Link
+                           href="/privacy-policy"
+                           className="text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+                         >
+                           Privacy Policy
+                         </Link>
+                         <Link
+                           href="/terms-of-service"
+                           className="text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+                         >
+                           Terms of Service
+                         </Link>
+                         <div className="flex gap-4">
+                           <Mail className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                           <Phone className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                         </div>
                      </div>
                  </div>
              </div>

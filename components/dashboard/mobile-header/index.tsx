@@ -25,7 +25,7 @@ export function MobileHeader({ notifications }: MobileHeaderProps) {
         <SidebarTrigger />
 
         {/* Center: Brand Logo */}
-        <BrandLogo size="xs" />
+        <BrandLogo size="xl" className="h-20 flex-1" />
 
         <div className="flex items-center gap-2">
           <Drawer>

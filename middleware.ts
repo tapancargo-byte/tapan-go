@@ -7,6 +7,8 @@ const PUBLIC_ROUTES = [
   "/",
   "/login",
   "/track",
+  "/privacy-policy",
+  "/terms-of-service",
   "/api/public",
   // Only expose dev seeding endpoint in development
   ...(process.env.NODE_ENV === "development"

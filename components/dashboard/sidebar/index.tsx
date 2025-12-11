@@ -325,7 +325,7 @@ export function DashboardSidebar({
   return (
     <Sidebar {...props} className={cn('py-sides', className)}>
       <SidebarHeader className="flex gap-3 flex-row items-center border-b border-sidebar-border pb-4">
-        <BrandLogo size="xs" priority className="flex-1" />
+        <BrandLogo size="md" priority className="flex-1 h-12 md:h-14 lg:h-16" />
         <div className="flex items-center justify-center gap-2">
           <ThemeToggle />
           <div className="w-2 h-2 bg-success animate-pulse" />
@@ -472,30 +472,21 @@ export function DashboardSidebar({
                         <span>Help & Support</span>
                       </button>
 
-                      {/* Divider and Logout */}
-                      <div className="border-t border-border pt-2 mt-1">
-                        <button
-                          type="button"
-                          onClick={handleSignOut}
-                          disabled={isSigningOut}
-                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-destructive hover:bg-red-50 dark:hover:bg-red-950 transition-colors font-medium disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                          <span>{isSigningOut ? 'Signing out…' : 'Sign Out'}</span>
-                        </button>
-                      </div>
+                      {/* Divider */}
+                      <div className="border-t border-border pt-2 mt-1" />
                     </div>
                   </PopoverContent>
                 </Popover>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                 <SidebarMenuButton 
-                   onClick={handleSignOut} 
-                   disabled={isSigningOut}
-                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                 >
-                   <LockIcon className="size-4" />
-                   <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
-                 </SidebarMenuButton>
+                <SidebarMenuButton
+                  onClick={handleSignOut}
+                  disabled={isSigningOut}
+                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                >
+                  <LockIcon className="size-4" />
+                  <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

@@ -23,6 +23,7 @@ import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
+import { BrandLogo } from "@/components/ui/brand-logo"
 import {
   Sidebar,
   SidebarContent,
@@ -161,12 +162,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="/dashboard">
-                <img src="/icons/logo.svg" alt="Tapan Associate" className="size-5" />
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
+              <a href="/dashboard" className="inline-flex items-center gap-2">
+                <BrandLogo size="md" className="h-12 md:h-14 lg:h-16" />
                 <span className="text-base font-semibold">Tapan Associate</span>
               </a>
             </SidebarMenuButton>
