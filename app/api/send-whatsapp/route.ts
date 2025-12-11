@@ -124,6 +124,7 @@ export async function POST(req: Request) {
         error?.name === "AbortError"
           ? "WhatsApp request timed out"
           : error?.message || "WhatsApp request failed";
+      const statusCode = error?.name === "AbortError" ? 504 : 502;
 
       try {
         await supabaseAdmin.from("whatsapp_logs").insert({
@@ -141,7 +142,7 @@ export async function POST(req: Request) {
 
       return NextResponse.json(
         { error: timeoutMessage },
-        { status: 504 },
+        { status: statusCode },
       );
     } finally {
       clearTimeout(timeoutId);
