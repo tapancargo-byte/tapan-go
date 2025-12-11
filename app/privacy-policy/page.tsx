@@ -117,7 +117,33 @@ export default function PrivacyPolicyPage() {
             <li>Request clarification about how your information is used in our operations systems.</li>
           </ul>
 
-          <h2 className="text-lg md:text-xl font-semibold text-foreground mt-6">8. Security</h2>
+          <h2
+            id="data-deletion"
+            className="text-lg md:text-xl font-semibold text-foreground mt-6"
+          >
+            8. Data deletion
+          </h2>
+          <p>
+            We do not store Facebook profile data about you. We only process the
+            contact and shipment details that you or your organisation provide to
+            operate our cargo services and to send invoices or shipment
+            information, including over WhatsApp where requested.
+          </p>
+          <p className="mt-2">
+            If you would like us to delete your customer or shipment records in
+            our systems, you can contact us using the details in the
+            <span className="font-semibold"> Contact us</span> section below. We will
+            delete or anonymise information that is no longer needed for
+            operations, dispute handling, or legal and accounting obligations.
+          </p>
+          <p className="mt-2">
+            When Meta (Facebook or WhatsApp) sends us an automatic data deletion
+            request related to your use of their platforms, we review the
+            request and, where applicable, remove any associated records we
+            maintain that are linked to that use.
+          </p>
+
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mt-6">9. Security</h2>
           <p>
             We use reasonable technical and organizational measures to protect personal
             information against unauthorized access, loss, or misuse. No system can be
@@ -125,7 +151,7 @@ export default function PrivacyPolicyPage() {
             safeguards.
           </p>
 
-          <h2 className="text-lg md:text-xl font-semibold text-foreground mt-6">9. Changes to this policy</h2>
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mt-6">10. Changes to this policy</h2>
           <p>
             We may update this Privacy Policy from time to time to reflect changes in
             our operations or in applicable requirements. When we do, we will update
@@ -133,7 +159,7 @@ export default function PrivacyPolicyPage() {
             changes, we may also provide additional notice through our portal.
           </p>
 
-          <h2 className="text-lg md:text-xl font-semibold text-foreground mt-6">10. Contact us</h2>
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mt-6">11. Contact us</h2>
           <p>
             If you have questions about this Privacy Policy or how we handle your data,
             you can reach our operations team at:

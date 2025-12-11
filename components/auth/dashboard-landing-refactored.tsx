@@ -273,8 +273,6 @@ export function DashboardLandingRefactored({ initialAuthed = false }: DashboardA
     return () => { document.body.style.overflow = previousOverflow; };
   }, [authState.checking, authState.authed]);
 
-  if (!authState.checking && authState.authed) return null;
-
   const handleNavClick = (id: string) => {
     if (typeof document === "undefined") return;
     const el = document.getElementById(id);
