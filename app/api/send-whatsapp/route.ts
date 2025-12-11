@@ -64,16 +64,25 @@ export async function POST(req: Request) {
     }
 
     // Basic normalization: strip spaces. Assume number stored in WhatsApp-ready E.164 format.
-    // Country code is configurable via WHATSAPP_DEFAULT_COUNTRY_CODE env var (no hardcoded default)
+    // Country code is configurable via WHATSAPP_DEFAULT_COUNTRY_CODE env var
     const defaultCountryCode = process.env.WHATSAPP_DEFAULT_COUNTRY_CODE;
     let to = rawPhone.replace(/\s+/g, "");
 
     if (!to.startsWith("+")) {
       const digitsOnly = to.replace(/\D+/g, "");
 
-      if (digitsOnly.length === 10 && defaultCountryCode) {
-        // 10-digit number with configured country code → prepend it
-        to = `+${defaultCountryCode}${digitsOnly}`;
+      if (digitsOnly.length === 10) {
+        if (defaultCountryCode) {
+          // 10-digit number with configured country code → prepend it
+          to = `+${defaultCountryCode}${digitsOnly}`;
+        } else {
+          // No country code configured - return error for 10-digit numbers
+          console.warn("10-digit phone number requires WHATSAPP_DEFAULT_COUNTRY_CODE env var");
+          return NextResponse.json(
+            { error: "Phone number requires country code. Please update to include country code (e.g., +91XXXXXXXXXX)" },
+            { status: 400 },
+          );
+        }
       } else if (digitsOnly.length >= 11 && digitsOnly.length <= 15) {
         // Assume full international number without + (11-15 digits per E.164)
         to = `+${digitsOnly}`;
