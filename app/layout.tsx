@@ -5,7 +5,6 @@ import "./globals.css";
 // import "@fullcalendar/daygrid/main.css";
 import { Metadata } from "next";
 import { V0Provider } from "@/lib/v0-context";
-import localFont from "next/font/local";
 import type { Notification as DashboardNotification, WidgetData } from "@/types/dashboard";
 import { ThemeProvider } from "@/components/theme-provider";
 import { RootShell } from "@/components/layout/root-shell";
@@ -45,12 +44,6 @@ const golosText = Golos_Text({
   variable: "--text-family",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-});
-
-const rebelGrotesk = localFont({
-  src: "../public/fonts/Rebels-Fett.woff2",
-  variable: "--font-rebels",
-  display: "swap",
 });
 
 const isV0 = process.env["VERCEL_URL"]?.includes("vusercontent.net") ?? false;
@@ -93,19 +86,12 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${golosText.variable}`}
     >
       <head>
-        <link
-          rel="preload"
-          href="/fonts/Rebels-Fett.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         <link rel="stylesheet" href="/icons/css/all.min.css" />
         {/* FullCalendar CSS via CDN for calendar styling */}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" />
       </head>
       <body
-        className={`${rebelGrotesk.variable} ${robotoMono.variable} ${inter.variable} ${merriweather.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${robotoMono.variable} ${inter.variable} ${merriweather.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <LocationProvider>
