@@ -122,7 +122,8 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
           emailDomain,
         });
 
-        await registerFailedLogin(emailHash);
+        // Don't register failed login for validation errors - these are client-side
+        // input issues, not actual authentication attempts that should trigger lockout
 
         return { success: false, error: "Invalid email or password." };
       }

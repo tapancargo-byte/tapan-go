@@ -424,6 +424,13 @@ create policy "admins_all_auth_lockouts" on public.auth_lockouts
       where users.id = auth.uid()
       and users.role = 'admin'
     )
+  )
+  with check (
+    exists (
+      select 1 from users
+      where users.id = auth.uid()
+      and users.role = 'admin'
+    )
   );
 
 -- ============================================================

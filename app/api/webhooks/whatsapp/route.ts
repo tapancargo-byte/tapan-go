@@ -48,7 +48,7 @@ export async function GET(req: Request) {
 
   const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
 
-  if (mode === "subscribe" && token && challenge && token === verifyToken) {
+  if (mode === "subscribe" && token && challenge && verifyToken && safeCompare(token, verifyToken)) {
     // Meta expects the raw challenge string in the body on success
     return new Response(challenge, {
       status: 200,
