@@ -38,6 +38,100 @@ export default function SettingsPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordSaving, setPasswordSaving] = useState(false);
 
+  const [mfaChecking, setMfaChecking] = useState(true);
+  const [hasTotp, setHasTotp] = useState(false);
+  const [mfaError, setMfaError] = useState<string | null>(null);
+  const [enrollLoading, setEnrollLoading] = useState(false);
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [factorId, setFactorId] = useState<string | null>(null);
+  const [verifyCode, setVerifyCode] = useState("");
+
+  const handleStartMfaEnroll = async () => {
+    setMfaError(null);
+    setEnrollLoading(true);
+    setQrCode(null);
+    setFactorId(null);
+    try {
+      const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp" });
+      if (error) {
+        setMfaError(error.message ?? "Failed to start two-factor setup.");
+        return;
+      }
+      if (!data) {
+        setMfaError("Failed to start two-factor setup.");
+        return;
+      }
+      setFactorId(data.id);
+      setQrCode(data.totp?.qr_code ?? null);
+    } catch (err) {
+      setMfaError(
+        err instanceof Error ? err.message : "Failed to start two-factor setup."
+      );
+    } finally {
+      setEnrollLoading(false);
+    }
+  };
+
+  const handleConfirmMfaEnroll = async () => {
+    if (!factorId) {
+      setMfaError("Setup is not initialized. Start setup again.");
+      return;
+    }
+    if (!verifyCode.trim()) {
+      setMfaError("Enter the code from your authenticator app.");
+      return;
+    }
+
+    setEnrollLoading(true);
+    setMfaError(null);
+
+    try {
+      const challenge = await supabase.auth.mfa.challenge({ factorId });
+      if (challenge.error) {
+        setMfaError(challenge.error.message ?? "Failed to start verification.");
+        return;
+      }
+
+      const challengeId = challenge.data?.id;
+      if (!challengeId) {
+        setMfaError("Invalid MFA challenge.");
+        return;
+      }
+
+      const verify = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code: verifyCode.trim(),
+      });
+      if (verify.error) {
+        setMfaError(verify.error.message ?? "Invalid verification code.");
+        return;
+      }
+
+      setHasTotp(true);
+      setQrCode(null);
+      setFactorId(null);
+      setVerifyCode("");
+      toast({
+        title: "Two-factor authentication enabled",
+        description: "You will be asked for a code when signing in.",
+      });
+    } catch (err) {
+      setMfaError(
+        err instanceof Error ? err.message : "Failed to verify two-factor code."
+      );
+    } finally {
+      setEnrollLoading(false);
+    }
+  };
+
+  const handleCancelMfaEnroll = () => {
+    setQrCode(null);
+    setFactorId(null);
+    setVerifyCode("");
+    setMfaError(null);
+  };
+
   useEffect(() => {
     let cancelled = false;
 
@@ -108,8 +202,31 @@ export default function SettingsPage() {
       }
     }
 
+    async function loadMfaStatus() {
+      try {
+        const { data, error } = await supabase.auth.mfa.listFactors();
+        if (cancelled) return;
+        if (error) {
+          setMfaError(error.message ?? "Failed to check two-factor status.");
+          return;
+        }
+        const hasTotpFactor = Array.isArray(data?.totp) && data.totp.length > 0;
+        setHasTotp(hasTotpFactor);
+      } catch (err) {
+        if (cancelled) return;
+        setMfaError(
+          err instanceof Error ? err.message : "Failed to check two-factor status."
+        );
+      } finally {
+        if (!cancelled) {
+          setMfaChecking(false);
+        }
+      }
+    }
+
     void loadOrgProfile();
     void loadRole();
+    void loadMfaStatus();
 
     return () => {
       cancelled = true;
@@ -314,6 +431,7 @@ export default function SettingsPage() {
       setPasswordSaving(false);
     }
   };
+
   return (
     <DashboardLayout
       header={{
@@ -536,10 +654,77 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <p className="font-medium">Two-Factor Authentication</p>
-                      <p className="text-sm text-muted-foreground">Add extra security to your account</p>
+                      <p className="text-sm text-muted-foreground">Use an authenticator app to protect your account.</p>
                     </div>
-                    <Switch />
+                    {mfaChecking ? (
+                      <span className="text-xs text-muted-foreground">Checking...</span>
+                    ) : hasTotp ? (
+                      <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Enabled</span>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        type="button"
+                        onClick={handleStartMfaEnroll}
+                        disabled={enrollLoading}
+                      >
+                        {enrollLoading ? "Starting..." : "Enable"}
+                      </Button>
+                    )}
                   </div>
+                  {mfaError && (
+                    <p className="text-xs text-destructive">
+                      {mfaError}
+                    </p>
+                  )}
+                  {qrCode && (
+                    <div className="space-y-3 rounded-md border bg-muted/40 p-3">
+                      <p className="text-sm font-medium">
+                        Scan the QR code and enter the 6-digit code to finish setup.
+                      </p>
+                      <div className="flex flex-col items-center gap-3 sm:flex-row">
+                        <img
+                          src={qrCode}
+                          alt="Authenticator QR code"
+                          className="h-32 w-32 shrink-0"
+                        />
+                        <div className="w-full space-y-2">
+                          <Input
+                            type="text"
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                            placeholder="Enter code from app"
+                            value={verifyCode}
+                            onChange={(e) => setVerifyCode(e.target.value)}
+                            disabled={enrollLoading}
+                          />
+                          <div className="flex gap-2">
+                            <Button
+                              type="button"
+                              className="bg-orange-600 hover:bg-orange-700"
+                              onClick={handleConfirmMfaEnroll}
+                              disabled={enrollLoading}
+                            >
+                              {enrollLoading ? "Verifying..." : "Verify and enable"}
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={handleCancelMfaEnroll}
+                              disabled={enrollLoading}
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {hasTotp && !qrCode && (
+                    <p className="text-xs text-muted-foreground">
+                      Two-factor authentication is active. Admin and manager accounts will be required to complete an extra step when signing in.
+                    </p>
+                  )}
                 </div>
               </CardContent>
             </Card>
