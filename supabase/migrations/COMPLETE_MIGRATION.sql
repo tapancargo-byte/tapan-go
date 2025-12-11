@@ -382,6 +382,12 @@ create table if not exists public.audit_logs (
   created_at timestamptz not null default now()
 );
 
+-- Indexes for audit_logs query performance
+create index if not exists idx_audit_logs_event_type on public.audit_logs(event_type);
+create index if not exists idx_audit_logs_user_id on public.audit_logs(user_id);
+create index if not exists idx_audit_logs_created_at on public.audit_logs(created_at desc);
+create index if not exists idx_audit_logs_event_user on public.audit_logs(event_type, user_id);
+
 alter table public.audit_logs enable row level security;
 
 drop policy if exists "admins_all_audit_logs" on public.audit_logs;
