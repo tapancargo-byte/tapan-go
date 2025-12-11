@@ -5,6 +5,10 @@ interface SendWhatsAppBody {
   invoiceId: string;
 }
 
+// WhatsApp Business API requires template messages for business-initiated conversations.
+// Free-form text messages only work within a 24-hour window after the customer messages first.
+// See: https://developers.facebook.com/docs/whatsapp/conversation-types
+
 export async function POST(req: Request) {
   try {
     const { invoiceId } = (await req.json()) as SendWhatsAppBody;
@@ -18,6 +22,7 @@ export async function POST(req: Request) {
 
     const token = process.env.WHATSAPP_ACCESS_TOKEN;
     const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+    const templateName = process.env.WHATSAPP_TEMPLATE_NAME || "invoice_notification";
 
     if (!token || !phoneNumberId) {
       return NextResponse.json(
@@ -93,13 +98,35 @@ export async function POST(req: Request) {
 
     const customerName = customer?.name?.trim() || "Customer";
 
-    const text = `Hello ${customerName}, your invoice ${invoiceRef} for ${amountDisplay} is ready. View it here: ${link}`;
-
     const url = `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`;
 
     const controller = new AbortController();
     const timeoutMs = 15000;
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    // Use template message for business-initiated conversations.
+    // Template must be pre-approved in Meta Business Manager.
+    // Template parameters: {{1}} = customer name, {{2}} = invoice ref, {{3}} = amount, {{4}} = link
+    const messageBody = {
+      messaging_product: "whatsapp",
+      to,
+      type: "template",
+      template: {
+        name: templateName,
+        language: { code: "en" },
+        components: [
+          {
+            type: "body",
+            parameters: [
+              { type: "text", text: customerName },
+              { type: "text", text: invoiceRef },
+              { type: "text", text: amountDisplay },
+              { type: "text", text: link },
+            ],
+          },
+        ],
+      },
+    };
 
     let waRes: Response;
     try {
@@ -109,12 +136,7 @@ export async function POST(req: Request) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          messaging_product: "whatsapp",
-          to,
-          type: "text",
-          text: { body: text },
-        }),
+        body: JSON.stringify(messageBody),
         signal: controller.signal,
       });
     } catch (error: any) {
