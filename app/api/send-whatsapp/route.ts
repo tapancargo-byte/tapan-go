@@ -59,7 +59,25 @@ export async function POST(req: Request) {
     }
 
     // Basic normalization: strip spaces. Assume number stored in WhatsApp-ready E.164 format.
-    const to = rawPhone.replace(/\s+/g, "");
+    let to = rawPhone.replace(/\s+/g, "");
+
+    if (!to.startsWith("+")) {
+      const digitsOnly = to.replace(/\D+/g, "");
+
+      if (digitsOnly.length === 10) {
+        // 10-digit Indian mobile number → prepend +91
+        to = `+91${digitsOnly}`;
+      } else if (digitsOnly.length === 12 && digitsOnly.startsWith("91")) {
+        // 91xxxxxxxxxx → +91xxxxxxxxxx
+        to = `+${digitsOnly}`;
+      } else if (digitsOnly.startsWith("00") && digitsOnly.length > 2) {
+        // 00-prefixed international format → replace 00 with +
+        to = `+${digitsOnly.slice(2)}`;
+      } else if (digitsOnly.length > 0) {
+        // Fallback: best-effort international format
+        to = `+${digitsOnly}`;
+      }
+    }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://tapan-go.vercel.app";
     const invoiceRef: string = invoice.invoice_ref || invoice.id;
