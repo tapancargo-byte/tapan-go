@@ -47,21 +47,37 @@ export async function registerFailedLogin(emailHash: string): Promise<void> {
         now.getTime() + LOCKOUT_DURATION_MINUTES * 60 * 1000,
       ).toISOString();
 
-      await supabaseAdmin.from("auth_lockouts").upsert({
+      const { error: upsertError } = await supabaseAdmin.from("auth_lockouts").upsert({
         email_hash: emailHash,
         login_failed_count: 0,
         locked_until: lockedUntil,
         updated_at: now.toISOString(),
       });
+      if (upsertError) {
+        console.error("Failed to upsert lockout", { emailHash, error: upsertError });
+      }
     } else {
-      await supabaseAdmin.from("auth_lockouts").upsert({
-        email_hash: emailHash,
-        login_failed_count: nextCount,
-        locked_until: null,
-        updated_at: now.toISOString(),
-      });
+      const { error: upsertError } = await supabaseAdmin
+        .from("auth_lockouts")
+        .upsert({
+          email_hash: emailHash,
+          login_failed_count: nextCount,
+          locked_until: null,
+          updated_at: now.toISOString(),
+        });
+
+      if (upsertError) {
+        console.error("Failed to upsert lockout counter", {
+          emailHash,
+          error: upsertError,
+        });
+      }
     }
-  } catch {
+  } catch (error) {
+    console.error("Failed to register failed login for lockout", {
+      emailHash,
+      error,
+    });
   }
 }
 
@@ -74,6 +90,10 @@ export async function resetLockout(emailHash: string): Promise<void> {
       locked_until: null,
       updated_at: now,
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to reset lockout state", {
+      emailHash,
+      error,
+    });
   }
 }

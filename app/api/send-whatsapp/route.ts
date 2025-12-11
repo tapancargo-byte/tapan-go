@@ -5,6 +5,10 @@ interface SendWhatsAppBody {
   invoiceId: string;
 }
 
+// WhatsApp Business API requires template messages for business-initiated conversations.
+// Free-form text messages only work within a 24-hour window after the customer messages first.
+// See: https://developers.facebook.com/docs/whatsapp/conversation-types
+
 export async function POST(req: Request) {
   try {
     const { invoiceId } = (await req.json()) as SendWhatsAppBody;
@@ -18,6 +22,7 @@ export async function POST(req: Request) {
 
     const token = process.env.WHATSAPP_ACCESS_TOKEN;
     const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+    const templateName = process.env.WHATSAPP_TEMPLATE_NAME || "invoice";
 
     if (!token || !phoneNumberId) {
       return NextResponse.json(
@@ -79,37 +84,95 @@ export async function POST(req: Request) {
       }
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://tapan-go.vercel.app";
     const invoiceRef: string = invoice.invoice_ref || invoice.id;
-    const amount = Number(invoice.amount ?? 0);
-
-    const amountDisplay = amount
-      ? new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(amount)
-      : "your shipment";
-
-    const link = `${baseUrl.replace(/\/$/, "")}/invoices?ref=${encodeURIComponent(
-      invoiceRef,
-    )}`;
-
     const customerName = customer?.name?.trim() || "Customer";
-
-    const text = `Hello ${customerName}, your invoice ${invoiceRef} for ${amountDisplay} is ready. View it here: ${link}`;
 
     const url = `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`;
 
-    const waRes = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
+    const controller = new AbortController();
+    const timeoutMs = 15000;
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    // Use template message for business-initiated conversations.
+    // Template must be pre-approved in Meta Business Manager.
+    // User's template: "Hello {{1}}, Your invoice for order {{2}} is attached..."
+    // {{1}} = customer name, {{2}} = invoice ref
+    
+    // Build message body based on template type
+    let messageBody: Record<string, unknown>;
+    
+    if (templateName === "hello_world") {
+      // Meta's pre-approved test template (no parameters needed)
+      messageBody = {
         messaging_product: "whatsapp",
         to,
-        type: "text",
-        text: { body: text },
-      }),
-    });
+        type: "template",
+        template: {
+          name: "hello_world",
+          language: { code: "en_US" },
+        },
+      };
+    } else {
+      // Custom invoice template with 2 parameters: {{1}} = name, {{2}} = invoice ref
+      messageBody = {
+        messaging_product: "whatsapp",
+        to,
+        type: "template",
+        template: {
+          name: templateName,
+          language: { code: "en_US" },
+          components: [
+            {
+              type: "body",
+              parameters: [
+                { type: "text", text: customerName },
+                { type: "text", text: invoiceRef },
+              ],
+            },
+          ],
+        },
+      };
+    }
+
+    let waRes: Response;
+    try {
+      waRes = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(messageBody),
+        signal: controller.signal,
+      });
+    } catch (error: any) {
+      const timeoutMessage =
+        error?.name === "AbortError"
+          ? "WhatsApp request timed out"
+          : error?.message || "WhatsApp request failed";
+      const statusCode = error?.name === "AbortError" ? 504 : 502;
+
+      try {
+        await supabaseAdmin.from("whatsapp_logs").insert({
+          invoice_id: invoiceId,
+          phone: to,
+          mode: "meta_send",
+          status: "error",
+          error_message: timeoutMessage,
+          provider_message_id: null,
+          raw_response: null,
+        });
+      } catch {
+        // Ignore logging failures
+      }
+
+      return NextResponse.json(
+        { error: timeoutMessage },
+        { status: statusCode },
+      );
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     const waJson = await waRes.json().catch(() => null);
 

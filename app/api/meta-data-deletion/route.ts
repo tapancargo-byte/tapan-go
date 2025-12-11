@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "crypto";
 
 // Meta Data Deletion Request callback
 // Configure this URL in the Meta App Dashboard as the Data Deletion Request URL.
 // This endpoint does not delete any Facebook user data because the app
 // does not store Facebook profile data. It simply acknowledges the
 // request and points users to the privacy policy explaining data handling.
+
+function base64UrlToBuffer(input: string): Buffer {
+  const normalized = input.replace(/-/g, "+").replace(/_/g, "/");
+  return Buffer.from(normalized, "base64");
+}
 
 function base64UrlDecode(input: string): string {
   const normalized = input.replace(/-/g, "+").replace(/_/g, "/");
@@ -14,14 +20,35 @@ function base64UrlDecode(input: string): string {
 function parseSignedRequest(signedRequest: string | null): any | null {
   if (!signedRequest) return null;
 
+  const appSecret = process.env.META_APP_SECRET;
+  if (!appSecret) return null;
+
   const parts = signedRequest.split(".", 2);
   if (parts.length !== 2) return null;
 
-  const payload = parts[1];
+  const [encodedSig, payload] = parts;
 
   try {
+    const expectedSig = createHmac("sha256", appSecret)
+      .update(payload)
+      .digest();
+    const providedSig = base64UrlToBuffer(encodedSig);
+
+    if (
+      expectedSig.length !== providedSig.length ||
+      !timingSafeEqual(expectedSig, providedSig)
+    ) {
+      return null;
+    }
+
     const json = base64UrlDecode(payload);
-    return JSON.parse(json);
+    const decoded = JSON.parse(json);
+
+    if (typeof decoded?.algorithm === "string" && decoded.algorithm !== "HMAC-SHA256") {
+      return null;
+    }
+
+    return decoded;
   } catch {
     return null;
   }
