@@ -97,6 +97,8 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
       const locked = await isAccountLocked(emailHash);
       if (locked) {
         await logAuthEvent("login_failure", null, {
+          ip,
+          userAgent,
           reason: "account_locked",
           emailHash,
         });

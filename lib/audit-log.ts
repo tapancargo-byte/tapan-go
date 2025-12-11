@@ -22,6 +22,11 @@ export async function logAuthEvent(
       user_id: userId,
       metadata,
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to write auth audit log", {
+      event,
+      userId,
+      error,
+    });
   }
 }

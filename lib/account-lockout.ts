@@ -61,7 +61,11 @@ export async function registerFailedLogin(emailHash: string): Promise<void> {
         updated_at: now.toISOString(),
       });
     }
-  } catch {
+  } catch (error) {
+    console.error("Failed to register failed login for lockout", {
+      emailHash,
+      error,
+    });
   }
 }
 
@@ -74,6 +78,10 @@ export async function resetLockout(emailHash: string): Promise<void> {
       locked_until: null,
       updated_at: now,
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to reset lockout state", {
+      emailHash,
+      error,
+    });
   }
 }

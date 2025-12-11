@@ -97,19 +97,55 @@ export async function POST(req: Request) {
 
     const url = `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`;
 
-    const waRes = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to,
-        type: "text",
-        text: { body: text },
-      }),
-    });
+    const controller = new AbortController();
+    const timeoutMs = 15000;
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    let waRes: Response;
+    try {
+      waRes = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to,
+          type: "text",
+          text: { body: text },
+        }),
+        signal: controller.signal,
+      });
+    } catch (error: any) {
+      clearTimeout(timeoutId);
+
+      const timeoutMessage =
+        error?.name === "AbortError"
+          ? "WhatsApp request timed out"
+          : error?.message || "WhatsApp request failed";
+
+      try {
+        await supabaseAdmin.from("whatsapp_logs").insert({
+          invoice_id: invoiceId,
+          phone: to,
+          mode: "meta_send",
+          status: "error",
+          error_message: timeoutMessage,
+          provider_message_id: null,
+          raw_response: null,
+        });
+      } catch {
+        // Ignore logging failures
+      }
+
+      return NextResponse.json(
+        { error: timeoutMessage },
+        { status: 504 },
+      );
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     const waJson = await waRes.json().catch(() => null);
 

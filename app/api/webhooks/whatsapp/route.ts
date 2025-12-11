@@ -1,9 +1,44 @@
 import { NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "crypto";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // WhatsApp Cloud API webhook handler
 // Used as Callback URL in Meta WhatsApp Business configuration.
 // Supports both GET (verification) and POST (event notifications).
+
+function safeCompare(a: string, b: string): boolean {
+  const aBuf = Buffer.from(a);
+  const bBuf = Buffer.from(b);
+  if (aBuf.length !== bBuf.length) {
+    return false;
+  }
+  return timingSafeEqual(aBuf, bBuf);
+}
+
+function verifyMetaSignature(rawBody: string, signatureHeader: string | null): boolean {
+  const appSecret = process.env.META_APP_SECRET;
+  if (!appSecret) {
+    console.error("META_APP_SECRET is not configured; rejecting Meta webhook request.");
+    return false;
+  }
+
+  if (!signatureHeader) {
+    console.error("Missing x-hub-signature-256 header on Meta webhook request.");
+    return false;
+  }
+
+  const [scheme, signature] = signatureHeader.split("=", 2);
+  if (scheme !== "sha256" || !signature) {
+    console.error("Malformed x-hub-signature-256 header on Meta webhook request.");
+    return false;
+  }
+
+  const expected = createHmac("sha256", appSecret)
+    .update(rawBody, "utf8")
+    .digest("hex");
+
+  return safeCompare(signature, expected);
+}
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -26,7 +61,22 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const rawBody = await req.text();
+
+    const signatureHeader = req.headers.get("x-hub-signature-256");
+    const validSignature = verifyMetaSignature(rawBody, signatureHeader);
+    if (!validSignature) {
+      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+    }
+
+    let body: any = {};
+    if (rawBody) {
+      try {
+        body = JSON.parse(rawBody);
+      } catch {
+        body = {};
+      }
+    }
 
     // Best-effort logging of webhook payload to whatsapp_logs for observability.
     // We may not always be able to associate to a specific invoice, so invoice_id is nullable.
