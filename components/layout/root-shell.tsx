@@ -69,7 +69,6 @@ export function RootShell({
   }, [pathname, router]);
 
   const isStandaloneRoute =
-    pathname === "/" ||
     pathname === "/login" ||
     pathname === "/track" ||
     pathname.startsWith("/track/") ||
