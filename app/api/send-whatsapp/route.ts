@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     const token = process.env.WHATSAPP_ACCESS_TOKEN;
     const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-    const templateName = process.env.WHATSAPP_TEMPLATE_NAME || "invoice_notification";
+    const templateName = process.env.WHATSAPP_TEMPLATE_NAME || "invoice";
 
     if (!token || !phoneNumberId) {
       return NextResponse.json(
