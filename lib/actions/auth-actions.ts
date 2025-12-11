@@ -8,6 +8,7 @@ import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { createHash } from "crypto";
 import { logAuthEvent } from "@/lib/audit-log";
+import { isAccountLocked, registerFailedLogin, resetLockout } from "@/lib/account-lockout";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -93,6 +94,20 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
         };
       }
 
+      const locked = await isAccountLocked(emailHash);
+      if (locked) {
+        await logAuthEvent("login_failure", null, {
+          reason: "account_locked",
+          emailHash,
+        });
+
+        return {
+          success: false,
+          error:
+            "Too many failed login attempts. Please try again later.",
+        };
+      }
+
       // 2. Validation
       const validated = signInSchema.safeParse({ email, password });
       if (!validated.success) {
@@ -104,6 +119,8 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
           reason: "validation",
           emailDomain,
         });
+
+        await registerFailedLogin(emailHash);
 
         return { success: false, error: "Invalid email or password." };
       }
@@ -131,6 +148,8 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
             message: error.message,
           });
 
+          await registerFailedLogin(emailHash);
+
           return { success: false, error: error.message };
         }
 
@@ -143,6 +162,8 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
             reason: "no_session",
             emailDomain,
           });
+
+          await registerFailedLogin(emailHash);
 
           return {
             success: false,
@@ -173,6 +194,8 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
           userAgent,
           emailDomain,
         });
+
+        await resetLockout(emailHash);
 
         return { success: true };
       } catch (error) {
