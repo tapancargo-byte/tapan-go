@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { createHash } from "crypto";
+import { logAuthEvent } from "@/lib/audit-log";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -27,7 +28,9 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
       span.setAttribute("auth.login_attempt", true);
 
       // 1. Rate Limiting
-      const ip = (await headers()).get("x-forwarded-for") || "unknown";
+      const headerStore = await headers();
+      const ip = headerStore.get("x-forwarded-for") || "unknown";
+      const userAgent = headerStore.get("user-agent") || "unknown";
       try {
         await requireRateLimit("auth", ip);
       } catch (error) {
@@ -42,6 +45,12 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
         logger.warn(
           logger.fmt`Rate limit reached for auth from IP: ${ip}`,
         );
+
+        await logAuthEvent("login_failure", null, {
+          ip,
+          userAgent,
+          reason: "rate_limit_ip",
+        });
 
         return {
           success: false,
@@ -70,6 +79,13 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
           emailHash,
         });
 
+        await logAuthEvent("login_failure", null, {
+          ip,
+          userAgent,
+          reason: "rate_limit_account",
+          emailHash,
+        });
+
         return {
           success: false,
           error:
@@ -82,6 +98,11 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
       if (!validated.success) {
         logger.warn("Sign-in validation failed", {
           reason: "invalid_credentials",
+        });
+
+        await logAuthEvent("login_failure", null, {
+          reason: "validation",
+          emailDomain,
         });
 
         return { success: false, error: "Invalid email or password." };
@@ -104,6 +125,12 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
             logger.fmt`Supabase sign-in failed for domain ${emailDomain}: ${error.message}`,
           );
 
+          await logAuthEvent("login_failure", null, {
+            reason: "supabase_error",
+            emailDomain,
+            message: error.message,
+          });
+
           return { success: false, error: error.message };
         }
 
@@ -111,6 +138,11 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
           logger.error(
             logger.fmt`Supabase sign-in returned no session for domain ${emailDomain}`,
           );
+
+          await logAuthEvent("login_failure", null, {
+            reason: "no_session",
+            emailDomain,
+          });
 
           return {
             success: false,
@@ -123,6 +155,11 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
         if (!user?.email_confirmed_at) {
           logger.warn("Unverified email attempted login", { emailDomain });
 
+          await logAuthEvent("login_failure", user?.id ?? null, {
+            reason: "unverified_email",
+            emailDomain,
+          });
+
           return {
             success: false,
             error: "Please verify your email address before signing in.",
@@ -130,6 +167,12 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
         }
 
         logger.info("User signed in", { emailDomain, userId: user.id });
+
+        await logAuthEvent("login_success", user.id, {
+          ip,
+          userAgent,
+          emailDomain,
+        });
 
         return { success: true };
       } catch (error) {
@@ -152,6 +195,15 @@ export async function signInAction(data: z.infer<typeof signInSchema>) {
 
 export async function signOutAction() {
   const supabase = await createClient();
+  const headerStore = await headers();
+  const ip = headerStore.get("x-forwarded-for") || "unknown";
+  const userAgent = headerStore.get("user-agent") || "unknown";
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id ?? null;
   await supabase.auth.signOut();
+  await logAuthEvent("logout", userId, {
+    ip,
+    userAgent,
+  });
   redirect("/login");
 }

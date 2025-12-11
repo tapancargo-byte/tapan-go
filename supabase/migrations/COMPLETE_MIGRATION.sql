@@ -370,6 +370,31 @@ CREATE INDEX IF NOT EXISTS idx_barcodes_shipment_id ON barcodes(shipment_id);
 CREATE INDEX IF NOT EXISTS idx_package_scans_barcode_id ON package_scans(barcode_id);
 CREATE INDEX IF NOT EXISTS idx_customers_user_id ON customers(user_id);
 
+-- ========================================
+-- Auth Audit Logs
+-- ========================================
+
+create table if not exists public.audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  event_type text not null,
+  user_id uuid null,
+  metadata jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.audit_logs enable row level security;
+
+drop policy if exists "admins_all_audit_logs" on public.audit_logs;
+create policy "admins_all_audit_logs" on public.audit_logs
+  for all
+  using (
+    exists (
+      select 1 from users
+      where users.id = auth.uid()
+      and users.role = 'admin'
+    )
+  );
+
 -- ============================================================
 -- MIGRATION COMPLETE!
 -- ============================================================
