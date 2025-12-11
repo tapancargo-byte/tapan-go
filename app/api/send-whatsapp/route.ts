@@ -106,27 +106,44 @@ export async function POST(req: Request) {
 
     // Use template message for business-initiated conversations.
     // Template must be pre-approved in Meta Business Manager.
-    // Template parameters: {{1}} = customer name, {{2}} = invoice ref, {{3}} = amount, {{4}} = link
-    const messageBody = {
-      messaging_product: "whatsapp",
-      to,
-      type: "template",
-      template: {
-        name: templateName,
-        language: { code: "en" },
-        components: [
-          {
-            type: "body",
-            parameters: [
-              { type: "text", text: customerName },
-              { type: "text", text: invoiceRef },
-              { type: "text", text: amountDisplay },
-              { type: "text", text: link },
-            ],
-          },
-        ],
-      },
-    };
+    // User's template: "Hello {{1}}, Your invoice for order {{2}} is attached..."
+    // {{1}} = customer name, {{2}} = invoice ref
+    
+    // Build message body based on template type
+    let messageBody: Record<string, unknown>;
+    
+    if (templateName === "hello_world") {
+      // Meta's pre-approved test template (no parameters needed)
+      messageBody = {
+        messaging_product: "whatsapp",
+        to,
+        type: "template",
+        template: {
+          name: "hello_world",
+          language: { code: "en_US" },
+        },
+      };
+    } else {
+      // Custom invoice template with 2 parameters: {{1}} = name, {{2}} = invoice ref
+      messageBody = {
+        messaging_product: "whatsapp",
+        to,
+        type: "template",
+        template: {
+          name: templateName,
+          language: { code: "en_US" },
+          components: [
+            {
+              type: "body",
+              parameters: [
+                { type: "text", text: customerName },
+                { type: "text", text: invoiceRef },
+              ],
+            },
+          ],
+        },
+      };
+    }
 
     let waRes: Response;
     try {
