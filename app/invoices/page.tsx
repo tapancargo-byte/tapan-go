@@ -721,9 +721,8 @@ function InvoicesPageContent() {
     setActionLoading((prev) => ({ ...prev, [invoice.dbId]: true }));
     try {
       const customerLabel = invoice.customerName || "Unknown customer";
-      const amountDisplay = `₹${invoice.amount.toLocaleString("en-IN")}`;
 
-      const res = await fetch("/api/twilio/invoice/send", {
+      const res = await fetch("/api/send-whatsapp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ invoiceId: invoice.dbId }),
@@ -733,7 +732,7 @@ function InvoicesPageContent() {
       if (!res.ok || !json?.success) {
         const message =
           (typeof json?.error === "string" && json.error) ||
-          "Could not send SMS right now.";
+          "Could not send WhatsApp message right now.";
         setTwilioStatuses((prev) => ({
           ...prev,
           [invoice.dbId]: {
@@ -743,7 +742,7 @@ function InvoicesPageContent() {
           },
         }));
         toast({
-          title: "SMS error",
+          title: "WhatsApp error",
           description: message,
           variant: "destructive",
         });
@@ -763,15 +762,15 @@ function InvoicesPageContent() {
       }));
 
       toast({
-        title: "SMS sent",
-        description: `Invoice ${invoice.id} was sent via SMS to ${serverTo}.`,
+        title: "WhatsApp message sent",
+        description: `Invoice ${invoice.id} was sent via WhatsApp to ${serverTo}.`,
       });
     } catch (error: any) {
-      console.error("Failed to send invoice via Twilio SMS", error);
+      console.error("Failed to send invoice via WhatsApp", error);
       toast({
-        title: "SMS error",
+        title: "WhatsApp error",
         description:
-          error?.message || "Something went wrong while sending the SMS.",
+          error?.message || "Something went wrong while sending the WhatsApp message.",
         variant: "destructive",
       });
       setTwilioStatuses((prev) => ({
@@ -780,7 +779,7 @@ function InvoicesPageContent() {
           status: "error",
           errorMessage:
             (error?.message as string | undefined) ||
-            "Unexpected SMS error",
+            "Unexpected WhatsApp error",
           createdAt: new Date().toISOString(),
         },
       }));
@@ -926,10 +925,10 @@ function InvoicesPageContent() {
 
     const label =
       info.status === "success"
-        ? "SMS: SENT"
+        ? "WhatsApp: SENT"
         : info.status === "error"
-        ? "SMS: ERROR"
-        : `SMS: ${info.status.toUpperCase()}`;
+        ? "WhatsApp: ERROR"
+        : `WhatsApp: ${info.status.toUpperCase()}`;
 
     const color =
       info.status === "success"
