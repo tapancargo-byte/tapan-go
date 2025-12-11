@@ -165,8 +165,8 @@ export function InvoicesTable({
                             disabled={!!actionLoading[invoice.dbId]}
                           >
                             {actionLoading[invoice.dbId]
-                              ? "Sending SMS..."
-                              : "Send via SMS"}
+                              ? "Sending WhatsApp..."
+                              : "Send via WhatsApp"}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             variant="destructive"
