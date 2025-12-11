@@ -64,18 +64,18 @@ export async function POST(req: Request) {
     }
 
     // Basic normalization: strip spaces. Assume number stored in WhatsApp-ready E.164 format.
-    // Default country code is configurable via WHATSAPP_DEFAULT_COUNTRY_CODE env var (default: 91 for India)
-    const defaultCountryCode = process.env.WHATSAPP_DEFAULT_COUNTRY_CODE || "91";
+    // Country code is configurable via WHATSAPP_DEFAULT_COUNTRY_CODE env var (no hardcoded default)
+    const defaultCountryCode = process.env.WHATSAPP_DEFAULT_COUNTRY_CODE;
     let to = rawPhone.replace(/\s+/g, "");
 
     if (!to.startsWith("+")) {
       const digitsOnly = to.replace(/\D+/g, "");
 
-      if (digitsOnly.length === 10) {
-        // 10-digit number → prepend default country code
+      if (digitsOnly.length === 10 && defaultCountryCode) {
+        // 10-digit number with configured country code → prepend it
         to = `+${defaultCountryCode}${digitsOnly}`;
-      } else if (digitsOnly.length === 12 && digitsOnly.startsWith(defaultCountryCode)) {
-        // Already has country code without + → add +
+      } else if (digitsOnly.length >= 11 && digitsOnly.length <= 15) {
+        // Assume full international number without + (11-15 digits per E.164)
         to = `+${digitsOnly}`;
       } else if (digitsOnly.startsWith("00") && digitsOnly.length > 2) {
         // 00-prefixed international format → replace 00 with +
