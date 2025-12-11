@@ -930,9 +930,9 @@ export function DashboardLandingRefactored({ initialAuthed = false }: DashboardA
                          >
                            Terms of Service
                          </Link>
-                         <div className="flex gap-4">
-                           <Mail className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
-                           <Phone className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+                         <div className="flex gap-4 text-muted-foreground">
+                           <Mail className="h-4 w-4" aria-hidden="true" />
+                           <Phone className="h-4 w-4" aria-hidden="true" />
                          </div>
                      </div>
                  </div>

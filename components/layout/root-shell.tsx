@@ -71,6 +71,7 @@ export function RootShell({
     pathname === "/" ||
     pathname === "/login" ||
     pathname === "/track" ||
+    pathname.startsWith("/track/") ||
     pathname === "/privacy-policy" ||
     pathname === "/terms-of-service" ||
     pathname === "/unauthorized" ||

@@ -25,63 +25,6 @@ const sizeConfig = {
   "2xl": { width: 320, height: 96, className: "h-24" },
 };
 
-const styleConfig = {
-  xs: {
-    icon: "w-7 h-7",
-    tapanText: "text-base",
-    associateText: "text-[0.6rem]",
-    dividerText: "text-xs",
-    bar1: "h-0.5 w-8",
-    bar2: "h-0.5 w-6",
-    bar3: "h-0.5 w-4",
-  },
-  sm: {
-    icon: "w-8 h-8",
-    tapanText: "text-lg",
-    associateText: "text-xs",
-    dividerText: "text-sm",
-    bar1: "h-0.5 w-10",
-    bar2: "h-0.5 w-8",
-    bar3: "h-0.5 w-5",
-  },
-  md: {
-    icon: "w-9 h-9",
-    tapanText: "text-xl",
-    associateText: "text-sm",
-    dividerText: "text-base",
-    bar1: "h-1 w-12",
-    bar2: "h-1 w-9",
-    bar3: "h-1 w-6",
-  },
-  lg: {
-    icon: "w-10 h-10",
-    tapanText: "text-2xl",
-    associateText: "text-base",
-    dividerText: "text-lg",
-    bar1: "h-1 w-16",
-    bar2: "h-1 w-12",
-    bar3: "h-1 w-8",
-  },
-  xl: {
-    icon: "w-12 h-12",
-    tapanText: "text-3xl",
-    associateText: "text-lg",
-    dividerText: "text-xl",
-    bar1: "h-1.5 w-20",
-    bar2: "h-1.5 w-14",
-    bar3: "h-1.5 w-10",
-  },
-  "2xl": {
-    icon: "w-14 h-14",
-    tapanText: "text-4xl",
-    associateText: "text-xl",
-    dividerText: "text-2xl",
-    bar1: "h-2 w-24",
-    bar2: "h-2 w-18",
-    bar3: "h-2 w-12",
-  },
-} as const;
-
 /**
  * BrandLogo - Theme-aware logo component for Tapan Go
  * 
