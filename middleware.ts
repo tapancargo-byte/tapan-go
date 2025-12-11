@@ -10,6 +10,9 @@ const PUBLIC_ROUTES = [
   "/privacy-policy",
   "/terms-of-service",
   "/api/public",
+  // Meta / WhatsApp webhooks (must be publicly accessible for verification callbacks)
+  "/api/webhooks/whatsapp",
+  "/api/meta-data-deletion",
   // Only expose dev seeding endpoint in development
   ...(process.env.NODE_ENV === "development"
     ? ["/api/dev/seed-test-users"]
