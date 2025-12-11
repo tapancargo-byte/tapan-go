@@ -73,7 +73,7 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
   return (
     <div className="relative">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <BrandLogo size="xs" />
+        <BrandLogo size="md" className="h-12 md:h-14 lg:h-16" />
 
         {mode === "landing" && (
           <nav className="hidden md:flex items-center gap-6">

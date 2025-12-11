@@ -5,7 +5,8 @@ import { useSidebar } from "./sidebar-context";
 import { NAV_GROUPS } from "@/lib/constants/nav-links";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+ 
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signOutAction } from "@/lib/actions/auth-actions";
@@ -27,13 +28,7 @@ export function AppSidebar() {
         {/* Header */}
         <div className="flex h-16 items-center border-b px-4">
           <div className="flex items-center gap-2">
-            <Image
-              src="/icons/logo.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-              className="dark:invert"
-            />
+            <BrandLogo size="md" className="h-12 md:h-14 lg:h-16" />
             {!isCollapsed && (
               <span className="font-bold text-lg tracking-tight">Tapango</span>
             )}

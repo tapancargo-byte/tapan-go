@@ -118,7 +118,7 @@ export default async function TrackingPage({ params }: PageProps) {
       {/* Header */}
       <div className="border-b border-border/50 bg-background/90 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <BrandLogo size="xs" priority />
+          <BrandLogo size="md" priority className="h-12 md:h-14 lg:h-16" />
           <p className="text-[0.7rem] font-mono uppercase tracking-[0.2em] text-muted-foreground">
             Public tracking · {awb}
           </p>

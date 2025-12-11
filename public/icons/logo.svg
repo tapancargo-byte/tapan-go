@@ -1,11 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <rect width="100" height="100" rx="20" fill="url(#gradient)"/>
-  <path d="M25 70V30h50v10H35v20h35v10H25z" fill="white"/>
-  <path d="M45 45h20v15H45z" fill="white" opacity="0.8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <defs>
-    <linearGradient id="gradient" x1="0" y1="0" x2="100" y2="100">
-      <stop offset="0%" stop-color="#465fff"/>
-      <stop offset="100%" stop-color="#2a31d8"/>
-    </linearGradient>
+    <g id="box-icon">
+      <!-- Faces -->
+      <path d="M0,21 L32,0 L64,21 L32,42 Z" fill="#0C131D" />
+      <path d="M0,21 L32,42 L32,80 L0,59 Z" fill="#0C131D" />
+      <path d="M32,42 L64,21 L64,59 L32,80 Z" fill="#0C131D" />
+      <!-- Edges for cutout effect (invert-friendly) -->
+      <path d="M0,21 L32,42 L64,21" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+      <line x1="32" y1="42" x2="32" y2="80" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" />
+      <!-- Tape detail -->
+      <path d="M8,40 L25,50 L25,58 L8,48 Z" fill="#FFFFFF" opacity="1" />
+    </g>
   </defs>
+  <g transform="translate(16, 18) scale(1.2)">
+    <use href="#box-icon" x="0" y="0" />
+    <use href="#box-icon" x="45" y="35" />
+  </g>
 </svg>
