@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
+import { MFAGate } from "@/components/auth/mfa-gate";
 
 // Lazy load mobile header (only needed on mobile)
 const MobileHeader = dynamic(
@@ -104,7 +105,7 @@ export function RootShell({
               "min-h-[100svh] flex flex-col lg:h-screen lg:overflow-y-auto print:h-auto print:overflow-visible"
             )}
           >
-            {children}
+            <MFAGate>{children}</MFAGate>
           </div>
 
           {/* Global Tapan Associate launcher (mobile only; desktop uses sidebar widget) */}
