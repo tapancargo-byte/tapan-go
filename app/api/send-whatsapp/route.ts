@@ -84,18 +84,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://tapan-go.vercel.app";
     const invoiceRef: string = invoice.invoice_ref || invoice.id;
-    const amount = Number(invoice.amount ?? 0);
-
-    const amountDisplay = amount
-      ? new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(amount)
-      : "your shipment";
-
-    const link = `${baseUrl.replace(/\/$/, "")}/invoices?ref=${encodeURIComponent(
-      invoiceRef,
-    )}`;
-
     const customerName = customer?.name?.trim() || "Customer";
 
     const url = `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`;
@@ -157,8 +146,6 @@ export async function POST(req: Request) {
         signal: controller.signal,
       });
     } catch (error: any) {
-      clearTimeout(timeoutId);
-
       const timeoutMessage =
         error?.name === "AbortError"
           ? "WhatsApp request timed out"
