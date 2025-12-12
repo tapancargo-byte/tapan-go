@@ -263,13 +263,20 @@ export async function POST(req: Request) {
     }
 
     if (!waRes.ok) {
+      console.error("WhatsApp send failed", {
+        invoiceId,
+        to,
+        templateName,
+        metaError,
+      });
+
       return NextResponse.json(
         {
           error:
             metaErrorCode && errorMessage
               ? `WhatsApp error (${metaErrorCode}): ${errorMessage}`
               : errorMessage || "Failed to send WhatsApp message",
-          meta: metaError,
+          errorCode: metaErrorCode,
         },
         { status: 502 },
       );
