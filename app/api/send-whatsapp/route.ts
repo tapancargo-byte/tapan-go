@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { generateInvoicePdf } from "@/lib/invoicePdf";
+
+export const runtime = "nodejs";
 
 interface SendWhatsAppBody {
   invoiceId: string;
@@ -23,6 +26,9 @@ export async function POST(req: Request) {
     const token = process.env.WHATSAPP_ACCESS_TOKEN;
     const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
     const templateName = process.env.WHATSAPP_TEMPLATE_NAME || "invoice";
+    const templateLanguage = process.env.WHATSAPP_TEMPLATE_LANGUAGE || "en_US";
+    const templateIncludeDocument =
+      process.env.WHATSAPP_TEMPLATE_INCLUDE_DOCUMENT === "true";
 
     if (!token || !phoneNumberId) {
       return NextResponse.json(
@@ -98,6 +104,27 @@ export async function POST(req: Request) {
     const invoiceRef: string = invoice.invoice_ref || invoice.id;
     const customerName = customer?.name?.trim() || "Customer";
 
+    const includeDocumentHeader = templateIncludeDocument;
+
+    let pdfUrl: string | null = null;
+    let pdfFilename: string | null = null;
+    if (includeDocumentHeader) {
+      try {
+        const pdfResult = await generateInvoicePdf(invoiceId);
+        pdfUrl = (pdfResult as any)?.pdfUrl ?? null;
+        pdfFilename = `Invoice-${invoiceRef}.pdf`;
+      } catch (error: any) {
+        return NextResponse.json(
+          {
+            error:
+              error?.message ||
+              "Failed to generate invoice PDF for WhatsApp attachment",
+          },
+          { status: 500 },
+        );
+      }
+    }
+
     const url = `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`;
 
     const controller = new AbortController();
@@ -120,27 +147,51 @@ export async function POST(req: Request) {
         type: "template",
         template: {
           name: "hello_world",
-          language: { code: "en_US" },
+          language: { code: templateLanguage },
         },
       };
     } else {
-      // Custom invoice template with 2 parameters: {{1}} = name, {{2}} = invoice ref
+      const bodyParameters =
+        templateName === "order_update"
+          ? [{ type: "text", text: invoiceRef }]
+          : templateName === "invoice_pdf"
+          ? []
+          : [
+              { type: "text", text: customerName },
+              { type: "text", text: invoiceRef },
+            ];
+
+      const components: any[] = [];
+      if (includeDocumentHeader && pdfUrl) {
+        components.push({
+          type: "header",
+          parameters: [
+            {
+              type: "document",
+              document: {
+                link: pdfUrl,
+                filename: pdfFilename || `Invoice-${invoiceRef}.pdf`,
+              },
+            },
+          ],
+        });
+      }
+
+      if (Array.isArray(bodyParameters) && bodyParameters.length > 0) {
+        components.push({
+          type: "body",
+          parameters: bodyParameters,
+        });
+      }
+
       messageBody = {
         messaging_product: "whatsapp",
         to,
         type: "template",
         template: {
           name: templateName,
-          language: { code: "en_US" },
-          components: [
-            {
-              type: "body",
-              parameters: [
-                { type: "text", text: customerName },
-                { type: "text", text: invoiceRef },
-              ],
-            },
-          ],
+          language: { code: templateLanguage },
+          components,
         },
       };
     }
@@ -191,9 +242,11 @@ export async function POST(req: Request) {
       (waJson?.messages?.[0]?.id as string | undefined) ?? null;
 
     const status = waRes.ok ? "sent" : "error";
+    const metaError = (waJson?.error as Record<string, unknown> | undefined) ?? undefined;
+    const metaErrorCode = (metaError?.code as number | undefined) ?? undefined;
     const errorMessage: string | null = waRes.ok
       ? null
-      : (waJson?.error?.message as string | undefined) ?? "Unknown WhatsApp error";
+      : (metaError?.message as string | undefined) ?? "Unknown WhatsApp error";
 
     try {
       await supabaseAdmin.from("whatsapp_logs").insert({
@@ -211,7 +264,13 @@ export async function POST(req: Request) {
 
     if (!waRes.ok) {
       return NextResponse.json(
-        { error: errorMessage || "Failed to send WhatsApp message" },
+        {
+          error:
+            metaErrorCode && errorMessage
+              ? `WhatsApp error (${metaErrorCode}): ${errorMessage}`
+              : errorMessage || "Failed to send WhatsApp message",
+          meta: metaError,
+        },
         { status: 502 },
       );
     }
