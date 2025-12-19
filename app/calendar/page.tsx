@@ -76,7 +76,7 @@ export default function CalendarPage() {
           center: "title",
           right: "dayGridMonth",
         }}
-        eventClick={(arg) => {
+        eventClick={(arg: any) => {
           const id = arg.event.id
           if (id) {
             window.location.href = `/dashboard?q=${encodeURIComponent(id)}`

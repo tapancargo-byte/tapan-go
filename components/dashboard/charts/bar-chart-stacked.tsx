@@ -32,11 +32,11 @@ const chartData = [
 const chartConfig = {
   inbound: {
     label: 'Inbound',
-    color: 'hsl(var(--chart-1))',
+    color: 'var(--chart-1)',
   },
   outbound: {
     label: 'Outbound',
-    color: 'hsl(var(--chart-2))',
+    color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 

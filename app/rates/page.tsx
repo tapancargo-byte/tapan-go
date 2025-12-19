@@ -66,26 +66,42 @@ export default function RatesPage() {
     async function loadRates() {
       setLoading(true);
       try {
-        // First try with min_weight, fall back to without if column doesn't exist
         let data: any[] | null = null;
         let error: any = null;
 
-        const result = await supabase
+        const withMode = await supabase
           .from("rates")
           .select(
-            "id, origin, destination, rate_per_kg, base_fee, created_at"
+            "id, origin, destination, rate_per_kg, base_fee, min_weight, service_type, created_at"
           )
           .order("created_at", { ascending: false });
 
-        data = result.data;
-        error = result.error;
+        data = withMode.data;
+        error = withMode.error;
+
+        if (error && (error as any).code === "42703") {
+          const legacy = await supabase
+            .from("rates")
+            .select("id, origin, destination, rate_per_kg, base_fee, created_at")
+            .order("created_at", { ascending: false });
+          data = legacy.data;
+          error = legacy.error;
+        }
 
         if (error) {
-          console.warn("Supabase rates error", error.message);
+          console.warn("Supabase rates error", (error as any)?.message ?? error);
           throw error;
         }
 
         if (cancelled) return;
+
+        const normalizeServiceType = (raw: any): RateFormValues["serviceType"] => {
+          const v = (raw ?? "standard").toString().toLowerCase();
+          if (v === "air" || v === "surface" || v === "express" || v === "standard") {
+            return v as RateFormValues["serviceType"];
+          }
+          return "standard";
+        };
 
         const normalized: UIRate[] = ((data as any[]) ?? []).map((row) => ({
           id: row.id as string,
@@ -93,8 +109,8 @@ export default function RatesPage() {
           destination: (row.destination as string | null) ?? "",
           ratePerKg: Number(row.rate_per_kg ?? 0),
           baseFee: Number(row.base_fee ?? 0),
-          minWeight: 0,
-          serviceType: "standard",
+          minWeight: Number(row.min_weight ?? 0),
+          serviceType: normalizeServiceType(row.service_type),
           createdAt: (row.created_at as string | null) ?? "",
         }));
 
@@ -242,17 +258,38 @@ export default function RatesPage() {
         destination: values.destination.trim(),
         rate_per_kg: values.ratePerKg,
         base_fee: values.baseFee,
+        min_weight: values.minWeight ?? 0,
+        service_type: values.serviceType ?? "standard",
+      };
+
+      const legacyPayload = {
+        origin: values.origin.trim(),
+        destination: values.destination.trim(),
+        rate_per_kg: values.ratePerKg,
+        base_fee: values.baseFee,
       };
 
       if (editingRate) {
-        const { data, error } = await supabase
-          .from("rates")
-          .update(payload)
-          .eq("id", editingRate.id)
-          .select(
-            "id, origin, destination, rate_per_kg, base_fee, created_at"
-          )
-          .maybeSingle();
+        const runUpdate = async (p: any) =>
+          supabase
+            .from("rates")
+            .update(p)
+            .eq("id", editingRate.id)
+            .select(
+              "id, origin, destination, rate_per_kg, base_fee, min_weight, service_type, created_at"
+            )
+            .maybeSingle();
+
+        let { data, error } = await runUpdate(payload);
+
+        if (error && (error as any).code === "42703") {
+          ({ data, error } = await runUpdate(legacyPayload));
+          toast({
+            title: "Saved with limited fields",
+            description:
+              "Your database is missing newer rate columns (service_type/min_weight). Rate was saved, but mode may not persist until you run the latest Supabase migration.",
+          });
+        }
 
         if (error || !data) {
           throw error || new Error("Failed to update rate");
@@ -264,8 +301,10 @@ export default function RatesPage() {
           destination: (data.destination as string | null) ?? "",
           ratePerKg: Number(data.rate_per_kg ?? 0),
           baseFee: Number(data.base_fee ?? 0),
-          minWeight: 0,
-          serviceType: "standard",
+          minWeight: Number((data as any).min_weight ?? values.minWeight ?? 0),
+          serviceType:
+            ((data as any).service_type as RateFormValues["serviceType"]) ??
+            values.serviceType,
           createdAt: (data.created_at as string | null) ?? "",
         };
 
@@ -278,13 +317,25 @@ export default function RatesPage() {
           description: `Lane ${updated.origin} → ${updated.destination} has been updated.`,
         });
       } else {
-        const { data, error } = await supabase
-          .from("rates")
-          .insert(payload)
-          .select(
-            "id, origin, destination, rate_per_kg, base_fee, created_at"
-          )
-          .single();
+        const runInsert = async (p: any) =>
+          supabase
+            .from("rates")
+            .insert(p)
+            .select(
+              "id, origin, destination, rate_per_kg, base_fee, min_weight, service_type, created_at"
+            )
+            .single();
+
+        let { data, error } = await runInsert(payload);
+
+        if (error && (error as any).code === "42703") {
+          ({ data, error } = await runInsert(legacyPayload));
+          toast({
+            title: "Saved with limited fields",
+            description:
+              "Your database is missing newer rate columns (service_type/min_weight). Rate was created, but mode may not persist until you run the latest Supabase migration.",
+          });
+        }
 
         if (error || !data) {
           throw error || new Error("Failed to create rate");
@@ -296,8 +347,10 @@ export default function RatesPage() {
           destination: (data.destination as string | null) ?? "",
           ratePerKg: Number(data.rate_per_kg ?? 0),
           baseFee: Number(data.base_fee ?? 0),
-          minWeight: 0,
-          serviceType: "standard",
+          minWeight: Number((data as any).min_weight ?? values.minWeight ?? 0),
+          serviceType:
+            ((data as any).service_type as RateFormValues["serviceType"]) ??
+            values.serviceType,
           createdAt: (data.created_at as string | null) ?? "",
         };
 

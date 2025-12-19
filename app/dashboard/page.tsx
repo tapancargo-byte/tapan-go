@@ -50,8 +50,12 @@ async function getDashboardStats() {
           ).length ?? 0
 
         const pendingInvoices =
-          invoicesRes.data?.filter((i) => i.status === "pending" || i.status === "unpaid")
-            .length ?? 0
+          invoicesRes.data?.filter(
+            (i) =>
+              i.status === "pending" ||
+              i.status === "overdue" ||
+              i.status === "unpaid",
+          ).length ?? 0
 
         const avgCapacity = warehouseRes.data?.length
           ?

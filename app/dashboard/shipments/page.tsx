@@ -104,7 +104,7 @@ export default function ShipmentsPage() {
     loadCustomers();
   }, []);
 
-  const handleSubmit = async (values: ShipmentFormValues) => {
+  const handleSubmit = async (values: any) => {
       try {
         const selectedRoute = SERVICE_ROUTES[parseInt(values.route, 10)] || SERVICE_ROUTES[0];
         const payload = {

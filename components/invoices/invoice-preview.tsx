@@ -25,6 +25,30 @@ interface InvoiceData {
     phone: string | null;
     city: string | null;
   } | null;
+  consignor: {
+    name: string;
+    phone: string | null;
+    city: string | null;
+  } | null;
+  consignee: {
+    name: string;
+    phone: string | null;
+    city: string | null;
+  } | null;
+  origin: string | null;
+  destination: string | null;
+  pieces: number | null;
+  chargedWeight: number | null;
+  declaredValue: number | null;
+  paymentMode: string | null;
+  freightAmount: number | null;
+  pickupCharge: number | null;
+  deliveryCharge: number | null;
+  docketCharge: number | null;
+  otherCharge: number | null;
+  advancePaid: number | null;
+  balanceDue: number | null;
+  notes: string | null;
   lineItems: {
     description: string;
     weight: number;
@@ -58,7 +82,9 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
         // Fetch invoice
         const { data: inv, error: invError } = await supabase
           .from("invoices")
-          .select("id, invoice_ref, customer_id, amount, status, invoice_date, due_date")
+          .select(
+            "id, invoice_ref, customer_id, consignor_id, consignee_id, amount, status, invoice_date, due_date, origin, destination, pieces, charged_weight, declared_value, payment_mode, freight_amount, pickup_charge, delivery_charge, docket_charge, other_charge, advance_paid, balance_due, notes"
+          )
           .eq("id", invoiceId)
           .single();
 
@@ -66,8 +92,11 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
           throw new Error("Invoice not found");
         }
 
-        // Fetch customer
+        // Fetch billing customer / consignor / consignee
         let customer = null;
+        let consignor = null;
+        let consignee = null;
+
         if (inv.customer_id) {
           const { data: cust } = await supabase
             .from("customers")
@@ -75,6 +104,24 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
             .eq("id", inv.customer_id)
             .single();
           customer = cust;
+        }
+
+        if (inv.consignor_id) {
+          const { data: shipper } = await supabase
+            .from("customers")
+            .select("name, phone, city")
+            .eq("id", inv.consignor_id)
+            .single();
+          consignor = shipper;
+        }
+
+        if (inv.consignee_id) {
+          const { data: receiver } = await supabase
+            .from("customers")
+            .select("name, phone, city")
+            .eq("id", inv.consignee_id)
+            .single();
+          consignee = receiver;
         }
 
         // Fetch invoice items
@@ -180,6 +227,22 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
           invoice_date: inv.invoice_date,
           due_date: inv.due_date,
           customer,
+          consignor,
+          consignee,
+          origin: (inv as any).origin ?? null,
+          destination: (inv as any).destination ?? null,
+          pieces: (inv as any).pieces ?? null,
+          chargedWeight: (inv as any).charged_weight ?? null,
+          declaredValue: (inv as any).declared_value ?? null,
+          paymentMode: (inv as any).payment_mode ?? null,
+          freightAmount: (inv as any).freight_amount ?? null,
+          pickupCharge: (inv as any).pickup_charge ?? null,
+          deliveryCharge: (inv as any).delivery_charge ?? null,
+          docketCharge: (inv as any).docket_charge ?? null,
+          otherCharge: (inv as any).other_charge ?? null,
+          advancePaid: (inv as any).advance_paid ?? null,
+          balanceDue: (inv as any).balance_due ?? null,
+          notes: (inv as any).notes ?? null,
           lineItems,
           previousBalance,
           totalDue,
@@ -292,7 +355,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
         <div className="bg-white rounded-lg p-8 flex items-center gap-3">
           <Loader2 className="h-5 w-5 animate-spin text-primary" />
           <span>Loading invoice...</span>
@@ -303,7 +366,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
 
   if (!invoice) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
         <div className="bg-white rounded-lg p-8 text-center">
           <p className="text-destructive mb-4">Invoice not found</p>
           <Button onClick={onClose}>Close</Button>
@@ -316,9 +379,9 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
   const subTotal = invoice.lineItems.reduce((sum, item) => sum + item.amount, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 overflow-auto">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 overflow-auto">
       {/* Actions bar */}
-      <div className="fixed top-4 right-4 z-[60] print:hidden">
+      <div className="fixed top-4 right-4 z-[110] print:hidden">
         <div className="flex items-center gap-2 rounded-full bg-slate-900/80 text-white shadow-lg ring-1 ring-black/40 backdrop-blur">
           <Button
             variant="ghost"
@@ -434,21 +497,60 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
 
         {/* Content */}
         <div className="px-9 py-7">
-          {/* Invoice To & Meta */}
+          {/* Parties & Meta */}
           <div className="flex justify-between gap-10 mb-7">
-            <div className="flex-1">
-              <h3 
-                className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2.5"
-                style={{ color: COLORS.brand }}
-              >
-                Invoice To
-              </h3>
-              <div className="text-lg font-semibold" style={{ color: COLORS.text }}>
-                {invoice.customer?.name || "—"}
+            <div className="flex-1 space-y-4">
+              <div>
+                <h3
+                  className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2.5"
+                  style={{ color: COLORS.brand }}
+                >
+                  Invoice To
+                </h3>
+                <div className="text-lg font-semibold" style={{ color: COLORS.text }}>
+                  {invoice.customer?.name || "—"}
+                </div>
+                <div className="text-xs leading-[1.6]" style={{ color: COLORS.textMuted }}>
+                  {invoice.customer?.city && <div>{invoice.customer.city}</div>}
+                  {invoice.customer?.phone && <div>{invoice.customer.phone}</div>}
+                </div>
               </div>
-              <div className="text-xs leading-[1.6]" style={{ color: COLORS.textMuted }}>
-                {invoice.customer?.city && <div>{invoice.customer.city}</div>}
-                {invoice.customer?.phone && <div>{invoice.customer.phone}</div>}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <div
+                    className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+                    style={{ color: COLORS.textMuted }}
+                  >
+                    Consignor (Shipper)
+                  </div>
+                  <div className="font-medium" style={{ color: COLORS.text }}>
+                    {invoice.consignor?.name || "—"}
+                  </div>
+                  <div style={{ color: COLORS.textMuted }}>
+                    {invoice.consignor?.city && <div>{invoice.consignor.city}</div>}
+                    {invoice.consignor?.phone && (
+                      <div>{invoice.consignor.phone}</div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+                    style={{ color: COLORS.textMuted }}
+                  >
+                    Consignee
+                  </div>
+                  <div className="font-medium" style={{ color: COLORS.text }}>
+                    {invoice.consignee?.name || "—"}
+                  </div>
+                  <div style={{ color: COLORS.textMuted }}>
+                    {invoice.consignee?.city && <div>{invoice.consignee.city}</div>}
+                    {invoice.consignee?.phone && (
+                      <div>{invoice.consignee.phone}</div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -579,14 +681,62 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
               </div>
             </div>
 
-            {/* Totals */}
-            <div className="w-[260px]">
+            {/* Totals & Consignment details */}
+            <div className="w-[260px] space-y-3">
+              {(
+                invoice.origin ||
+                invoice.destination ||
+                invoice.pieces != null ||
+                invoice.chargedWeight != null ||
+                invoice.declaredValue != null ||
+                invoice.paymentMode
+              ) && (
+                <div className="text-[11px]" style={{ color: COLORS.textMuted }}>
+                  <div className="font-semibold mb-1" style={{ color: COLORS.text }}>
+                    Consignment details
+                  </div>
+                  {invoice.origin || invoice.destination ? (
+                    <div>
+                      Route: {invoice.origin || "?"} 
+                      <span className="mx-1">→</span>
+                      {invoice.destination || "?"}
+                    </div>
+                  ) : null}
+                  {invoice.pieces != null && (
+                    <div>Pieces: {invoice.pieces}</div>
+                  )}
+                  {invoice.chargedWeight != null && (
+                    <div>
+                      Charged weight: {invoice.chargedWeight.toFixed(2)} kg
+                    </div>
+                  )}
+                  {invoice.declaredValue != null && (
+                    <div>
+                      Declared value: ₹{invoice.declaredValue.toLocaleString("en-IN")}
+                    </div>
+                  )}
+                  {invoice.paymentMode && (
+                    <div>Payment mode: {invoice.paymentMode}</div>
+                  )}
+                </div>
+              )}
+
               <table className="w-full">
                 <tbody>
                   <tr>
                     <td className="py-2 text-xs" style={{ color: COLORS.textMuted }}>Subtotal</td>
                     <td className="py-2 text-xs text-right font-medium">{formatCurrency(subTotal)}</td>
                   </tr>
+                  {invoice.freightAmount != null && (
+                    <tr>
+                      <td className="py-1 text-[11px]" style={{ color: COLORS.textMuted }}>
+                        Freight / handling
+                      </td>
+                      <td className="py-1 text-[11px] text-right font-medium">
+                        {formatCurrency(invoice.freightAmount)}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td className="py-2 text-xs" style={{ color: COLORS.textMuted }}>Previous Balance</td>
                     <td className="py-2 text-xs text-right font-medium">{formatCurrency(invoice.previousBalance)}</td>

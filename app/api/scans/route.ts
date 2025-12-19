@@ -50,14 +50,15 @@ export async function POST(req: Request) {
     const now = new Date().toISOString();
 
     const { data: scan, error: scanError } = await supabaseAdmin
-      .from("package_scans")
+      .from("scan_events")
       .insert([
         {
           barcode_id: barcodeRow.id,
-          scan_type: scanType,
-          location: location ?? null,
-          scanned_by: operatorId ?? null,
-          scanned_at: now,
+          previous_status: barcodeRow.status,
+          new_status: scanType, // Should map strict types
+          location: location ?? "API_SCAN",
+          operator_id: operatorId ?? null,
+          meta: { method: "api_fallback", scan_type: scanType }
         },
       ])
       .select("*")
@@ -71,8 +72,8 @@ export async function POST(req: Request) {
       scanType === "scanned_for_manifest"
         ? "scanned_for_manifest"
         : scanType === "delivered"
-        ? "delivered"
-        : "in-transit";
+          ? "delivered"
+          : "in-transit";
 
     const { data: updatedBarcode, error: updateError } = await supabaseAdmin
       .from("barcodes")

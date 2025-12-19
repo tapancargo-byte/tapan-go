@@ -32,11 +32,11 @@ interface EnhancedStatCardProps {
 }
 
 // Mini Radial Chart using shadcn/Recharts pattern
-function MiniRadialChart({ 
-  value, 
+function MiniRadialChart({
+  value,
   color,
-}: { 
-  value: number; 
+}: {
+  value: number;
   color: string;
 }) {
   const percentage = Math.min(Math.max(value, 0), 100);
@@ -124,8 +124,8 @@ function EnhancedStatCard({
           {value}
         </CardTitle>
         <CardAction>
-          <Badge 
-            variant="outline" 
+          <Badge
+            variant="outline"
             className={`gap-1 text-xs ${isPositive ? 'text-green-500 border-green-500/30' : 'text-red-500 border-red-500/30'}`}
           >
             <TrendIcon className="size-3" />
@@ -142,8 +142,8 @@ function EnhancedStatCard({
             {description}
           </p>
         </div>
-        <MiniRadialChart 
-          value={chartValue} 
+        <MiniRadialChart
+          value={chartValue}
           color={chartColorClass}
         />
       </CardContent>
@@ -183,8 +183,8 @@ function SimpleStatCard({
           {value}
         </CardTitle>
         <CardAction>
-          <Badge 
-            variant="outline" 
+          <Badge
+            variant="outline"
             className={`gap-1 text-xs ${isPositive ? 'text-green-600 border-green-200 dark:border-green-800' : 'text-red-600 border-red-200 dark:border-red-800'}`}
           >
             <TrendIcon className="size-3" />
@@ -247,7 +247,7 @@ export function EnhancedSectionCards({ stats }: EnhancedSectionCardsProps) {
         trendLabel={data.shipmentsTrend >= 0 ? 'Trending up this month' : 'Trending down'}
         icon={<Package className="size-3.5" />}
         chartValue={Math.round(shipmentsProgress)}
-        chartColorClass="hsl(var(--chart-1))"
+        chartColorClass="var(--chart-1)"
       />
       <EnhancedStatCard
         title="Active Customers"
@@ -257,7 +257,7 @@ export function EnhancedSectionCards({ stats }: EnhancedSectionCardsProps) {
         trendLabel={data.customersTrend >= 0 ? 'Customer base growing' : 'Needs attention'}
         icon={<Users className="size-3.5" />}
         chartValue={Math.round(customersProgress)}
-        chartColorClass="hsl(var(--chart-2))"
+        chartColorClass="var(--chart-2)"
       />
       <SimpleStatCard
         title="Pending Invoices"
@@ -275,7 +275,7 @@ export function EnhancedSectionCards({ stats }: EnhancedSectionCardsProps) {
         trendLabel={data.capacityTrend >= 0 ? 'Utilization increasing' : 'More space available'}
         icon={<Warehouse className="size-3.5" />}
         chartValue={data.warehouseCapacity}
-        chartColorClass="hsl(var(--chart-4))"
+        chartColorClass="var(--chart-4)"
       />
     </div>
   );

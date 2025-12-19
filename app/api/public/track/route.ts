@@ -50,10 +50,10 @@ async function fetchBarcodesAndScans(shipmentIds: string[]) {
     });
 
     const { data: scanRows, error: scansError } = await supabaseAdmin
-      .from("package_scans")
-      .select("id, barcode_id, scanned_at, location, scan_type")
+      .from("scan_events")
+      .select("id, barcode_id, created_at, location, new_status, meta")
       .in("barcode_id", barcodeIds)
-      .order("scanned_at", { ascending: true });
+      .order("created_at", { ascending: true });
 
     if (scansError) {
       throw scansError;
@@ -64,9 +64,9 @@ async function fetchBarcodesAndScans(shipmentIds: string[]) {
         id: row.id as string,
         barcode_id: row.barcode_id as string,
         barcode_number: idToBarcode[row.barcode_id ?? ""] || null,
-        scanned_at: row.scanned_at as string,
+        scanned_at: row.created_at as string,
         location: (row.location as string | null) ?? null,
-        scan_type: (row.scan_type as string | null) ?? null,
+        scan_type: (row.new_status as string | null) ?? null, // Mapping new_status to scan_type for UI compatibility
       })) ?? [];
   }
 
@@ -142,19 +142,19 @@ export async function performTracking(trimmed: string): Promise<TrackResult | { 
     } else {
       // Barcode without shipment - fetch scans for this barcode only
       const { data: scanRows } = await supabaseAdmin
-        .from("package_scans")
-        .select("id, barcode_id, scanned_at, location, scan_type")
+        .from("scan_events")
+        .select("id, barcode_id, created_at, location, new_status")
         .eq("barcode_id", barcodeRow.id)
-        .order("scanned_at", { ascending: true });
+        .order("created_at", { ascending: true });
 
       scans =
         scanRows?.map((row) => ({
           id: row.id as string,
           barcode_id: row.barcode_id as string,
           barcode_number: barcodeRow.barcode_number,
-          scanned_at: row.scanned_at as string,
+          scanned_at: row.created_at as string, // scan_events uses created_at
           location: (row.location as string | null) ?? null,
-          scan_type: (row.scan_type as string | null) ?? null,
+          scan_type: (row.new_status as string | null) ?? null, // Mapping new_status to scan_type
         })) ?? [];
     }
 

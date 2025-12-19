@@ -34,7 +34,7 @@ interface ShipmentsDialogProps {
   editingShipment: UIShipment | null;
   customers: { id: string; name: string }[];
   form: UseFormReturn<any>;
-  onSubmit: (values: ShipmentFormValuesShape) => void;
+  onSubmit: (values: ShipmentFormValuesShape) => void | Promise<void>;
   onNewShipmentClick: () => void;
   serviceRoutes: readonly { origin: string; destination: string; location: string; label: string }[];
   statusOptions: readonly ShipmentStatusOption[];

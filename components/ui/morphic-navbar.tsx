@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { ArrowLeft, Menu } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
     if (mode !== "landing") return;
     if (typeof window === "undefined") return;
 
-    const sectionIds = ["services", "tracking", "contact"];
+    const sectionIds = ["services", "track", "about", "contact"];
 
     const handleScroll = () => {
       let closestId: string | null = null;
@@ -63,42 +63,44 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
     }
   };
 
+  const navItems: { id: string; label: string }[] = [
+    { id: "services", label: "Services" },
+    { id: "track", label: "Track" },
+    { id: "about", label: "About" },
+    { id: "contact", label: "Contact" },
+  ];
+
   const navButtonClasses = (id: string) =>
-    `rounded-none px-3 py-1.5 text-sm transition-colors ${
-      activeSection === id
-        ? "bg-foreground text-background"
-        : "text-muted-foreground hover:text-foreground hover:bg-muted/70"
+    `flex items-center justify-center px-4 py-2 text-sm transition-all duration-300 first:rounded-l-xl last:rounded-r-xl ${activeSection === id
+      ? "bg-foreground text-background font-semibold"
+      : "bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/60"
     }`;
 
   return (
-    <div className="relative">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/90 transition-colors duration-200">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <BrandLogo size="md" className="h-12 md:h-14 lg:h-16" />
+        <Link href="/" className="flex items-center gap-2" aria-label="Tapan Associate Home">
+          <div className="flex flex-col leading-none">
+            <span className="text-xl font-bold tracking-tighter text-foreground">TAC.</span>
+            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Tapan Associate Cargo</span>
+          </div>
+        </Link>
 
         {mode === "landing" && (
-          <nav className="hidden md:flex items-center gap-6">
-            <button
-              type="button"
-              onClick={() => handleNavClick("services")}
-              className={navButtonClasses("services")}
-            >
-              Services
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("tracking")}
-              className={navButtonClasses("tracking")}
-            >
-              Track
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("contact")}
-              className={navButtonClasses("contact")}
-            >
-              Contact
-            </button>
-          </nav>
+          <div className="hidden md:flex flex-1 items-center justify-center">
+            <div className="flex items-center justify-between overflow-hidden rounded-xl border border-border bg-background shadow-sm">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleNavClick(item.id)}
+                  className={navButtonClasses(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
 
         <div className="flex items-center gap-2">
@@ -111,14 +113,18 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
               <Link href="/login">Login</Link>
             </Button>
           ) : (
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="hidden md:inline-flex h-8 px-4 text-xs rounded-none"
-            >
-              <Link href="/">Back to site</Link>
-            </Button>
+            <>
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="hidden md:inline-flex h-9 px-4 rounded-none text-muted-foreground hover:text-foreground"
+              >
+                <Link href="/">
+                  Home
+                </Link>
+              </Button>
+            </>
           )}
 
           {/* Mobile hamburger with Sheet for both modes */}
@@ -136,36 +142,31 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
               <nav className="px-6 py-6 space-y-2 text-sm">
                 {mode === "landing" && (
                   <>
-                    <button
-                      type="button"
-                      onClick={() => handleNavClick("services")}
-                      className={`${navButtonClasses("services")} w-full text-left`}
-                    >
-                      Services
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNavClick("tracking")}
-                      className={`${navButtonClasses("tracking")} w-full text-left`}
-                    >
-                      Track
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNavClick("contact")}
-                      className={`${navButtonClasses("contact")} w-full text-left`}
-                    >
-                      Contact
-                    </button>
+                    {navItems.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => handleNavClick(item.id)}
+                        className={`${navButtonClasses(item.id)} w-full text-left rounded-none`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
                   </>
                 )}
 
                 {/* Shared mobile actions */}
                 <div className="pt-3 mt-3 border-t border-border/60" />
                 {mode === "landing" ? (
-                  <Link href="/login" className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60">Login</Link>
+                  <Link href="/login" className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60">
+                    Login
+                  </Link>
                 ) : (
-                  <Link href="/" className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60">Back to site</Link>
+                  <>
+                    <Link href="/" className="block rounded-none px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/60">
+                      Back to site
+                    </Link>
+                  </>
                 )}
                 {/* Theme toggle inside menu on mobile */}
                 <div className="mt-2">
@@ -176,8 +177,6 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
           </Sheet>
         </div>
       </div>
-
-      
-    </div>
+    </nav>
   );
 }

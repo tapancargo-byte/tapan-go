@@ -32,18 +32,18 @@ import {
 function generateChartData() {
   const data = [];
   const now = new Date();
-  
+
   for (let i = 90; i >= 0; i--) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
-    
+
     data.push({
       date: date.toISOString().split('T')[0],
       shipments: Math.floor(Math.random() * 150) + 50,
       delivered: Math.floor(Math.random() * 120) + 40,
     });
   }
-  
+
   return data;
 }
 
@@ -52,11 +52,11 @@ const chartData = generateChartData();
 const chartConfig = {
   shipments: {
     label: 'Shipments',
-    color: 'hsl(var(--chart-1))',
+    color: 'var(--chart-1)',
   },
   delivered: {
     label: 'Delivered',
-    color: 'hsl(var(--chart-2))',
+    color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 
@@ -85,16 +85,16 @@ export function ChartAreaInteractive({ className, data = chartData }: ChartAreaI
   const filteredData = React.useMemo(() => {
     const now = new Date();
     let daysToSubtract = 90;
-    
+
     if (timeRange === '30d') {
       daysToSubtract = 30;
     } else if (timeRange === '7d') {
       daysToSubtract = 7;
     }
-    
+
     const startDate = new Date(now);
     startDate.setDate(startDate.getDate() - daysToSubtract);
-    
+
     return data.filter((item) => {
       const date = new Date(item.date);
       return date >= startDate;

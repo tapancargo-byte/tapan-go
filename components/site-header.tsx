@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Drawer, DrawerTrigger } from "@/components/ui/drawer"
+import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import { Bot } from "lucide-react"
 import ChatDrawer from "@/components/ai/chat-drawer"
 
@@ -16,14 +16,14 @@ export function SiteHeader() {
         />
         <h1 className="text-base font-medium">Documents</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Drawer>
-            <DrawerTrigger asChild>
+          <Dialog>
+            <DialogTrigger asChild>
               <Button variant="outline" size="icon" aria-label="AI Assistant">
                 <Bot className="h-4 w-4" />
               </Button>
-            </DrawerTrigger>
+            </DialogTrigger>
             <ChatDrawer />
-          </Drawer>
+          </Dialog>
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
             <a
               href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"

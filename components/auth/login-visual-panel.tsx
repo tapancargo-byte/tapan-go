@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import loginAnimation from "@/public/assets/login.json";
+import { BrandLogo } from "@/components/ui/brand-logo";
 
 export function LoginVisualPanel() {
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -18,22 +19,30 @@ export function LoginVisualPanel() {
 
   return (
     <div className="h-full w-full">
-      {/* Animation container - larger to match form height */}
-      <div className="relative h-full w-full border border-[var(--glass-border)] bg-[var(--card-glass)] shadow-lg overflow-hidden backdrop-blur-xl">
-        <div className="relative h-full w-full bg-[radial-gradient(circle_at_top,_hsl(var(--primary))_0,_transparent_65%)]/30">
+      {/* Animation container - full bleed */}
+      <div className="relative h-full w-full overflow-hidden">
+        <div className="relative h-full w-full bg-muted/50">
           {!reduceMotion ? (
-            <Lottie animationData={loginAnimation} loop autoplay className="w-full h-full" />
+            <div className="h-full w-full flex items-center justify-center p-8">
+              <Lottie animationData={loginAnimation} loop autoplay className="w-full h-auto max-w-md" />
+            </div>
           ) : (
-            <img
-              src="/assets/login-poster.png"
-              alt="Login illustration"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
+            <div className="h-full w-full flex flex-col items-center justify-center px-10 text-center">
+              <BrandLogo size="sm" className="opacity-90" />
+              <div className="mt-5 text-xs tracking-widest uppercase text-muted-foreground">
+                Secure Corridor Operations
+              </div>
+              <div className="mt-2 text-2xl font-semibold text-foreground">
+                Sign in to continue
+              </div>
+              <div className="mt-2 text-sm text-muted-foreground">
+                Reduced motion is enabled on your device.
+              </div>
+            </div>
           )}
         </div>
       </div>
-      
+
       {/* Subtle branding text */}
       <div className="hidden" />
     </div>

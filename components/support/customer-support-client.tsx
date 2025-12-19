@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { AiSupportChat } from "@/components/support/ai-support-chat";
+import { Component as AiAssistantCard } from "@/components/ui/ai-assistant-card";
 import {
   Form,
   FormControl,
@@ -166,7 +166,7 @@ export function CustomerSupportClient() {
           </section>
 
           <section className="w-full max-w-md ml-auto space-y-4">
-            <AiSupportChat />
+            <AiAssistantCard showClose={false} />
 
             <Card className="p-6 bg-card/90 border-border/80 shadow-[0_18px_60px_rgba(0,0,0,0.7)]">
               <div className="mb-4 space-y-1">

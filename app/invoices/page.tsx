@@ -42,7 +42,8 @@ import type { InvoiceStatus, UIInvoice, ARSummary } from "@/features/invoices/ty
 import { ArSummaryCards } from "@/features/invoices/ar-summary-cards";
 import { InvoicesTable } from "@/features/invoices/invoices-table";
 import { ManageShipmentsDialog } from "@/features/invoices/manage-shipments-dialog";
-import { InvoiceDialog } from "@/features/invoices/invoice-dialog";
+import { InvoiceDialogEnhanced } from "@/features/invoices/invoice-dialog-enhanced";
+import { CustomerCreateDialog } from "@/features/invoices/customer-create-dialog";
 
 const formatDate = (value: string) => {
   if (!value) return "";
@@ -82,14 +83,60 @@ function InvoicesPageContent() {
   const [arSummary, setArSummary] = useState<ARSummary | null>(null);
   const [arLoading, setArLoading] = useState(false);
 
+  // Customer create dialog state
+  const [customerDialogOpen, setCustomerDialogOpen] = useState(false);
+  const [customerDialogTarget, setCustomerDialogTarget] = useState<"billing" | "consignor" | "consignee">("billing");
+  const [customerDialogLoading, setCustomerDialogLoading] = useState(false);
+  const [pendingCustomerResolve, setPendingCustomerResolve] = useState<((value: { id: string; name: string } | null) => void) | null>(null);
+
+  // Rates for auto-calculation
+  const [rates, setRates] = useState<{ id: string; origin: string; destination: string; ratePerKg: number; baseFee: number; serviceType: string }[]>([]);
+
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
+      // Header
       invoiceRef: "",
+      dateOfBooking: new Date().toISOString().split("T")[0],
+      natureOfQuantity: "",
+      declaredValue: "",
+      // Parties
       customerId: "",
+      consignorId: "",
+      consignorName: "",
+      consignorAddress: "",
+      consignorPhone: "",
+      consigneeId: "",
+      consigneeName: "",
+      consigneeAddress: "",
+      consigneePhone: "",
+      // Courier Details
+      origin: "",
+      destination: "",
+      transportMode: "surface",
+      pieces: undefined,
+      actualWeight: undefined,
+      chargedWeight: undefined,
+      rate: undefined,
+      remarks: "",
+      // Payment Details
+      paymentMode: undefined,
+      freightAmount: undefined,
+      pickupCharge: undefined,
+      packingCharge: undefined,
+      docketCharge: undefined,
+      deliveryCharge: undefined,
+      insuranceCharge: undefined,
+      gstPercent: undefined,
+      gstAmount: undefined,
+      otherCharge: undefined,
       amount: 0,
+      advancePaid: undefined,
+      balanceDue: undefined,
+      // Meta
       dueDate: "",
       status: "pending",
+      notes: "",
     },
   });
 
@@ -137,19 +184,62 @@ function InvoicesPageContent() {
     async function loadInvoices() {
       setLoading(true);
       try {
-        // Optimize: Fetch invoices and customers in parallel
+        // Optimize: Fetch invoices, customers, and rates in parallel
         const [invoicesResult, customersResult] = await Promise.all([
           supabase
             .from("invoices")
-            .select("id, invoice_ref, customer_id, amount, status, due_date")
-            .order("created_at", { ascending: false }), // Add consistent ordering
+            .select(
+              "id, invoice_ref, customer_id, consignor_id, consignee_id, amount, status, due_date, origin, destination, pieces, charged_weight, declared_value, payment_mode, freight_amount, pickup_charge, delivery_charge, docket_charge, other_charge, advance_paid, balance_due, notes"
+            )
+            .order("created_at", { ascending: false }),
           supabase
             .from("customers")
-            .select("id, name")
+            .select("id, name"),
         ]);
+
+        // Rates fetch with fallback (service_type column may not exist)
+        let ratesRows: any[] | null = null;
+        let ratesError: any = null;
+        const ratesWithService = await supabase
+          .from("rates")
+          .select("id, origin, destination, rate_per_kg, base_fee, service_type")
+          .order("created_at", { ascending: false });
+        ratesRows = ratesWithService.data as any[] | null;
+        ratesError = ratesWithService.error;
+        if (ratesError && (ratesError as any).code === "42703") {
+          const ratesLegacy = await supabase
+            .from("rates")
+            .select("id, origin, destination, rate_per_kg, base_fee")
+            .order("created_at", { ascending: false });
+          ratesRows = ratesLegacy.data as any[] | null;
+          ratesError = ratesLegacy.error;
+        }
+
+        if (ratesError) {
+          console.warn(
+            "Supabase rates error (invoices page)",
+            (ratesError as any)?.message ?? ratesError
+          );
+        }
 
         const { data: invoiceRows, error: invoiceError } = invoicesResult;
         const { data: customerRows, error: customersError } = customersResult;
+
+        // Process rates for auto-calculation
+        if (!ratesError && ratesRows) {
+          setRates(
+            ratesRows.map((r: any) => ({
+              id: r.id,
+              origin: r.origin ?? "",
+              destination: r.destination ?? "",
+              ratePerKg: Number(r.rate_per_kg ?? 0),
+              baseFee: Number(r.base_fee ?? 0),
+              serviceType: (r.service_type ?? "standard").toString().toLowerCase(),
+            }))
+          );
+        } else {
+          setRates([]);
+        }
 
         if (invoiceError) {
           console.error("Supabase invoices error", invoiceError.message);
@@ -160,9 +250,25 @@ function InvoicesPageContent() {
           id: string;
           invoice_ref: string | null;
           customer_id: string | null;
+          consignor_id: string | null;
+          consignee_id: string | null;
           amount: number | null;
           status: string | null;
           due_date: string | null;
+          origin: string | null;
+          destination: string | null;
+          pieces: number | null;
+          charged_weight: number | null;
+          declared_value: number | null;
+          payment_mode: string | null;
+          freight_amount: number | null;
+          pickup_charge: number | null;
+          delivery_charge: number | null;
+          docket_charge: number | null;
+          other_charge: number | null;
+          advance_paid: number | null;
+          balance_due: number | null;
+          notes: string | null;
         }[];
 
         const customersMap = new Map<string, { id: string; name: string | null }>();
@@ -226,6 +332,12 @@ function InvoicesPageContent() {
           const customer = row.customer_id
             ? customersMap.get(row.customer_id)
             : undefined;
+          const consignor = row.consignor_id
+            ? customersMap.get(row.consignor_id)
+            : undefined;
+          const consignee = row.consignee_id
+            ? customersMap.get(row.consignee_id)
+            : undefined;
 
           return {
             dbId: row.id,
@@ -236,6 +348,24 @@ function InvoicesPageContent() {
             status: (row.status ?? "pending") as InvoiceStatus,
             dueDate: row.due_date ?? "",
             shipments: shipmentsByInvoice.get(row.id) ?? 0,
+            consignorId: row.consignor_id ?? null,
+            consigneeId: row.consignee_id ?? null,
+            consignorName: consignor?.name ?? undefined,
+            consigneeName: consignee?.name ?? undefined,
+            origin: row.origin,
+            destination: row.destination,
+            pieces: row.pieces,
+            chargedWeight: row.charged_weight,
+            declaredValue: row.declared_value,
+            paymentMode: row.payment_mode as UIInvoice["paymentMode"],
+            freightAmount: row.freight_amount,
+            pickupCharge: row.pickup_charge,
+            deliveryCharge: row.delivery_charge,
+            docketCharge: row.docket_charge,
+            otherCharge: row.other_charge,
+            advancePaid: row.advance_paid,
+            balanceDue: row.balance_due,
+            notes: row.notes,
           };
         });
 
@@ -321,6 +451,108 @@ function InvoicesPageContent() {
 
   const canEdit = true; // Force enable for testing
   // const canEdit = userRole === "manager" || userRole === "admin";
+
+  const quickCreateCustomer = async (
+    target: "billing" | "consignor" | "consignee"
+  ): Promise<{ id: string; name: string } | null> => {
+    return new Promise((resolve) => {
+      setCustomerDialogTarget(target);
+      setPendingCustomerResolve(() => resolve);
+      setCustomerDialogOpen(true);
+    });
+  };
+
+  const handleCustomerDialogSubmit = async (data: {
+    name: string;
+    phone: string;
+    city: string;
+    email: string;
+  }) => {
+    setCustomerDialogLoading(true);
+    try {
+      const { data: result, error } = await supabase
+        .from("customers")
+        .insert({
+          name: data.name,
+          phone: data.phone || null,
+          city: data.city || null,
+          email: data.email || null,
+        })
+        .select("id, name")
+        .single();
+
+      if (error || !result) {
+        throw error || new Error("Failed to create customer");
+      }
+
+      const newCustomer = { id: result.id as string, name: (result as any).name ?? data.name };
+      setCustomers((prev) => [newCustomer, ...prev]);
+
+      toast({
+        title: "Customer created",
+        description: `${newCustomer.name} is now available for selection.`,
+      });
+
+      if (pendingCustomerResolve) {
+        pendingCustomerResolve(newCustomer);
+        setPendingCustomerResolve(null);
+      }
+      setCustomerDialogOpen(false);
+    } catch (err: any) {
+      console.error("Quick create customer error", err);
+
+      const email = typeof data.email === "string" ? data.email.trim() : "";
+      if (err?.code === "23505" && email) {
+        const { data: existing, error: existingError } = await supabase
+          .from("customers")
+          .select("id, name")
+          .ilike("email", email)
+          .maybeSingle();
+
+        if (!existingError && existing?.id) {
+          const existingCustomer = {
+            id: existing.id as string,
+            name: (existing as any).name ?? data.name,
+          };
+
+          setCustomers((prev) => {
+            if (prev.some((c) => c.id === existingCustomer.id)) return prev;
+            return [existingCustomer, ...prev];
+          });
+
+          toast({
+            title: "Customer already exists",
+            description: `${existingCustomer.name} is now selected.`,
+          });
+
+          if (pendingCustomerResolve) {
+            pendingCustomerResolve(existingCustomer);
+            setPendingCustomerResolve(null);
+          }
+          setCustomerDialogOpen(false);
+          return;
+        }
+      }
+
+      toast({
+        title: "Could not create customer",
+        description: err?.message || "Something went wrong while creating the customer.",
+        variant: "destructive",
+      });
+    } finally {
+      setCustomerDialogLoading(false);
+    }
+  };
+
+  const handleCustomerDialogClose = (open: boolean) => {
+    if (!open) {
+      if (pendingCustomerResolve) {
+        pendingCustomerResolve(null);
+        setPendingCustomerResolve(null);
+      }
+    }
+    setCustomerDialogOpen(open);
+  };
 
   const handleDownload = async (invoice: UIInvoice) => {
     setActionLoading((prev) => ({ ...prev, [invoice.dbId]: true }));
@@ -800,28 +1032,98 @@ function InvoicesPageContent() {
 
     setIsCreating(true);
     try {
-      const payload = {
-        invoice_ref: values.invoiceRef.trim(),
+      const freight = Number(values.freightAmount ?? 0);
+      const pickup = Number(values.pickupCharge ?? 0);
+      const packing = Number(values.packingCharge ?? 0);
+      const delivery = Number(values.deliveryCharge ?? 0);
+      const docket = Number(values.docketCharge ?? 0);
+      const insurance = Number(values.insuranceCharge ?? 0);
+      const gstPercent = Number(values.gstPercent ?? 0);
+      const other = Number(values.otherCharge ?? 0);
+      const advance = Number(values.advancePaid ?? 0);
+
+      const subtotal = freight + pickup + packing + delivery + docket + insurance + other;
+      const computedGstAmount = Number(
+        values.gstAmount ?? (subtotal * gstPercent) / 100
+      );
+      const totalAmount = subtotal + computedGstAmount;
+      const computedBalanceDue = Math.max(totalAmount - advance, 0);
+
+      const declaredValueNumber = (() => {
+        const raw = (values.declaredValue ?? "").toString().trim();
+        if (!raw) return null;
+        const num = Number(raw);
+        return Number.isFinite(num) ? num : null;
+      })();
+
+      const invoiceRefTrimmed = (values.invoiceRef ?? "").toString().trim();
+
+      const payloadBase = {
         customer_id: values.customerId,
-        amount: values.amount,
+        consignor_id: values.consignorId || null,
+        consignee_id: values.consigneeId || null,
+        origin: values.origin || null,
+        destination: values.destination || null,
+        pieces: values.pieces ?? null,
+        charged_weight: values.chargedWeight ?? null,
+        declared_value: declaredValueNumber,
+        payment_mode: values.paymentMode ?? null,
+        amount: totalAmount,
         status: values.status,
-        invoice_date: new Date().toISOString(),
+        invoice_date: new Date().toISOString().split("T")[0],
         due_date: values.dueDate || null,
+        freight_amount: values.freightAmount ?? null,
+        pickup_charge: values.pickupCharge ?? null,
+        packing_charge: values.packingCharge ?? null,
+        delivery_charge: values.deliveryCharge ?? null,
+        docket_charge: values.docketCharge ?? null,
+        insurance_charge: values.insuranceCharge ?? null,
+        gst_percent: values.gstPercent ?? null,
+        gst_amount: computedGstAmount,
+        other_charge: values.otherCharge ?? null,
+        advance_paid: values.advancePaid ?? null,
+        balance_due: computedBalanceDue,
+        notes: values.notes || null,
       };
 
+      const payload = editingInvoice
+        ? payloadBase
+        : invoiceRefTrimmed
+          ? { invoice_ref: invoiceRefTrimmed, ...payloadBase }
+          : payloadBase;
+
+      const legacyPayload = (() => {
+        const {
+          packing_charge,
+          insurance_charge,
+          gst_percent,
+          gst_amount,
+          ...rest
+        } = payload as any;
+        return rest;
+      })();
+
       if (editingInvoice) {
-        const { data, error } = await supabase
-          .from("invoices")
-          .update({
-            invoice_ref: payload.invoice_ref,
-            customer_id: payload.customer_id,
-            amount: payload.amount,
-            status: payload.status,
-            due_date: payload.due_date,
-          })
-          .eq("id", editingInvoice.dbId)
-          .select("id, invoice_ref, customer_id, amount, status, due_date")
-          .maybeSingle();
+        const runUpdate = async (p: any) =>
+          supabase
+            .from("invoices")
+            .update(p)
+            .eq("id", editingInvoice.dbId)
+            .select(
+              "id, invoice_ref, customer_id, consignor_id, consignee_id, amount, status, due_date, origin, destination, pieces, charged_weight, declared_value, payment_mode, freight_amount, pickup_charge, delivery_charge, docket_charge, other_charge, advance_paid, balance_due, notes"
+            )
+            .maybeSingle();
+
+        let { data, error } = await runUpdate(payload);
+
+        if (error && (error as any).code === "42703") {
+          ({ data, error } = await runUpdate(legacyPayload));
+          toast({
+            title: "Saved with limited fields",
+            description:
+              "Your database is missing some newer invoice columns (packing/insurance/GST). Invoice was saved, but please run the latest Supabase migrations to store those fields.",
+          });
+        }
 
         if (error || !data) {
           throw error || new Error("Failed to update invoice");
@@ -838,6 +1140,24 @@ function InvoicesPageContent() {
           status: (data.status ?? "pending") as InvoiceStatus,
           dueDate: data.due_date ?? "",
           shipments: editingInvoice.shipments,
+          consignorId: (data as any).consignor_id ?? null,
+          consigneeId: (data as any).consignee_id ?? null,
+          consignorName: undefined,
+          consigneeName: undefined,
+          origin: (data as any).origin ?? null,
+          destination: (data as any).destination ?? null,
+          pieces: (data as any).pieces ?? null,
+          chargedWeight: (data as any).charged_weight ?? null,
+          declaredValue: (data as any).declared_value ?? null,
+          paymentMode: (data as any).payment_mode ?? null,
+          freightAmount: (data as any).freight_amount ?? null,
+          pickupCharge: (data as any).pickup_charge ?? null,
+          deliveryCharge: (data as any).delivery_charge ?? null,
+          docketCharge: (data as any).docket_charge ?? null,
+          otherCharge: (data as any).other_charge ?? null,
+          advancePaid: (data as any).advance_paid ?? null,
+          balanceDue: (data as any).balance_due ?? null,
+          notes: (data as any).notes ?? null,
         };
 
         setInvoices((prev) =>
@@ -851,14 +1171,41 @@ function InvoicesPageContent() {
           description: `Invoice ${updated.id} has been updated.`,
         });
       } else {
-        const { data, error } = await supabase
-          .from("invoices")
-          .insert(payload)
-          .select("id, invoice_ref, customer_id, amount, status, due_date")
-          .single();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const accessToken = session?.access_token;
 
-        if (error || !data) {
-          throw error || new Error("Failed to create invoice");
+        const res = await fetch("/api/invoices", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+          },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          const extra =
+            (json as any)?.code || (json as any)?.details || (json as any)?.hint
+              ? ` ${(json as any)?.code ? `[${(json as any).code}]` : ""}${(json as any)?.details ? ` ${(json as any).details}` : ""
+              }${(json as any)?.hint ? ` ${(json as any).hint}` : ""}`
+              : "";
+          const err: any = new Error(
+            typeof json?.error === "string" && json.error.trim()
+              ? json.error
+              : "Failed to create invoice"
+          );
+          if (extra.trim()) {
+            err.message = `${err.message}${extra}`;
+          }
+          throw err;
+        }
+
+        const data = (json as any)?.invoice;
+        if (!data) {
+          throw new Error("Failed to create invoice");
         }
 
         const customer = customers.find((c) => c.id === data.customer_id) || null;
@@ -872,6 +1219,24 @@ function InvoicesPageContent() {
           status: (data.status ?? "pending") as InvoiceStatus,
           dueDate: data.due_date ?? "",
           shipments: 0,
+          consignorId: (data as any).consignor_id ?? null,
+          consigneeId: (data as any).consignee_id ?? null,
+          consignorName: undefined,
+          consigneeName: undefined,
+          origin: (data as any).origin ?? null,
+          destination: (data as any).destination ?? null,
+          pieces: (data as any).pieces ?? null,
+          chargedWeight: (data as any).charged_weight ?? null,
+          declaredValue: (data as any).declared_value ?? null,
+          paymentMode: (data as any).payment_mode ?? null,
+          freightAmount: (data as any).freight_amount ?? null,
+          pickupCharge: (data as any).pickup_charge ?? null,
+          deliveryCharge: (data as any).delivery_charge ?? null,
+          docketCharge: (data as any).docket_charge ?? null,
+          otherCharge: (data as any).other_charge ?? null,
+          advancePaid: (data as any).advance_paid ?? null,
+          balanceDue: (data as any).balance_due ?? null,
+          notes: (data as any).notes ?? null,
         };
 
         setInvoices((prev) => [newInvoice, ...prev]);
@@ -885,18 +1250,60 @@ function InvoicesPageContent() {
       setIsDialogOpen(false);
       setEditingInvoice(null);
       form.reset({
+        // Header
         invoiceRef: "",
+        dateOfBooking: new Date().toISOString().split("T")[0],
+        natureOfQuantity: "",
+        declaredValue: "",
+        // Parties
         customerId: "",
+        consignorId: "",
+        consignorName: "",
+        consignorAddress: "",
+        consignorPhone: "",
+        consigneeId: "",
+        consigneeName: "",
+        consigneeAddress: "",
+        consigneePhone: "",
+        // Courier Details
+        origin: "",
+        destination: "",
+        transportMode: "surface",
+        pieces: undefined,
+        actualWeight: undefined,
+        chargedWeight: undefined,
+        rate: undefined,
+        remarks: "",
+        // Payment Details
+        paymentMode: undefined,
+        freightAmount: undefined,
+        pickupCharge: undefined,
+        packingCharge: undefined,
+        docketCharge: undefined,
+        deliveryCharge: undefined,
+        insuranceCharge: undefined,
+        gstPercent: undefined,
+        gstAmount: undefined,
+        otherCharge: undefined,
         amount: 0,
+        advancePaid: undefined,
+        balanceDue: undefined,
+        // Meta
         dueDate: "",
         status: "pending",
+        notes: "",
       });
     } catch (err: any) {
       console.error("Failed to save invoice", err);
+      const extraDetails =
+        (err?.code ? ` [${err.code}]` : "") +
+        (err?.details ? ` ${err.details}` : "") +
+        (err?.hint ? ` ${err.hint}` : "");
       toast({
         title: "Could not save invoice",
         description:
-          err?.message || "Something went wrong while saving the invoice.",
+          (err?.message || "Something went wrong while saving the invoice.") +
+          (extraDetails.trim() ? `\n${extraDetails.trim()}` : ""),
         variant: "destructive",
       });
     } finally {
@@ -907,15 +1314,15 @@ function InvoicesPageContent() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "paid":
-        return "bg-green-500/20 text-green-400";
+        return "bg-emerald-500 text-white font-medium";
       case "pending":
-        return "bg-yellow-500/20 text-yellow-400";
+        return "bg-amber-500 text-white font-medium";
       case "overdue":
-        return "bg-red-500/20 text-red-400";
+        return "bg-red-500 text-white font-medium";
       case "partially_paid":
-        return "bg-blue-500/20 text-blue-400";
+        return "bg-blue-500 text-white font-medium";
       default:
-        return "bg-gray-500/20 text-gray-400";
+        return "bg-secondary text-secondary-foreground font-medium";
     }
   };
 
@@ -927,15 +1334,15 @@ function InvoicesPageContent() {
       info.status === "success"
         ? "WhatsApp: SENT"
         : info.status === "error"
-        ? "WhatsApp: ERROR"
-        : `WhatsApp: ${info.status.toUpperCase()}`;
+          ? "WhatsApp: ERROR"
+          : `WhatsApp: ${info.status.toUpperCase()}`;
 
     const color =
       info.status === "success"
         ? "text-emerald-500"
         : info.status === "error"
-        ? "text-destructive"
-        : "text-muted-foreground";
+          ? "text-destructive"
+          : "text-muted-foreground";
 
     return (
       <span className={`text-[10px] uppercase mt-0.5 ${color}`}>
@@ -1033,24 +1440,63 @@ function InvoicesPageContent() {
               You have read-only billing access. Contact an admin to create invoices.
             </p>
           )}
-          <InvoiceDialog
+          <InvoiceDialogEnhanced
             open={isDialogOpen}
             onOpenChange={setIsDialogOpen}
             canEdit={canEdit}
             isCreating={isCreating}
             editingInvoice={editingInvoice}
             customers={customers}
+            rates={rates}
             form={form}
             onSubmit={handleSubmitInvoice}
+            onQuickCreateCustomer={quickCreateCustomer}
             onNewInvoiceClick={() => {
               if (!canEdit) return;
               setEditingInvoice(null);
               form.reset({
+                // Header
                 invoiceRef: "",
+                dateOfBooking: new Date().toISOString().split("T")[0],
+                natureOfQuantity: "",
+                declaredValue: "",
+                // Parties
                 customerId: "",
+                consignorId: "",
+                consignorName: "",
+                consignorAddress: "",
+                consignorPhone: "",
+                consigneeId: "",
+                consigneeName: "",
+                consigneeAddress: "",
+                consigneePhone: "",
+                // Courier Details
+                origin: "",
+                destination: "",
+                transportMode: "surface",
+                pieces: undefined,
+                actualWeight: undefined,
+                chargedWeight: undefined,
+                rate: undefined,
+                remarks: "",
+                // Payment Details
+                paymentMode: undefined,
+                freightAmount: undefined,
+                pickupCharge: undefined,
+                packingCharge: undefined,
+                docketCharge: undefined,
+                deliveryCharge: undefined,
+                insuranceCharge: undefined,
+                gstPercent: undefined,
+                gstAmount: undefined,
+                otherCharge: undefined,
                 amount: 0,
+                advancePaid: undefined,
+                balanceDue: undefined,
+                // Meta
                 dueDate: "",
                 status: "pending",
+                notes: "",
               });
               setIsDialogOpen(true);
             }}
@@ -1072,15 +1518,48 @@ function InvoicesPageContent() {
           onEditInvoice={(invoice) => {
             setEditingInvoice(invoice);
             form.reset({
+              // Header
               invoiceRef: invoice.id,
+              dateOfBooking: invoice.dueDate ? invoice.dueDate.slice(0, 10) : new Date().toISOString().split("T")[0],
+              natureOfQuantity: "",
+              declaredValue: invoice.declaredValue ? String(invoice.declaredValue) : "",
+              // Parties
               customerId: invoice.customerId ?? "",
+              consignorId: invoice.consignorId ?? "",
+              consignorName: "",
+              consignorAddress: "",
+              consignorPhone: "",
+              consigneeId: invoice.consigneeId ?? "",
+              consigneeName: "",
+              consigneeAddress: "",
+              consigneePhone: "",
+              // Courier Details
+              origin: invoice.origin ?? "",
+              destination: invoice.destination ?? "",
+              transportMode: "surface",
+              pieces: invoice.pieces ?? undefined,
+              actualWeight: undefined,
+              chargedWeight: invoice.chargedWeight ?? undefined,
+              rate: undefined,
+              remarks: "",
+              // Payment Details
+              paymentMode: (invoice.paymentMode ?? undefined) as InvoiceFormValues["paymentMode"],
+              freightAmount: invoice.freightAmount ?? undefined,
+              pickupCharge: invoice.pickupCharge ?? undefined,
+              packingCharge: undefined,
+              docketCharge: invoice.docketCharge ?? undefined,
+              deliveryCharge: invoice.deliveryCharge ?? undefined,
+              insuranceCharge: undefined,
+              gstPercent: undefined,
+              gstAmount: undefined,
+              otherCharge: invoice.otherCharge ?? undefined,
               amount: invoice.amount,
-              dueDate: invoice.dueDate
-                ? invoice.dueDate.slice(0, 10)
-                : "",
-              status:
-                (invoice.status as "pending" | "paid" | "overdue") ??
-                "pending",
+              advancePaid: invoice.advancePaid ?? undefined,
+              balanceDue: invoice.balanceDue ?? undefined,
+              // Meta
+              dueDate: invoice.dueDate ? invoice.dueDate.slice(0, 10) : "",
+              status: (invoice.status as "pending" | "paid" | "overdue" | "partially_paid") ?? "pending",
+              notes: invoice.notes ?? "",
             });
             setIsDialogOpen(true);
           }}
@@ -1118,6 +1597,14 @@ function InvoicesPageContent() {
             onClose={() => setPreviewInvoiceId(null)}
           />
         )}
+
+        <CustomerCreateDialog
+          open={customerDialogOpen}
+          onOpenChange={handleCustomerDialogClose}
+          target={customerDialogTarget}
+          onSubmit={handleCustomerDialogSubmit}
+          isLoading={customerDialogLoading}
+        />
       </div>
     </DashboardPageLayout>
   );

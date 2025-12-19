@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ChatDrawer from "@/components/ai/chat-drawer";
 import { Bot } from "lucide-react";
 import MobileNotifications from "@/components/dashboard/notifications/mobile-notifications";
@@ -28,14 +28,14 @@ export function MobileHeader({ notifications }: MobileHeaderProps) {
         <BrandLogo size="xl" className="h-20 flex-1" />
 
         <div className="flex items-center gap-2">
-          <Drawer>
-            <DrawerTrigger asChild>
+          <Dialog>
+            <DialogTrigger asChild>
               <Button variant="secondary" size="icon" aria-label="AI Assistant">
                 <Bot className="size-4" />
               </Button>
-            </DrawerTrigger>
+            </DialogTrigger>
             <ChatDrawer />
-          </Drawer>
+          </Dialog>
 
           <Sheet>
             {/* Right: Notifications Menu */}

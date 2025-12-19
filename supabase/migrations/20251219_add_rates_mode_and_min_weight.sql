@@ -1,0 +1,5 @@
+ALTER TABLE IF EXISTS public.rates
+ADD COLUMN IF NOT EXISTS service_type text NOT NULL DEFAULT 'standard';
+
+ALTER TABLE IF EXISTS public.rates
+ADD COLUMN IF NOT EXISTS min_weight numeric NOT NULL DEFAULT 0;

@@ -1,5 +1,5 @@
-import { DashboardLandingRefactored } from "@/components/auth/dashboard-landing-refactored";
+import { Landing2025 } from "@/components/auth/landing-2025"
 
-export default function LandingPage() {
-  return <DashboardLandingRefactored />;
+export default function Home() {
+  return <Landing2025 />
 }

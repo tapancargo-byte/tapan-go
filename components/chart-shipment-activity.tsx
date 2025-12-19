@@ -37,7 +37,7 @@ const generateShipmentData = () => {
   const data = []
   const startDate = new Date("2024-10-01")
   const endDate = new Date("2024-12-31")
-  
+
   for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
     const dateStr = d.toISOString().split("T")[0]
     // Simulate shipment patterns - higher on weekdays, lower on weekends
@@ -45,7 +45,7 @@ const generateShipmentData = () => {
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
     const baseShipments = isWeekend ? 15 : 35
     const baseDelivered = isWeekend ? 12 : 30
-    
+
     data.push({
       date: dateStr,
       shipments: baseShipments + Math.floor(Math.random() * 20),
@@ -63,11 +63,11 @@ const chartConfig = {
   },
   shipments: {
     label: "Shipments",
-    color: "hsl(var(--chart-1))",
+    color: "var(--chart-1)",
   },
   delivered: {
     label: "Delivered",
-    color: "hsl(var(--chart-2))",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig
 

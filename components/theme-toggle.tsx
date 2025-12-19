@@ -20,9 +20,9 @@ export function ThemeToggle() {
         type="button"
         aria-label="Toggle theme"
         disabled
-        className="inline-flex items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80 transition-colors h-8 w-8 text-xs"
+        className="w-10 h-10 flex items-center justify-center border border-border hover:bg-muted transition-colors"
       >
-        <span className="h-4 w-4 rounded-full bg-muted-foreground/40" />
+        <span className="w-4 h-4" />
       </button>
     );
   }
@@ -39,12 +39,12 @@ export function ThemeToggle() {
       type="button"
       aria-label="Toggle theme"
       onClick={handleToggle}
-      className="inline-flex items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80 transition-colors h-8 w-8 text-xs"
+      className="w-10 h-10 flex items-center justify-center border border-border hover:bg-muted transition-colors"
     >
       {currentTheme === "dark" ? (
-        <Sun className="h-4 w-4" />
+        <Sun className="w-4 h-4 text-foreground" />
       ) : (
-        <Moon className="h-4 w-4" />
+        <Moon className="w-4 h-4 text-foreground" />
       )}
     </button>
   );

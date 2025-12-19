@@ -1,6 +1,7 @@
 import {withSentryConfig} from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -9,7 +10,7 @@ const nextConfig = {
   },
 }
 
-export default withSentryConfig(nextConfig, {
+const sentryOptions = {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
@@ -40,4 +41,6 @@ export default withSentryConfig(nextConfig, {
   // https://docs.sentry.io/product/crons/
   // https://vercel.com/docs/cron-jobs
   automaticVercelMonitors: true,
-});
+}
+
+export default process.env.NODE_ENV === "development" ? nextConfig : withSentryConfig(nextConfig, sentryOptions);

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import type { UIRate } from "@/features/rates/types";
 
 interface RatesTableProps {
@@ -22,15 +23,34 @@ export function RatesTable({
   onEditRate,
   onDeleteRate,
 }: RatesTableProps) {
+  const getServiceBadge = (serviceType: UIRate["serviceType"]) => {
+    const normalized = (serviceType ?? "standard").toString().toLowerCase();
+
+    if (normalized === "air") {
+      return { label: "Air", variant: "outline-success" as const };
+    }
+
+    if (normalized === "surface") {
+      return { label: "Surface", variant: "outline" as const };
+    }
+
+    if (normalized === "express") {
+      return { label: "Express", variant: "outline-warning" as const };
+    }
+
+    return { label: "Standard", variant: "secondary" as const };
+  };
+
   return (
     <>
       <Card className="border-pop">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[600px]">
+          <table className="w-full text-sm min-w-[760px]">
             <thead className="bg-accent/50 border-b border-pop">
               <tr>
                 <th className="px-6 py-3 text-left font-semibold">Origin</th>
                 <th className="px-6 py-3 text-left font-semibold">Destination</th>
+                <th className="px-6 py-3 text-left font-semibold">Mode</th>
                 <th className="px-6 py-3 text-left font-semibold">Rate / kg</th>
                 <th className="px-6 py-3 text-left font-semibold">Base fee</th>
                 <th className="px-6 py-3 text-left font-semibold">Created</th>
@@ -49,6 +69,12 @@ export function RatesTable({
                     </td>
                     <td className="px-6 py-3 text-foreground">
                       {rate.destination}
+                    </td>
+                    <td className="px-6 py-3">
+                      {(() => {
+                        const badge = getServiceBadge(rate.serviceType);
+                        return <Badge variant={badge.variant}>{badge.label}</Badge>;
+                      })()}
                     </td>
                     <td className="px-6 py-3">
                       ₹{rate.ratePerKg.toLocaleString("en-IN")}

@@ -30,11 +30,11 @@ const chartData = [
 const chartConfig = {
   shipments: {
     label: 'Shipments',
-    color: 'hsl(var(--chart-1))',
+    color: 'var(--chart-1)',
   },
   delivered: {
     label: 'Delivered',
-    color: 'hsl(var(--chart-2))',
+    color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 

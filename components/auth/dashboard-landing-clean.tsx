@@ -31,21 +31,21 @@ import { AppIcon } from "@/components/ui/app-icon";
 import { HyperText } from "@/components/ui/hyper-text";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { SparklesText } from "@/components/ui/sparkles-text";
-import { AiSupportChat } from "@/components/support/ai-support-chat";
+import { Component as AiAssistantCard } from "@/components/ui/ai-assistant-card";
 import { LandingTicketForm } from "@/components/support/landing-ticket-form";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { MagicCard } from "@/components/ui/magic-card";
 import type { LucideIcon } from "lucide-react";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerTrigger,
-  DrawerClose,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface AuthState {
   checking: boolean;
@@ -666,8 +666,8 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     Use the AI assistant for instant answers or create a ticket for shipment and invoice escalations.
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Drawer>
-                      <DrawerTrigger asChild>
+                    <Dialog>
+                      <DialogTrigger asChild>
                         <button
                           type="button"
                           className="flex items-center gap-2 rounded-full border border-border/70 bg-muted/60 px-4 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -675,37 +675,32 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                           <MessageCircle className="h-4 w-4" aria-hidden="true" />
                           <span className="font-mono tracking-wide">AI ops assistant</span>
                         </button>
-                      </DrawerTrigger>
-                      <DrawerContent className="data-[vaul-drawer-direction=bottom]:rounded-none data-[vaul-drawer-direction=bottom]:border-t border-border bg-background">
+                      </DialogTrigger>
+                      <DialogContent className="p-0 sm:max-w-3xl" showCloseButton={false}>
                         <div className="mx-auto w-full max-w-3xl">
-                          <DrawerHeader className="px-4 pt-4 pb-2">
-                            <DrawerTitle className="text-sm font-semibold tracking-tight">
+                          <DialogHeader className="px-4 pt-4 pb-2">
+                            <DialogTitle className="text-sm font-semibold tracking-tight">
                               AI assistant
-                            </DrawerTitle>
-                            <DrawerDescription className="text-xs">
+                            </DialogTitle>
+                            <DialogDescription className="text-xs">
                               Ask about Tapan shipments, tracking references, and support. For account
                               changes or escalations, use the ticket option.
-                            </DrawerDescription>
-                          </DrawerHeader>
+                            </DialogDescription>
+                          </DialogHeader>
                           <div className="space-y-4 px-4 pb-4">
-                            <AiSupportChat />
-                            <div className="flex justify-end">
-                              <DrawerClose asChild>
-                                <button
-                                  type="button"
-                                  className="h-8 px-3 border border-border bg-card text-xs hover:bg-accent/40"
-                                >
-                                  Close
-                                </button>
-                              </DrawerClose>
-                            </div>
+                            <AiAssistantCard
+                              showClose
+                              wrapCloseButton={(button) => (
+                                <DialogClose asChild>{button}</DialogClose>
+                              )}
+                            />
                           </div>
                         </div>
-                      </DrawerContent>
-                    </Drawer>
+                      </DialogContent>
+                    </Dialog>
 
-                    <Drawer>
-                      <DrawerTrigger asChild>
+                    <Dialog>
+                      <DialogTrigger asChild>
                         <button
                           type="button"
                           className="flex items-center gap-2 rounded-full border border-border/70 bg-muted/60 px-4 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -713,34 +708,24 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                           <Ticket className="h-4 w-4" aria-hidden="true" />
                           <span className="font-mono tracking-wide">Raise ticket</span>
                         </button>
-                      </DrawerTrigger>
-                      <DrawerContent className="data-[vaul-drawer-direction=bottom]:rounded-none data-[vaul-drawer-direction=bottom]:border-t border-border bg-background">
+                      </DialogTrigger>
+                      <DialogContent className="p-0 sm:max-w-3xl">
                         <div className="mx-auto w-full max-w-3xl">
-                          <DrawerHeader className="px-4 pt-4 pb-2">
-                            <DrawerTitle className="text-sm font-semibold tracking-tight">
+                          <DialogHeader className="px-4 pt-4 pb-2">
+                            <DialogTitle className="text-sm font-semibold tracking-tight">
                               Raise a ticket
-                            </DrawerTitle>
-                            <DrawerDescription className="text-xs">
+                            </DialogTitle>
+                            <DialogDescription className="text-xs">
                               Create a support ticket for a shipment or invoice. Our ops team will
                               follow up over email.
-                            </DrawerDescription>
-                          </DrawerHeader>
+                            </DialogDescription>
+                          </DialogHeader>
                           <div className="space-y-4 px-4 pb-4">
                             <LandingTicketForm />
-                            <div className="flex justify-end">
-                              <DrawerClose asChild>
-                                <button
-                                  type="button"
-                                  className="h-8 px-3 border border-border bg-card text-xs hover:bg-accent/40"
-                                >
-                                  Close
-                                </button>
-                              </DrawerClose>
-                            </div>
                           </div>
                         </div>
-                      </DrawerContent>
-                    </Drawer>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
 
@@ -752,7 +737,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     <a
                       href="#"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-2 rounded-full border border-border/60 bg-muted/50 px-4 py-2 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-accent-foreground"
                     >
                       <Facebook className="h-4 w-4" aria-hidden="true" />
@@ -762,7 +747,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     <a
                       href="#"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-2 rounded-full border border-border/60 bg-muted/50 px-4 py-2 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-accent-foreground"
                     >
                       <Instagram className="h-4 w-4" aria-hidden="true" />
@@ -815,7 +800,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
               <a
                 href="#"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label="Visit Tapan Associate website"
                 className="transition-colors hover:text-foreground"
               >

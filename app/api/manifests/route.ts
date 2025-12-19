@@ -102,9 +102,8 @@ export async function POST(req: Request) {
 
     const manifestItems = barcodes.map((b) => ({
       manifest_id: manifestId,
-      shipment_id: b.shipment_id,
       barcode_id: b.id,
-      weight: b.shipment_id ? shipmentsMap.get(b.shipment_id)?.weight ?? null : null,
+      // shipment_id and weight are normalized in barcodes/shipments tables, not stored in manifest_items link table
     }));
 
     const { error: itemsError } = await supabaseAdmin
@@ -115,10 +114,16 @@ export async function POST(req: Request) {
       throw itemsError;
     }
 
-    await supabaseAdmin
-      .from("package_scans")
-      .update({ manifest_id: manifestId })
-      .in("barcode_id", barcodes.map((b) => b.id));
+    // Update barcode statuses to MANIFESTED
+    const { error: updateError } = await supabaseAdmin
+      .from("barcodes")
+      .update({ status: "MANIFESTED" }) // Correct status from PDR
+      .in("id", barcodes.map((b) => b.id));
+
+    if (updateError) {
+      console.warn("Failed to update barcode statuses to MANIFESTED", updateError);
+      // Not fatal, but should be noted
+    }
 
     return NextResponse.json({ success: true, manifest });
   } catch (err: any) {

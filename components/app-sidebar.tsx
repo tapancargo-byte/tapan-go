@@ -153,6 +153,11 @@ const data = {
       url: "/manifests",
       icon: IconFileDescription,
     },
+    {
+      name: "Invoice Barcodes",
+      url: "/finance/invoice-barcodes",
+      icon: IconBarcode,
+    },
   ],
 }
 

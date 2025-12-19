@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import BarcodeScanner from "@/components/barcode/barcode-scanner";
+import { useBarcodeScanner } from "@/hooks/use-barcode-scanner";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -20,106 +21,149 @@ interface SessionBarcode {
 
 export default function ManifestScanSessionPage() {
   const { toast } = useToast();
-  const [originHub, setOriginHub] = useState("");
-  const [destination, setDestination] = useState("");
-  const [airlineCode, setAirlineCode] = useState("");
+  const [originHub, setOriginHub] = useState("Imphal Terminal");
+  const [destination, setDestination] = useState("New Delhi Terminal");
+  const [airlineCode, setAirlineCode] = useState("6E");
   const [scanned, setScanned] = useState<SessionBarcode[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastError, setLastError] = useState<string | null>(null);
+
+  // HID Scanner Listener
+  useBarcodeScanner({
+    onScan: (code: string) => handleScan(code),
+    debug: true,
+  });
 
   const handleScan = async (barcodeValue: string) => {
     const trimmed = barcodeValue.trim();
     if (!trimmed) return;
 
-    setLastError(null);
-
+    // Local duplicate check
     if (scanned.some((b) => b.barcodeNumber === trimmed)) {
       toast({
         title: "Already added",
-        description: "Barcode " + trimmed + " is already in this session.",
+        description: `Barcode ${trimmed} is already in this session.`,
+        variant: "default", // Warning color?
       });
       return;
     }
 
+    setLastError(null);
+
     try {
-      const res = await fetch("/api/scans", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          barcode: trimmed,
-          scanType: "scanned_for_manifest",
-        }),
-      });
-
-      const json = await res.json();
-
-      if (!res.ok) {
-        const message =
-          (typeof json?.error === "string" && json.error) ||
-          "Could not record scan";
-        setLastError(message);
-        toast({
-          title: "Scan error",
-          description: message,
-          variant: "destructive",
-        });
-        return;
-      }
-
-      const updatedBarcode = json?.barcode;
-
-      if (!updatedBarcode?.id) {
-        toast({
-          title: "Scan recorded",
-          description: "Scanned " + trimmed + ".",
-        });
-        return;
-      }
-
-      const { data: barcodeRow, error: barcodeError } = await supabase
+      // 1. First try to resolve as a cargo barcode
+      let { data: barcodeData, error: barcodeError } = await supabase
         .from("barcodes")
-        .select(
-          "id, barcode_number, shipment_id, status, shipments!inner(id, shipment_ref, weight)"
-        )
-        .eq("id", updatedBarcode.id)
+        .select(`
+          id, 
+          barcode_number, 
+          status,
+          shipments (
+            id, 
+            shipment_ref, 
+            weight
+          )
+        `)
+        .eq("barcode_number", trimmed)
         .maybeSingle();
 
-      if (barcodeError || !barcodeRow) {
-        console.warn("Failed to load barcode context after scan", barcodeError);
-        setScanned((prev) => [
-          ...prev,
-          {
-            id: updatedBarcode.id as string,
-            barcodeNumber: trimmed,
-            shipmentRef: "",
+      if (barcodeError) throw barcodeError;
+
+      // 2. If not found in barcodes, check if it's an invoice reference
+      if (!barcodeData) {
+        const { data: invoiceData, error: invoiceError } = await supabase
+          .from("invoices")
+          .select(`
+            id,
+            invoice_ref,
+            amount,
+            customers (id, name)
+          `)
+          .eq("invoice_ref", trimmed)
+          .maybeSingle();
+
+        if (invoiceError) throw invoiceError;
+
+        if (invoiceData) {
+          // Handle invoice barcode - show it as a scanned item but with invoice context
+          const newScanItem: SessionBarcode = {
+            id: invoiceData.id,
+            barcodeNumber: invoiceData.invoice_ref,
+            shipmentRef: `Invoice: ₹${invoiceData.amount?.toLocaleString("en-IN") || "0"}`,
             weight: 0,
-            status: updatedBarcode.status ?? "in-transit",
-          },
-        ]);
-        return;
+            status: "INVOICE_SCANNED",
+          };
+
+          setScanned((prev) => [newScanItem, ...prev]);
+
+          toast({
+            title: "Invoice Scanned",
+            description: `Invoice ${trimmed} added to manifest`,
+            variant: "default",
+            className: "bg-blue-50 border-blue-200 text-blue-800",
+          });
+          return; // Early return for invoice barcodes
+        }
+
+        // Neither cargo barcode nor invoice found
+        throw new Error(`Barcode ${trimmed} not found in system (checked cargo barcodes and invoices).`);
       }
 
-      const linkedShipment = (barcodeRow as any).shipments?.[0] ?? null;
+      const barcodeId = barcodeData.id;
+      // const currentStatus = barcodeData.status; 
 
-      setScanned((prev) => [
-        ...prev,
-        {
-          id: barcodeRow.id as string,
-          barcodeNumber: (barcodeRow.barcode_number as string) ?? trimmed,
-          shipmentRef: (linkedShipment?.shipment_ref as string | null) ?? "",
-          weight: Number(linkedShipment?.weight ?? 0),
-          status: (barcodeRow.status as string | null) ?? updatedBarcode.status ?? "in-transit",
-        },
-      ]);
+      // 2. Execute Atomic Scan Event (RPC)
+      // Transition: WAREHOUSE -> MANIFESTED (or similar, depending on business logic)
+      // For now, we assume this scan session marks them as 'SCANNED_FOR_MANIFEST' or 'MANIFESTED' 
+      // strictly speaking, 'MANIFESTED' happens when the manifest is compiled.
+      // But let's log the "Scan" action.
+
+      const { data: rpcResult, error: rpcError } = await supabase.rpc("process_scan_event", {
+        p_barcode_id: barcodeId,
+        p_new_status: "MANIFESTED", // PDR: "WAREHOUSE_IN" -> "MANIFESTED"
+        p_location: originHub || "Warehouse",
+        p_operator_id: (await supabase.auth.getUser()).data.user?.id,
+        p_meta: { session_origin: originHub, session_dest: destination }
+      });
+
+      if (rpcError) throw rpcError;
+
+      if (rpcResult && !rpcResult.success) {
+        throw new Error(rpcResult.error || "Scan failed");
+      }
+
+      // 3. Update UI State
+      const linkedShipment = Array.isArray(barcodeData.shipments)
+        ? barcodeData.shipments[0]
+        : barcodeData.shipments;
+
+      const newScanItem: SessionBarcode = {
+        id: barcodeData.id,
+        barcodeNumber: barcodeData.barcode_number,
+        shipmentRef: linkedShipment?.shipment_ref ?? "",
+        weight: Number(linkedShipment?.weight ?? 0),
+        status: "MANIFESTED",
+      };
+
+      setScanned((prev) => [newScanItem, ...prev]);
+
+      toast({
+        title: "Scan successful",
+        description: `Captured ${trimmed}`,
+        variant: "default",
+        className: "bg-emerald-50 border-emerald-200 text-emerald-800", // Success style
+      });
+
     } catch (err: any) {
       console.error("Scan session error", err);
-      const message = err?.message || "Unexpected error while recording scan.";
+      const message = err?.message || "Unexpected error.";
       setLastError(message);
       toast({
-        title: "Scan error",
+        title: "Scan failed",
         description: message,
         variant: "destructive",
       });
+      // Optional: Play error sound here
     }
   };
 
@@ -139,8 +183,26 @@ export default function ManifestScanSessionPage() {
     scanned.length > 0 &&
     !isSubmitting;
 
+  // Debug: log why button might not work
+  console.log("Create Manifest State:", {
+    canSubmit,
+    originHub: originHub.trim() || "(empty)",
+    destination: destination.trim() || "(empty)",
+    airlineCode: airlineCode.trim() || "(empty)",
+    scannedCount: scanned.length,
+    isSubmitting
+  });
+
   const handleCreateManifest = async () => {
-    if (!canSubmit) return;
+    console.log("Create Manifest clicked! canSubmit:", canSubmit);
+    if (!canSubmit) {
+      toast({
+        title: "Cannot create manifest",
+        description: "Please fill in Origin Hub, Destination, and Airline Code first.",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -286,8 +348,8 @@ export default function ManifestScanSessionPage() {
 
             {scanned.length > 0 && (
               <div className="mt-4 max-h-64 overflow-y-auto border rounded-md divide-y text-xs">
-                {scanned.map((b) => (
-                  <div key={b.id} className="flex items-center justify-between px-3 py-2">
+                {scanned.map((b, index) => (
+                  <div key={`${b.id}-${index}`} className="flex items-center justify-between px-3 py-2">
                     <div className="flex-1 min-w-0">
                       <p className="font-mono text-[11px]">{b.barcodeNumber}</p>
                       <p className="text-[11px] text-muted-foreground truncate">

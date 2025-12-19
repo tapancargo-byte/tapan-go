@@ -36,7 +36,7 @@ export function RadialChartShape({
   title = 'Capacity',
   description = 'Current utilization',
   label = 'Used',
-  color = 'hsl(var(--chart-2))',
+  color = 'var(--chart-2)',
 }: RadialChartShapeProps) {
   // Calculate the end angle based on the percentage
   const percentage = Math.min((value / maxValue) * 100, 100);

@@ -7,6 +7,11 @@ interface ARBucket {
   outstanding: number;
 }
 
+interface AgingBucket {
+  count: number;
+  amount: number;
+}
+
 interface ARSummaryResponse {
   totalInvoiced: number;
   totalPaid: number;
@@ -18,6 +23,12 @@ interface ARSummaryResponse {
     partially_paid: ARBucket;
     other: ARBucket;
   };
+  aging: {
+    current: AgingBucket;
+    days1to30: AgingBucket;
+    days31to60: AgingBucket;
+    days61plus: AgingBucket;
+  };
 }
 
 export async function GET() {
@@ -25,7 +36,7 @@ export async function GET() {
     const [invoicesRes, paymentsRes] = await Promise.all([
       supabaseAdmin
         .from("invoices")
-        .select("id, amount, status"),
+        .select("id, amount, status, due_date"),
       supabaseAdmin
         .from("invoice_payments")
         .select("invoice_id, amount"),
@@ -48,13 +59,14 @@ export async function GET() {
       );
     }
 
-    const invoiceMap = new Map<string, { amount: number; status: string }>();
+    const invoiceMap = new Map<string, { amount: number; status: string; dueDate: string | null }>();
     invoices.forEach((row) => {
       const id = (row.id as string | null) ?? null;
       if (!id) return;
       invoiceMap.set(id, {
         amount: Number((row.amount as number | null) ?? 0),
         status: (row.status as string | null) ?? "pending",
+        dueDate: (row.due_date as string | null) ?? null,
       });
     });
 
@@ -83,6 +95,16 @@ export async function GET() {
       partially_paid: emptyBucket(),
       other: emptyBucket(),
     };
+
+    const emptyAgingBucket = (): AgingBucket => ({ count: 0, amount: 0 });
+    const aging: ARSummaryResponse["aging"] = {
+      current: emptyAgingBucket(),
+      days1to30: emptyAgingBucket(),
+      days31to60: emptyAgingBucket(),
+      days61plus: emptyAgingBucket(),
+    };
+
+    const now = new Date();
 
     invoiceMap.forEach((invoice, id) => {
       const amount = invoice.amount;
@@ -116,6 +138,30 @@ export async function GET() {
       bucket.invoiceCount += 1;
       bucket.invoiceAmount += amount;
       bucket.outstanding += outstanding;
+
+      // Calculate aging bucket based on due_date (only for unpaid invoices)
+      if (outstanding > 0 && invoice.dueDate) {
+        const dueDate = new Date(invoice.dueDate);
+        const daysPastDue = Math.floor((now.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
+
+        if (daysPastDue <= 0) {
+          aging.current.count += 1;
+          aging.current.amount += outstanding;
+        } else if (daysPastDue <= 30) {
+          aging.days1to30.count += 1;
+          aging.days1to30.amount += outstanding;
+        } else if (daysPastDue <= 60) {
+          aging.days31to60.count += 1;
+          aging.days31to60.amount += outstanding;
+        } else {
+          aging.days61plus.count += 1;
+          aging.days61plus.amount += outstanding;
+        }
+      } else if (outstanding > 0) {
+        // No due date, treat as current
+        aging.current.count += 1;
+        aging.current.amount += outstanding;
+      }
     });
 
     const payload: ARSummaryResponse = {
@@ -123,6 +169,7 @@ export async function GET() {
       totalPaid,
       totalOutstanding,
       buckets,
+      aging,
     };
 
     return NextResponse.json(payload);

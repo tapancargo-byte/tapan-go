@@ -41,12 +41,13 @@ import { supabase } from '@/lib/supabaseClient';
 import { MapPin, Bell, ChevronDown } from 'lucide-react';
 import { useLocation } from '@/lib/location-context';
 import { LOCATIONS, type Location } from '@/types/auth';
+import { useSignoutToastContext } from '@/lib/signout-toast-context';
 
 // Compact Location & Notification Bar for sidebar
 function LocationNotificationBar() {
   const { locationScope, setLocationScope } = useLocation();
   const [notificationCount, setNotificationCount] = React.useState(0);
-  
+
   // Fetch real notification count
   React.useEffect(() => {
     async function fetchNotificationCount() {
@@ -55,7 +56,7 @@ function LocationNotificationBar() {
           .from('notifications')
           .select('*', { count: 'exact', head: true })
           .eq('is_read', false);
-        
+
         if (!error && count !== null) {
           setNotificationCount(count);
         }
@@ -66,7 +67,7 @@ function LocationNotificationBar() {
     }
     fetchNotificationCount();
   }, []);
-  
+
   return (
     <div className="flex items-center gap-2 px-2">
       {/* Location Selector - Compact */}
@@ -116,7 +117,7 @@ function LocationNotificationBar() {
           </div>
         </PopoverContent>
       </Popover>
-      
+
       {/* Notifications - Compact */}
       <Link
         href="/notifications"
@@ -141,6 +142,7 @@ export function DashboardSidebar({
   const pathname = usePathname();
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = React.useState(false);
+  const { showSignoutToast } = useSignoutToastContext();
 
   const [sidebarCounts, setSidebarCounts] = React.useState<
     Record<NavBadgeKey, number | null>
@@ -154,11 +156,21 @@ export function DashboardSidebar({
   const handleSignOut = async () => {
     if (isSigningOut) return;
     setIsSigningOut(true);
+
+    // Get user email before signing out for the toast
+    const { data: { user } } = await supabase.auth.getUser();
+    const userEmail = user?.email || 'User';
+
     try {
       await supabase.auth.signOut();
+      // Show the toast before redirecting
+      showSignoutToast(userEmail);
+      // Delay redirect to show toast
+      setTimeout(() => {
+        router.push('/login');
+      }, 1500);
     } catch (error) {
       console.error('Error signing out', error);
-    } finally {
       setIsSigningOut(false);
       router.push('/login');
     }
@@ -171,7 +183,7 @@ export function DashboardSidebar({
     // Delay loading counts to prioritize page content
     const timeoutId = setTimeout(async () => {
       if (cancelled) return;
-      
+
       try {
         // Only fetch essential counts (3 queries instead of 7)
         const [warehousesRes, shipmentsRes, invoicesRes] = await Promise.all([
@@ -245,7 +257,7 @@ export function DashboardSidebar({
     // Defer profile loading to prioritize page content
     const timeoutId = setTimeout(async () => {
       if (cancelled) return;
-      
+
       try {
         const {
           data: { user },
@@ -402,7 +414,7 @@ export function DashboardSidebar({
           <SidebarGroupContent>
             {/* Location & Notifications Row */}
             <LocationNotificationBar />
-            
+
             <SidebarMenu className="mt-2">
               <SidebarMenuItem>
                 <Popover>

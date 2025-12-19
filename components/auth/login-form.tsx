@@ -7,9 +7,13 @@ import { supabase } from "@/lib/supabaseClient";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, MapPin, Loader2 } from "lucide-react";
-import { LOCATIONS, LOCATION_SCOPES, type Location, type LocationScope } from "@/types/auth";
-import { cn } from "@/lib/utils";
+import { Eye, EyeOff, MapPin, Loader2, RefreshCw } from "lucide-react";
+import type { LocationScope } from "@/types/auth";
+import {
+  detectUserLocation,
+  clearLocationCache,
+  type DetectedLocation,
+} from "@/lib/location-service";
 
 export function LoginForm() {
   const [email, setEmail] = useState("admin@tapango.logistics");
@@ -18,16 +22,41 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [scopeManuallySet, setScopeManuallySet] = useState(false);
+  const [detectingLocation, setDetectingLocation] = useState(false);
+  const [detectedLocation, setDetectedLocation] = useState<DetectedLocation | null>(null);
   const router = useRouter();
 
-  // Auto-select location based on email
+  // Auto-detect location based on IP using ipapi.co
   useEffect(() => {
-    if (email.includes("delhi")) {
-      setSelectedScope("newdelhi");
-    } else if (email.includes("admin")) {
-      setSelectedScope("imphal");
+    if (scopeManuallySet) return;
+
+    const detectLocation = async () => {
+      setDetectingLocation(true);
+      const location = await detectUserLocation();
+      if (location) {
+        setDetectedLocation(location);
+        setSelectedScope(location.scope);
+      }
+      setDetectingLocation(false);
+    };
+
+    const timeoutId = setTimeout(detectLocation, 500);
+    return () => clearTimeout(timeoutId);
+  }, [scopeManuallySet]);
+
+  // Handler for re-detecting location
+  const handleAutoDetect = async () => {
+    setScopeManuallySet(false);
+    setDetectingLocation(true);
+    clearLocationCache();
+    const location = await detectUserLocation(true);
+    if (location) {
+      setDetectedLocation(location);
+      setSelectedScope(location.scope);
     }
-  }, [email]);
+    setDetectingLocation(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,12 +72,12 @@ export function LoginForm() {
         setLoading(false);
         return;
       }
-      
+
       localStorage.setItem("tapango-location-scope", selectedScope);
       if (selectedScope !== 'all') {
         localStorage.setItem("tapango-user-home-location", selectedScope);
       }
-      
+
       setLoading(false);
       router.push("/dashboard");
       router.refresh();
@@ -61,47 +90,43 @@ export function LoginForm() {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      {/* Location Selection - Clean pill buttons */}
-      <div className="space-y-3">
-        <Label className="text-sm font-medium flex items-center gap-2">
-          <MapPin className="h-3.5 w-3.5" />
-          Branch Location
-        </Label>
-        <div className="flex gap-2">
-          {LOCATION_SCOPES.filter(s => s.value !== 'all').map((scope) => (
+      {/* Auto-detected location badge - clean and minimal */}
+      {(detectedLocation || detectingLocation) && (
+        <div className="flex items-center justify-between px-4 py-3 bg-primary/5 border border-primary/10 rounded-xl">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+              <MapPin className="h-4 w-4 text-primary" />
+            </div>
+            <div>
+              {detectingLocation ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                  <span className="text-sm text-muted-foreground">Detecting location...</span>
+                </div>
+              ) : detectedLocation ? (
+                <>
+                  <p className="text-sm font-medium">
+                    {detectedLocation.city || detectedLocation.region}, {detectedLocation.country}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Branch: {selectedScope === 'imphal' ? 'Imphal (IMF)' : selectedScope === 'newdelhi' ? 'New Delhi (DEL)' : 'All Locations'}
+                  </p>
+                </>
+              ) : null}
+            </div>
+          </div>
+          {!detectingLocation && (
             <button
-              key={scope.value}
               type="button"
-              onClick={() => setSelectedScope(scope.value)}
-              className={cn(
-                "flex-1 py-2.5 px-4 text-sm font-medium transition-all duration-200",
-                "border focus:outline-none focus:ring-2 focus:ring-primary/20",
-                selectedScope === scope.value
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "bg-background text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
-              )}
+              onClick={handleAutoDetect}
+              className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
             >
-              <span className="font-mono text-xs mr-1.5">
-                {LOCATIONS[scope.value as Location].code}
-              </span>
-              {LOCATIONS[scope.value as Location].name}
+              <RefreshCw className="h-3 w-3" />
+              Refresh
             </button>
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => setSelectedScope('all')}
-          className={cn(
-            "w-full py-2 px-4 text-xs font-medium transition-all duration-200",
-            "border focus:outline-none focus:ring-2 focus:ring-primary/20",
-            selectedScope === 'all'
-              ? "bg-primary/10 text-primary border-primary/30"
-              : "bg-transparent text-muted-foreground border-transparent hover:text-foreground"
           )}
-        >
-          View all locations
-        </button>
-      </div>
+        </div>
+      )}
 
       {/* Email */}
       <div className="space-y-2">
@@ -179,7 +204,7 @@ export function LoginForm() {
           "Sign in"
         )}
       </Button>
-      
+
       {/* Demo hint - very subtle */}
     </form>
   );

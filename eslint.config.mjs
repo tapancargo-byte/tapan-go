@@ -26,6 +26,7 @@ const eslintConfig = [
       ".next/**",
       "dist/**",
       "coverage/**",
+      "public/icons/js/**",
       "**/*.ts",
       "**/*.tsx",
     ],

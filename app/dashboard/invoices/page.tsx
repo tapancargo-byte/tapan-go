@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, ExternalLink } from "lucide-react";
@@ -29,6 +30,7 @@ type UIInvoice = {
 };
 
 export default function InvoicesPage() {
+  const router = useRouter();
   const [data, setData] = useState<UIInvoice[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -139,7 +141,7 @@ export default function InvoicesPage() {
           <h2 className="text-2xl font-bold tracking-tight">Invoices</h2>
           <p className="text-muted-foreground">Manage billing and payments.</p>
         </div>
-        <Button className="rounded-none">Create Invoice</Button>
+        <Button className="rounded-none" onClick={() => router.push("/invoices")}>Create Invoice</Button>
       </div>
 
       <DataTable columns={columns} data={data} searchKey="ref" />

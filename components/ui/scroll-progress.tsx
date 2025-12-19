@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, type MotionProps, useScroll } from "motion/react";
+import { motion, type MotionProps, useScroll } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 

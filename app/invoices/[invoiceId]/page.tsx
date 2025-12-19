@@ -1,3 +1,5 @@
+import InvoiceBarcode from "@/components/invoices/invoice-barcode";
+
 import QRCode from "qrcode";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createSignedUrl } from "@/lib/storageHelpers";
@@ -16,7 +18,7 @@ export default async function InvoicePublicPage({
   const { data: invoice, error: invoiceError } = await supabaseAdmin
     .from("invoices")
     .select(
-      "id, invoice_ref, customer_id, amount, status, invoice_date, due_date, pdf_path"
+      "id, invoice_ref, customer_id, consignor_id, consignee_id, amount, status, invoice_date, due_date, pdf_path, origin, destination, pieces, charged_weight, declared_value, payment_mode"
     )
     .eq("id", invoiceId)
     .maybeSingle();
@@ -34,6 +36,18 @@ export default async function InvoicePublicPage({
     .from("customers")
     .select("id, name, phone, city")
     .eq("id", invoice.customer_id)
+    .maybeSingle();
+
+  const { data: consignor } = await supabaseAdmin
+    .from("customers")
+    .select("id, name, phone, city")
+    .eq("id", (invoice as any).consignor_id)
+    .maybeSingle();
+
+  const { data: consignee } = await supabaseAdmin
+    .from("customers")
+    .select("id, name, phone, city")
+    .eq("id", (invoice as any).consignee_id)
     .maybeSingle();
 
   const { data: customerInvoices } = await supabaseAdmin
@@ -188,6 +202,14 @@ export default async function InvoicePublicPage({
   const customerPhone = customer?.phone ?? "";
   const customerCity = customer?.city ?? "";
 
+  const consignorName = consignor?.name ?? "";
+  const consignorPhone = consignor?.phone ?? "";
+  const consignorCity = consignor?.city ?? "";
+
+  const consigneeName = consignee?.name ?? "";
+  const consigneePhone = consignee?.phone ?? "";
+  const consigneeCity = consignee?.city ?? "";
+
   return (
     <div className="min-h-screen bg-slate-100 flex items-start justify-center py-10 px-4">
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden border border-slate-200">
@@ -241,13 +263,33 @@ export default async function InvoicePublicPage({
         </div>
 
         <div className="px-6 py-4 border-b grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-800">
-          <div>
-            <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
-              Bill To
+          <div className="space-y-3">
+            <div>
+              <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+                Bill To
+              </div>
+              <div className="font-semibold text-sm">{customerName}</div>
+              <div>{customerCity}</div>
+              <div>{customerPhone}</div>
             </div>
-            <div className="font-semibold text-sm">{customerName}</div>
-            <div>{customerCity}</div>
-            <div>{customerPhone}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+                  Consignor
+                </div>
+                <div className="font-semibold text-xs">{consignorName || "-"}</div>
+                <div>{consignorCity}</div>
+                <div>{consignorPhone}</div>
+              </div>
+              <div>
+                <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+                  Consignee
+                </div>
+                <div className="font-semibold text-xs">{consigneeName || "-"}</div>
+                <div>{consigneeCity}</div>
+                <div>{consigneePhone}</div>
+              </div>
+            </div>
           </div>
           <div className="md:text-right space-y-0.5">
             <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
@@ -256,6 +298,14 @@ export default async function InvoicePublicPage({
             <div>
               <span className="font-semibold">Invoice No:</span>{" "}
               {invoice.invoice_ref ?? invoice.id}
+            </div>
+            <div className="py-1 flex justify-end">
+              <InvoiceBarcode
+                value={invoice.invoice_ref || invoice.id}
+                height={30}
+                width={1}
+                showValue={false}
+              />
             </div>
             <div>
               <span className="font-semibold">Date:</span> {invoiceDateDisplay}
@@ -266,6 +316,38 @@ export default async function InvoicePublicPage({
             <div>
               <span className="font-semibold">Status:</span> {(invoice.status ?? "pending").toString().toUpperCase()}
             </div>
+            {(invoice as any).origin || (invoice as any).destination ? (
+              <div>
+                <span className="font-semibold">Route:</span>{" "}
+                {(invoice as any).origin || "?"}
+                <span className="mx-1">→</span>
+                {(invoice as any).destination || "?"}
+              </div>
+            ) : null}
+            {(invoice as any).pieces != null && (
+              <div>
+                <span className="font-semibold">Pieces:</span>{" "}
+                {(invoice as any).pieces}
+              </div>
+            )}
+            {(invoice as any).charged_weight != null && (
+              <div>
+                <span className="font-semibold">Charged weight:</span>{" "}
+                {(invoice as any).charged_weight} kg
+              </div>
+            )}
+            {(invoice as any).declared_value != null && (
+              <div>
+                <span className="font-semibold">Declared value:</span>{" "}
+                ₹{(invoice as any).declared_value.toLocaleString("en-IN")}
+              </div>
+            )}
+            {(invoice as any).payment_mode && (
+              <div>
+                <span className="font-semibold">Payment mode:</span>{" "}
+                {(invoice as any).payment_mode}
+              </div>
+            )}
           </div>
         </div>
 
@@ -292,8 +374,8 @@ export default async function InvoicePublicPage({
                       <td className="py-2 px-2 text-right align-top">
                         {item.weight > 0
                           ? item.weight.toLocaleString("en-IN", {
-                              maximumFractionDigits: 2,
-                            })
+                            maximumFractionDigits: 2,
+                          })
                           : "-"}
                       </td>
                       <td className="py-2 px-2 text-right align-top">
