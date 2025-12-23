@@ -562,7 +562,7 @@ export default function WarehouseManagement() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2 px-4 sm:px-6 pt-4 sm:pt-6">
             <CardTitle className="text-xs sm:text-sm">Network Summary</CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs">
+            <CardDescription className="text-xs sm:text-xs">
               Snapshot across all warehouses
             </CardDescription>
           </CardHeader>
@@ -570,19 +570,19 @@ export default function WarehouseManagement() {
             {loading ? (
               <>
                 <div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                  <p className="text-xs sm:text-xs text-muted-foreground mb-1">
                     Stored
                   </p>
                   <Skeleton className="h-5 w-16" />
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                  <p className="text-xs sm:text-xs text-muted-foreground mb-1">
                     In Transit
                   </p>
                   <Skeleton className="h-5 w-20" />
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                  <p className="text-xs sm:text-xs text-muted-foreground mb-1">
                     Warehouses
                   </p>
                   <Skeleton className="h-5 w-12" />
@@ -591,7 +591,7 @@ export default function WarehouseManagement() {
             ) : (
               <>
                 <div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                  <p className="text-xs sm:text-xs text-muted-foreground mb-1">
                     Stored
                   </p>
                   <p className="text-base sm:text-lg font-bold">
@@ -599,7 +599,7 @@ export default function WarehouseManagement() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                  <p className="text-xs sm:text-xs text-muted-foreground mb-1">
                     In Transit
                   </p>
                   <p className="text-base sm:text-lg font-bold text-primary">
@@ -607,7 +607,7 @@ export default function WarehouseManagement() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">
+                  <p className="text-xs sm:text-xs text-muted-foreground mb-1">
                     Warehouses
                   </p>
                   <p className="text-base sm:text-lg font-bold">

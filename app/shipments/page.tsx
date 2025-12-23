@@ -1070,7 +1070,7 @@ function ShipmentsTrackingContent() {
                           <div>
                             <p className="font-mono font-semibold">{bc.barcodeNumber}</p>
                             {bc.lastScannedLocation && (
-                              <p className="text-[10px] text-muted-foreground">
+                              <p className="text-xs text-muted-foreground">
                                 {bc.lastScannedLocation}
                               </p>
                             )}
@@ -1080,7 +1080,7 @@ function ShipmentsTrackingContent() {
                               {bc.status || "unknown"}
                             </span>
                             {bc.lastScannedAt && (
-                              <p className="text-[10px] text-muted-foreground mt-0.5">
+                              <p className="text-xs text-muted-foreground mt-0.5">
                                 {new Date(bc.lastScannedAt).toLocaleString("en-IN")}
                               </p>
                             )}
@@ -1088,7 +1088,7 @@ function ShipmentsTrackingContent() {
                         </div>
 
                         {isActive && (
-                          <div className="mt-1 text-[10px] text-muted-foreground">
+                          <div className="mt-1 text-xs text-muted-foreground">
                             {barcodeScansLoading ? (
                               <p>Loading scan history...</p>
                             ) : activeBarcodeScans.length === 0 ? (
@@ -1139,18 +1139,18 @@ function ShipmentsTrackingContent() {
                       className="flex items-center justify-between gap-2 border-b border-border/40 last:border-b-0 pb-1"
                     >
                       <div className="flex-1 min-w-0">
-                        <p className="font-mono text-[10px]">
+                        <p className="font-mono text-xs">
                           {event.barcodeNumber || "Unknown barcode"}
                         </p>
-                        <p className="text-[10px] text-muted-foreground truncate">
+                        <p className="text-xs text-muted-foreground truncate">
                           {event.location || "Unknown location"}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[10px]">
+                        <p className="text-xs">
                           {new Date(event.scannedAt).toLocaleString("en-IN")}
                         </p>
-                        <p className="text-[10px] uppercase text-muted-foreground">
+                        <p className="text-xs uppercase text-muted-foreground">
                           {event.scanType || "scan"}
                         </p>
                       </div>
