@@ -52,40 +52,70 @@ const config = {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
         },
-        // BookWise-inspired domain colors
-        green: {
-          DEFAULT: "#027A48",
-          100: "#ECFDF3",
-          400: "#4C7B62",
-          500: "#2CC171",
-          800: "#027A48",
+        // Status colors for logistics domain
+        success: {
+          DEFAULT: "var(--success)",
+          foreground: "var(--success-foreground)",
+          light: "var(--success-light)",
+          50: "var(--success-50)",
+          100: "var(--success-100)",
+          500: "var(--success-500)",
+          600: "var(--success-600)",
+          900: "var(--success-900)",
         },
-        red: {
-          DEFAULT: "#EF3A4B",
-          400: "#F46F70",
-          500: "#E27233",
-          800: "#EF3A4B",
+        warning: {
+          DEFAULT: "var(--warning)",
+          foreground: "var(--warning-foreground)",
+          light: "var(--warning-light)",
+          50: "var(--warning-50)",
+          100: "var(--warning-100)",
+          500: "var(--warning-500)",
+          600: "var(--warning-600)",
+          900: "var(--warning-900)",
         },
-        light: {
-          100: "#D6E0FF",
-          200: "#EED1AC",
-          300: "#F8F8FF",
-          400: "#EDF1F1",
-          500: "#8D8D8D",
-          600: "#F9FAFB",
-          700: "#E2E8F0",
-          800: "#F8FAFC",
+        info: {
+          DEFAULT: "var(--info)",
+          foreground: "var(--info-foreground)",
+          light: "var(--info-light)",
+          50: "var(--info-50)",
+          100: "var(--info-100)",
+          500: "var(--info-500)",
+          600: "var(--info-600)",
+          900: "var(--info-900)",
         },
-        dark: {
-          100: "#16191E",
-          200: "#3A354E",
-          300: "#232839",
-          400: "#1E293B",
-          500: "#0F172A",
-          600: "#333C5C",
-          700: "#464F6F",
-          800: "#1E2230",
-        },
+      },
+      spacing: {
+        // Consistent 4px-based spacing scale
+        'xs': '0.25rem',    // 4px
+        'sm': '0.5rem',     // 8px
+        'md': '0.75rem',    // 12px
+        'lg': '1rem',       // 16px
+        'xl': '1.5rem',     // 24px
+        '2xl': '2rem',      // 32px
+        '3xl': '3rem',      // 48px
+        '4xl': '4rem',      // 64px
+        '5xl': '5rem',      // 80px
+        '6xl': '6rem',      // 96px
+      },
+      fontSize: {
+        // Enhanced typography scale with line heights
+        'xs': ['0.75rem', { lineHeight: '1rem' }],      // 12px
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],  // 14px
+        'base': ['1rem', { lineHeight: '1.5rem' }],     // 16px
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],  // 18px
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],   // 20px
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],      // 24px
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }], // 30px
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],   // 36px
+        '5xl': ['3rem', { lineHeight: '1' }],           // 48px
+        '6xl': ['3.75rem', { lineHeight: '1' }],        // 60px
+      },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
       },
       borderRadius: {
         lg: "var(--radius)",
