@@ -510,7 +510,9 @@ function InvoicesPageContent() {
       }
       setCustomerDialogOpen(false);
     } catch (err: any) {
-      console.error("Quick create customer error", err);
+      Sentry.captureException(err, {
+        tags: { component: 'invoices-page', operation: 'quick-create-customer' }
+      });
 
       const email = typeof data.email === "string" ? data.email.trim() : "";
       if (err?.code === "23505" && email) {
@@ -617,7 +619,9 @@ function InvoicesPageContent() {
         description: "Invoice PDF downloaded successfully",
       });
     } catch (error) {
-      console.error("Failed to download invoice PDF", error);
+      Sentry.captureException(error, {
+        tags: { component: 'invoices-page', operation: 'download-pdf' }
+      });
       toast({
         title: "Invoice PDF error",
         description:
@@ -731,7 +735,10 @@ function InvoicesPageContent() {
         description: `Invoice ${invoice.id} has been removed.`,
       });
     } catch (err: any) {
-      console.error("Failed to delete invoice", err);
+      Sentry.captureException(err, {
+        tags: { component: 'invoices-page', operation: 'delete-invoice' },
+        extra: { invoiceId: invoice.id }
+      });
       toast({
         title: "Could not delete invoice",
         description:
