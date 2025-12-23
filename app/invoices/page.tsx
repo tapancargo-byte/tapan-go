@@ -1345,7 +1345,7 @@ function InvoicesPageContent() {
           : "text-muted-foreground";
 
     return (
-      <span className={`text-[10px] uppercase mt-0.5 ${color}`}>
+      <span className={`text-xs uppercase mt-0.5 ${color}`}>
         {label}
       </span>
     );
@@ -1436,7 +1436,7 @@ function InvoicesPageContent() {
             </Select>
           </div>
           {roleLoaded && !canEdit && (
-            <p className="text-[11px] text-muted-foreground max-w-xs">
+            <p className="text-xs text-muted-foreground max-w-xs">
               You have read-only billing access. Contact an admin to create invoices.
             </p>
           )}

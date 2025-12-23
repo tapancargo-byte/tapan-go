@@ -351,12 +351,12 @@ export default function ManifestScanSessionPage() {
                 {scanned.map((b, index) => (
                   <div key={`${b.id}-${index}`} className="flex items-center justify-between px-3 py-2">
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-[11px]">{b.barcodeNumber}</p>
-                      <p className="text-[11px] text-muted-foreground truncate">
+                      <p className="font-mono text-xs">{b.barcodeNumber}</p>
+                      <p className="text-xs text-muted-foreground truncate">
                         {b.shipmentRef || "Unlinked shipment"}
                       </p>
                     </div>
-                    <div className="text-right text-[11px]">
+                    <div className="text-right text-xs">
                       <p>{b.weight ? b.weight.toFixed(2) + " kg" : "-"}</p>
                       <p className="uppercase text-muted-foreground">{b.status}</p>
                     </div>
