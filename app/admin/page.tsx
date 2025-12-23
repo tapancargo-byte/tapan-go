@@ -186,7 +186,7 @@ export default function AdminSettingsPage() {
               </div>
               <div className="flex items-center gap-2">
                 {roleLoaded && !canEdit && (
-                  <span className="text-[11px] text-muted-foreground uppercase tracking-wide">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wide">
                     Read-only
                   </span>
                 )}

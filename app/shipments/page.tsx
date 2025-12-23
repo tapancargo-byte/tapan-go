@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PageLayout, Section } from "@/components/layout/page-layout";
+import { LoadingTable } from "@/components/ui/loading-states";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import TruckIcon from "@/components/icons/truck";
@@ -887,7 +889,7 @@ function ShipmentsTrackingContent() {
             </div>
 
             {roleLoaded && !canEdit && (
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 You have read-only access. Contact an admin to modify shipments.
               </p>
             )}
