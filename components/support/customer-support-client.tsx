@@ -139,7 +139,7 @@ export function CustomerSupportClient() {
       <main className="flex-1 flex items-center justify-center px-4 py-8 lg:py-10">
         <div className="w-full max-w-5xl grid gap-8 lg:gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
           <section className="space-y-5 max-w-xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 text-[10px] md:text-[11px] tracking-[0.18em] uppercase text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 text-xs md:text-xs tracking-[0.18em] uppercase text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               <span>Shipment questions · Delivery issues · Northeast corridor</span>
             </div>
@@ -151,7 +151,7 @@ export function CustomerSupportClient() {
               investigate and get back to you. This form is for customers and
               partners using the public network.
             </p>
-            <ul className="text-[11px] md:text-xs text-muted-foreground space-y-1">
+            <ul className="text-xs md:text-xs text-muted-foreground space-y-1">
               <li>• Use the same email you used for your booking or enquiry.</li>
               <li>• Include a shipment or barcode reference if you have one.</li>
               <li>• Our team will follow up using the email you provide.</li>

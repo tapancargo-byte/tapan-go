@@ -69,7 +69,7 @@ export function AiSupportChat() {
             >
               <div
                 className={
-                  "inline-block rounded-none border border-border/70 bg-card/90 px-3 py-2 text-[11px] leading-relaxed"
+                  "inline-block rounded-none border border-border/70 bg-card/90 px-3 py-2 text-xs leading-relaxed"
                 }
               >
                 {textParts.map((part: any, idx: number) => (
@@ -78,7 +78,7 @@ export function AiSupportChat() {
                   </p>
                 ))}
                 {sources.length > 0 && !isUser && (
-                  <div className="mt-2 border-t border-border/40 pt-1.5 text-[10px] text-muted-foreground">
+                  <div className="mt-2 border-t border-border/40 pt-1.5 text-xs text-muted-foreground">
                     <p className="mb-1 font-medium">Sources</p>
                     <ul className="space-y-0.5 list-disc list-inside">
                       {sources.map((part: any, idx: number) => (
@@ -114,7 +114,7 @@ export function AiSupportChat() {
           <button
             type="button"
             onClick={() => setWebSearch((prev) => !prev)}
-            className={`text-[10px] px-2 py-1 border border-border/70 ${
+            className={`text-xs px-2 py-1 border border-border/70 ${
               webSearch
                 ? "bg-primary/10 text-primary"
                 : "bg-transparent text-muted-foreground hover:text-foreground"

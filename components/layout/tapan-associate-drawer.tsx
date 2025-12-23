@@ -93,7 +93,7 @@ export function TapanAssociateDrawerLauncher() {
               <SheetTitle className="text-sm font-semibold tracking-wide uppercase">
                 Tapan Associate
               </SheetTitle>
-              <SheetDescription className="text-[11px]">
+              <SheetDescription className="text-xs">
                 Quick AI help for what you are working on right now.
               </SheetDescription>
             </div>
@@ -102,7 +102,7 @@ export function TapanAssociateDrawerLauncher() {
             type="button"
             variant="ghost"
             size="sm"
-            className="gap-1 text-[11px]"
+            className="gap-1 text-xs"
             onClick={() => router.push("/tapan-associate")}
           >
             <Maximize2 className="h-3 w-3" />
@@ -119,7 +119,7 @@ export function TapanAssociateDrawerLauncher() {
                 variant="outline"
                 size="sm"
                 disabled={isLoading}
-                className="h-7 px-2 text-[11px]"
+                className="h-7 px-2 text-xs"
                 onClick={() => handleAsk(s)}
               >
                 {s}
@@ -174,7 +174,7 @@ export function TapanAssociateDrawerLauncher() {
               </div>
             </div>
           ) : (
-            <div className="flex-1 min-h-[80px] rounded-md border border-dashed border-border/60 text-[11px] text-muted-foreground/80 flex items-center justify-center px-3 text-center">
+            <div className="flex-1 min-h-[80px] rounded-md border border-dashed border-border/60 text-xs text-muted-foreground/80 flex items-center justify-center px-3 text-center">
               Ask a question or pick a suggestion to get started.
             </div>
           )}
@@ -191,7 +191,7 @@ export function TapanAssociateDrawerLauncher() {
               onAttach={handleAttach}
             />
             {error && (
-              <p className="text-[11px] text-destructive mt-0.5">{error}</p>
+              <p className="text-xs text-destructive mt-0.5">{error}</p>
             )}
           </div>
         </div>

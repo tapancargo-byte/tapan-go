@@ -52,7 +52,7 @@ export function HeroSection() {
                     <p className="text-xs text-muted-foreground uppercase tracking-wide">Operations Hub</p>
                     <p className="text-lg font-semibold text-foreground">Live Visibility</p>
                   </div>
-                  <div className="px-2 py-1 border border-border text-[10px] font-semibold tracking-wide text-muted-foreground">
+                  <div className="px-2 py-1 border border-border text-xs font-semibold tracking-wide text-muted-foreground">
                     LIVE
                   </div>
                 </div>

@@ -94,7 +94,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
         >
           <Bell className="h-4 w-4" />
           {notificationCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-medium bg-destructive text-destructive-foreground rounded-full">
+            <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-xs font-medium bg-destructive text-destructive-foreground rounded-full">
               {notificationCount > 9 ? "9+" : notificationCount}
             </span>
           )}
@@ -158,7 +158,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
       >
         <Bell className="h-4 w-4" />
         {notificationCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-medium bg-destructive text-destructive-foreground rounded-full">
+          <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-xs font-medium bg-destructive text-destructive-foreground rounded-full">
             {notificationCount > 9 ? "9+" : notificationCount}
           </span>
         )}
@@ -265,7 +265,7 @@ export function AppSidebar() {
     };
 
     return (
-      <span className={cn("ml-auto px-1.5 py-0.5 text-[10px] font-semibold rounded", colorClasses[color])}>
+      <span className={cn("ml-auto px-1.5 py-0.5 text-xs font-semibold rounded", colorClasses[color])}>
         {badge}
       </span>
     );
