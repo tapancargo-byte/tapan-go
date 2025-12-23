@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import * as Sentry from "@sentry/nextjs";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -307,10 +308,9 @@ function InvoicesPageContent() {
               .in("invoice_id", invoiceIds);
 
             if (itemsError) {
-              console.warn(
-                "Supabase invoice_items error (shipments enrichment)",
-                itemsError.message
-              );
+              Sentry.captureException(itemsError, {
+                tags: { component: 'invoices-page', operation: 'invoice-items-load' }
+              });
             } else {
               const map = new Map<string, Set<string>>();
               (items ?? []).forEach((item: any) => {
@@ -717,7 +717,10 @@ function InvoicesPageContent() {
           .delete()
           .eq("invoice_id", invoice.dbId);
       } catch (err) {
-        console.warn("Failed to delete invoice_items for invoice", err);
+        Sentry.captureException(err, {
+          tags: { component: 'invoices-page', operation: 'invoice-items-delete' },
+          extra: { invoiceId: invoice.dbId }
+        });
       }
 
       const { error } = await supabase
@@ -767,10 +770,10 @@ function InvoicesPageContent() {
         .eq("invoice_id", invoice.dbId);
 
       if (itemsError) {
-        console.error(
-          "Failed to load invoice_items for invoice",
-          itemsError.message
-        );
+        Sentry.captureException(itemsError, {
+          tags: { component: 'invoices-page', operation: 'invoice-items-load' },
+          extra: { invoiceId: invoice.dbId }
+        });
         return;
       }
 
@@ -793,10 +796,10 @@ function InvoicesPageContent() {
         .in("id", shipmentIds);
 
       if (shipmentsError) {
-        console.error(
-          "Failed to load shipments for invoice",
-          shipmentsError.message
-        );
+        Sentry.captureException(shipmentsError, {
+          tags: { component: 'invoices-page', operation: 'invoice-shipments-load' },
+          extra: { invoiceId: invoice.dbId }
+        });
         setInvoiceShipments([]);
         return;
       }
@@ -867,7 +870,9 @@ function InvoicesPageContent() {
           lineAmount = baseFee + billableWeight * ratePerKg;
         }
       } catch (rateErr) {
-        console.warn("Supabase rates lookup error", rateErr);
+        Sentry.captureException(rateErr, {
+          tags: { component: 'invoices-page', operation: 'rates-lookup' }
+        });
       }
 
       const { error: insertError } = await supabase
@@ -879,10 +884,10 @@ function InvoicesPageContent() {
         });
 
       if (insertError) {
-        console.error(
-          "Failed to link shipment to invoice",
-          insertError.message
-        );
+        Sentry.captureException(insertError, {
+          tags: { component: 'invoices-page', operation: 'shipment-invoice-link' },
+          extra: { invoiceId: activeInvoice.dbId, shipmentId: shipment.id }
+        });
         toast({
           title: "Could not link shipment",
           description: insertError.message,
@@ -905,10 +910,10 @@ function InvoicesPageContent() {
             .eq("id", activeInvoice.dbId);
 
           if (updateError) {
-            console.warn(
-              "Failed to update invoice total after adding shipment",
-              updateError.message
-            );
+            Sentry.captureException(updateError, {
+              tags: { component: 'invoices-page', operation: 'invoice-total-update' },
+              extra: { invoiceId: activeInvoice.dbId, newAmount: nextAmount }
+            });
           } else {
             setInvoices((prev) =>
               prev.map((inv) =>
@@ -919,7 +924,10 @@ function InvoicesPageContent() {
             );
           }
         } catch (updateErr) {
-          console.warn("Invoices total update error", updateErr);
+          Sentry.captureException(updateErr, {
+            tags: { component: 'invoices-page', operation: 'invoice-total-update' },
+            extra: { invoiceId: activeInvoice.dbId }
+          });
         }
       }
 
@@ -955,7 +963,10 @@ function InvoicesPageContent() {
         });
       }
     } catch (err: any) {
-      console.error("Failed to add shipment to invoice", err);
+      Sentry.captureException(err, {
+        tags: { component: 'invoices-page', operation: 'shipment-invoice-add' },
+        extra: { invoiceId: activeInvoice?.dbId }
+      });
       toast({
         title: "Could not link shipment",
         description:
@@ -1016,7 +1027,10 @@ function InvoicesPageContent() {
         description: `Invoice ${invoice.id} was sent via WhatsApp to ${serverTo}.`,
       });
     } catch (error: any) {
-      console.error("Failed to send invoice via WhatsApp", error);
+      Sentry.captureException(error, {
+        tags: { component: 'invoices-page', operation: 'whatsapp-send' },
+        extra: { invoiceId: invoice.dbId }
+      });
       toast({
         title: "WhatsApp error",
         description:
@@ -1312,7 +1326,9 @@ function InvoicesPageContent() {
         notes: "",
       });
     } catch (err: any) {
-      console.error("Failed to save invoice", err);
+      Sentry.captureException(err, {
+        tags: { component: 'invoices-page', operation: 'invoice-save' }
+      });
       const extraDetails =
         (err?.code ? ` [${err.code}]` : "") +
         (err?.details ? ` ${err.details}` : "") +
@@ -1405,7 +1421,9 @@ function InvoicesPageContent() {
         description: url,
       });
     } catch (err) {
-      console.error("Failed to copy tracking link", err);
+      Sentry.captureException(err, {
+        tags: { component: 'invoices-page', operation: 'tracking-link-copy' }
+      });
       toast({
         title: "Could not copy link",
         description: `Please copy it manually: ${url}`,
