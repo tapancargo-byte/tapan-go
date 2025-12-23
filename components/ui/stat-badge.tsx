@@ -32,7 +32,7 @@ const sizeStyles = {
   sm: {
     container: "px-2 py-1 text-xs gap-1",
     value: "font-semibold",
-    label: "text-[10px]",
+    label: "text-xs",
   },
   md: {
     container: "px-3 py-1.5 text-sm gap-1.5",

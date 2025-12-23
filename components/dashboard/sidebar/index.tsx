@@ -125,7 +125,7 @@ function LocationNotificationBar() {
       >
         <Bell className="h-4 w-4" />
         {notificationCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-medium bg-destructive text-destructive-foreground">
+          <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-xs font-medium bg-destructive text-destructive-foreground">
             {notificationCount > 9 ? '9+' : notificationCount}
           </span>
         )}
@@ -422,7 +422,7 @@ export function DashboardSidebar({
                     <button className="flex gap-0.5 w-full group cursor-pointer hover:opacity-90 transition-opacity">
                       <span className="shrink-0 flex size-12 items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 text-sidebar-primary-foreground overflow-clip shadow-md">
                         {profileLoading ? (
-                          <span className="text-[10px] font-semibold tracking-wider uppercase">
+                          <span className="text-xs font-semibold tracking-wider uppercase">
                             ...
                           </span>
                         ) : (
@@ -439,7 +439,7 @@ export function DashboardSidebar({
                           <span className="truncate font-semibold text-foreground text-sm">
                             {profile?.name || 'Tapan Go Ops'}
                           </span>
-                          <span className="truncate text-[11px] text-muted-foreground">
+                          <span className="truncate text-xs text-muted-foreground">
                             {profile?.role || 'Operator'}
                           </span>
                         </span>

@@ -32,7 +32,7 @@ export default function BarcodeLabel({ value, subtitle }: BarcodeLabelProps) {
         margin={0}
       />
       {subtitle && (
-        <div className="text-[10px] text-muted-foreground font-medium tracking-wide">
+        <div className="text-xs text-muted-foreground font-medium tracking-wide">
           {subtitle}
         </div>
       )}

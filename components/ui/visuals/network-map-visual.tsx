@@ -102,7 +102,7 @@ export function NetworkMapVisual() {
             <text
               y={node.r + 12}
               textAnchor="middle"
-              className="fill-muted-foreground text-[10px] font-mono font-bold tracking-wider"
+              className="fill-muted-foreground text-xs font-mono font-bold tracking-wider"
               style={{ fontSize: "8px" }}
             >
               {node.label}

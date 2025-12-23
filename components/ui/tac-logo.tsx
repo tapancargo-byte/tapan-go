@@ -21,7 +21,7 @@ export function TacLogo({ className, collapsed = false }: TacLogoProps) {
                     <span className="font-bold text-xl leading-none tracking-tight">
                         TAC<span className="text-primary">.</span>
                     </span>
-                    <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-0.5">
+                    <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest mt-0.5">
                         Tapan Associate
                     </span>
                 </div>

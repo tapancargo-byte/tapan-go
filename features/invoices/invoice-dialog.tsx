@@ -107,7 +107,7 @@ export function InvoiceDialog({
                       <FormLabel>Consignor (Shipper)</FormLabel>
                       <button
                         type="button"
-                        className="text-[11px] text-primary hover:underline disabled:opacity-50"
+                        className="text-xs text-primary hover:underline disabled:opacity-50"
                         disabled={!canEdit}
                         onClick={async () => {
                           const created = await onQuickCreateCustomer("consignor");
@@ -152,7 +152,7 @@ export function InvoiceDialog({
                       <FormLabel>Consignee</FormLabel>
                       <button
                         type="button"
-                        className="text-[11px] text-primary hover:underline disabled:opacity-50"
+                        className="text-xs text-primary hover:underline disabled:opacity-50"
                         disabled={!canEdit}
                         onClick={async () => {
                           const created = await onQuickCreateCustomer("consignee");
@@ -198,7 +198,7 @@ export function InvoiceDialog({
                     <FormLabel>Customer</FormLabel>
                     <button
                       type="button"
-                      className="text-[11px] text-primary hover:underline disabled:opacity-50"
+                      className="text-xs text-primary hover:underline disabled:opacity-50"
                       disabled={!canEdit}
                       onClick={async () => {
                         const created = await onQuickCreateCustomer("billing");

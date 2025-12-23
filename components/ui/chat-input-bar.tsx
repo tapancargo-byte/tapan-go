@@ -120,7 +120,7 @@ export function ChatInputBar({
           onClick={handleClickSend}
         >
           {isLoading ? (
-            <span className="text-[11px]">...</span>
+            <span className="text-xs">...</span>
           ) : (
             <ArrowUp className="h-4 w-4" />
           )}

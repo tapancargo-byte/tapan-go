@@ -525,7 +525,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex items-center justify-between gap-3">
                   {roleLoaded && !canEditOrg && (
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       You have read-only access. Contact an admin to update organization settings.
                     </p>
                   )}

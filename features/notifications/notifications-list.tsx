@@ -101,7 +101,7 @@ export function NotificationsList({
                 <p className="text-xs text-muted-foreground whitespace-pre-line">
                   {n.message}
                 </p>
-                <p className="text-[11px] text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {formatSince(n.createdAt)}
                 </p>
               </div>

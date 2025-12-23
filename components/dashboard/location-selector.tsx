@@ -104,7 +104,7 @@ export function LocationIndicator({
   const info = LOCATIONS[location];
   
   const sizeClasses = {
-    xs: 'text-[10px] px-1 py-0.5',
+    xs: 'text-xs px-1 py-0.5',
     sm: 'text-xs px-1.5 py-0.5',
     md: 'text-sm px-2 py-1',
   };

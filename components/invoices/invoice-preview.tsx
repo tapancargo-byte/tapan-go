@@ -456,11 +456,11 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                 </svg>
               </div>
               <div>
-                <h1 className="text-[26px] font-extrabold tracking-[0.02em]" style={{ color: COLORS.text }}>
+                <h1 className="text-2xl font-extrabold tracking-[0.02em]" style={{ color: COLORS.text }}>
                   TAPAN
                 </h1>
                 <div 
-                  className="text-[11px] font-semibold tracking-[0.12em] uppercase mt-0.5"
+                  className="text-xs font-semibold tracking-[0.12em] uppercase mt-0.5"
                   style={{ color: COLORS.brand }}
                 >
                   Associate Cargo
@@ -482,7 +482,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                 INVOICE
               </div>
               <div 
-                className="text-[10px] leading-[1.6] max-w-[220px] ml-auto"
+                className="text-xs leading-[1.6] max-w-[220px] ml-auto"
                 style={{ color: COLORS.textMuted }}
               >
                 {companyProfile.addressLines.map((line, i) => (
@@ -502,7 +502,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
             <div className="flex-1 space-y-4">
               <div>
                 <h3
-                  className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2.5"
+                  className="text-xs font-semibold uppercase tracking-[0.1em] mb-2.5"
                   style={{ color: COLORS.brand }}
                 >
                   Invoice To
@@ -519,7 +519,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div>
                   <div
-                    className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+                    className="text-xs font-semibold uppercase tracking-[0.12em] mb-1.5"
                     style={{ color: COLORS.textMuted }}
                   >
                     Consignor (Shipper)
@@ -536,7 +536,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                 </div>
                 <div>
                   <div
-                    className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+                    className="text-xs font-semibold uppercase tracking-[0.12em] mb-1.5"
                     style={{ color: COLORS.textMuted }}
                   >
                     Consignee
@@ -578,7 +578,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                   <span style={{ color: COLORS.textMuted }}>Status</span>
                   <span className="min-w-[100px] text-right">
                     <span 
-                      className="inline-block px-3.5 py-1 rounded text-[11px] font-bold tracking-[0.05em]"
+                      className="inline-block px-3.5 py-1 rounded text-xs font-bold tracking-[0.05em]"
                       style={{ background: statusStyle.bg, color: statusStyle.text }}
                     >
                       {invoice.status?.toUpperCase() || "PENDING"}
@@ -590,7 +590,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                 className="inline-flex items-center gap-4 mt-3 px-5 py-2.5 rounded-md"
                 style={{ background: COLORS.brand }}
               >
-                <span className="text-[11px] uppercase tracking-[0.05em] text-white/90">Total Due</span>
+                <span className="text-xs uppercase tracking-[0.05em] text-white/90">Total Due</span>
                 <span className="text-xl font-bold text-white">{formatCurrency(invoice.totalDue)}</span>
               </div>
             </div>
@@ -601,16 +601,16 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
             <table className="w-full border-collapse">
               <thead>
                 <tr style={{ background: COLORS.brand }}>
-                  <th className="py-3 px-4 text-left text-[11px] font-semibold uppercase tracking-[0.05em] text-white w-[60px]">
+                  <th className="py-3 px-4 text-left text-xs font-semibold uppercase tracking-[0.05em] text-white w-[60px]">
                     Item
                   </th>
-                  <th className="py-3 px-4 text-left text-[11px] font-semibold uppercase tracking-[0.05em] text-white">
+                  <th className="py-3 px-4 text-left text-xs font-semibold uppercase tracking-[0.05em] text-white">
                     Description
                   </th>
-                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.05em] text-white w-[100px]">
+                  <th className="py-3 px-4 text-right text-xs font-semibold uppercase tracking-[0.05em] text-white w-[100px]">
                     Weight
                   </th>
-                  <th className="py-3 px-4 text-right text-[11px] font-semibold uppercase tracking-[0.05em] text-white w-[120px]">
+                  <th className="py-3 px-4 text-right text-xs font-semibold uppercase tracking-[0.05em] text-white w-[120px]">
                     Amount
                   </th>
                 </tr>
@@ -657,7 +657,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
             {/* Payment Method */}
             <div className="flex-1">
               <h4 
-                className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-3"
+                className="text-xs font-semibold uppercase tracking-[0.1em] mb-3"
                 style={{ color: COLORS.brand }}
               >
                 Payment Method
@@ -671,7 +671,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                     <img src={qrDataUrl} alt="Scan to pay" className="w-full h-full" />
                   )}
                 </div>
-                <div className="text-[11px] leading-[1.7]" style={{ color: COLORS.textMuted }}>
+                <div className="text-xs leading-[1.7]" style={{ color: COLORS.textMuted }}>
                   <div className="font-semibold mb-2" style={{ color: COLORS.text }}>Scan to Pay via UPI</div>
                   <div><strong style={{ color: COLORS.text }}>Bank:</strong> {bankDetails.bankName}</div>
                   <div><strong style={{ color: COLORS.text }}>A/C Name:</strong> {bankDetails.accountName}</div>
@@ -691,7 +691,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                 invoice.declaredValue != null ||
                 invoice.paymentMode
               ) && (
-                <div className="text-[11px]" style={{ color: COLORS.textMuted }}>
+                <div className="text-xs" style={{ color: COLORS.textMuted }}>
                   <div className="font-semibold mb-1" style={{ color: COLORS.text }}>
                     Consignment details
                   </div>
@@ -729,10 +729,10 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
                   </tr>
                   {invoice.freightAmount != null && (
                     <tr>
-                      <td className="py-1 text-[11px]" style={{ color: COLORS.textMuted }}>
+                      <td className="py-1 text-xs" style={{ color: COLORS.textMuted }}>
                         Freight / handling
                       </td>
-                      <td className="py-1 text-[11px] text-right font-medium">
+                      <td className="py-1 text-xs text-right font-medium">
                         {formatCurrency(invoice.freightAmount)}
                       </td>
                     </tr>
@@ -761,12 +761,12 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
           <div className="flex justify-between gap-10">
             <div className="flex-1">
               <h4 
-                className="text-[10px] font-semibold uppercase tracking-[0.1em] mb-2.5"
+                className="text-xs font-semibold uppercase tracking-[0.1em] mb-2.5"
                 style={{ color: COLORS.brand }}
               >
                 Bank Details
               </h4>
-              <div className="text-[10px] leading-[1.7]" style={{ color: COLORS.textMuted }}>
+              <div className="text-xs leading-[1.7]" style={{ color: COLORS.textMuted }}>
                 <div><strong style={{ color: COLORS.text }}>Bank:</strong> {bankDetails.bankName}</div>
                 <div><strong style={{ color: COLORS.text }}>Branch:</strong> {bankDetails.branch}</div>
                 <div><strong style={{ color: COLORS.text }}>Account:</strong> {bankDetails.accountNumber}</div>
@@ -775,12 +775,12 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
             </div>
             <div className="flex-1">
               <h4 
-                className="text-[10px] font-semibold uppercase tracking-[0.1em] mb-2.5"
+                className="text-xs font-semibold uppercase tracking-[0.1em] mb-2.5"
                 style={{ color: COLORS.brand }}
               >
                 Terms & Conditions
               </h4>
-              <ol className="text-[9px] leading-[1.6] pl-3.5 m-0" style={{ color: COLORS.textMuted }}>
+              <ol className="text-xs leading-[1.6] pl-3.5 m-0" style={{ color: COLORS.textMuted }}>
                 <li>Consignee must declare contents and value before booking.</li>
                 <li>Fragile items shipped at owner's risk unless special arrangement.</li>
                 <li>Company not liable for perishable damage or leakage.</li>
@@ -793,11 +793,11 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
         {/* Signature */}
         <div className="px-9 py-6 flex justify-between items-end">
           <div>
-            <div className="text-[11px] mb-9" style={{ color: COLORS.textMuted }}>
+            <div className="text-xs mb-9" style={{ color: COLORS.textMuted }}>
               For {companyProfile.name}
             </div>
             <div 
-              className="w-[150px] border-t pt-1.5 text-[10px]"
+              className="w-[150px] border-t pt-1.5 text-xs"
               style={{ borderColor: COLORS.text, color: COLORS.textMuted }}
             >
               Authorised Signatory
@@ -807,7 +807,7 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
             <h3 className="text-base font-bold mb-1" style={{ color: COLORS.brand }}>
               THANKS FOR YOUR BUSINESS
             </h3>
-            <p className="text-[10px]" style={{ color: COLORS.textMuted }}>
+            <p className="text-xs" style={{ color: COLORS.textMuted }}>
               Generated by TAPAN GO Cargo System
             </p>
           </div>
