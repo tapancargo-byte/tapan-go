@@ -44,6 +44,7 @@ import { InvoicesTable } from "@/features/invoices/invoices-table";
 import { ManageShipmentsDialog } from "@/features/invoices/manage-shipments-dialog";
 import { InvoiceDialogEnhanced } from "@/features/invoices/invoice-dialog-enhanced";
 import { CustomerCreateDialog } from "@/features/invoices/customer-create-dialog";
+import * as Sentry from "@sentry/nextjs";
 
 const formatDate = (value: string) => {
   if (!value) return "";
@@ -162,7 +163,9 @@ function InvoicesPageContent() {
         }
       } catch (err) {
         if (!cancelled) {
-          console.warn("Failed to load AR summary", err);
+          Sentry.captureException(err, { 
+            tags: { component: 'invoices-page', operation: 'load-ar-summary' }
+          });
         }
       } finally {
         if (!cancelled) {
@@ -216,10 +219,10 @@ function InvoicesPageContent() {
         }
 
         if (ratesError) {
-          console.warn(
-            "Supabase rates error (invoices page)",
-            (ratesError as any)?.message ?? ratesError
-          );
+          Sentry.captureException(ratesError, {
+            tags: { component: 'invoices-page', operation: 'load-rates' },
+            extra: { errorMessage: (ratesError as any)?.message ?? ratesError }
+          });
         }
 
         const { data: invoiceRows, error: invoiceError } = invoicesResult;
@@ -242,7 +245,9 @@ function InvoicesPageContent() {
         }
 
         if (invoiceError) {
-          console.error("Supabase invoices error", invoiceError.message);
+          Sentry.captureException(invoiceError, {
+            tags: { component: 'invoices-page', operation: 'load-invoices' }
+          });
           throw invoiceError;
         }
 
@@ -275,10 +280,10 @@ function InvoicesPageContent() {
         const shipmentsByInvoice = new Map<string, number>();
 
         if (customersError) {
-          console.warn(
-            "Supabase customers for invoices error, skipping customer join",
-            customersError.message
-          );
+          Sentry.captureException(customersError, {
+            tags: { component: 'invoices-page', operation: 'load-customers' },
+            extra: { context: 'skipping customer join' }
+          });
         } else {
           (customerRows ?? []).forEach((c: any) => {
             customersMap.set(c.id, { id: c.id, name: c.name ?? "" });
@@ -324,7 +329,9 @@ function InvoicesPageContent() {
               });
             }
           } catch (itemsErr) {
-            console.warn("Supabase invoice_items error", itemsErr);
+            Sentry.captureException(itemsErr, {
+              tags: { component: 'invoices-page', operation: 'load-invoice-items' }
+            });
           }
         }
 
@@ -374,9 +381,11 @@ function InvoicesPageContent() {
 
         setInvoices(normalized);
         setLoading(false);
-      } catch {
+      } catch (error) {
         if (cancelled) return;
-        console.error("Failed to load invoices from Supabase");
+        Sentry.captureException(error, {
+          tags: { component: 'invoices-page', operation: 'load-invoices-complete' }
+        });
         setInvoices([]);
         setLoading(false);
       }
@@ -423,7 +432,9 @@ function InvoicesPageContent() {
         setRoleLoaded(true);
       } catch (err) {
         if (cancelled) return;
-        console.warn("Failed to load user role for invoices page", err);
+        Sentry.captureException(err, {
+          tags: { component: 'invoices-page', operation: 'load-user-role' }
+        });
         setUserRole(null);
         setRoleLoaded(true);
       }
