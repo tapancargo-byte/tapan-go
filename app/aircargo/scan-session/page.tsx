@@ -184,17 +184,10 @@ export default function ManifestScanSessionPage() {
     !isSubmitting;
 
   // Debug: log why button might not work
-  console.log("Create Manifest State:", {
-    canSubmit,
-    originHub: originHub.trim() || "(empty)",
-    destination: destination.trim() || "(empty)",
-    airlineCode: airlineCode.trim() || "(empty)",
-    scannedCount: scanned.length,
-    isSubmitting
-  });
+  // Removed console.log for production - state can be inspected via React DevTools
 
   const handleCreateManifest = async () => {
-    console.log("Create Manifest clicked! canSubmit:", canSubmit);
+    // Removed console.log for production - button state is clear from UI
     if (!canSubmit) {
       toast({
         title: "Cannot create manifest",

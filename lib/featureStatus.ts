@@ -93,9 +93,14 @@ export function getCoreFeatures() {
 }
 
 /**
- * Print feature status to console
+ * Print feature status to console (development only)
  */
 export function printFeatureStatus(): void {
+  // Only show feature status in development environment
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
+
   console.log("\n" + "=".repeat(60));
   console.log("📊 TAPAN GO - FEATURE STATUS");
   console.log("=".repeat(60) + "\n");

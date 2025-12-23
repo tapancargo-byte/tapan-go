@@ -18,18 +18,18 @@ function safeCompare(a: string, b: string): boolean {
 function verifyMetaSignature(rawBody: string, signatureHeader: string | null): boolean {
   const appSecret = process.env.META_APP_SECRET;
   if (!appSecret) {
-    console.error("META_APP_SECRET is not configured; rejecting Meta webhook request.");
+    // Configuration error - webhook rejected (details not logged for security)
     return false;
   }
 
   if (!signatureHeader) {
-    console.error("Missing x-hub-signature-256 header on Meta webhook request.");
+    // Missing signature header - webhook rejected (details not logged for security)
     return false;
   }
 
   const [scheme, signature] = signatureHeader.split("=", 2);
   if (scheme !== "sha256" || !signature) {
-    console.error("Malformed x-hub-signature-256 header on Meta webhook request.");
+    // Malformed signature header - webhook rejected (details not logged for security)
     return false;
   }
 

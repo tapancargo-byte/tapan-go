@@ -62,10 +62,7 @@ export function TapanAssociateDrawerLauncher() {
 
   const handleAttach = (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    console.log(
-      "Tapan Associate drawer attachment selected:",
-      Array.from(files).map((file) => file.name)
-    );
+    // Removed console.log for production - file selection is handled by UI
   };
 
   return (

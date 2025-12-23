@@ -173,7 +173,7 @@ export function InvoiceDialogEnhanced({
 
   // Handle Barcode Scans
   const handleBarcodeScan = React.useCallback((code: string) => {
-    console.log("Invoice Scanner Captured:", code);
+    // Removed console.log for production - barcode capture is shown in toast
     setHasScannedValue(true); // Mark that we have a scanned value
     form.setValue("invoiceRef", code, { shouldDirty: true, shouldValidate: true });
     toast({

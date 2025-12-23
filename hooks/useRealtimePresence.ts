@@ -25,7 +25,7 @@ export function useRealtimePresence(page: string) {
       } = await supabase.auth.getSession();
 
       if (!session) {
-        console.log("No session, skipping presence");
+        // No session available - skip presence tracking
         return;
       }
 
@@ -55,10 +55,10 @@ export function useRealtimePresence(page: string) {
           setOnlineUsers(users);
         })
         .on("presence", { event: "join" }, ({ key, newPresences }) => {
-          console.log("User joined:", key);
+          // User joined - presence state updated automatically
         })
         .on("presence", { event: "leave" }, ({ key, leftPresences }) => {
-          console.log("User left:", key);
+          // User left - presence state updated automatically
         })
         .subscribe(async (status) => {
           if (status === "SUBSCRIBED") {
