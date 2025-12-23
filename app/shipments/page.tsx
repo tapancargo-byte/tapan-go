@@ -33,6 +33,7 @@ import { useTapanAssociateContext } from "@/components/layout/tapan-associate-co
 import { Clock } from "lucide-react";
 import { ShipmentsTable } from "@/features/shipments/shipments-table";
 import { ShipmentsDialog } from "@/features/shipments/shipments-dialog";
+import * as Sentry from "@sentry/nextjs";
 
 // Lazy load heavy dialog component
 const ETAUpdateDialog = dynamic(
@@ -142,7 +143,9 @@ function ShipmentsTrackingContent() {
           );
 
         if (error) {
-          console.warn("Supabase shipments error", error.message);
+          Sentry.captureException(error, {
+            tags: { component: 'shipments-page', operation: 'shipments-load' }
+          });
           throw error;
         }
 
@@ -157,10 +160,9 @@ function ShipmentsTrackingContent() {
             .select("id, name");
 
           if (customersError) {
-            console.warn(
-              "Supabase customers for shipments error, skipping customer join",
-              customersError.message
-            );
+            Sentry.captureException(customersError, {
+              tags: { component: 'shipments-page', operation: 'customers-load' }
+            });
           } else {
             (customerRows ?? []).forEach((c: any) => {
               customersMap.set(c.id, { id: c.id, name: c.name ?? "" });
@@ -172,7 +174,9 @@ function ShipmentsTrackingContent() {
             }));
           }
         } catch (customersErr) {
-          console.warn("Supabase customers for shipments error", customersErr);
+          Sentry.captureException(customersErr, {
+            tags: { component: 'shipments-page', operation: 'customers-load' }
+          });
         }
 
         const normalized: UIShipment[] = shipmentRows.map((s) => {
@@ -198,7 +202,9 @@ function ShipmentsTrackingContent() {
         setLoading(false);
       } catch (err) {
         if (cancelled) return;
-        console.error("Failed to load shipments from Supabase", err);
+        Sentry.captureException(err, {
+          tags: { component: 'shipments-page', operation: 'shipments-load' }
+        });
         setShipments([]);
         setCustomers([]);
         setLoading(false);
@@ -246,7 +252,9 @@ function ShipmentsTrackingContent() {
         setRoleLoaded(true);
       } catch (err) {
         if (cancelled) return;
-        console.warn("Failed to load user role for shipments page", err);
+        Sentry.captureException(err, {
+          tags: { component: 'shipments-page', operation: 'user-role-load' }
+        });
         setUserRole(null);
         setRoleLoaded(true);
       }
@@ -482,7 +490,9 @@ function ShipmentsTrackingContent() {
         status: "pending",
       });
     } catch (err: any) {
-      console.error("Failed to save shipment", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'shipment-save' }
+      });
       toast({
         title: "Could not save shipment",
         description:
@@ -541,7 +551,9 @@ function ShipmentsTrackingContent() {
         description: `Shipment ${shipment.shipmentId} has been removed.`,
       });
     } catch (err: any) {
-      console.error("Failed to delete shipment", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'shipment-delete' }
+      });
       toast({
         title: "Could not delete shipment",
         description:
@@ -568,7 +580,10 @@ function ShipmentsTrackingContent() {
         .eq("shipment_id", shipment.dbId);
 
       if (error) {
-        console.error("Failed to load barcodes for shipment", error.message);
+        Sentry.captureException(error, {
+          tags: { component: 'shipments-page', operation: 'barcodes-load' },
+          extra: { shipmentId: shipment.dbId }
+        });
         setShipmentBarcodes([]);
         return;
       }
@@ -596,10 +611,10 @@ function ShipmentsTrackingContent() {
         .eq("shipment_id", shipment.dbId);
 
       if (barcodesError) {
-        console.error(
-          "Failed to load barcodes for shipment timeline",
-          barcodesError.message
-        );
+        Sentry.captureException(barcodesError, {
+          tags: { component: 'shipments-page', operation: 'timeline-barcodes-load' },
+          extra: { shipmentId: shipment.dbId }
+        });
         setShipmentTimeline([]);
         return;
       }
@@ -626,7 +641,10 @@ function ShipmentsTrackingContent() {
         .order("scanned_at", { ascending: false });
 
       if (scansError) {
-        console.error("Failed to load shipment scan timeline", scansError.message);
+        Sentry.captureException(scansError, {
+          tags: { component: 'shipments-page', operation: 'timeline-scans-load' },
+          extra: { shipmentId: shipment.dbId }
+        });
         setShipmentTimeline([]);
         return;
       }
@@ -679,7 +697,10 @@ function ShipmentsTrackingContent() {
 
       void loadBarcodesForShipment(selectedShipment);
     } catch (err: any) {
-      console.error("Failed to generate barcode", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'barcode-generate' },
+        extra: { shipmentId: selectedShipment.dbId }
+      });
       toast({
         title: "Could not generate barcode",
         description:
@@ -727,7 +748,9 @@ function ShipmentsTrackingContent() {
         description: url,
       });
     } catch (err) {
-      console.error("Failed to copy tracking link", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'tracking-link-copy' }
+      });
       toast({
         title: "Could not copy link",
         description: `Please copy it manually: ${url}`,
@@ -764,7 +787,10 @@ function ShipmentsTrackingContent() {
         .order("scanned_at", { ascending: false });
 
       if (error) {
-        console.error("Failed to load scans for barcode", error.message);
+        Sentry.captureException(error, {
+          tags: { component: 'shipments-page', operation: 'barcode-scans-load' },
+          extra: { barcodeId }
+        });
         setActiveBarcodeScans([]);
         return;
       }
@@ -803,7 +829,10 @@ function ShipmentsTrackingContent() {
         .eq("shipment_ref", selectedShipment.shipmentId);
 
       if (error) {
-        console.error("Failed to update shipment status", error.message);
+        Sentry.captureException(error, {
+          tags: { component: 'shipments-page', operation: 'shipment-status-update' },
+          extra: { shipmentId: selectedShipment.dbId, newStatus }
+        });
         return;
       }
 
