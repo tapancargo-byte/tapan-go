@@ -1,33 +1,22 @@
 "use client";
 
-import { SidebarProvider, useSidebar } from "./sidebar-context";
-import { AppSidebar } from "./app-sidebar";
+import * as React from "react";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { AppHeader } from "./app-header";
-import { cn } from "@/lib/utils";
-
-function AppShellContent({ children }: { children: React.ReactNode }) {
-  const { isCollapsed } = useSidebar();
-
-  return (
-    <div className="min-h-screen bg-muted/20 dark:bg-muted/10">
-      <AppSidebar />
-      <div
-        className={cn(
-          "flex min-h-screen flex-col transition-all duration-300",
-          isCollapsed ? "lg:pl-[70px]" : "lg:pl-64"
-        )}
-      >
-        <AppHeader />
-        <main className="flex-1 p-6">{children}</main>
-      </div>
-    </div>
-  );
-}
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  // Use a cookie or default state for sidebar defaultOpen if needed, but Shadcn handles it.
+
   return (
     <SidebarProvider>
-      <AppShellContent>{children}</AppShellContent>
+      <DashboardSidebar />
+      <SidebarInset className="bg-background transition-all duration-300 ease-in-out">
+        <AppHeader />
+        <main className="flex-1 p-6 overflow-x-hidden pt-4">
+          {children}
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }

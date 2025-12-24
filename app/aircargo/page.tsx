@@ -458,17 +458,17 @@ export default function AircargoPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "delivered":
-        return "bg-green-500/20 text-green-400";
+        return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 backdrop-blur-md";
       case "in-transit":
-        return "bg-blue-500/20 text-blue-400";
+        return "bg-blue-500/10 text-blue-500 border-blue-500/20 backdrop-blur-md";
       case "dispatched":
-        return "bg-orange-500/20 text-orange-400";
+        return "bg-amber-500/10 text-amber-500 border-amber-500/20 backdrop-blur-md";
       case "scheduled":
-        return "bg-purple-500/20 text-purple-400";
+        return "bg-purple-500/10 text-purple-500 border-purple-500/20 backdrop-blur-md";
       case "at-terminal":
-        return "bg-yellow-500/20 text-yellow-400";
+        return "bg-primary/10 text-primary border-primary/20 backdrop-blur-md";
       default:
-        return "bg-gray-500/20 text-gray-400";
+        return "bg-muted text-muted-foreground border-border";
     }
   };
 
@@ -482,25 +482,25 @@ export default function AircargoPage() {
     >
       <div className="flex flex-col gap-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="p-3 border-pop bg-background/60">
-            <p className="text-xs text-muted-foreground">Manifests</p>
-            <p className="text-lg font-semibold">{manifestSummary.count}</p>
+          <Card className="p-4 glass-panel border-white/5 bg-background/40 backdrop-blur-md">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider">Manifests</p>
+            <p className="text-2xl font-bold neon-text-glow text-primary">{manifestSummary.count}</p>
           </Card>
-          <Card className="p-3 border-pop bg-background/60">
-            <p className="text-xs text-muted-foreground">Pieces</p>
-            <p className="text-lg font-semibold">
+          <Card className="p-4 glass-panel border-white/5 bg-background/40 backdrop-blur-md">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider">Pieces</p>
+            <p className="text-2xl font-bold">
               {manifestSummary.totalPieces.toLocaleString("en-IN")}
             </p>
           </Card>
-          <Card className="p-3 border-pop bg-background/60">
-            <p className="text-xs text-muted-foreground">Weight (kg)</p>
-            <p className="text-lg font-semibold">
+          <Card className="p-4 glass-panel border-white/5 bg-background/40 backdrop-blur-md">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider">Weight (kg)</p>
+            <p className="text-2xl font-bold">
               {manifestSummary.totalWeight.toLocaleString("en-IN")}
             </p>
           </Card>
-          <Card className="p-3 border-pop bg-background/60">
-            <p className="text-xs text-muted-foreground">Shipments</p>
-            <p className="text-lg font-semibold">
+          <Card className="p-4 glass-panel border-white/5 bg-background/40 backdrop-blur-md">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider">Shipments</p>
+            <p className="text-2xl font-bold">
               {manifestSummary.totalShipments.toLocaleString("en-IN")}
             </p>
           </Card>
@@ -690,77 +690,79 @@ export default function AircargoPage() {
           {filteredManifests.map((manifest) => (
             <Card
               key={manifest.id}
-              className="p-6 border-pop bg-background hover:bg-accent/50 transition-colors"
+              className="p-6 glass-card border-white/5 bg-background/30 hover:bg-background/50 hover:border-primary/20 transition-all duration-300 group"
             >
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-lg font-display text-foreground">
+                  <h3 className="text-lg font-bold font-display text-foreground group-hover:text-primary transition-colors">
                     {manifest.reference}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{manifest.id}</p>
+                  <p className="text-xs font-mono text-muted-foreground/80">{manifest.id}</p>
                 </div>
-                <Badge className={getStatusColor(manifest.status)}>
+                <Badge variant="outline" className={getStatusColor(manifest.status)}>
                   {manifest.status.toUpperCase()}
                 </Badge>
               </div>
 
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Route</span>
-                  <span className="text-foreground">
-                    {manifest.origin} → {manifest.destination}
-                  </span>
+              <div className="space-y-4 text-sm">
+                <div className="flex justify-between items-center p-2 rounded-md bg-white/5">
+                  <span className="text-muted-foreground text-xs uppercase tracking-wider">Route</span>
+                  <div className="flex items-center gap-2 font-medium">
+                    <span>{manifest.origin}</span>
+                    <span className="text-primary">→</span>
+                    <span>{manifest.destination}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Airline</span>
-                  <span className="text-foreground">{manifest.airlineCode}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Manifest Date</span>
-                  <span className="text-foreground">
-                    {formatDate(manifest.manifestDate)}
-                  </span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-muted-foreground">Airline</span>
+                    <span className="font-medium">{manifest.airlineCode}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-muted-foreground">Date</span>
+                    <span className="font-medium">
+                      {formatDate(manifest.manifestDate)}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="border-t border-pop pt-3 mt-3 grid grid-cols-3 gap-3">
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">
-                      Weight (kg)
+                <div className="grid grid-cols-3 gap-2 py-2">
+                  <div className="bg-primary/5 p-2 rounded text-center border border-primary/10">
+                    <p className="text-[10px] text-muted-foreground uppercase mb-1">
+                      Weight
                     </p>
-                    <p className="font-semibold text-primary">
-                      {manifest.totalWeight}
+                    <p className="font-bold text-primary">
+                      {manifest.totalWeight} <span className="text-[10px] font-normal opacity-70">kg</span>
                     </p>
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Pieces</p>
-                    <p className="font-semibold text-primary">
+                  <div className="bg-primary/5 p-2 rounded text-center border border-primary/10">
+                    <p className="text-[10px] text-muted-foreground uppercase mb-1">Pieces</p>
+                    <p className="font-bold text-primary">
                       {manifest.totalPieces}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">
+                  <div className="bg-primary/5 p-2 rounded text-center border border-primary/10">
+                    <p className="text-[10px] text-muted-foreground uppercase mb-1">
                       Shipments
                     </p>
-                    <p className="font-semibold text-primary">
+                    <p className="font-bold text-primary">
                       {manifest.shipments}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-pop">
-                  <p className="text-xs text-muted-foreground mb-1">
-                    Est. Delivery
-                  </p>
-                  <p className="font-semibold">
-                    {formatDate(manifest.estimatedDelivery)}
-                  </p>
-                </div>
-
-                <div className="mt-3 flex justify-end">
+                <div className="flex justify-between items-center pt-2">
+                  <div className="text-xs">
+                    <span className="text-muted-foreground block">Est. Delivery</span>
+                    <span className="font-medium">
+                      {formatDate(manifest.estimatedDelivery)}
+                    </span>
+                  </div>
                   <Button
                     type="button"
                     size="sm"
-                    variant="outline"
+                    variant="ghost"
+                    className="hover:bg-primary/10 hover:text-primary"
                     onClick={() => openManageShipments(manifest)}
                   >
                     Manage shipments

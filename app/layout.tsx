@@ -8,10 +8,11 @@ import { TapanAssociateProvider } from "@/components/layout/tapan-associate-cont
 import { LocationProvider } from "@/lib/location-context"
 import { SignoutToastProvider } from "@/lib/signout-toast-context"
 
-import { Inter, Source_Serif_4 } from 'next/font/google'
+import { Inter, Source_Serif_4, DM_Sans } from 'next/font/google'
 
 // Initialize fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" })
 const sourceSerif = Source_Serif_4({ subsets: ['latin'], weight: ["400", "600", "700"], variable: "--font-serif" })
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${sourceSerif.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${dmSans.variable} ${sourceSerif.variable} font-sans antialiased`}>
         <ThemeProvider>
           <LocationProvider>
             <SignoutToastProvider>

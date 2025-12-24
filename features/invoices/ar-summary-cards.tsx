@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
 
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -47,27 +48,36 @@ function MetricCard({
   trend?: "up" | "down";
   variant?: "default" | "success" | "warning" | "danger";
 }) {
+  const variants = {
+    default: "border-l-4 border-l-primary bg-primary/5",
+    success: "border-l-4 border-l-emerald-500 bg-emerald-500/5",
+    warning: "border-l-4 border-l-amber-500 bg-amber-500/5",
+    danger: "border-l-4 border-l-red-500 bg-red-500/5",
+  };
+
   const iconColors = {
     default: "text-primary",
-    success: "text-emerald-600 dark:text-emerald-400",
-    warning: "text-amber-600 dark:text-amber-400",
-    danger: "text-red-600 dark:text-red-400",
+    success: "text-emerald-500",
+    warning: "text-amber-500",
+    danger: "text-red-500",
   };
 
   return (
-    <Card>
+    <Card className={cn("glass-card border-t-0 border-r-0 border-b-0 shadow-lg", variants[variant])}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardDescription className="text-sm font-medium">
+        <CardDescription className="text-sm font-medium text-muted-foreground/80 lowercase tracking-wide first-letter:uppercase">
           {title}
         </CardDescription>
-        <Icon className={`h-4 w-4 ${iconColors[variant]}`} />
+        <div className={cn("p-2 rounded-lg bg-background/50 backdrop-blur-sm", iconColors[variant])}>
+          <Icon className="h-4 w-4" />
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
+        <div className="text-3xl font-display font-bold tracking-tight text-foreground drop-shadow-sm">
           ₹{value.toLocaleString("en-IN")}
         </div>
         {description && (
-          <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+          <p className="text-xs text-muted-foreground flex items-center gap-1 mt-2 font-medium">
             {trend === "up" && <TrendingUp className="h-3 w-3 text-emerald-500" />}
             {trend === "down" && <TrendingDown className="h-3 w-3 text-red-500" />}
             {description}

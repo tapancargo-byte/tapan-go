@@ -199,9 +199,9 @@ export function Landing2025() {
               New Delhi <span className="mx-2 text-muted-foreground/50">|</span> Imphal
             </Badge>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter text-balance leading-[0.95]">
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter text-balance leading-[0.95] drop-shadow-xl">
               Bridging <br />
-              <span className="text-primary">Distances.</span>
+              <span className="text-primary neon-text-glow">Distances.</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed border-l-4 border-primary/20 pl-6">
@@ -266,47 +266,47 @@ export function Landing2025() {
 
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
               {/* Air Cargo */}
-              <Card className="relative hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-border/50 group overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <Plane className="w-32 h-32" />
+              <Card className="glass-card border-white/10 relative hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group overflow-hidden bg-background/40 backdrop-blur-sm">
+                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity duration-500">
+                  <Plane className="w-48 h-48 text-primary blur-2xl" />
                 </div>
-                <CardHeader className="relative">
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                    <Plane className="h-7 w-7 text-primary" />
+                <CardHeader className="relative z-10">
+                  <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 ring-1 ring-primary/20 shadow-[0_0_15px_rgba(139,92,246,0.2)]">
+                    <Plane className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-3xl">Air Cargo</CardTitle>
-                  <CardDescription className="text-base">Next-Day Connectivity</CardDescription>
+                  <CardTitle className="text-4xl font-display tracking-tight">Air Cargo</CardTitle>
+                  <CardDescription className="text-lg font-medium text-primary/80">Next-Day Connectivity</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6 relative">
-                  <p className="text-muted-foreground text-lg leading-relaxed">
+                <CardContent className="space-y-8 relative z-10">
+                  <p className="text-muted-foreground text-lg leading-relaxed font-light">
                     The lifeline for urgent shipments. Medicines, documents, perishables, and high-value electronics moved securely from Delhi to Imphal.
                   </p>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="flex gap-2 items-center text-sm font-medium"><CheckCircle2 className="h-4 w-4 text-primary" /> 24-48 Hrs Delivery</div>
-                    <div className="flex gap-2 items-center text-sm font-medium"><CheckCircle2 className="h-4 w-4 text-primary" /> Sensitive Handling</div>
+                    <div className="flex gap-2 items-center text-sm font-medium"><div className="p-1 rounded-full bg-primary/10"><CheckCircle2 className="h-4 w-4 text-primary" /></div> 24-48 Hrs Delivery</div>
+                    <div className="flex gap-2 items-center text-sm font-medium"><div className="p-1 rounded-full bg-primary/10"><CheckCircle2 className="h-4 w-4 text-primary" /></div> Sensitive Handling</div>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Surface Cargo */}
-              <Card className="relative hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-border/50 group overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <Truck className="w-32 h-32" />
+              <Card className="glass-card border-white/10 relative hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group overflow-hidden bg-background/40 backdrop-blur-sm">
+                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity duration-500">
+                  <Truck className="w-48 h-48 text-secondary-foreground blur-2xl" />
                 </div>
-                <CardHeader className="relative">
-                  <div className="h-14 w-14 rounded-2xl bg-secondary flex items-center justify-center mb-6">
-                    <Truck className="h-7 w-7 text-secondary-foreground" />
+                <CardHeader className="relative z-10">
+                  <div className="h-16 w-16 rounded-2xl bg-secondary/80 flex items-center justify-center mb-6 ring-1 ring-white/10 shadow-lg">
+                    <Truck className="h-8 w-8 text-secondary-foreground" />
                   </div>
-                  <CardTitle className="text-3xl">Surface Cargo</CardTitle>
-                  <CardDescription className="text-base">Heavy & Bulk Transport</CardDescription>
+                  <CardTitle className="text-4xl font-display tracking-tight">Surface Cargo</CardTitle>
+                  <CardDescription className="text-lg font-medium">Heavy & Bulk Transport</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6 relative">
-                  <p className="text-muted-foreground text-lg leading-relaxed">
+                <CardContent className="space-y-8 relative z-10">
+                  <p className="text-muted-foreground text-lg leading-relaxed font-light">
                     Cost-effective road transport solutions for bulk goods, household shifting, and commercial inventory.
                   </p>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="flex gap-2 items-center text-sm font-medium"><CheckCircle2 className="h-4 w-4 text-green-500" /> Door-to-Door</div>
-                    <div className="flex gap-2 items-center text-sm font-medium"><CheckCircle2 className="h-4 w-4 text-green-500" /> Real-time Tracking</div>
+                    <div className="flex gap-2 items-center text-sm font-medium"><div className="p-1 rounded-full bg-green-500/10"><CheckCircle2 className="h-4 w-4 text-green-500" /></div> Door-to-Door</div>
+                    <div className="flex gap-2 items-center text-sm font-medium"><div className="p-1 rounded-full bg-green-500/10"><CheckCircle2 className="h-4 w-4 text-green-500" /></div> Real-time Tracking</div>
                   </div>
                 </CardContent>
               </Card>

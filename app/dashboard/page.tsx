@@ -1,9 +1,9 @@
-import { ChartShipmentActivity } from "@/components/chart-shipment-activity"
+import { ShipmentDiagnostics } from "@/components/dashboard/shipment-diagnostics"
 import DashboardPageLayout from "@/components/dashboard/layout"
 import BracketsIcon from "@/components/icons/brackets"
 import { ShipmentsDataTable } from "@/components/dashboard/shipments-data-table"
 import { RecentShipments } from "@/components/dashboard/recent-shipments"
-import { SectionCards } from "@/components/section-cards"
+import { OpsCommandGrid } from "@/components/dashboard/ops-command-grid"
 import * as Sentry from "@sentry/nextjs"
 
 import shipmentsTableData from "./shipments-table-data.json"
@@ -59,10 +59,10 @@ async function getDashboardStats() {
 
         const avgCapacity = warehouseRes.data?.length
           ?
-              warehouseRes.data.reduce(
-                (sum, w) => sum + (Number(w.capacity_used) || 0),
-                0,
-              ) / warehouseRes.data.length
+          warehouseRes.data.reduce(
+            (sum, w) => sum + (Number(w.capacity_used) || 0),
+            0,
+          ) / warehouseRes.data.length
           : 0
 
         return {
@@ -79,9 +79,8 @@ async function getDashboardStats() {
         Sentry.captureException(error)
 
         logger.error(
-          logger.fmt`Error fetching dashboard stats: ${
-            error instanceof Error ? error.message : "unknown error"
-          }`,
+          logger.fmt`Error fetching dashboard stats: ${error instanceof Error ? error.message : "unknown error"
+            }`,
         )
 
         return {
@@ -114,9 +113,9 @@ export default async function Page({ searchParams }: { searchParams?: { q?: stri
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards stats={stats} />
+            <OpsCommandGrid stats={stats} />
             <div className="grid gap-4 px-4 lg:px-6 md:grid-cols-2">
-              <ChartShipmentActivity />
+              <ShipmentDiagnostics />
               <RecentShipments
                 shipments={shipments.map((s) => ({
                   shipment_ref: s.shipment_ref,

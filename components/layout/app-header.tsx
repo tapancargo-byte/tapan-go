@@ -1,38 +1,30 @@
 "use client";
 
-import { useSidebar } from "./sidebar-context";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
 
 export function AppHeader() {
-  const { toggleSidebar, isCollapsed } = useSidebar();
+  const { isMobile } = useSidebar();
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-16 items-center border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
-        isCollapsed ? "lg:pl-[70px]" : "lg:pl-64"
+        "sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-background/60 px-4 backdrop-blur-md transition-all placeholder:text-muted-foreground focus-visible:outline-hidden data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
       )}
     >
-      <div className="flex w-full items-center gap-4">
-        {/* Mobile Toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          onClick={toggleSidebar}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
+      <div className="flex flex-1 items-center gap-2">
+        <SidebarTrigger />
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        {/* Placeholder for Dynamic Breadcrumbs - can be added later */}
+        <span className="text-sm font-medium neon-text-glow text-primary/80">
+          Ops Command
+        </span>
+      </div>
 
-        <div className="flex-1" />
-
-        {/* Right Actions */}
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-        </div>
+      <div className="flex items-center gap-4">
+        <ThemeToggle />
       </div>
     </header>
   );

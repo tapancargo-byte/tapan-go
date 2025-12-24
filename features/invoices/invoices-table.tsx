@@ -62,21 +62,21 @@ export function InvoicesTable({
   formatDate,
 }: InvoicesTableProps) {
   return (
-    <Card className="border-border shadow-sm">
+    <Card className="glass-panel border-white/5 shadow-2xl overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm min-w-[700px]">
-          <thead className="bg-muted border-b border-border">
+        <table className="w-full text-sm min-w-[800px]">
+          <thead className="bg-primary/5 border-b border-primary/10 backdrop-blur-md">
             <tr>
-              <th className="px-4 sm:px-6 py-3 text-left font-semibold text-foreground">Invoice ID</th>
-              <th className="px-4 sm:px-6 py-3 text-left font-semibold text-foreground">Customer</th>
-              <th className="px-4 sm:px-6 py-3 text-left font-semibold text-foreground">Amount</th>
-              <th className="px-4 sm:px-6 py-3 text-left font-semibold text-foreground">Status</th>
-              <th className="px-4 sm:px-6 py-3 text-left font-semibold text-foreground">Due Date</th>
-              <th className="px-4 sm:px-6 py-3 text-left font-semibold text-foreground">Shipments</th>
-              <th className="px-4 sm:px-6 py-3 text-right font-semibold text-foreground">Actions</th>
+              <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Invoice ID</th>
+              <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Customer</th>
+              <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Amount</th>
+              <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Status</th>
+              <th className="px-6 py-4 text-left font-medium text-muted-foreground uppercase tracking-wider text-xs">Due Date</th>
+              <th className="px-6 py-4 text-center font-medium text-muted-foreground uppercase tracking-wider text-xs">Shipments</th>
+              <th className="px-6 py-4 text-right font-medium text-muted-foreground uppercase tracking-wider text-xs">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-border/30">
             {loading && (
               <>
                 {Array.from({ length: 5 }).map((_, index) => (
@@ -112,33 +112,42 @@ export function InvoicesTable({
               invoices.map((invoice) => (
                 <tr
                   key={invoice.id}
-                  className="border-b border-border hover:bg-muted/50 transition-colors"
+                  className="group hover:bg-primary/5 transition-colors duration-200"
                 >
-                  <td className="px-6 py-4 font-mono text-primary">
-                    <div className="flex flex-col">
-                      <span>{invoice.id}</span>
+                  <td className="px-6 py-4 font-mono text-primary font-medium">
+                    <div className="flex flex-col gap-1">
+                      <span className="group-hover:text-primary group-hover:underline decoration-primary/30 underline-offset-4 transition-all">{invoice.id}</span>
                       {renderSmsStatus(invoice.dbId)}
                     </div>
                   </td>
-                  <td className="px-6 py-4">{invoice.customerName}</td>
-                  <td className="px-6 py-4 font-semibold">
+                  <td className="px-6 py-4 font-medium text-foreground">{invoice.customerName}</td>
+                  <td className="px-6 py-4 font-display font-bold text-foreground tracking-tight">
                     ₹{invoice.amount.toLocaleString()}
                   </td>
                   <td className="px-6 py-4">
-                    <Badge className={getStatusColor(invoice.status)}>
-                      {invoice.status.toUpperCase()}
+                    <Badge variant="outline" className={cn("px-2.5 py-0.5 font-semibold text-[10px] tracking-wide uppercase border bg-transparent",
+                      invoice.status === 'paid' && "border-emerald-500/20 text-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.1)]",
+                      invoice.status === 'pending' && "border-amber-500/20 text-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.1)]",
+                      invoice.status === 'overdue' && "border-red-500/20 text-red-500 shadow-[0_0_10px_rgba(239,68,68,0.1)]",
+                      invoice.status === 'draft' && "border-muted-foreground/20 text-muted-foreground"
+                    )}>
+                      {invoice.status}
                     </Badge>
                   </td>
-                  <td className="px-6 py-4">{formatDate(invoice.dueDate)}</td>
-                  <td className="px-6 py-4 text-center">{invoice.shipments}</td>
+                  <td className="px-6 py-4 text-muted-foreground">{formatDate(invoice.dueDate)}</td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">
+                      {invoice.shipments}
+                    </span>
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end">
                       <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
                           <Button
-                            variant="outline"
+                            variant="ghost"
                             size="icon"
-                            className="h-8 w-8 p-0"
+                            className="h-8 w-8 hover:bg-primary/10 hover:text-primary transition-colors"
                           >
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Open actions</span>

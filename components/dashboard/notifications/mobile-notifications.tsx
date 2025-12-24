@@ -7,7 +7,7 @@ import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import NotificationItem from "./notification-item";
 import type { Notification } from "@/types/dashboard";
 import { SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useIsV0 } from "@/lib/v0-context";
+// import { useIsV0 } from "@/lib/v0-context";
 
 interface MobileNotificationsProps {
   initialNotifications: Notification[];
@@ -55,7 +55,7 @@ export default function MobileNotifications({
   const [notifications, setNotifications] =
     useState<Notification[]>(initialNotifications);
 
-  const isV0 = useIsV0();
+  // const isV0 = useIsV0();
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 

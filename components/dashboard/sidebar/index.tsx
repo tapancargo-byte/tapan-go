@@ -32,11 +32,11 @@ import MonkeyIcon from '@/components/icons/monkey';
 import EmailIcon from '@/components/icons/email';
 import { Bullet } from '@/components/ui/bullet';
 import LockIcon from '@/components/icons/lock';
-import { useIsV0 } from '@/lib/v0-context';
+// import { useIsV0 } from '@/lib/v0-context';
 import { BrandLogo } from '@/components/ui/brand-logo';
 
 import { navMain, type NavBadgeKey } from '@/components/dashboard/nav-config';
-import { ThemeToggle } from '@/components/theme-toggle';
+// import { ThemeToggle } from '@/components/theme-toggle';
 import { supabase } from '@/lib/supabaseClient';
 import { MapPin, Bell, ChevronDown } from 'lucide-react';
 import { useLocation } from '@/lib/location-context';
@@ -138,7 +138,7 @@ export function DashboardSidebar({
   className,
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const isV0 = useIsV0();
+  // const isV0 = useIsV0();
   const pathname = usePathname();
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = React.useState(false);
@@ -335,11 +335,11 @@ export function DashboardSidebar({
   };
 
   return (
-    <Sidebar {...props} className={cn('py-sides', className)}>
+    <Sidebar {...props} className={cn('py-sides border-r border-white/5 dark:border-white/5 bg-sidebar/80 backdrop-blur-md', className)} collapsible="icon">
       <SidebarHeader className="flex gap-3 flex-row items-center border-b border-sidebar-border pb-4">
         <BrandLogo size="md" priority className="flex-1 h-12 md:h-14 lg:h-16" />
         <div className="flex items-center justify-center gap-2">
-          <ThemeToggle />
+          {/* <ThemeToggle /> Removed to avoid duplication with Header */}
           <div className="w-2 h-2 bg-success animate-pulse" />
         </div>
       </SidebarHeader>
@@ -365,9 +365,9 @@ export function DashboardSidebar({
                       isActive={pathname === item.url}
                       disabled={item.locked}
                       className={cn(
-                        'transition-all duration-200 cursor-pointer',
-                        'sidebar-menu-item-hover',
-                        pathname === item.url && 'sidebar-menu-item-active',
+                        'transition-all duration-200 cursor-pointer overflow-hidden',
+                        'hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
+                        pathname === item.url && 'bg-sidebar-accent text-sidebar-accent-foreground neon-border-glow font-semibold',
                         item.locked && 'opacity-50 cursor-not-allowed hover:bg-transparent'
                       )}
                     >
