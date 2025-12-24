@@ -444,7 +444,7 @@ export default function AlertsPage() {
           <div />
           <div className="flex items-center gap-3 text-xs">
             {roleLoaded && !canSync && (
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 You have read-only access. Only manager/admin can sync alerts.
               </span>
             )}

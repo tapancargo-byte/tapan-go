@@ -288,7 +288,7 @@ export default function TapanAssociateChatPage() {
                                         className="h-24 w-24 object-cover"
                                       />
                                     ) : (
-                                      <div className="px-2 py-1 text-[10px] max-w-[120px] truncate">
+                                      <div className="px-2 py-1 text-xs max-w-[120px] truncate">
                                         {att.name}
                                       </div>
                                     )}
@@ -345,7 +345,7 @@ export default function TapanAssociateChatPage() {
                   onAttach={handleAttach}
                 />
                 {pendingAttachments.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2 text-[10px] text-muted-foreground">
+                  <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
                     {pendingAttachments.map((att) => (
                       <div
                         key={att.id}
@@ -359,7 +359,7 @@ export default function TapanAssociateChatPage() {
                             className="h-8 w-8 rounded object-cover"
                           />
                         ) : (
-                          <div className="h-8 w-8 flex items-center justify-center rounded bg-muted text-[9px]">
+                          <div className="h-8 w-8 flex items-center justify-center rounded bg-muted text-xs">
                             {(att.name.split(".").pop() || "FILE").toUpperCase()}
                           </div>
                         )}
@@ -368,7 +368,7 @@ export default function TapanAssociateChatPage() {
                     ))}
                   </div>
                 )}
-                <div className="flex justify-between items-center mt-2 text-[10px] text-muted-foreground px-1 w-full">
+                <div className="flex justify-between items-center mt-2 text-xs text-muted-foreground px-1 w-full">
                    <span className="flex items-center gap-1">
                      <Zap className="h-3 w-3 text-amber-400" />
                      Model: {process.env.NEXT_PUBLIC_PERPLEXITY_MODEL || "sonar-pro"}
@@ -406,11 +406,11 @@ export default function TapanAssociateChatPage() {
             {/* Session Stats for Visual Appeal */}
             <div className="grid grid-cols-2 gap-2 mb-4">
               <div className="bg-card border rounded-lg p-2.5 flex flex-col items-center justify-center text-center">
-                 <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Conversations</span>
+                 <span className="text-xs text-muted-foreground uppercase tracking-wide">Conversations</span>
                  <span className="text-xl font-bold text-primary">{conversations.length}</span>
               </div>
               <div className="bg-card border rounded-lg p-2.5 flex flex-col items-center justify-center text-center">
-                 <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Messages</span>
+                 <span className="text-xs text-muted-foreground uppercase tracking-wide">Messages</span>
                  <span className="text-xl font-bold text-primary">
                    {conversations.reduce((acc, curr) => acc + (curr.messages?.length || 0), 0)}
                  </span>
@@ -451,7 +451,7 @@ export default function TapanAssociateChatPage() {
                       )}>
                         {conv.title}
                       </span>
-                      <span className="text-[10px] text-muted-foreground/70">
+                      <span className="text-xs text-muted-foreground/70">
                         {new Date(conv.updatedAt).toLocaleDateString()} • {new Date(conv.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                       </span>
                     </div>
@@ -469,14 +469,14 @@ export default function TapanAssociateChatPage() {
                  </div>
                  <div className="space-y-1">
                     <h4 className="text-xs font-medium">Pro Tip</h4>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed">
+                    <p className="text-xs text-muted-foreground leading-relaxed">
                       Tapan Associate can read the context of the page you came from. Try navigating to a shipment page and asking "What's wrong with this?"
                     </p>
                  </div>
               </div>
             </div>
              <div className="mt-3 text-center">
-               <Button variant="link" size="sm" className="h-auto p-0 text-[10px] text-muted-foreground" onClick={handleMinimize}>
+               <Button variant="link" size="sm" className="h-auto p-0 text-xs text-muted-foreground" onClick={handleMinimize}>
                  <ChevronLeft className="mr-1 h-3 w-3" /> Back to Dashboard
                </Button>
              </div>

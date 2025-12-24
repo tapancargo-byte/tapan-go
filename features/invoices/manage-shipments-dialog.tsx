@@ -73,7 +73,7 @@ export function ManageShipmentsDialog({
                       type="button"
                       variant="outline"
                       size="sm"
-                      className="ml-2 h-7 px-2 text-[10px] uppercase"
+                      className="ml-2 h-7 px-2 text-xs uppercase"
                       onClick={() => onCopyTrackingLink(s.shipmentRef)}
                     >
                       Copy link

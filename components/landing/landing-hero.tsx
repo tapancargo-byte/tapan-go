@@ -20,7 +20,7 @@ function HeroPill() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      <Badge variant="secondary" className="rounded-full px-2 py-0.5 text-[10px]">
+      <Badge variant="secondary" className="rounded-full px-2 py-0.5 text-xs">
         NEW
       </Badge>
       <span className="text-xs font-medium text-primary sm:text-sm">

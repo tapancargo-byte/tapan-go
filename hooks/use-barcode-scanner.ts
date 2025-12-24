@@ -33,13 +33,13 @@ export function useBarcodeScanner({
             // If keys are pressed too slowly, it's likely manual typing -> reset buffer
             // Exception: if buffer is empty, this is the first char
             if (buffer.length > 0 && timeSinceLast > timeThreshold && !isEnter) {
-                if (debug) console.log("Barcode: Slow typing detected, resetting buffer");
+                // Debug logging removed for production - behavior is transparent to user
                 buffer = "";
             }
 
             if (isEnter) {
                 if (buffer.length >= minLength) {
-                    if (debug) console.log("Barcode Scanned:", buffer);
+                    // Debug logging removed for production - scan success is handled by callback
                     onScanRef.current(buffer);
                 }
                 buffer = "";

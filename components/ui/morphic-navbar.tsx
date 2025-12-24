@@ -82,7 +82,7 @@ export function MorphicNavbar({ mode = "landing", onNavClick }: MorphicNavbarPro
         <Link href="/" className="flex items-center gap-2" aria-label="Tapan Associate Home">
           <div className="flex flex-col leading-none">
             <span className="text-xl font-bold tracking-tighter text-foreground">TAC.</span>
-            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Tapan Associate Cargo</span>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Tapan Associate Cargo</span>
           </div>
         </Link>
 

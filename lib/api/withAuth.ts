@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import * as Sentry from "@sentry/nextjs";
 
 export type UserRole = "admin" | "operator" | "customer";
 
@@ -107,7 +108,10 @@ export function withAuth(
 
       return await handler(req, context);
     } catch (error) {
-      console.error("[API Auth Error]", error);
+      Sentry.captureException(error, {
+        tags: { component: 'api-auth', operation: 'authentication' },
+        extra: { context: 'withAuth middleware error' }
+      });
       return NextResponse.json(
         {
           error: "Internal server error",

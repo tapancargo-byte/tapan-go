@@ -1,6 +1,6 @@
 import { streamText, type UIMessage, convertToModelMessages } from "ai";
 import { perplexity } from "@ai-sdk/perplexity";
-import { performTracking } from "@/app/api/public/track/route";
+import { performTracking } from "@/lib/tracking";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;

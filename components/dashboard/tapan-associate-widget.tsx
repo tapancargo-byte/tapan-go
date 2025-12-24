@@ -114,7 +114,7 @@ export function TapanAssociateSidebarWidget() {
             <CardTitle className="text-sm font-semibold tracking-wide uppercase">
               Tapan Associate
             </CardTitle>
-            <CardDescription className="text-[11px]">
+            <CardDescription className="text-xs">
               Quick AI help for what you are working on right now.
             </CardDescription>
           </div>
@@ -139,7 +139,7 @@ export function TapanAssociateSidebarWidget() {
               variant="outline"
               size="sm"
               disabled={isLoading}
-              className="h-7 px-2 text-[11px]"
+              className="h-7 px-2 text-xs"
               onClick={() => handleAsk(s)}
             >
               {s}
@@ -150,7 +150,7 @@ export function TapanAssociateSidebarWidget() {
         <div className="flex-1 min-h-0 rounded-md border bg-background/60 overflow-y-auto">
           <div className="p-2 text-xs">
             {messages.length === 0 && !isLoading && !error && (
-              <p className="text-[11px] text-muted-foreground/80">
+              <p className="text-xs text-muted-foreground/80">
                 Ask a question or pick a suggestion to get started.
               </p>
             )}
@@ -181,7 +181,7 @@ export function TapanAssociateSidebarWidget() {
                                   className="h-16 w-16 object-cover"
                                 />
                               ) : (
-                                <div className="px-2 py-1 text-[10px] max-w-[120px] truncate">
+                                <div className="px-2 py-1 text-xs max-w-[120px] truncate">
                                   {att.name}
                                 </div>
                               )}
@@ -232,7 +232,7 @@ export function TapanAssociateSidebarWidget() {
             onAttach={handleAttach}
           />
           {pendingAttachments.length > 0 && (
-            <div className="mt-1 flex flex-wrap gap-2 text-[10px] text-muted-foreground">
+            <div className="mt-1 flex flex-wrap gap-2 text-xs text-muted-foreground">
               {pendingAttachments.map((att) => (
                 <div
                   key={att.id}
@@ -246,7 +246,7 @@ export function TapanAssociateSidebarWidget() {
                       className="h-8 w-8 rounded object-cover"
                     />
                   ) : (
-                    <div className="h-8 w-8 flex items-center justify-center rounded bg-muted text-[9px]">
+                    <div className="h-8 w-8 flex items-center justify-center rounded bg-muted text-xs">
                       {(att.name.split(".").pop() || "FILE").toUpperCase()}
                     </div>
                   )}
@@ -256,7 +256,7 @@ export function TapanAssociateSidebarWidget() {
             </div>
           )}
           {error && (
-            <p className="text-[11px] text-destructive mt-0.5">{error}</p>
+            <p className="text-xs text-destructive mt-0.5">{error}</p>
           )}
         </div>
       </CardContent>

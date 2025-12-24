@@ -38,7 +38,7 @@ export function MFAGate({ children }: MFAGateProps) {
         if (roleError || !roleRow) {
           // Fail-closed: if we can't determine role, don't allow access
           // This prevents bypassing MFA by causing role fetch to fail
-          console.error("Failed to fetch user role, denying access for security");
+          // Security event - access denied (details not logged to prevent info disclosure)
           setRequireMfa(true);
           return;
         }
@@ -56,7 +56,7 @@ export function MFAGate({ children }: MFAGateProps) {
 
         if (aalError || !aalData) {
           // Fail-closed for privileged users: require MFA if we can't check AAL
-          console.error("Failed to check AAL for privileged user, requiring MFA");
+          // Security event - MFA required (details not logged to prevent info disclosure)
           setRequireMfa(true);
           return;
         }

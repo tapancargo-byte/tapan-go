@@ -450,7 +450,7 @@ export default function RatesPage() {
             />
           </div>
           {roleLoaded && !canEdit && (
-            <p className="text-[11px] text-muted-foreground max-w-xs w-full sm:w-auto">
+            <p className="text-xs text-muted-foreground max-w-xs w-full sm:w-auto">
               You have read-only access. Contact an admin to modify rates.
             </p>
           )}

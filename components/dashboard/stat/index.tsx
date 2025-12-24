@@ -82,7 +82,7 @@ export default function DashboardStat({
             )}
           </span>
           {tag && (
-            <Badge variant="default" className="uppercase ml-2 sm:ml-3 text-[10px] sm:text-xs">
+            <Badge variant="default" className="uppercase ml-2 sm:ml-3 text-xs sm:text-xs">
               {tag}
             </Badge>
           )}
@@ -90,7 +90,7 @@ export default function DashboardStat({
 
         {description && (
           <div className="justify-between mt-1">
-            <p className="text-[10px] sm:text-xs md:text-sm font-medium text-muted-foreground tracking-wide uppercase">
+            <p className="text-xs sm:text-xs md:text-sm font-medium text-muted-foreground tracking-wide uppercase">
               {description}
             </p>
           </div>

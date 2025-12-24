@@ -117,7 +117,7 @@ export function Landing2025() {
               <span className="font-bold text-2xl leading-none tracking-tight">
                 TAC<span className="text-primary">.</span>
               </span>
-              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">
+              <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest mt-1">
                 Tapan Associate Cargo
               </span>
             </div>

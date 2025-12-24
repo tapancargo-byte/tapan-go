@@ -215,7 +215,7 @@ export default async function InvoicePublicPage({
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg overflow-hidden border border-slate-200">
         <div className="bg-sky-500 text-white px-6 py-4 flex items-center justify-between">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.25em] opacity-80">
+            <div className="text-xs uppercase tracking-[0.25em] opacity-80">
               Amount due
             </div>
             <div className="text-3xl font-semibold mt-1">₹{amountDueDisplay}</div>
@@ -258,14 +258,14 @@ export default async function InvoicePublicPage({
                 className="w-32 h-32 object-contain"
               />
             </div>
-            <div className="text-[10px] text-slate-500">UPI / QR payment</div>
+            <div className="text-xs text-slate-500">UPI / QR payment</div>
           </div>
         </div>
 
         <div className="px-6 py-4 border-b grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-800">
           <div className="space-y-3">
             <div>
-              <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+              <div className="uppercase tracking-[0.18em] text-xs text-slate-500 mb-1">
                 Bill To
               </div>
               <div className="font-semibold text-sm">{customerName}</div>
@@ -274,7 +274,7 @@ export default async function InvoicePublicPage({
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+                <div className="uppercase tracking-[0.18em] text-xs text-slate-500 mb-1">
                   Consignor
                 </div>
                 <div className="font-semibold text-xs">{consignorName || "-"}</div>
@@ -282,7 +282,7 @@ export default async function InvoicePublicPage({
                 <div>{consignorPhone}</div>
               </div>
               <div>
-                <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+                <div className="uppercase tracking-[0.18em] text-xs text-slate-500 mb-1">
                   Consignee
                 </div>
                 <div className="font-semibold text-xs">{consigneeName || "-"}</div>
@@ -292,7 +292,7 @@ export default async function InvoicePublicPage({
             </div>
           </div>
           <div className="md:text-right space-y-0.5">
-            <div className="uppercase tracking-[0.18em] text-[10px] text-slate-500 mb-1">
+            <div className="uppercase tracking-[0.18em] text-xs text-slate-500 mb-1">
               Consignment
             </div>
             <div>
@@ -352,7 +352,7 @@ export default async function InvoicePublicPage({
         </div>
 
         <div className="px-6 py-4 border-b">
-          <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500 mb-2">
+          <div className="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
             Items
           </div>
           <div className="overflow-x-auto">
@@ -404,7 +404,7 @@ export default async function InvoicePublicPage({
 
         <div className="px-6 py-4 border-b grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500 mb-2">
+            <div className="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
               Bank Details
             </div>
             <div className="space-y-0.5 text-slate-700">
@@ -427,7 +427,7 @@ export default async function InvoicePublicPage({
           </div>
 
           <div className="md:text-right space-y-1 text-slate-700">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500 mb-2 md:text-right text-left">
+            <div className="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2 md:text-right text-left">
               Summary
             </div>
             <div>
@@ -442,7 +442,7 @@ export default async function InvoicePublicPage({
           </div>
         </div>
 
-        <div className="px-6 py-4 flex items-end justify-between text-[10px] text-slate-600">
+        <div className="px-6 py-4 flex items-end justify-between text-xs text-slate-600">
           <div>
             <div>For: {companyProfile.name}</div>
             <div className="mt-6 border-t border-slate-300 w-40 pt-1 text-center">

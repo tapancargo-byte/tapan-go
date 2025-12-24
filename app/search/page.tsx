@@ -115,7 +115,7 @@ export default function GlobalSearchPage() {
                             {s.origin} → {s.destination}
                           </div>
                         </div>
-                        <Badge className="text-[10px] px-2 py-0.5">
+                        <Badge className="text-xs px-2 py-0.5">
                           {s.status?.toString().toUpperCase() ?? 'UNKNOWN'}
                         </Badge>
                       </li>
@@ -158,7 +158,7 @@ export default function GlobalSearchPage() {
                             Shipment: {b.shipment_id ?? 'N/A'}
                           </div>
                         </div>
-                        <Badge className="text-[10px] px-2 py-0.5">
+                        <Badge className="text-xs px-2 py-0.5">
                           {b.status?.toString().toUpperCase() ?? 'UNKNOWN'}
                         </Badge>
                       </li>
@@ -201,7 +201,7 @@ export default function GlobalSearchPage() {
                             Amount: ₹{Number(inv.amount ?? 0).toLocaleString()}
                           </div>
                         </div>
-                        <Badge className="text-[10px] px-2 py-0.5">
+                        <Badge className="text-xs px-2 py-0.5">
                           {inv.status?.toString().toUpperCase() ?? 'UNKNOWN'}
                         </Badge>
                       </li>
@@ -284,7 +284,7 @@ export default function GlobalSearchPage() {
                             {m.origin_hub} → {m.destination}
                           </div>
                         </div>
-                        <Badge className="text-[10px] px-2 py-0.5">
+                        <Badge className="text-xs px-2 py-0.5">
                           {m.status?.toString().toUpperCase() ?? 'UNKNOWN'}
                         </Badge>
                       </li>

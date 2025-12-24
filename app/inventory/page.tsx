@@ -183,13 +183,13 @@ export default function InventoryManagement() {
         </div>
 
         {roleLoaded && !canEdit && (
-          <p className="text-[11px] text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             You have read-only access. Contact an admin to adjust inventory counts.
           </p>
         )}
 
         {loading && (
-          <p className="text-[11px] text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Loading inventory...
           </p>
         )}
@@ -198,7 +198,7 @@ export default function InventoryManagement() {
         <div className="grid grid-cols-3 gap-2 sm:gap-4">
           <Card className="shadow-sm">
             <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-[10px] sm:text-sm">Total SKUs</CardTitle>
+              <CardTitle className="text-xs sm:text-sm">Total SKUs</CardTitle>
             </CardHeader>
             <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               <p className="text-xl sm:text-3xl font-bold">{inventoryData.length}</p>
@@ -206,7 +206,7 @@ export default function InventoryManagement() {
           </Card>
           <Card className="shadow-sm">
             <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-[10px] sm:text-sm">Low Stock</CardTitle>
+              <CardTitle className="text-xs sm:text-sm">Low Stock</CardTitle>
             </CardHeader>
             <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               <p className="text-xl sm:text-3xl font-bold text-yellow-400">
@@ -216,7 +216,7 @@ export default function InventoryManagement() {
           </Card>
           <Card className="shadow-sm">
             <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-[10px] sm:text-sm">Critical</CardTitle>
+              <CardTitle className="text-xs sm:text-sm">Critical</CardTitle>
             </CardHeader>
             <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               <p className="text-xl sm:text-3xl font-bold text-red-400">

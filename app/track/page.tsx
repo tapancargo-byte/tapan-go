@@ -261,7 +261,7 @@ function PublicTrackPageContent() {
                     </div>
                     <Badge
                       variant="outline"
-                      className={`uppercase text-[11px] ${statusBadgeClasses(
+                      className={`uppercase text-xs ${statusBadgeClasses(
                         result.invoice.status
                       )}`}
                     >
@@ -352,7 +352,7 @@ function PublicTrackPageContent() {
                     </div>
                     <Badge
                       variant="outline"
-                      className={`uppercase text-[11px] ${statusBadgeClasses(
+                      className={`uppercase text-xs ${statusBadgeClasses(
                         result.shipment.status
                       )}`}
                     >
@@ -430,7 +430,7 @@ function PublicTrackPageContent() {
                       <div className="grid gap-2 text-sm sm:grid-cols-2">
                         {result.shipment.etd && (
                           <div>
-                            <div className="text-[10px] text-muted-foreground uppercase">
+                            <div className="text-xs text-muted-foreground uppercase">
                               {result.shipment.atd ? "Departed" : "Est. Departure"}
                             </div>
                             <div className="font-medium">
@@ -440,7 +440,7 @@ function PublicTrackPageContent() {
                         )}
                         {(result.shipment.eta || result.shipment.ata) && (
                           <div>
-                            <div className="text-[10px] text-muted-foreground uppercase">
+                            <div className="text-xs text-muted-foreground uppercase">
                               {result.shipment.ata ? "Delivered" : "Est. Arrival"}
                             </div>
                             <div className={`font-medium ${result.shipment.ata ? "text-success" : "text-brand"}`}>
@@ -489,7 +489,7 @@ function PublicTrackPageContent() {
                       >
                         <div className="flex items-center justify-between gap-3">
                           <div>
-                            <div className="text-[11px] text-muted-foreground">
+                            <div className="text-xs text-muted-foreground">
                               Barcode
                             </div>
                             <div className="font-mono text-xs">
@@ -498,7 +498,7 @@ function PublicTrackPageContent() {
                           </div>
                           <Badge
                             variant="outline"
-                            className={`uppercase text-[10px] ${statusBadgeClasses(
+                            className={`uppercase text-xs ${statusBadgeClasses(
                               b.status
                             )}`}
                           >
@@ -507,7 +507,7 @@ function PublicTrackPageContent() {
                         </div>
                         <div className="mt-2 grid gap-2 text-xs sm:grid-cols-2">
                           <div>
-                            <div className="text-[10px] text-muted-foreground">
+                            <div className="text-xs text-muted-foreground">
                               Last scanned at
                             </div>
                             <div className="font-medium">
@@ -515,7 +515,7 @@ function PublicTrackPageContent() {
                             </div>
                           </div>
                           <div>
-                            <div className="text-[10px] text-muted-foreground">
+                            <div className="text-xs text-muted-foreground">
                               Last location
                             </div>
                             <div className="font-medium">
@@ -541,18 +541,18 @@ function PublicTrackPageContent() {
                         className="flex items-center justify-between gap-2 border-b border-border/40 last:border-b-0 pb-1"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="font-mono text-[10px]">
+                          <p className="font-mono text-xs">
                             {scan.barcode_number || "Unknown barcode"}
                           </p>
-                          <p className="text-[10px] text-muted-foreground truncate">
+                          <p className="text-xs text-muted-foreground truncate">
                             {scan.location || "Unknown location"}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[10px]">
+                          <p className="text-xs">
                             {formatDateTime(scan.scanned_at)}
                           </p>
-                          <p className="text-[10px] uppercase text-muted-foreground">
+                          <p className="text-xs uppercase text-muted-foreground">
                             {scan.scan_type || "scan"}
                           </p>
                         </div>
@@ -583,12 +583,12 @@ function PublicTrackPageContent() {
           )}
         </Card>
 
-        <p className="text-[11px] text-center text-muted-foreground">
+        <p className="text-xs text-center text-muted-foreground">
           Data is updated as your packages are scanned at different locations. If
           you think there is an issue with your shipment, please contact customer
           support.
         </p>
-        <p className="mt-1 text-[11px] text-center text-muted-foreground">
+        <p className="mt-1 text-xs text-center text-muted-foreground">
           Tapan Go ops teams can access deeper telemetry in the internal
           {" "}
           <Link

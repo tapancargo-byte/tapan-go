@@ -161,11 +161,11 @@ function HeroConnectivityDiagram() {
         />
       ) : (
         <div className="relative z-10 flex flex-col items-center gap-3 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-[11px] font-medium text-primary">
+          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-xs font-medium text-primary">
             <Truck className="h-4 w-4" />
             <span>Imphal ⇄ New Delhi line-haul</span>
           </div>
-          <p className="text-[11px] text-muted-foreground max-w-xs">
+          <p className="text-xs text-muted-foreground max-w-xs">
             Live truck animation loading…
           </p>
         </div>
@@ -264,7 +264,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 rounded-none border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary backdrop-blur-sm">
                     <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-                    <AnimatedShinyText className="text-[11px] font-semibold">
+                    <AnimatedShinyText className="text-xs font-semibold">
                       Connecting the Northeast Corridor
                     </AnimatedShinyText>
                   </div>
@@ -594,7 +594,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     </h2>
                   </div>
                   <div className="space-y-3 px-5 py-6 text-sm text-muted-foreground">
-                    <p className="font-mono text-[13px] text-foreground">
+                    <p className="font-mono text-sm text-foreground">
                       Singjamei Top Leikai, Imphal, Manipur 795008
                     </p>
                     <p className="text-xs text-muted-foreground/90">
@@ -602,7 +602,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     </p>
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
-                      <span className="font-mono text-[13px]">imphal@tapango.logistics</span>
+                      <span className="font-mono text-sm">imphal@tapango.logistics</span>
                     </div>
                   </div>
                   <div className="border-t border-border/60 px-5 py-3 text-xs text-muted-foreground">
@@ -619,7 +619,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     </h2>
                   </div>
                   <div className="space-y-3 px-5 py-6 text-sm text-muted-foreground">
-                    <p className="font-mono text-[13px] leading-relaxed text-foreground">
+                    <p className="font-mono text-sm leading-relaxed text-foreground">
                       2ND FLOOR FLAT NO 1498/2, GALI NO 3, Wazir Nagar, K.M. Pur, New Delhi, Delhi 110003
                     </p>
                     <p className="text-xs text-muted-foreground/90">
@@ -627,7 +627,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     </p>
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
-                      <span className="font-mono text-[13px]">delhi@tapango.logistics</span>
+                      <span className="font-mono text-sm">delhi@tapango.logistics</span>
                     </div>
                   </div>
                   <div className="border-t border-border/60 px-5 py-3 text-xs text-muted-foreground">
@@ -644,7 +644,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                     </h2>
                   </div>
                   <div className="space-y-3 px-5 py-6 text-sm text-muted-foreground">
-                    <p className="font-mono text-[13px] text-foreground">
+                    <p className="font-mono text-sm text-foreground">
                       10:00 am - 9:00 pm IST
                     </p>
                     <p className="text-xs text-muted-foreground/90">
@@ -659,7 +659,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
 
               <div className="relative flex flex-col gap-6 border-t border-border/60 px-5 py-6 md:flex-row md:items-center md:justify-between md:px-8">
                 <div className="max-w-md space-y-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
                     Support channels
                   </p>
                   <p className="text-sm text-muted-foreground">
@@ -730,7 +730,7 @@ export function DashboardAuthOverlay({ initialAuthed = false }: DashboardAuthOve
                 </div>
 
                 <div className="space-y-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
                     Find us online
                   </p>
                   <div className="flex flex-wrap items-center gap-3">

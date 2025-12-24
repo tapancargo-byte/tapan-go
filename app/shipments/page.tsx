@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PageLayout, Section } from "@/components/layout/page-layout";
+import { LoadingTable } from "@/components/ui/loading-states";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import TruckIcon from "@/components/icons/truck";
@@ -31,6 +33,7 @@ import { useTapanAssociateContext } from "@/components/layout/tapan-associate-co
 import { Clock } from "lucide-react";
 import { ShipmentsTable } from "@/features/shipments/shipments-table";
 import { ShipmentsDialog } from "@/features/shipments/shipments-dialog";
+import * as Sentry from "@sentry/nextjs";
 
 // Lazy load heavy dialog component
 const ETAUpdateDialog = dynamic(
@@ -140,7 +143,9 @@ function ShipmentsTrackingContent() {
           );
 
         if (error) {
-          console.warn("Supabase shipments error", error.message);
+          Sentry.captureException(error, {
+            tags: { component: 'shipments-page', operation: 'shipments-load' }
+          });
           throw error;
         }
 
@@ -155,10 +160,9 @@ function ShipmentsTrackingContent() {
             .select("id, name");
 
           if (customersError) {
-            console.warn(
-              "Supabase customers for shipments error, skipping customer join",
-              customersError.message
-            );
+            Sentry.captureException(customersError, {
+              tags: { component: 'shipments-page', operation: 'customers-load' }
+            });
           } else {
             (customerRows ?? []).forEach((c: any) => {
               customersMap.set(c.id, { id: c.id, name: c.name ?? "" });
@@ -170,7 +174,9 @@ function ShipmentsTrackingContent() {
             }));
           }
         } catch (customersErr) {
-          console.warn("Supabase customers for shipments error", customersErr);
+          Sentry.captureException(customersErr, {
+            tags: { component: 'shipments-page', operation: 'customers-load' }
+          });
         }
 
         const normalized: UIShipment[] = shipmentRows.map((s) => {
@@ -196,7 +202,9 @@ function ShipmentsTrackingContent() {
         setLoading(false);
       } catch (err) {
         if (cancelled) return;
-        console.error("Failed to load shipments from Supabase", err);
+        Sentry.captureException(err, {
+          tags: { component: 'shipments-page', operation: 'shipments-load' }
+        });
         setShipments([]);
         setCustomers([]);
         setLoading(false);
@@ -244,7 +252,9 @@ function ShipmentsTrackingContent() {
         setRoleLoaded(true);
       } catch (err) {
         if (cancelled) return;
-        console.warn("Failed to load user role for shipments page", err);
+        Sentry.captureException(err, {
+          tags: { component: 'shipments-page', operation: 'user-role-load' }
+        });
         setUserRole(null);
         setRoleLoaded(true);
       }
@@ -480,7 +490,9 @@ function ShipmentsTrackingContent() {
         status: "pending",
       });
     } catch (err: any) {
-      console.error("Failed to save shipment", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'shipment-save' }
+      });
       toast({
         title: "Could not save shipment",
         description:
@@ -539,7 +551,9 @@ function ShipmentsTrackingContent() {
         description: `Shipment ${shipment.shipmentId} has been removed.`,
       });
     } catch (err: any) {
-      console.error("Failed to delete shipment", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'shipment-delete' }
+      });
       toast({
         title: "Could not delete shipment",
         description:
@@ -566,7 +580,10 @@ function ShipmentsTrackingContent() {
         .eq("shipment_id", shipment.dbId);
 
       if (error) {
-        console.error("Failed to load barcodes for shipment", error.message);
+        Sentry.captureException(error, {
+          tags: { component: 'shipments-page', operation: 'barcodes-load' },
+          extra: { shipmentId: shipment.dbId }
+        });
         setShipmentBarcodes([]);
         return;
       }
@@ -594,10 +611,10 @@ function ShipmentsTrackingContent() {
         .eq("shipment_id", shipment.dbId);
 
       if (barcodesError) {
-        console.error(
-          "Failed to load barcodes for shipment timeline",
-          barcodesError.message
-        );
+        Sentry.captureException(barcodesError, {
+          tags: { component: 'shipments-page', operation: 'timeline-barcodes-load' },
+          extra: { shipmentId: shipment.dbId }
+        });
         setShipmentTimeline([]);
         return;
       }
@@ -624,7 +641,10 @@ function ShipmentsTrackingContent() {
         .order("scanned_at", { ascending: false });
 
       if (scansError) {
-        console.error("Failed to load shipment scan timeline", scansError.message);
+        Sentry.captureException(scansError, {
+          tags: { component: 'shipments-page', operation: 'timeline-scans-load' },
+          extra: { shipmentId: shipment.dbId }
+        });
         setShipmentTimeline([]);
         return;
       }
@@ -677,7 +697,10 @@ function ShipmentsTrackingContent() {
 
       void loadBarcodesForShipment(selectedShipment);
     } catch (err: any) {
-      console.error("Failed to generate barcode", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'barcode-generate' },
+        extra: { shipmentId: selectedShipment.dbId }
+      });
       toast({
         title: "Could not generate barcode",
         description:
@@ -725,7 +748,9 @@ function ShipmentsTrackingContent() {
         description: url,
       });
     } catch (err) {
-      console.error("Failed to copy tracking link", err);
+      Sentry.captureException(err, {
+        tags: { component: 'shipments-page', operation: 'tracking-link-copy' }
+      });
       toast({
         title: "Could not copy link",
         description: `Please copy it manually: ${url}`,
@@ -762,7 +787,10 @@ function ShipmentsTrackingContent() {
         .order("scanned_at", { ascending: false });
 
       if (error) {
-        console.error("Failed to load scans for barcode", error.message);
+        Sentry.captureException(error, {
+          tags: { component: 'shipments-page', operation: 'barcode-scans-load' },
+          extra: { barcodeId }
+        });
         setActiveBarcodeScans([]);
         return;
       }
@@ -801,7 +829,10 @@ function ShipmentsTrackingContent() {
         .eq("shipment_ref", selectedShipment.shipmentId);
 
       if (error) {
-        console.error("Failed to update shipment status", error.message);
+        Sentry.captureException(error, {
+          tags: { component: 'shipments-page', operation: 'shipment-status-update' },
+          extra: { shipmentId: selectedShipment.dbId, newStatus }
+        });
         return;
       }
 
@@ -887,7 +918,7 @@ function ShipmentsTrackingContent() {
             </div>
 
             {roleLoaded && !canEdit && (
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 You have read-only access. Contact an admin to modify shipments.
               </p>
             )}
@@ -1068,7 +1099,7 @@ function ShipmentsTrackingContent() {
                           <div>
                             <p className="font-mono font-semibold">{bc.barcodeNumber}</p>
                             {bc.lastScannedLocation && (
-                              <p className="text-[10px] text-muted-foreground">
+                              <p className="text-xs text-muted-foreground">
                                 {bc.lastScannedLocation}
                               </p>
                             )}
@@ -1078,7 +1109,7 @@ function ShipmentsTrackingContent() {
                               {bc.status || "unknown"}
                             </span>
                             {bc.lastScannedAt && (
-                              <p className="text-[10px] text-muted-foreground mt-0.5">
+                              <p className="text-xs text-muted-foreground mt-0.5">
                                 {new Date(bc.lastScannedAt).toLocaleString("en-IN")}
                               </p>
                             )}
@@ -1086,7 +1117,7 @@ function ShipmentsTrackingContent() {
                         </div>
 
                         {isActive && (
-                          <div className="mt-1 text-[10px] text-muted-foreground">
+                          <div className="mt-1 text-xs text-muted-foreground">
                             {barcodeScansLoading ? (
                               <p>Loading scan history...</p>
                             ) : activeBarcodeScans.length === 0 ? (
@@ -1137,18 +1168,18 @@ function ShipmentsTrackingContent() {
                       className="flex items-center justify-between gap-2 border-b border-border/40 last:border-b-0 pb-1"
                     >
                       <div className="flex-1 min-w-0">
-                        <p className="font-mono text-[10px]">
+                        <p className="font-mono text-xs">
                           {event.barcodeNumber || "Unknown barcode"}
                         </p>
-                        <p className="text-[10px] text-muted-foreground truncate">
+                        <p className="text-xs text-muted-foreground truncate">
                           {event.location || "Unknown location"}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[10px]">
+                        <p className="text-xs">
                           {new Date(event.scannedAt).toLocaleString("en-IN")}
                         </p>
-                        <p className="text-[10px] uppercase text-muted-foreground">
+                        <p className="text-xs uppercase text-muted-foreground">
                           {event.scanType || "scan"}
                         </p>
                       </div>

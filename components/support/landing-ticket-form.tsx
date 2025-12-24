@@ -131,9 +131,9 @@ export function LandingTicketForm() {
           />
         </div>
 
-        {error && <p className="text-[11px] text-destructive">{error}</p>}
+        {error && <p className="text-xs text-destructive">{error}</p>}
         {ticketId && !error && (
-          <p className="text-[11px] text-emerald-400">
+          <p className="text-xs text-emerald-400">
             Ticket created with reference <span className="font-mono">{ticketId}</span>.
             Our team will contact you by email.
           </p>

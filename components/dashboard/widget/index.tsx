@@ -141,7 +141,7 @@ export default function Widget({ widgetData, onCollapse }: WidgetProps) {
         <div className="flex justify-between items-center text-xs">
           <span className="opacity-60">{widgetData.temperature}</span>
           <span className="truncate max-w-[120px]">{location}</span>
-          <Badge variant="secondary" className="bg-accent text-[10px] px-1.5">
+          <Badge variant="secondary" className="bg-accent text-xs px-1.5">
             {timezone}
           </Badge>
         </div>
@@ -172,7 +172,7 @@ export function TapanGoWidget() {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-3 text-center px-4 normal-case">
-          <p className="text-[11px] text-muted-foreground max-w-xs">
+          <p className="text-xs text-muted-foreground max-w-xs">
             A seamless cargo service for Northeast and Delhi.
           </p>
         </div>

@@ -77,9 +77,9 @@ export function useRealtimeShipments() {
       )
       .subscribe((status) => {
         if (status === "SUBSCRIBED") {
-          console.log("✅ Subscribed to shipments real-time updates");
+          // Successfully subscribed to real-time updates
         } else if (status === "CHANNEL_ERROR") {
-          console.error("❌ Real-time subscription error");
+          // Real-time subscription failed - error state handled by component
           setError(new Error("Real-time connection failed"));
         }
       });

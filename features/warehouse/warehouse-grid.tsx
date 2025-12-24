@@ -153,7 +153,7 @@ export function WarehouseGrid({
               <div className="flex items-start gap-2 flex-shrink-0">
                 <div className="flex flex-col items-end gap-2">
                   <span
-                    className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${
+                    className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-xs font-semibold ${
                       warehouse.status === "operational"
                         ? "bg-green-500/20 text-green-400"
                         : warehouse.status === "offline"
@@ -175,7 +175,7 @@ export function WarehouseGrid({
                   >
                     <SelectTrigger
                       size="sm"
-                      className="mt-1 w-auto text-[11px] uppercase tracking-wide"
+                      className="mt-1 w-auto text-xs uppercase tracking-wide"
                     >
                       <SelectValue />
                     </SelectTrigger>

@@ -300,7 +300,7 @@ export default function OpsActivityPage() {
                 return (
                   <div key={`${event.source}-${event.id}`}>
                     {showHeader && (
-                      <div className="px-4 py-2 bg-muted/40 text-[11px] font-semibold uppercase text-muted-foreground">
+                      <div className="px-4 py-2 bg-muted/40 text-xs font-semibold uppercase text-muted-foreground">
                         {getDayLabel(event.timestamp)}
                       </div>
                     )}
@@ -325,7 +325,7 @@ export default function OpsActivityPage() {
                         <p className="text-xs text-muted-foreground whitespace-pre-line">
                           {event.description}
                         </p>
-                        <p className="text-[11px] text-muted-foreground mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           {formatSince(event.timestamp)}
                         </p>
                       </div>

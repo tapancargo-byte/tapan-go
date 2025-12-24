@@ -119,7 +119,7 @@ export function SupportTicketsTable({
                           )
                         }
                         disabled={updatingStatusId === ticket.dbId}
-                        className="border border-input bg-background px-2 py-1 text-[11px] uppercase tracking-wide"
+                        className="border border-input bg-background px-2 py-1 text-xs uppercase tracking-wide"
                       >
                         <option value="open">Open</option>
                         <option value="in-progress">In Progress</option>

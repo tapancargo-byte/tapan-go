@@ -38,8 +38,8 @@ export function SectionCards({ stats }: SectionCardsProps) {
   };
 
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card">
+    <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+      <Card className="@container/card" variant="highlight">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <Package className="size-4" />
@@ -49,7 +49,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
             {data.totalShipments.toLocaleString()}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline" className={data.shipmentsTrend >= 0 ? "text-green-600" : "text-red-600"}>
+            <Badge variant="outline" className={data.shipmentsTrend >= 0 ? "text-success border-success" : "text-destructive border-destructive"}>
               {data.shipmentsTrend >= 0 ? <IconTrendingUp /> : <IconTrendingDown />}
               {data.shipmentsTrend >= 0 ? "+" : ""}{data.shipmentsTrend}%
             </Badge>
@@ -65,7 +65,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
           </div>
         </CardFooter>
       </Card>
-      <Card className="@container/card">
+      <Card className="@container/card" variant="info">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <Users className="size-4" />
@@ -75,7 +75,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
             {data.activeCustomers.toLocaleString()}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline" className={data.customersTrend >= 0 ? "text-green-600" : "text-red-600"}>
+            <Badge variant="outline" className={data.customersTrend >= 0 ? "text-success border-success" : "text-destructive border-destructive"}>
               {data.customersTrend >= 0 ? <IconTrendingUp /> : <IconTrendingDown />}
               {data.customersTrend >= 0 ? "+" : ""}{data.customersTrend}%
             </Badge>
@@ -91,7 +91,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
           </div>
         </CardFooter>
       </Card>
-      <Card className="@container/card">
+      <Card className="@container/card" variant="warning">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <FileText className="size-4" />
@@ -101,7 +101,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
             {data.pendingInvoices.toLocaleString()}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline" className={data.invoicesTrend <= 0 ? "text-green-600" : "text-red-600"}>
+            <Badge variant="outline" className={data.invoicesTrend <= 0 ? "text-success border-success" : "text-destructive border-destructive"}>
               {data.invoicesTrend <= 0 ? <IconTrendingDown /> : <IconTrendingUp />}
               {data.invoicesTrend >= 0 ? "+" : ""}{data.invoicesTrend}%
             </Badge>
@@ -115,7 +115,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
           <div className="text-muted-foreground">Awaiting payment</div>
         </CardFooter>
       </Card>
-      <Card className="@container/card">
+      <Card className="@container/card" variant="success">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <Warehouse className="size-4" />
@@ -125,7 +125,7 @@ export function SectionCards({ stats }: SectionCardsProps) {
             {data.warehouseCapacity}%
           </CardTitle>
           <CardAction>
-            <Badge variant="outline" className={data.capacityTrend <= 0 ? "text-green-600" : "text-amber-600"}>
+            <Badge variant="outline" className={data.capacityTrend <= 0 ? "text-success border-success" : "text-warning border-warning"}>
               {data.capacityTrend <= 0 ? <IconTrendingDown /> : <IconTrendingUp />}
               {data.capacityTrend >= 0 ? "+" : ""}{data.capacityTrend}%
             </Badge>
