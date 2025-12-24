@@ -99,7 +99,7 @@ export default function MobileNotifications({
             <p className="text-sm text-muted-foreground">No notifications</p>
           </div>
         ) : (
-          <AnimatePresence mode={isV0 ? "wait" : "popLayout"}>
+          <AnimatePresence mode="popLayout">
             {notifications.map((notification) => (
               <motion.div
                 key={notification.id}

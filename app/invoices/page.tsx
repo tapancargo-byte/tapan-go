@@ -45,7 +45,6 @@ import { InvoicesTable } from "@/features/invoices/invoices-table";
 import { ManageShipmentsDialog } from "@/features/invoices/manage-shipments-dialog";
 import { InvoiceDialogEnhanced } from "@/features/invoices/invoice-dialog-enhanced";
 import { CustomerCreateDialog } from "@/features/invoices/customer-create-dialog";
-import * as Sentry from "@sentry/nextjs";
 
 const formatDate = (value: string) => {
   if (!value) return "";
