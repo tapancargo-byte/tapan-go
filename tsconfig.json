@@ -1,43 +1,52 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "target": "ES6",
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".v0-backup-*",
-    "supabase/functions"
-  ]
+	"compilerOptions": {
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"target": "ES6",
+		"skipLibCheck": true,
+		"strict": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"incremental": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"paths": {
+			"@/components/dashboard/*": ["./src/app/(main)/dashboard/_components/*"],
+			"@/components/invoices/*": ["./src/app/(main)/invoices/_components/*"],
+			"@/components/shipments/*": ["./src/app/(main)/shipments/_components/*"],
+			"@/components/auth/*": ["./src/app/(auth)/_components/*"],
+			"@/components/tracking/*": ["./src/app/(external)/track/_components/*"],
+			"@/components/landing/*": ["./src/app/(external)/_components/*"],
+			"@/components/app-sidebar": ["./src/app/(main)/_components/app-sidebar"],
+			"@/components/nav-main": ["./src/app/(main)/_components/nav-main"],
+			"@/components/nav-documents": [
+				"./src/app/(main)/_components/nav-documents"
+			],
+			"@/components/nav-secondary": [
+				"./src/app/(main)/_components/nav-secondary"
+			],
+			"@/components/nav-user": ["./src/app/(main)/_components/nav-user"],
+			"@/components/command-menu": [
+				"./src/app/(main)/_components/command-menu"
+			],
+			"@/public/*": ["./public/*"],
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		".next/dev/types/**/*.ts"
+	],
+	"exclude": ["node_modules", ".v0-backup-*", "supabase/functions"]
 }

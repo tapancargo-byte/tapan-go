@@ -1,25 +1,22 @@
 {
-  "servers": {
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
-    },
-    "mcp-freepik": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://api.freepik.com/mcp",
-        "--header",
-        "x-freepik-api-key:${FREEPIK_API_KEY}"
-      ]
-    },
-    "Sentry": {
-      "url": "https://mcp.sentry.dev/mcp/tapan-associate/javascript-nextjs",
-      "type": "http"
-    }
-  }
+	"servers": {
+		"shadcn": {
+			"command": "npx",
+			"args": ["shadcn@latest", "mcp"]
+		},
+		"mcp-freepik": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"mcp-remote",
+				"https://api.freepik.com/mcp",
+				"--header",
+				"x-freepik-api-key:${FREEPIK_API_KEY}"
+			]
+		},
+		"Sentry": {
+			"url": "https://mcp.sentry.dev/mcp/tapan-associate/javascript-nextjs",
+			"type": "http"
+		}
+	}
 }
