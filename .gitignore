@@ -15,11 +15,11 @@ next-shadcn-admin-dashboard-main/
 next-colocation-template-main/
 
 # Logs and Reports
-*.txt
+tsc_output.txt
+lint_output.txt
+check.txt
 biome-report.json
 biome-report*.json
 tsconfig.tsbuildinfo
 analyze_biome.js
 biome_analysis*.txt
-lint_output.txt
-check.txt
