@@ -25,7 +25,8 @@ import {
 	Zap,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import type React from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";

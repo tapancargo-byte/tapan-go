@@ -456,6 +456,6 @@ export function LandingPage() {
 	);
 }
 
-function cn(...inputs: any) {
+function cn(...inputs: (string | undefined | null | boolean)[]) {
 	return inputs.filter(Boolean).join(" ");
 }
