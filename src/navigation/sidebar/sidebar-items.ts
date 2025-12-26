@@ -1,0 +1,193 @@
+/**
+ * Centralized Sidebar Navigation Configuration
+ *
+ * This file is the single source of truth for all sidebar navigation items.
+ * Following the pattern from next-shadcn-admin-dashboard.
+ */
+
+import type React from "react";
+import AtomIcon from "@/components/icons/atom";
+import BoxIcon from "@/components/icons/box";
+// Icons - using Tabler icons for consistency
+import BracketsIcon from "@/components/icons/brackets";
+import EmailIcon from "@/components/icons/email";
+import GearIcon from "@/components/icons/gear";
+import MonkeyIcon from "@/components/icons/monkey";
+import ProcessorIcon from "@/components/icons/proccesor";
+import TruckIcon from "@/components/icons/truck";
+import WarehouseIcon from "@/components/icons/warehouse";
+
+// ============================================================================
+// Types
+// ============================================================================
+
+export type NavBadgeColor = "default" | "success" | "warning" | "destructive";
+export type NavBadgeKey = "warehouses" | "shipments" | "invoices" | "alerts";
+
+export interface NavSubItem {
+	title: string;
+	url: string;
+	icon?: React.ElementType;
+	comingSoon?: boolean;
+	newTab?: boolean;
+	isNew?: boolean;
+}
+
+export interface NavItem {
+	title: string;
+	url: string;
+	icon: React.ElementType;
+	locked?: boolean;
+	badge?: string | number;
+	badgeColor?: NavBadgeColor;
+	requiresAdmin?: boolean;
+	badgeKey?: NavBadgeKey;
+	comingSoon?: boolean;
+	isNew?: boolean;
+	subItems?: NavSubItem[];
+}
+
+export interface NavGroup {
+	id: "core" | "management" | "system";
+	title: string;
+	items: NavItem[];
+}
+
+// ============================================================================
+// Sidebar Navigation Items
+// ============================================================================
+
+export const sidebarItems: NavGroup[] = [
+	{
+		id: "core",
+		title: "Core Operations",
+		items: [
+			{
+				title: "Dashboard",
+				url: "/dashboard",
+				icon: BracketsIcon,
+				badge: "Live",
+				badgeColor: "success",
+			},
+			{
+				title: "Warehouse",
+				url: "/warehouse",
+				icon: WarehouseIcon,
+				badgeKey: "warehouses",
+			},
+			{
+				title: "Shipments",
+				url: "/shipments",
+				icon: TruckIcon,
+				badgeKey: "shipments",
+			},
+			{
+				title: "Inventory",
+				url: "/inventory",
+				icon: BoxIcon,
+			},
+		],
+	},
+	{
+		id: "management",
+		title: "Management & Billing",
+		items: [
+			{
+				title: "Customers",
+				url: "/customers",
+				icon: EmailIcon,
+			},
+			{
+				title: "Invoices",
+				url: "/invoices",
+				icon: GearIcon,
+				badgeKey: "invoices",
+			},
+			{
+				title: "Rates",
+				url: "/rates",
+				icon: ProcessorIcon,
+			},
+			{
+				title: "Aircargo Manifesto",
+				url: "/aircargo",
+				icon: AtomIcon,
+			},
+			{
+				title: "Manifest Scan Session",
+				url: "/aircargo/scan-session",
+				icon: AtomIcon,
+			},
+			{
+				title: "Barcode Tracking",
+				url: "/barcodes",
+				icon: BracketsIcon,
+			},
+		],
+	},
+	{
+		id: "system",
+		title: "System",
+		items: [
+			{
+				title: "Tapan Associate",
+				url: "/tapan-associate",
+				icon: MonkeyIcon,
+			},
+			{
+				title: "Global Search",
+				url: "/search",
+				icon: ProcessorIcon,
+			},
+			{
+				title: "Reports & Analytics",
+				url: "/reports",
+				icon: ProcessorIcon,
+				requiresAdmin: true,
+			},
+			{
+				title: "Network Analytics",
+				url: "/analytics",
+				icon: AtomIcon,
+				requiresAdmin: true,
+			},
+			{
+				title: "Exceptions & Alerts",
+				url: "/alerts",
+				icon: BracketsIcon,
+				badgeKey: "alerts",
+				requiresAdmin: true,
+			},
+			{
+				title: "Notifications",
+				url: "/notifications",
+				icon: EmailIcon,
+			},
+			{
+				title: "Support Tickets",
+				url: "/support",
+				icon: EmailIcon,
+			},
+			{
+				title: "Ops Activity",
+				url: "/ops-activity",
+				icon: ProcessorIcon,
+			},
+			{
+				title: "Settings",
+				url: "/settings",
+				icon: GearIcon,
+				requiresAdmin: true,
+			},
+			{
+				title: "Admin",
+				url: "/admin",
+				icon: GearIcon,
+				requiresAdmin: true,
+			},
+		],
+	},
+];
+
+// Legacy export for backward compatibility
+export const navMain = sidebarItems;
