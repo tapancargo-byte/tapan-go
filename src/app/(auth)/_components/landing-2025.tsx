@@ -16,8 +16,8 @@ import {
 	Zap,
 } from "lucide-react";
 import Link from "next/link";
-import type React from "react";
-import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 // --- Custom Components ---
@@ -65,9 +65,8 @@ function Navbar() {
 
 	return (
 		<nav
-			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-				scrolled ? "bg-background/80 backdrop-blur-xl border-b py-4" : "bg-transparent py-6"
-			}`}
+			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-xl border-b py-4" : "bg-transparent py-6"
+				}`}
 		>
 			<div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 				<div className="flex items-center gap-2">
@@ -143,7 +142,7 @@ function Hero() {
 						transition={{ delay: 0.2 }}
 						className="text-xl text-slate-400 max-w-xl leading-relaxed font-medium"
 					>
-						Enterprise-grade logistics infrastructure powered by real-time intelligence. 
+						Enterprise-grade logistics infrastructure powered by real-time intelligence.
 						Specializing in the Delhi-Imphal supply chain corridor for over two decades.
 					</motion.p>
 
@@ -165,16 +164,16 @@ function Hero() {
 				<div className="lg:col-span-5 relative hidden lg:block">
 					<motion.div style={{ y: y1, opacity }} className="relative">
 						<div className="relative z-10 rounded-[3rem] overflow-hidden border border-white/10 bg-slate-900 aspect-[4/5] shadow-2xl">
-							<video 
-								autoPlay 
-								loop 
-								muted 
+							<video
+								autoPlay
+								loop
+								muted
 								playsInline
 								className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
 							>
 								<source src="https://v0.one/storage/v1/object/public/videos/cargo-truck-night.mp4" type="video/mp4" />
 							</video>
-							
+
 							<div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-slate-950 to-transparent">
 								<div className="space-y-4">
 									<div className="flex items-center justify-between">
@@ -201,7 +200,7 @@ function Hero() {
 						</div>
 
 						{/* Floating Element */}
-						<motion.div 
+						<motion.div
 							animate={{ y: [0, -20, 0] }}
 							transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
 							className="absolute -right-8 top-20 z-20 bg-primary p-6 rounded-3xl shadow-3xl shadow-primary/40 text-black"
@@ -242,7 +241,7 @@ function Services() {
 	return (
 		<section id="services" className="py-32 bg-background">
 			<div className="max-w-7xl mx-auto px-6">
-				<SectionHeading 
+				<SectionHeading
 					badge="Capabilities"
 					title="Industrial Logistics. Redefined."
 					description="We combine operational excellence with technical innovation to solve the cargo industry's toughest challenges."
@@ -278,21 +277,21 @@ function Tracking() {
 		<section id="track" className="py-32 bg-slate-950 relative overflow-hidden">
 			{/* Scanline Effect */}
 			<div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,163,0.06))] bg-[length:100%_2px,3px_100%] pointer-events-none z-10" />
-			
+
 			<div className="max-w-7xl mx-auto px-6 relative z-20">
 				<div className="grid lg:grid-cols-2 gap-20 items-center">
 					<div className="space-y-8">
-						<SectionHeading 
+						<SectionHeading
 							badge="Real-time Engine"
 							title="Know exactly where your cargo is 24/7."
 							description="Enter your consignment ID below to access the deep-tracking dashboard featuring GPS positioning, temperature logs, and estimated arrival."
 						/>
-						
+
 						<div className="relative group p-1.5 rounded-3xl bg-white/5 border border-white/10 focus-within:border-primary/50 transition-all duration-500">
 							<Search className="absolute left-6 top-1/2 -translate-y-1/2 h-6 w-6 text-slate-500 group-focus-within:text-primary transition-colors" />
-							<input 
-								type="text" 
-								placeholder="Consignment Ref..." 
+							<input
+								type="text"
+								placeholder="Consignment Ref..."
 								className="w-full h-16 pl-16 pr-44 bg-transparent border-none focus:ring-0 text-white text-lg font-mono placeholder:text-slate-600"
 							/>
 							<Button className="absolute right-1.5 top-1.5 bottom-1.5 px-8 rounded-2xl font-black uppercase tracking-widest">
@@ -316,16 +315,16 @@ function Tracking() {
 
 					<div className="relative">
 						<div className="rounded-[4rem] overflow-hidden border border-white/10 shadow-3xl bg-slate-900 group">
-							<Image 
-								src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=2000" 
+							<Image
+								src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=2000"
 								alt="Control center"
 								width={1000}
 								height={1200}
 								className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700"
 							/>
-							
+
 							<div className="absolute inset-0 flex items-center justify-center">
-								<motion.div 
+								<motion.div
 									animate={{ scale: [1, 1.1, 1] }}
 									transition={{ duration: 2, repeat: Infinity }}
 									className="w-24 h-24 rounded-full bg-primary/20 backdrop-blur-3xl border border-primary/40 flex items-center justify-center"
@@ -349,7 +348,7 @@ function Contact() {
 			<div className="max-w-3xl mx-auto px-6 text-center space-y-10">
 				<h2 className="text-5xl font-black tracking-tighter">READY TO SHIP?</h2>
 				<p className="text-xl text-muted-foreground leading-relaxed">
-					Connect with our logistics engineers to build a custom supply chain 
+					Connect with our logistics engineers to build a custom supply chain
 					solution for your enterprise. Rapid response guaranteed.
 				</p>
 				<div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">

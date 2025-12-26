@@ -1,0 +1,19 @@
+src/components/layout/app-sidebar.tsx(22,25): error TS2307: Cannot find module '@/components/ui/tac-logo' or its corresponding type declarations.
+src/components/ui/particles.tsx(114,6): error TS2448: Block-scoped variable 'animate' used before its declaration.
+src/components/ui/particles.tsx(114,6): error TS2454: Variable 'animate' is used before being assigned.
+src/components/ui/particles.tsx(114,15): error TS2448: Block-scoped variable 'initCanvas' used before its declaration.
+src/components/ui/particles.tsx(114,15): error TS2454: Variable 'initCanvas' is used before being assigned.
+src/components/ui/particles.tsx(118,6): error TS2448: Block-scoped variable 'onMouseMove' used before its declaration.
+src/components/ui/particles.tsx(118,6): error TS2454: Variable 'onMouseMove' is used before being assigned.
+src/components/ui/particles.tsx(122,6): error TS2448: Block-scoped variable 'initCanvas' used before its declaration.
+src/components/ui/particles.tsx(122,6): error TS2454: Variable 'initCanvas' is used before being assigned.
+src/features/analytics/analytics-page.tsx(1,25): error TS2307: Cannot find module '@/app/analytics/page' or its corresponding type declarations.
+src/features/customers/customers-page.tsx(1,25): error TS2307: Cannot find module '@/app/customers/page' or its corresponding type declarations.
+src/features/inventory/inventory-page.tsx(1,25): error TS2307: Cannot find module '@/app/inventory/page' or its corresponding type declarations.
+src/features/invoices/invoice-dialog-enhanced.tsx(74,54): error TS2307: Cannot find module '@/types/database' or its corresponding type declarations.
+src/features/invoices/invoices-page.tsx(3,25): error TS2307: Cannot find module '@/app/invoices/page' or its corresponding type declarations.
+src/features/ops/ops-page.tsx(1,25): error TS2307: Cannot find module '@/app/ops/page' or its corresponding type declarations.
+src/features/reports/reports-page.tsx(1,25): error TS2307: Cannot find module '@/app/reports/page' or its corresponding type declarations.
+src/features/shipments/shipments-page.tsx(1,25): error TS2307: Cannot find module '@/app/shipments/page' or its corresponding type declarations.
+src/features/support/support-page.tsx(1,25): error TS2307: Cannot find module '@/app/support/page' or its corresponding type declarations.
+src/features/warehouse/warehouse-page.tsx(1,25): error TS2307: Cannot find module '@/app/warehouse/page' or its corresponding type declarations.

@@ -19,7 +19,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { TacLogo } from "@/components/ui/tac-logo";
+import { UnifiedLogo } from "@/components/ui/unified-logo";
 import { useLocation } from "@/lib/location-context";
 import { supabase } from "@/lib/supabaseClient";
 import { cn } from "@/lib/utils";
@@ -324,7 +324,7 @@ export function AppSidebar() {
 				{/* Header */}
 				<div className="flex h-16 items-center border-b px-3 gap-2">
 					<div className="flex items-center gap-2 flex-1">
-						<TacLogo
+						<UnifiedLogo
 							collapsed={isCollapsed}
 							className={cn("", isCollapsed && "pl-1")}
 						/>

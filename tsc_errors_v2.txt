@@ -1,0 +1,14 @@
+src/app/(main)/invoices/page.tsx(1613,7): error TS2322: Type 'UIInvoice | null' is not assignable to type 'Invoice | null | undefined'.
+  Property 'invoiceDate' is missing in type 'UIInvoice' but required in type 'Invoice'.
+src/app/(main)/invoices/page.tsx(1615,7): error TS2322: Type '{ id: string; origin: string; destination: string; ratePerKg: number; baseFee: number; serviceType: string; }[]' is not assignable to type 'ShipmentRate[]'.
+  Property 'transportMode' is missing in type '{ id: string; origin: string; destination: string; ratePerKg: number; baseFee: number; serviceType: string; }' but required in type 'ShipmentRate'.
+src/components/ui/particles.tsx(116,20): error TS2304: Cannot find name 'circleParams'.
+src/components/ui/particles.tsx(117,5): error TS2304: Cannot find name 'drawCircle'.
+src/components/ui/particles.tsx(124,3): error TS2552: Cannot find name 'drawParticles'. Did you mean 'Particles'?
+src/components/ui/particles.tsx(125,20): error TS2552: Cannot find name 'drawParticles'. Did you mean 'Particles'?
+src/components/ui/particles.tsx(128,3): error TS2304: Cannot find name 'clearContext'.
+src/components/ui/particles.tsx(160,4): error TS2304: Cannot find name 'drawCircle'.
+src/components/ui/particles.tsx(175,22): error TS2304: Cannot find name 'circleParams'.
+src/components/ui/particles.tsx(176,4): error TS2304: Cannot find name 'drawCircle'.
+src/components/ui/particles.tsx(179,6): error TS2304: Cannot find name 'circleParams'.
+src/components/ui/particles.tsx(179,20): error TS2304: Cannot find name 'drawCircle'.

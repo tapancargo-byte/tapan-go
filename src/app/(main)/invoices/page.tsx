@@ -1,11 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as Sentry from "@sentry/nextjs";
 import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import GearIcon from "@/components/icons/gear";
 import { InvoicePreview } from "@/components/invoices/invoice-preview";
@@ -93,6 +91,7 @@ function InvoicesPageContent() {
 			id: string;
 			origin: string;
 			destination: string;
+			transportMode: string;
 			ratePerKg: number;
 			baseFee: number;
 			serviceType: string;
@@ -103,53 +102,7 @@ function InvoicesPageContent() {
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 	const [bulkLoading, setBulkLoading] = useState(false);
 
-	const form = useForm<InvoiceFormValues>({
-		resolver: zodResolver(invoiceSchema),
-		defaultValues: {
-			// Header
-			invoiceRef: "",
-			dateOfBooking: new Date().toISOString().split("T")[0],
-			natureOfQuantity: "",
-			declaredValue: "",
-			// Parties
-			customerId: "",
-			consignorId: "",
-			consignorName: "",
-			consignorAddress: "",
-			consignorPhone: "",
-			consigneeId: "",
-			consigneeName: "",
-			consigneeAddress: "",
-			consigneePhone: "",
-			// Courier Details
-			origin: "",
-			destination: "",
-			transportMode: "surface",
-			pieces: undefined,
-			actualWeight: undefined,
-			chargedWeight: undefined,
-			rate: undefined,
-			remarks: "",
-			// Payment Details
-			paymentMode: undefined,
-			freightAmount: undefined,
-			pickupCharge: undefined,
-			packingCharge: undefined,
-			docketCharge: undefined,
-			deliveryCharge: undefined,
-			insuranceCharge: undefined,
-			gstPercent: undefined,
-			gstAmount: undefined,
-			otherCharge: undefined,
-			amount: 0,
-			advancePaid: undefined,
-			balanceDue: undefined,
-			// Meta
-			dueDate: "",
-			status: "pending",
-			notes: "",
-		},
-	});
+
 
 	useEffect(() => {
 		let cancelled = false;
@@ -214,7 +167,7 @@ function InvoicesPageContent() {
 				const ratesWithService = await supabase
 					.from("rates")
 					.select(
-						"id, origin, destination, rate_per_kg, base_fee, service_type",
+						"id, origin, destination, rate_per_kg, base_fee, service_type, transport_mode",
 					)
 					.order("created_at", { ascending: false });
 				ratesRows = ratesWithService.data as any[] | null;
@@ -245,6 +198,7 @@ function InvoicesPageContent() {
 							id: r.id,
 							origin: r.origin ?? "",
 							destination: r.destination ?? "",
+							transportMode: r.transport_mode ?? "air",
 							ratePerKg: Number(r.rate_per_kg ?? 0),
 							baseFee: Number(r.base_fee ?? 0),
 							serviceType: (r.service_type ?? "standard")
@@ -1266,9 +1220,8 @@ function InvoicesPageContent() {
 				if (!res.ok) {
 					const extra =
 						(json as any)?.code || (json as any)?.details || (json as any)?.hint
-							? ` ${(json as any)?.code ? `[${(json as any).code}]` : ""}${
-									(json as any)?.details ? ` ${(json as any).details}` : ""
-								}${(json as any)?.hint ? ` ${(json as any).hint}` : ""}`
+							? ` ${(json as any)?.code ? `[${(json as any).code}]` : ""}${(json as any)?.details ? ` ${(json as any).details}` : ""
+							}${(json as any)?.hint ? ` ${(json as any).hint}` : ""}`
 							: "";
 					const err: any = new Error(
 						typeof json?.error === "string" && json.error.trim()
@@ -1328,50 +1281,6 @@ function InvoicesPageContent() {
 
 			setIsDialogOpen(false);
 			setEditingInvoice(null);
-			form.reset({
-				// Header
-				invoiceRef: "",
-				dateOfBooking: new Date().toISOString().split("T")[0],
-				natureOfQuantity: "",
-				declaredValue: "",
-				// Parties
-				customerId: "",
-				consignorId: "",
-				consignorName: "",
-				consignorAddress: "",
-				consignorPhone: "",
-				consigneeId: "",
-				consigneeName: "",
-				consigneeAddress: "",
-				consigneePhone: "",
-				// Courier Details
-				origin: "",
-				destination: "",
-				transportMode: "surface",
-				pieces: undefined,
-				actualWeight: undefined,
-				chargedWeight: undefined,
-				rate: undefined,
-				remarks: "",
-				// Payment Details
-				paymentMode: undefined,
-				freightAmount: undefined,
-				pickupCharge: undefined,
-				packingCharge: undefined,
-				docketCharge: undefined,
-				deliveryCharge: undefined,
-				insuranceCharge: undefined,
-				gstPercent: undefined,
-				gstAmount: undefined,
-				otherCharge: undefined,
-				amount: 0,
-				advancePaid: undefined,
-				balanceDue: undefined,
-				// Meta
-				dueDate: "",
-				status: "pending",
-				notes: "",
-			});
 		} catch (err: any) {
 			Sentry.captureException(err, {
 				tags: { component: "invoices-page", operation: "invoice-save" },
@@ -1701,66 +1610,17 @@ function InvoicesPageContent() {
 						</p>
 					)}
 					<InvoiceDialogEnhanced
-						open={isDialogOpen}
+						isOpen={isDialogOpen}
 						onOpenChange={setIsDialogOpen}
-						canEdit={canEdit}
-						isCreating={isCreating}
-						editingInvoice={editingInvoice}
+						editingInvoice={editingInvoice as any}
 						customers={customers}
 						rates={rates}
-						form={form}
-						onSubmit={handleSubmitInvoice}
-						onQuickCreateCustomer={quickCreateCustomer}
-						onNewInvoiceClick={() => {
-							if (!canEdit) return;
-							setEditingInvoice(null);
-							form.reset({
-								// Header
-								invoiceRef: "",
-								dateOfBooking: new Date().toISOString().split("T")[0],
-								natureOfQuantity: "",
-								declaredValue: "",
-								// Parties
-								customerId: "",
-								consignorId: "",
-								consignorName: "",
-								consignorAddress: "",
-								consignorPhone: "",
-								consigneeId: "",
-								consigneeName: "",
-								consigneeAddress: "",
-								consigneePhone: "",
-								// Courier Details
-								origin: "",
-								destination: "",
-								transportMode: "surface",
-								pieces: undefined,
-								actualWeight: undefined,
-								chargedWeight: undefined,
-								rate: undefined,
-								remarks: "",
-								// Payment Details
-								paymentMode: undefined,
-								freightAmount: undefined,
-								pickupCharge: undefined,
-								packingCharge: undefined,
-								docketCharge: undefined,
-								deliveryCharge: undefined,
-								insuranceCharge: undefined,
-								gstPercent: undefined,
-								gstAmount: undefined,
-								otherCharge: undefined,
-								amount: 0,
-								advancePaid: undefined,
-								balanceDue: undefined,
-								// Meta
-								dueDate: "",
-								status: "pending",
-								notes: "",
-							});
-							setIsDialogOpen(true);
+						onSave={handleSubmitInvoice}
+						onQuickCreateCustomer={async (type) => {
+							return await quickCreateCustomer(
+								type === "shipper" ? "consignor" : type,
+							);
 						}}
-						onExportCsv={handleExportInvoicesCsv}
 					/>
 				</div>
 
@@ -1780,60 +1640,6 @@ function InvoicesPageContent() {
 					onDownload={handleDownload}
 					onEditInvoice={(invoice) => {
 						setEditingInvoice(invoice);
-						form.reset({
-							// Header
-							invoiceRef: invoice.id,
-							dateOfBooking: invoice.dueDate
-								? invoice.dueDate.slice(0, 10)
-								: new Date().toISOString().split("T")[0],
-							natureOfQuantity: "",
-							declaredValue: invoice.declaredValue
-								? String(invoice.declaredValue)
-								: "",
-							// Parties
-							customerId: invoice.customerId ?? "",
-							consignorId: invoice.consignorId ?? "",
-							consignorName: "",
-							consignorAddress: "",
-							consignorPhone: "",
-							consigneeId: invoice.consigneeId ?? "",
-							consigneeName: "",
-							consigneeAddress: "",
-							consigneePhone: "",
-							// Courier Details
-							origin: invoice.origin ?? "",
-							destination: invoice.destination ?? "",
-							transportMode: "surface",
-							pieces: invoice.pieces ?? undefined,
-							actualWeight: undefined,
-							chargedWeight: invoice.chargedWeight ?? undefined,
-							rate: undefined,
-							remarks: "",
-							// Payment Details
-							paymentMode: (invoice.paymentMode ??
-								undefined) as InvoiceFormValues["paymentMode"],
-							freightAmount: invoice.freightAmount ?? undefined,
-							pickupCharge: invoice.pickupCharge ?? undefined,
-							packingCharge: undefined,
-							docketCharge: invoice.docketCharge ?? undefined,
-							deliveryCharge: invoice.deliveryCharge ?? undefined,
-							insuranceCharge: undefined,
-							gstPercent: undefined,
-							gstAmount: undefined,
-							otherCharge: invoice.otherCharge ?? undefined,
-							amount: invoice.amount,
-							advancePaid: invoice.advancePaid ?? undefined,
-							balanceDue: invoice.balanceDue ?? undefined,
-							// Meta
-							dueDate: invoice.dueDate ? invoice.dueDate.slice(0, 10) : "",
-							status:
-								(invoice.status as
-									| "pending"
-									| "paid"
-									| "overdue"
-									| "partially_paid") ?? "pending",
-							notes: invoice.notes ?? "",
-						});
 						setIsDialogOpen(true);
 					}}
 					onSendSms={handleTwilioSmsSend}
