@@ -24,7 +24,7 @@ export function DashboardAuthOverlay() {
 		)
 			.then((res) => res.json())
 			.then((data) => setAnimationData(data))
-			.catch((err) => {
+			.catch((_err) => {
 				// Silently handle animation loading error
 			});
 
