@@ -1,11 +1,8 @@
 "use client";
 
 import {
-	AnimatePresence,
 	motion,
-	useMotionValue,
 	useScroll,
-	useSpring,
 	useTransform,
 } from "framer-motion";
 import {
@@ -22,7 +19,6 @@ import Link from "next/link";
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 
 // --- Custom Components ---
 
