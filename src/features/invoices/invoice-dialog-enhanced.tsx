@@ -1,23 +1,38 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import {
+	AlertCircle,
+	ArrowRight,
 	Calculator,
+	Calendar as CalendarIcon,
+	Check,
+	CheckCircle2,
+	ChevronRight,
+	Clock,
 	FileText,
+	Info,
 	Loader2,
 	MapPin,
+	Package,
 	Phone,
 	Plane,
 	Plus,
 	RefreshCw,
+	Save,
 	Ship,
 	Truck,
 	User,
 	Zap,
 } from "lucide-react";
-import * as React from "react";
-import type { UseFormReturn } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
 	Dialog,
 	DialogContent,
@@ -35,7 +50,15 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+	ScrollArea,
+	ScrollBar,
+} from "@/components/ui/scroll-area";
 import {
 	Select,
 	SelectContent,
@@ -45,46 +68,228 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import type { UIInvoice } from "@/features/invoices/types";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabaseClient";
+import { toast } from "sonner";
+
 import { cn } from "@/lib/utils";
-import type { InvoiceFormValues } from "@/lib/validations";
+import type { Customer, Invoice, ShipmentRate } from "@/types/database";
 
-interface Rate {
-	id: string;
-	origin: string;
-	destination: string;
-	ratePerKg: number;
-	baseFee: number;
-	serviceType: string;
-}
+const invoiceFormSchema = z.object({
+	invoiceDate: z.date({
+		required_error: "Invoice date is required",
+	}),
+	shipperName: z.string().min(2, "Shipper name is required"),
+	shipperAddress: z.string().min(5, "Shipper address is required"),
+	shipperPhone: z.string().min(10, "Valid phone number required"),
+	consigneeName: z.string().min(2, "Consignee name is required"),
+	consigneeAddress: z.string().min(5, "Consignee address is required"),
+	consigneePhone: z.string().min(10, "Valid phone number required"),
+	customerId: z.string().optional(),
+	origin: z.string().min(2, "Origin is required"),
+	destination: z.string().min(2, "Destination is required"),
+	pieces: z.number().min(1, "Pieces must be at least 1"),
+	actualWeight: z.number().min(0.1, "Weight must be at least 0.1"),
+	chargedWeight: z.number().min(0.1, "Weight must be at least 0.1"),
+	rate: z.number().min(0, "Rate must be 0 or more"),
+	transportMode: z.enum(["air", "surface", "express", "train"]).default("air"),
+	paymentMode: z.string().optional(),
+	freightAmount: z.number().min(0).default(0),
+	pickupCharge: z.number().min(0).default(0),
+	packingCharge: z.number().min(0).default(0),
+	docketCharge: z.number().min(0).default(0),
+	deliveryCharge: z.number().min(0).default(0),
+	insuranceCharge: z.number().min(0).default(0),
+	gstPercent: z.number().min(0).max(100).default(0),
+	otherCharge: z.number().min(0).default(0),
+	advancePaid: z.number().min(0).default(0),
+	notes: z.string().optional(),
+	remarks: z.string().optional(),
+});
 
-interface InvoiceDialogProps {
-	open: boolean;
+type InvoiceFormValues = z.infer<typeof invoiceFormSchema>;
+
+interface InvoiceDialogEnhancedProps {
+	isOpen: boolean;
 	onOpenChange: (open: boolean) => void;
-	canEdit: boolean;
-	isCreating: boolean;
-	editingInvoice: UIInvoice | null;
-	customers: { id: string; name: string }[];
-	rates: Rate[];
-	form: UseFormReturn<InvoiceFormValues>;
-	onSubmit: (values: InvoiceFormValues) => void;
-	onQuickCreateCustomer: (
-		target: "billing" | "consignor" | "consignee",
-	) => Promise<{ id: string; name: string } | null>;
-	onNewInvoiceClick: () => void;
-	onExportCsv: () => void;
+	editingInvoice?: Invoice | null;
+	customers: Customer[];
+	onSave?: (data: any) => Promise<void>;
+	rates?: ShipmentRate[];
+	onQuickCreateCustomer: (type: "shipper" | "consignee" | "billing") => Promise<Customer | null>;
 }
 
-function SectionHeader({
-	icon: Icon,
-	title,
-}: {
-	icon: React.ElementType;
-	title: string;
-}) {
-	return (
+export function InvoiceDialogEnhanced({
+	isOpen,
+	onOpenChange,
+	editingInvoice,
+	customers,
+	onSave,
+	rates = [],
+	onQuickCreateCustomer,
+}: InvoiceDialogEnhancedProps) {
+	const [isCreating, setIsCreating] = useState(false);
+	const [rateLookupStatus, setRateLookupStatus] = useState<"idle" | "searching" | "found" | "not_found">("idle");
+	const [matchedRate, setMatchedRate] = useState<ShipmentRate | null>(null);
+
+	const form = useForm<InvoiceFormValues>({
+		resolver: zodResolver(invoiceFormSchema),
+		defaultValues: {
+			invoiceDate: new Date(),
+			shipperName: "",
+			shipperAddress: "",
+			shipperPhone: "",
+			consigneeName: "",
+			consigneeAddress: "",
+			consigneePhone: "",
+			origin: "",
+			destination: "",
+			pieces: 1,
+			actualWeight: 0,
+			chargedWeight: 0,
+			rate: 0,
+			transportMode: "air",
+			paymentMode: "to_pay",
+			freightAmount: 0,
+			pickupCharge: 0,
+			packingCharge: 0,
+			docketCharge: 80,
+			deliveryCharge: 0,
+			insuranceCharge: 0,
+			gstPercent: 0,
+			otherCharge: 0,
+			advancePaid: 0,
+			notes: "",
+			remarks: "",
+		},
+	});
+
+	// Reset form when editing starts
+	useEffect(() => {
+		if (editingInvoice) {
+			form.reset({
+				invoiceDate: new Date(editingInvoice.invoiceDate),
+				shipperName: editingInvoice.shipperName || "",
+				shipperAddress: editingInvoice.shipperAddress || "",
+				shipperPhone: editingInvoice.shipperPhone || "",
+				consigneeName: editingInvoice.consigneeName || "",
+				consigneeAddress: editingInvoice.consigneeAddress || "",
+				consigneePhone: editingInvoice.consigneePhone || "",
+				customerId: editingInvoice.customerId || "",
+				origin: editingInvoice.origin || "",
+				destination: editingInvoice.destination || "",
+				pieces: editingInvoice.pieces || 1,
+				actualWeight: editingInvoice.actualWeight || 0,
+				chargedWeight: editingInvoice.chargedWeight || 0,
+				rate: editingInvoice.rate || 0,
+				transportMode: (editingInvoice.transportMode as any) || "air",
+				paymentMode: editingInvoice.paymentMode || "to_pay",
+				freightAmount: editingInvoice.freightAmount || 0,
+				pickupCharge: editingInvoice.pickupCharge || 0,
+				packingCharge: editingInvoice.packingCharge || 0,
+				docketCharge: editingInvoice.docketCharge || 0,
+				deliveryCharge: editingInvoice.deliveryCharge || 0,
+				insuranceCharge: editingInvoice.insuranceCharge || 0,
+				gstPercent: editingInvoice.gstPercent || 0,
+				otherCharge: editingInvoice.otherCharge || 0,
+				advancePaid: editingInvoice.advancePaid || 0,
+				notes: editingInvoice.notes || "",
+				remarks: editingInvoice.remarks || "",
+			});
+		} else {
+			form.reset();
+		}
+	}, [editingInvoice, form]);
+
+	// Watch for rate lookup dependencies
+	const origin = form.watch("origin");
+	const destination = form.watch("destination");
+	const transportMode = form.watch("transportMode");
+	const chargedWeight = form.watch("chargedWeight");
+	const rateValue = form.watch("rate");
+
+	// Rate lookup effect
+	useEffect(() => {
+		if (origin && destination && transportMode) {
+			setRateLookupStatus("searching");
+			const found = rates.find(
+				(r) =>
+					r.origin.toLowerCase() === origin.toLowerCase() &&
+					r.destination.toLowerCase() === destination.toLowerCase() &&
+					r.transportMode === transportMode,
+			);
+
+			if (found) {
+				setMatchedRate(found);
+				setRateLookupStatus("found");
+				form.setValue("rate", found.ratePerKg, { shouldDirty: true });
+				if (found.baseFee) {
+					form.setValue("docketCharge", found.baseFee, { shouldDirty: true });
+				}
+			} else {
+				setMatchedRate(null);
+				setRateLookupStatus("not_found");
+			}
+		}
+	}, [origin, destination, transportMode, rates, form]);
+
+	// Calculation effect
+	useEffect(() => {
+		const freight = (chargedWeight || 0) * (rateValue || 0);
+		form.setValue("freightAmount", Math.round(freight), { shouldDirty: true });
+	}, [chargedWeight, rateValue, form]);
+
+	const onSubmit = async (data: InvoiceFormValues) => {
+		setIsCreating(true);
+		try {
+			if (onSave) {
+				await onSave(data);
+			}
+			onOpenChange(false);
+			toast.success(editingInvoice ? "Invoice updated" : "Invoice created successfully");
+		} catch (error) {
+			console.error("Save error:", error);
+			toast.error("Failed to save invoice");
+		} finally {
+			setIsCreating(false);
+		}
+	};
+
+	const onInvalid = (errors: any) => {
+		console.error("Form errors:", errors);
+		toast.error("Please fill all required fields correctly");
+	};
+
+	// Calculate totals for UI summary
+	const calcFreight = (form.watch("chargedWeight") || 0) * (form.watch("rate") || 0);
+	const subtotal =
+		calcFreight +
+		(form.watch("pickupCharge") || 0) +
+		(form.watch("packingCharge") || 0) +
+		(form.watch("docketCharge") || 0) +
+		(form.watch("deliveryCharge") || 0) +
+		(form.watch("insuranceCharge") || 0) +
+		(form.watch("otherCharge") || 0);
+	
+	const gstAmount = (subtotal * (form.watch("gstPercent") || 0)) / 100;
+	const total = subtotal + gstAmount;
+	const balanceDue = total - (form.watch("advancePaid") || 0);
+
+	const calculatedTotals = {
+		freight: calcFreight,
+		pickup: form.watch("pickupCharge") || 0,
+		packing: form.watch("packingCharge") || 0,
+		docket: form.watch("docketCharge") || 0,
+		insurance: form.watch("insuranceCharge") || 0,
+		other: form.watch("otherCharge") || 0,
+		gstPercent: form.watch("gstPercent") || 0,
+		gstAmount: gstAmount,
+		total: total,
+		advance: form.watch("advancePaid") || 0,
+		balanceDue: balanceDue,
+	};
+
+	const canEdit = true; // For now
+
+	const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
 		<div className="flex items-center gap-2 mb-4">
 			<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
 				<Icon className="w-4 h-4 text-primary" />
@@ -92,584 +297,163 @@ function SectionHeader({
 			<h3 className="text-sm font-semibold text-foreground">{title}</h3>
 		</div>
 	);
-}
 
-function AddNewButton({
-	onClick,
-	disabled,
-}: {
-	onClick: () => void;
-	disabled?: boolean;
-}) {
-	return (
-		<button
+	const AddNewButton = ({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) => (
+		<Button
 			type="button"
-			className="inline-flex items-center gap-1 text-xs text-primary hover:text-primary/80 hover:underline disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-			disabled={disabled}
+			variant="ghost"
+			size="sm"
+			className="h-6 px-2 text-[10px] text-primary hover:text-primary/80 hover:bg-primary/5"
 			onClick={onClick}
+			disabled={disabled}
 		>
-			<Plus className="w-3 h-3" />
-			Add new
-		</button>
-	);
-}
-
-export function InvoiceDialogEnhanced({
-	open,
-	onOpenChange,
-	canEdit,
-	isCreating,
-	editingInvoice,
-	customers,
-	rates,
-	form,
-	onSubmit,
-	onQuickCreateCustomer,
-	onNewInvoiceClick,
-	onExportCsv,
-}: InvoiceDialogProps) {
-	const { toast } = useToast();
-	const newInvoiceButtonRef = React.useRef<HTMLButtonElement | null>(null);
-	const [rateLookupStatus, setRateLookupStatus] = React.useState<
-		"idle" | "found" | "not_found"
-	>("idle");
-	const [matchedRate, setMatchedRate] = React.useState<Rate | null>(null);
-
-	// Determine if we're in "create new" mode vs "edit existing" mode
-	const isCreateMode = editingInvoice === null;
-
-	// STRICT AUTO MODE: No manual entry allowed
-	const _refMode = "auto";
-	const [_previewRef, setPreviewRef] = React.useState<string>("");
-
-	React.useEffect(() => {
-		// Only run when dialog is open
-		if (!open) return;
-
-		if (isCreateMode) {
-			// In strict auto mode, we just fetch the preview.
-			// Ideally, the backend assigns it on save, but we show the "next" one for UX.
-			supabase
-				.rpc("preview_next_invoice_awb") // Use new function
-				.then(({ data, error }) => {
-					if (error) {
-						console.error("Failed to fetch invoice ref:", error);
-						// Don't set a hard error value, just let it be "Auto-generated"
-						return;
-					}
-					if (data) {
-						setPreviewRef(data);
-						// Display only, don't necessarily set form value if we want backend to be authority,
-						// but setting it helps UI.
-						// form.setValue("invoiceRef", data);
-					}
-				});
-		}
-	}, [open, isCreateMode]);
-
-	// Barcode Scanner removed (was used for manual entry)
-
-	const origin = form.watch("origin");
-	const destination = form.watch("destination");
-	const transportMode = form.watch("transportMode");
-	const chargedWeight = form.watch("chargedWeight");
-	const rateValue = form.watch("rate");
-
-	// Auto-lookup rate when origin, destination, or transport mode changes
-	React.useEffect(() => {
-		if (!origin || !destination) {
-			setRateLookupStatus("idle");
-			setMatchedRate(null);
-			return;
-		}
-
-		// Find matching rate based on origin, destination, and transport mode
-		const normalizedOrigin = origin.toLowerCase().trim();
-		const normalizedDestination = destination.toLowerCase().trim();
-		const mode = transportMode || "surface"; // default to surface
-
-		// Helper function for fuzzy city matching
-		const citiesMatch = (input: string, rateCity: string): boolean => {
-			const inputWords = input.split(/[\s,.-]+/).filter((w) => w.length > 1);
-			const rateCityLower = rateCity.toLowerCase().trim();
-			const rateCityWords = rateCityLower
-				.split(/[\s,.-]+/)
-				.filter((w) => w.length > 1);
-
-			// Direct inclusion check
-			if (rateCityLower.includes(input) || input.includes(rateCityLower))
-				return true;
-
-			// Word-based matching (e.g., "New Delhi" matches "Delhi")
-			for (const word of inputWords) {
-				if (
-					rateCityLower.includes(word) ||
-					rateCityWords.some((rw) => rw.includes(word) || word.includes(rw))
-				) {
-					return true;
-				}
-			}
-			return false;
-		};
-
-		const modeMatches = (serviceType: string) => {
-			if (mode === "air") return serviceType === "air";
-			if (mode === "express") return serviceType === "express";
-			return serviceType === "surface" || serviceType === "standard";
-		};
-
-		const laneDirectMatches = (rOrigin: string, rDest: string) =>
-			citiesMatch(normalizedOrigin, rOrigin) &&
-			citiesMatch(normalizedDestination, rDest);
-
-		const laneReverseMatches = (rOrigin: string, rDest: string) =>
-			citiesMatch(normalizedOrigin, rDest) &&
-			citiesMatch(normalizedDestination, rOrigin);
-
-		// Prefer direct match first (origin → destination), then reverse (destination → origin)
-		const foundDirect = rates.find((r) => {
-			const rOrigin = r.origin.toLowerCase().trim();
-			const rDest = r.destination.toLowerCase().trim();
-			const rService = r.serviceType?.toLowerCase() || "standard";
-			return laneDirectMatches(rOrigin, rDest) && modeMatches(rService);
-		});
-
-		const foundReverse = !foundDirect
-			? rates.find((r) => {
-					const rOrigin = r.origin.toLowerCase().trim();
-					const rDest = r.destination.toLowerCase().trim();
-					const rService = r.serviceType?.toLowerCase() || "standard";
-					return laneReverseMatches(rOrigin, rDest) && modeMatches(rService);
-				})
-			: null;
-
-		// If no match with mode, try without mode restriction (still prefer direct)
-		const foundFallbackDirect =
-			!foundDirect && !foundReverse
-				? rates.find((r) => {
-						const rOrigin = r.origin.toLowerCase().trim();
-						const rDest = r.destination.toLowerCase().trim();
-						return laneDirectMatches(rOrigin, rDest);
-					})
-				: null;
-
-		const foundFallbackReverse =
-			!foundDirect && !foundReverse && !foundFallbackDirect
-				? rates.find((r) => {
-						const rOrigin = r.origin.toLowerCase().trim();
-						const rDest = r.destination.toLowerCase().trim();
-						return laneReverseMatches(rOrigin, rDest);
-					})
-				: null;
-
-		const matchedRateResult =
-			foundDirect ||
-			foundReverse ||
-			foundFallbackDirect ||
-			foundFallbackReverse;
-
-		if (matchedRateResult) {
-			setMatchedRate(matchedRateResult);
-			setRateLookupStatus("found");
-			// Auto-fill rate per kg
-			form.setValue("rate", matchedRateResult.ratePerKg, { shouldDirty: true });
-		} else {
-			setMatchedRate(null);
-			setRateLookupStatus("not_found");
-		}
-	}, [origin, destination, transportMode, rates, form]);
-
-	// Auto-calculate freight when weight or rate changes
-	React.useEffect(() => {
-		const rate = rateValue || 0;
-		const weight = chargedWeight || 0;
-
-		if (rate > 0 && weight > 0) {
-			const baseFee = matchedRate?.baseFee || 0;
-			const freight = Math.round(weight * rate + baseFee);
-			form.setValue("freightAmount", freight, { shouldDirty: true });
-		}
-	}, [chargedWeight, rateValue, matchedRate, form]);
-
-	// Watch form values for auto-calculation
-	const watchedValues = form.watch([
-		"freightAmount",
-		"pickupCharge",
-		"packingCharge",
-		"docketCharge",
-		"deliveryCharge",
-		"insuranceCharge",
-		"gstPercent",
-		"otherCharge",
-		"advancePaid",
-	]);
-
-	// Auto-calculate totals (matching Tapan Associate invoice format)
-	const calculatedTotals = React.useMemo(() => {
-		const freight = Number(watchedValues[0]) || 0;
-		const pickup = Number(watchedValues[1]) || 0;
-		const packing = Number(watchedValues[2]) || 0;
-		const docket = Number(watchedValues[3]) || 0;
-		const delivery = Number(watchedValues[4]) || 0;
-		const insurance = Number(watchedValues[5]) || 0;
-		const gstPercent = Number(watchedValues[6]) || 0;
-		const other = Number(watchedValues[7]) || 0;
-		const advance = Number(watchedValues[8]) || 0;
-
-		const subtotal =
-			freight + pickup + packing + docket + delivery + insurance + other;
-		const gstAmount = (subtotal * gstPercent) / 100;
-		const total = subtotal + gstAmount;
-		const balanceDue = Math.max(total - advance, 0);
-
-		// Update GST amount in form
-		if (gstAmount !== form.getValues("gstAmount")) {
-			form.setValue("gstAmount", gstAmount, { shouldDirty: false });
-		}
-		// Update total amount in form
-		if (total !== form.getValues("amount")) {
-			form.setValue("amount", total, { shouldDirty: false });
-		}
-		// Update balance due in form
-		if (balanceDue !== form.getValues("balanceDue")) {
-			form.setValue("balanceDue", balanceDue, { shouldDirty: false });
-		}
-
-		return {
-			freight,
-			pickup,
-			packing,
-			docket,
-			delivery,
-			insurance,
-			gstPercent,
-			gstAmount,
-			other,
-			subtotal,
-			total,
-			advance,
-			balanceDue,
-		};
-	}, [watchedValues, form]);
-
-	const onInvalid = React.useCallback(
-		(errors: Record<string, any>) => {
-			// Find the first field name (depth-first)
-			const findFirstFieldName = (
-				obj: any,
-				path: string[] = [],
-			): string | null => {
-				if (!obj || typeof obj !== "object") return null;
-				for (const key of Object.keys(obj)) {
-					const val = obj[key];
-					if (val && typeof val === "object") {
-						// react-hook-form field error typically has { message, type, ref }
-						if (typeof val.message === "string")
-							return [...path, key].join(".");
-						const nested = findFirstFieldName(val, [...path, key]);
-						if (nested) return nested;
-					}
-				}
-				return null;
-			};
-
-			const firstName =
-				findFirstFieldName(errors) || Object.keys(errors ?? {})[0] || null;
-
-			if (firstName) {
-				const escape = (name: string) => {
-					const css = (globalThis as any).CSS;
-					if (css && typeof css.escape === "function") return css.escape(name);
-					return name.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-				};
-
-				const selector = `[name="${escape(firstName)}"]`;
-				const el = document.querySelector(selector) as HTMLElement | null;
-				if (el) {
-					el.scrollIntoView({ behavior: "smooth", block: "center" });
-					(el as any).focus?.();
-				}
-			}
-
-			toast({
-				title: "Please check required fields",
-				description:
-					"Some required fields are missing or invalid. Scroll to the highlighted field and try again.",
-				variant: "destructive",
-			});
-		},
-		[toast],
+			<Plus className="w-3 h-3 mr-1" /> Add New
+		</Button>
 	);
 
 	return (
 		<>
-			{/* Action Buttons - Outside Dialog */}
-			<div className="flex items-center gap-2">
-				<Button
-					type="button"
-					className="bg-primary hover:bg-primary/90 gap-2"
-					disabled={!canEdit}
-					ref={newInvoiceButtonRef}
-					onClick={onNewInvoiceClick}
-				>
-					<Plus className="w-4 h-4" />
-					New Invoice
-				</Button>
-				<Button type="button" variant="outline" onClick={onExportCsv}>
-					Export CSV
-				</Button>
-			</div>
-
-			<Dialog
-				open={open}
-				onOpenChange={(nextOpen) => {
-					if (!nextOpen) {
-						(document.activeElement as HTMLElement | null)?.blur?.();
-					}
-					onOpenChange(nextOpen);
-				}}
-			>
-				<DialogContent
-					className="w-[96vw] max-w-7xl sm:max-w-7xl max-h-[90vh] p-0 gap-0 overflow-hidden"
-					onCloseAutoFocus={(e) => {
-						if (newInvoiceButtonRef.current) {
-							e.preventDefault();
-							newInvoiceButtonRef.current.focus();
-						}
-					}}
-				>
+			<Dialog open={isOpen} onOpenChange={onOpenChange}>
+				<DialogContent className="max-w-[1000px] p-0 overflow-hidden bg-background rounded-xl">
 					<DialogHeader className="px-6 py-4 border-b bg-muted/30">
-						<DialogTitle className="flex items-center gap-2 text-lg">
-							<FileText className="w-5 h-5 text-primary" />
-							{editingInvoice ? "Edit Invoice" : "Create New Invoice"}
-						</DialogTitle>
-						<DialogDescription>
-							{editingInvoice
-								? "Update the invoice details below. Changes will be saved immediately."
-								: "Fill in the invoice details. The total will be calculated automatically."}
-						</DialogDescription>
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-3">
+								<div className="p-2 bg-primary/10 rounded-lg">
+									<FileText className="h-5 w-5 text-primary" />
+								</div>
+								<div>
+									<DialogTitle className="text-xl font-bold">
+										{editingInvoice ? "Edit Invoice" : "Create New Invoice"}
+									</DialogTitle>
+									<DialogDescription className="text-xs">
+										Enter shipment details and calculate charges
+									</DialogDescription>
+								</div>
+							</div>
+							{editingInvoice && (
+								<Badge variant="outline" className="h-6">
+									REF: {editingInvoice.invoiceRef}
+								</Badge>
+							)}
+						</div>
 					</DialogHeader>
 
-					<ScrollArea className="max-h-[calc(90vh-200px)]">
+					<ScrollArea className="max-h-[75vh] p-6">
 						<Form {...form}>
-							<form
-								className="p-6 space-y-6"
-								onSubmit={form.handleSubmit(onSubmit, onInvalid)}
-								id="invoice-form"
-							>
-								{/* Header Section - Consignment Details */}
-								<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-									<div className="col-span-1 md:col-span-1">
-										<FormLabel className="text-xs font-medium mb-1.5 block">
-											Consignment No. (Auto)
-										</FormLabel>
-										<div className="flex gap-2">
-											<div className="flex-1">
-												<FormField
-													control={form.control}
-													name="invoiceRef"
-													render={({ field }) => (
-														<FormItem>
-															<FormControl>
-																<div className="relative">
-																	<Input
-																		placeholder="Auto-generated"
-																		readOnly={true}
-																		className="h-9 font-mono bg-muted/40 text-muted-foreground"
-																		{...field}
-																		value={field.value || "Auto-generated"}
-																	/>
-																</div>
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-											</div>
+							<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+									{/* Shipper Details */}
+									<div className="space-y-4">
+										<div className="flex items-center justify-between">
+											<SectionHeader icon={User} title="Shipper Details" />
+											<AddNewButton
+												disabled={!canEdit}
+												onClick={async () => {
+													const created = await onQuickCreateCustomer("shipper");
+													if (created) {
+														form.setValue("shipperName", created.name, {
+															shouldDirty: true,
+														});
+														form.setValue("shipperAddress", created.address || "", {
+															shouldDirty: true,
+														});
+														form.setValue("shipperPhone", created.phone || "", {
+															shouldDirty: true,
+														});
+													}
+												}}
+											/>
 										</div>
-									</div>
 
-									<FormField
-										control={form.control}
-										name="dateOfBooking"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className="text-xs font-medium">
-													Date of Booking
-												</FormLabel>
-												<FormControl>
-													<Input type="date" className="h-9" {...field} />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={form.control}
-										name="natureOfQuantity"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className="text-xs font-medium">
-													Nature of Quantity
-												</FormLabel>
-												<FormControl>
-													<Select
-														value={field.value || ""}
-														onValueChange={field.onChange}
-													>
-														<SelectTrigger className="h-9">
-															<SelectValue placeholder="Select..." />
-														</SelectTrigger>
-														<SelectContent>
-															<SelectItem value="documents">
-																Documents
-															</SelectItem>
-															<SelectItem value="parcel">Parcel</SelectItem>
-															<SelectItem value="others">Others</SelectItem>
-															<SelectItem value="fragile">Fragile</SelectItem>
-															<SelectItem value="electronics">
-																Electronics
-															</SelectItem>
-														</SelectContent>
-													</Select>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={form.control}
-										name="declaredValue"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className="text-xs font-medium">
-													Declared Value
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder="e.g. USED, ₹5000"
-														className="h-9"
-														{...field}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-
-								<Separator />
-
-								{/* CONSIGNOR Section */}
-								<div>
-									<SectionHeader icon={User} title="Consignor (Shipper)" />
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-										<div className="space-y-3">
+										<FormField
+											control={form.control}
+											name="shipperName"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-xs font-medium">
+														Name / Business
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder="Enter shipper name"
+															className="h-9"
+															{...field}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="shipperAddress"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-xs font-medium">
+														Address
+													</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Pickup address"
+															className="min-h-[80px] resize-none"
+															{...field}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<div className="grid grid-cols-2 gap-4">
 											<FormField
 												control={form.control}
-												name="consignorId"
+												name="invoiceDate"
 												render={({ field }) => (
-													<FormItem>
-														<div className="flex items-center justify-between">
-															<FormLabel className="text-xs font-medium">
-																Select Existing
-															</FormLabel>
-															<AddNewButton
-																disabled={!canEdit}
-																onClick={async () => {
-																	const created =
-																		await onQuickCreateCustomer("consignor");
-																	if (created) {
-																		form.setValue("consignorId", created.id, {
-																			shouldDirty: true,
-																		});
-																		form.setValue(
-																			"consignorName",
-																			created.name,
-																			{ shouldDirty: true },
-																		);
-																	}
-																}}
-															/>
-														</div>
-														<FormControl>
-															<Select
-																value={field.value || ""}
-																onValueChange={(val) => {
-																	field.onChange(val);
-																	const customer = customers.find(
-																		(c) => c.id === val,
-																	);
-																	if (customer) {
-																		form.setValue(
-																			"consignorName",
-																			customer.name,
-																			{ shouldDirty: true },
-																		);
-																	}
-																}}
+													<FormItem className="flex flex-col">
+														<FormLabel className="text-xs font-medium">
+															Invoice Date
+														</FormLabel>
+														<Popover>
+															<PopoverTrigger asChild>
+																<FormControl>
+																	<Button
+																		variant={"outline"}
+																		className={cn(
+																			"h-9 pl-3 text-left font-normal",
+																			!field.value && "text-muted-foreground",
+																		)}
+																	>
+																		{field.value ? (
+																			format(field.value, "PPP")
+																		) : (
+																			<span>Pick a date</span>
+																		)}
+																		<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+																	</Button>
+																</FormControl>
+															</PopoverTrigger>
+															<PopoverContent
+																className="w-auto p-0"
+																align="start"
 															>
-																<SelectTrigger className="h-9">
-																	<SelectValue placeholder="Select consignor..." />
-																</SelectTrigger>
-																<SelectContent>
-																	{customers.map((c) => (
-																		<SelectItem key={c.id} value={c.id}>
-																			{c.name}
-																		</SelectItem>
-																	))}
-																</SelectContent>
-															</Select>
-														</FormControl>
+																<Calendar
+																	mode="single"
+																	selected={field.value}
+																	onSelect={field.onChange}
+																	disabled={(date) =>
+																		date > new Date() ||
+																		date < new Date("1900-01-01")
+																	}
+																	initialFocus
+																/>
+															</PopoverContent>
+														</Popover>
 														<FormMessage />
 													</FormItem>
 												)}
 											/>
 											<FormField
 												control={form.control}
-												name="consignorName"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-xs font-medium flex items-center gap-1">
-															<User className="h-3 w-3" /> Name
-														</FormLabel>
-														<FormControl>
-															<Input
-																placeholder="MR JOHNSON"
-																className="h-9"
-																{...field}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-										<div className="space-y-3">
-											<FormField
-												control={form.control}
-												name="consignorAddress"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-xs font-medium flex items-center gap-1">
-															<MapPin className="h-3 w-3" /> Address
-														</FormLabel>
-														<FormControl>
-															<Input
-																placeholder="SAFDARJUNG NEW DELHI - 110029"
-																className="h-9"
-																{...field}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="consignorPhone"
+												name="shipperPhone"
 												render={({ field }) => (
 													<FormItem>
 														<FormLabel className="text-xs font-medium flex items-center gap-1">
@@ -677,7 +461,7 @@ export function InvoiceDialogEnhanced({
 														</FormLabel>
 														<FormControl>
 															<Input
-																placeholder="9873530487"
+																placeholder="9863428811"
 																className="h-9"
 																{...field}
 															/>
@@ -688,108 +472,84 @@ export function InvoiceDialogEnhanced({
 											/>
 										</div>
 									</div>
-								</div>
 
-								<Separator />
-
-								{/* CONSIGNEE Section */}
-								<div>
-									<SectionHeader icon={User} title="Consignee (Receiver)" />
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-										<div className="space-y-3">
-											<FormField
-												control={form.control}
-												name="consigneeId"
-												render={({ field }) => (
-													<FormItem>
-														<div className="flex items-center justify-between">
-															<FormLabel className="text-xs font-medium">
-																Select Existing
-															</FormLabel>
-															<AddNewButton
-																disabled={!canEdit}
-																onClick={async () => {
-																	const created =
-																		await onQuickCreateCustomer("consignee");
-																	if (created) {
-																		form.setValue("consigneeId", created.id, {
-																			shouldDirty: true,
-																		});
-																		form.setValue(
-																			"consigneeName",
-																			created.name,
-																			{ shouldDirty: true },
-																		);
-																	}
-																}}
-															/>
-														</div>
-														<FormControl>
-															<Select
-																value={field.value || ""}
-																onValueChange={(val) => {
-																	field.onChange(val);
-																	const customer = customers.find(
-																		(c) => c.id === val,
-																	);
-																	if (customer) {
-																		form.setValue(
-																			"consigneeName",
-																			customer.name,
-																			{ shouldDirty: true },
-																		);
-																	}
-																}}
-															>
-																<SelectTrigger className="h-9">
-																	<SelectValue placeholder="Select consignee..." />
-																</SelectTrigger>
-																<SelectContent>
-																	{customers.map((c) => (
-																		<SelectItem key={c.id} value={c.id}>
-																			{c.name}
-																		</SelectItem>
-																	))}
-																</SelectContent>
-															</Select>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="consigneeName"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-xs font-medium flex items-center gap-1">
-															<User className="h-3 w-3" /> Name
-														</FormLabel>
-														<FormControl>
-															<Input
-																placeholder="MISS DIANA"
-																className="h-9"
-																{...field}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
+									{/* Consignee Details */}
+									<div className="space-y-4">
+										<div className="flex items-center justify-between">
+											<SectionHeader icon={MapPin} title="Consignee Details" />
+											<AddNewButton
+												disabled={!canEdit}
+												onClick={async () => {
+													const created =
+														await onQuickCreateCustomer("consignee");
+													if (created) {
+														form.setValue("consigneeName", created.name, {
+															shouldDirty: true,
+														});
+														form.setValue(
+															"consigneeAddress",
+															created.address || "",
+															{ shouldDirty: true },
+														);
+														form.setValue("consigneePhone", created.phone || "", {
+															shouldDirty: true,
+														});
+													}
+												}}
 											/>
 										</div>
-										<div className="space-y-3">
+
+										<FormField
+											control={form.control}
+											name="consigneeName"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-xs font-medium">
+														Recipient Name
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder="Enter consignee name"
+															className="h-9"
+															{...field}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="consigneeAddress"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-xs font-medium">
+														Delivery Address
+													</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Destination address"
+															className="min-h-[80px] resize-none"
+															{...field}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<div className="grid grid-cols-2 gap-4">
 											<FormField
 												control={form.control}
-												name="consigneeAddress"
+												name="remarks"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel className="text-xs font-medium flex items-center gap-1">
-															<MapPin className="h-3 w-3" /> Address
+														<FormLabel className="text-xs font-medium">
+															GSTIN (Optional)
 														</FormLabel>
 														<FormControl>
 															<Input
-																placeholder="SINGJAMEI IMF - 795001"
-																className="h-9"
+																placeholder="18AABCU9603R1ZM"
+																className="h-9 uppercase"
 																{...field}
 															/>
 														</FormControl>
@@ -924,7 +684,7 @@ export function InvoiceDialogEnhanced({
 															className={cn(
 																"flex-1 gap-2 h-10",
 																field.value === "air" &&
-																	"bg-blue-600 hover:bg-blue-700",
+																"bg-blue-600 hover:bg-blue-700",
 															)}
 															onClick={() => field.onChange("air")}
 														>
@@ -942,7 +702,7 @@ export function InvoiceDialogEnhanced({
 															className={cn(
 																"flex-1 gap-2 h-10",
 																field.value === "express" &&
-																	"bg-amber-600 hover:bg-amber-700",
+																"bg-amber-600 hover:bg-amber-700",
 															)}
 															onClick={() => field.onChange("express")}
 														>
@@ -960,7 +720,7 @@ export function InvoiceDialogEnhanced({
 															className={cn(
 																"flex-1 gap-2 h-10",
 																field.value === "surface" &&
-																	"bg-emerald-600 hover:bg-emerald-700",
+																"bg-emerald-600 hover:bg-emerald-700",
 															)}
 															onClick={() => field.onChange("surface")}
 														>
