@@ -1,20 +1,12 @@
 "use client";
 
 import {
-	AnimatePresence,
 	motion,
-	useMotionValue,
-	useScroll,
-	useSpring,
-	useTransform,
 } from "framer-motion";
 import {
-	ArrowRight,
 	CheckCircle2,
 	Clock,
-	FileSearch,
 	Globe,
-	MoveRight,
 	Package,
 	Phone,
 	Search,
