@@ -433,14 +433,6 @@ function Footer() {
 // --- Main Component ---
 
 export function Landing2025() {
-	const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-		e.preventDefault();
-		const el = document.getElementById(id);
-		if (el) {
-			el.scrollIntoView({ behavior: "smooth" });
-		}
-	};
-
 	const servicesRef = useRef<HTMLElement>(null);
 	const trackRef = useRef<HTMLElement>(null);
 	const contactRef = useRef<HTMLElement>(null);
@@ -463,8 +455,4 @@ export function Landing2025() {
 			<Footer />
 		</div>
 	);
-}
-
-function cn(...inputs: any) {
-	return inputs.filter(Boolean).join(" ");
 }
