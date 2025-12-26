@@ -10,25 +10,18 @@ import {
 } from "framer-motion";
 import {
 	ArrowRight,
-	CheckCircle2,
-	Clock,
-	FileSearch,
 	Globe,
 	MoveRight,
 	Package,
-	Phone,
 	Search,
 	ShieldCheck,
 	Truck,
-	Cpu,
-	Box,
 	Zap,
 } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 
 // --- Custom Components ---
