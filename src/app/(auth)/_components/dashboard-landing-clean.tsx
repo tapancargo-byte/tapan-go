@@ -24,7 +24,9 @@ export function DashboardAuthOverlay() {
 		)
 			.then((res) => res.json())
 			.then((data) => setAnimationData(data))
-			.catch((err) => console.error("Failed to load animation", err));
+			.catch((err) => {
+				// Silently handle animation loading error
+			});
 
 		const checkSession = async () => {
 			const {

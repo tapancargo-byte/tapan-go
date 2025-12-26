@@ -312,8 +312,7 @@ export function InvoiceDialogEnhanced({
 	);
 
 	return (
-		<>
-			<Dialog open={isOpen} onOpenChange={onOpenChange}>
+		<Dialog open={isOpen} onOpenChange={onOpenChange}>
 				<DialogContent className="max-w-[1000px] p-0 overflow-hidden bg-background rounded-xl">
 					<DialogHeader className="px-6 py-4 border-b bg-muted/30">
 						<div className="flex items-center justify-between">
@@ -1375,7 +1374,6 @@ export function InvoiceDialogEnhanced({
 						</Button>
 					</DialogFooter>
 				</DialogContent>
-			</Dialog>
-		</>
+		</Dialog>
 	);
 }
