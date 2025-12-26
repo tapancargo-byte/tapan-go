@@ -10,7 +10,12 @@ const nextConfig = {
 	// Enable image optimization for better performance
 	images: {
 		unoptimized: false,
-		domains: [], // Add your image domains here if needed
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "api.dicebear.com",
+			},
+		],
 		formats: ["image/webp", "image/avif"],
 	},
 	experimental: {
@@ -24,6 +29,7 @@ const nextConfig = {
 			"@radix-ui/react-dropdown-menu",
 			"react-hook-form",
 			"framer-motion",
+			"motion/react"
 		],
 	},
 	// Add security headers for production

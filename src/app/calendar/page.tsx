@@ -5,7 +5,7 @@ import FullCalendar from "@fullcalendar/react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import shipments from "../dashboard/shipments-table-data.json";
+import shipments from "@/app/(main)/dashboard/shipments-table-data.json";
 
 export default function CalendarPage() {
 	type Shipment = {
