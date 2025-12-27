@@ -102,8 +102,6 @@ function InvoicesPageContent() {
 	const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 	const [bulkLoading, setBulkLoading] = useState(false);
 
-
-
 	useEffect(() => {
 		let cancelled = false;
 
@@ -1220,8 +1218,9 @@ function InvoicesPageContent() {
 				if (!res.ok) {
 					const extra =
 						(json as any)?.code || (json as any)?.details || (json as any)?.hint
-							? ` ${(json as any)?.code ? `[${(json as any).code}]` : ""}${(json as any)?.details ? ` ${(json as any).details}` : ""
-							}${(json as any)?.hint ? ` ${(json as any).hint}` : ""}`
+							? ` ${(json as any)?.code ? `[${(json as any).code}]` : ""}${
+									(json as any)?.details ? ` ${(json as any).details}` : ""
+								}${(json as any)?.hint ? ` ${(json as any).hint}` : ""}`
 							: "";
 					const err: any = new Error(
 						typeof json?.error === "string" && json.error.trim()
@@ -1577,8 +1576,14 @@ function InvoicesPageContent() {
 				{/* Search and Filters */}
 				<div className="flex gap-4 flex-col sm:flex-row items-start sm:items-end">
 					<div className="flex-1">
-						<label className="text-sm font-medium mb-2 block">Search</label>
+						<label
+							htmlFor="invoice-search"
+							className="text-sm font-medium mb-2 block"
+						>
+							Search
+						</label>
 						<Input
+							id="invoice-search"
 							placeholder="Search by invoice ID or customer name..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
@@ -1586,12 +1591,17 @@ function InvoicesPageContent() {
 						/>
 					</div>
 					<div className="w-full sm:w-auto">
-						<label className="text-sm font-medium mb-2 block">Status</label>
+						<label
+							htmlFor="status-filter"
+							className="text-sm font-medium mb-2 block"
+						>
+							Status
+						</label>
 						<Select
 							value={filterStatus}
 							onValueChange={(value) => setFilterStatus(value)}
 						>
-							<SelectTrigger className="w-full sm:w-[160px]">
+							<SelectTrigger id="status-filter" className="w-full sm:w-[160px]">
 								<SelectValue placeholder="All Status" />
 							</SelectTrigger>
 							<SelectContent>

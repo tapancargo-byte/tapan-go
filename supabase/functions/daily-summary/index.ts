@@ -5,8 +5,11 @@ import { generateText } from "https://esm.sh/ai";
 
 import "../_shared/deno-env.ts";
 
+// biome-ignore lint/style/noNonNullAssertion: Env vars required
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+// biome-ignore lint/style/noNonNullAssertion: Env vars required
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+// biome-ignore lint/style/noNonNullAssertion: Env vars required
 const openAiKey = Deno.env.get("OPENAI_API_KEY")!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -50,6 +53,7 @@ serve(async (_req: Request) => {
 		return new Response(JSON.stringify({ summary: text }), {
 			headers: { "Content-Type": "application/json" },
 		});
+		// biome-ignore lint/suspicious/noExplicitAny: Standard error handling
 	} catch (error: any) {
 		return new Response(
 			JSON.stringify({ error: error.message || "Unknown error" }),

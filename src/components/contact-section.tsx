@@ -125,10 +125,14 @@ export function ContactSection() {
 								<form onSubmit={handleSubmit} className="space-y-5">
 									<div className="grid sm:grid-cols-2 gap-5">
 										<div>
-											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+											<label
+												htmlFor="contact-name"
+												className="text-xs font-medium text-muted-foreground mb-1.5 block"
+											>
 												Full Name *
 											</label>
 											<Input
+												id="contact-name"
 												name="name"
 												value={formData.name}
 												onChange={handleChange}
@@ -138,10 +142,14 @@ export function ContactSection() {
 											/>
 										</div>
 										<div>
-											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+											<label
+												htmlFor="contact-email"
+												className="text-xs font-medium text-muted-foreground mb-1.5 block"
+											>
 												Email *
 											</label>
 											<Input
+												id="contact-email"
 												name="email"
 												type="email"
 												value={formData.email}
@@ -155,10 +163,14 @@ export function ContactSection() {
 
 									<div className="grid sm:grid-cols-2 gap-5">
 										<div>
-											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+											<label
+												htmlFor="contact-phone"
+												className="text-xs font-medium text-muted-foreground mb-1.5 block"
+											>
 												Phone
 											</label>
 											<Input
+												id="contact-phone"
 												name="phone"
 												value={formData.phone}
 												onChange={handleChange}
@@ -167,10 +179,14 @@ export function ContactSection() {
 											/>
 										</div>
 										<div>
-											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+											<label
+												htmlFor="contact-company"
+												className="text-xs font-medium text-muted-foreground mb-1.5 block"
+											>
 												Company
 											</label>
 											<Input
+												id="contact-company"
 												name="company"
 												value={formData.company}
 												onChange={handleChange}
@@ -181,10 +197,14 @@ export function ContactSection() {
 									</div>
 
 									<div>
-										<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+										<label
+											htmlFor="contact-subject"
+											className="text-xs font-medium text-muted-foreground mb-1.5 block"
+										>
 											Subject *
 										</label>
 										<Input
+											id="contact-subject"
 											name="subject"
 											value={formData.subject}
 											onChange={handleChange}
@@ -195,10 +215,14 @@ export function ContactSection() {
 									</div>
 
 									<div>
-										<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+										<label
+											htmlFor="contact-message"
+											className="text-xs font-medium text-muted-foreground mb-1.5 block"
+										>
 											Message *
 										</label>
 										<Textarea
+											id="contact-message"
 											name="message"
 											value={formData.message}
 											onChange={handleChange}

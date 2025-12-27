@@ -61,6 +61,7 @@ export async function sendInvoiceSms(params: {
 		);
 	}
 
+	// biome-ignore lint/suspicious/noExplicitAny: Twilio payload is dynamic
 	const payload: any = {
 		to: params.to,
 		body: params.body,

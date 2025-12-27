@@ -369,8 +369,14 @@ export default function PaymentsPage() {
 			<div className="flex flex-col gap-6">
 				<div className="flex gap-4 flex-col lg:flex-row items-end">
 					<div className="flex-1">
-						<label className="text-sm font-medium mb-2 block">Search</label>
+						<label
+							htmlFor="payments-search"
+							className="text-sm font-medium mb-2 block"
+						>
+							Search
+						</label>
 						<Input
+							id="payments-search"
 							placeholder="Search by invoice, customer, or reference..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
@@ -379,12 +385,21 @@ export default function PaymentsPage() {
 					</div>
 
 					<div className="w-full sm:w-[180px]">
-						<label className="text-sm font-medium mb-2 block">Mode</label>
+						<label
+							htmlFor="payments-mode-filter"
+							className="text-sm font-medium mb-2 block"
+						>
+							Mode
+						</label>
 						<Select
 							value={modeFilter}
 							onValueChange={(value) => setModeFilter(value)}
 						>
-							<SelectTrigger className="w-full">
+							<SelectTrigger
+								id="payments-mode-filter"
+								className="w-full"
+								aria-label="Mode filter"
+							>
 								<SelectValue placeholder="All modes" />
 							</SelectTrigger>
 							<SelectContent>
@@ -400,16 +415,28 @@ export default function PaymentsPage() {
 
 					<div className="flex gap-2 w-full sm:w-auto">
 						<div className="flex-1">
-							<label className="text-sm font-medium mb-2 block">From</label>
+							<label
+								htmlFor="payments-date-from"
+								className="text-sm font-medium mb-2 block"
+							>
+								From
+							</label>
 							<Input
+								id="payments-date-from"
 								type="date"
 								value={dateFrom}
 								onChange={(e) => setDateFrom(e.target.value)}
 							/>
 						</div>
 						<div className="flex-1">
-							<label className="text-sm font-medium mb-2 block">To</label>
+							<label
+								htmlFor="payments-date-to"
+								className="text-sm font-medium mb-2 block"
+							>
+								To
+							</label>
 							<Input
+								id="payments-date-to"
 								type="date"
 								value={dateTo}
 								onChange={(e) => setDateTo(e.target.value)}

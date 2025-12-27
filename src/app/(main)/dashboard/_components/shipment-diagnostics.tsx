@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useId, useMemo, useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
 	Card,
@@ -22,7 +23,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export const description = "Shipment Traffic Diagnostics";
 
@@ -67,10 +67,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ShipmentDiagnostics() {
-	const _isMobile = useIsMobile();
-	const [timeRange, setTimeRange] = React.useState("90d");
+	const id = useId();
+	const [timeRange, setTimeRange] = useState("90d");
 
-	const filteredData = React.useMemo(() => {
+	const filteredData = useMemo(() => {
 		const referenceDate = new Date("2024-12-31");
 		let daysToSubtract = 90;
 		if (timeRange === "30d") daysToSubtract = 30;
@@ -121,7 +121,7 @@ export function ShipmentDiagnostics() {
 					<AreaChart data={filteredData}>
 						<defs>
 							<linearGradient
-								id="fillShipments-diag"
+								id={`fillShipments-${id}`}
 								x1="0"
 								y1="0"
 								x2="0"
@@ -139,7 +139,7 @@ export function ShipmentDiagnostics() {
 								/>
 							</linearGradient>
 							<linearGradient
-								id="fillDelivered-diag"
+								id={`fillDelivered-${id}`}
 								x1="0"
 								y1="0"
 								x2="0"
@@ -157,7 +157,7 @@ export function ShipmentDiagnostics() {
 								/>
 							</linearGradient>
 							<linearGradient
-								id="fillExceptions-diag"
+								id={`fillExceptions-${id}`}
 								x1="0"
 								y1="0"
 								x2="0"
@@ -220,7 +220,7 @@ export function ShipmentDiagnostics() {
 						<Area
 							dataKey="shipments"
 							type="monotone"
-							fill="url(#fillShipments-diag)"
+							fill={`url(#fillShipments-${id})`}
 							fillOpacity={0.4}
 							stroke="var(--color-shipments)"
 							strokeWidth={2}
@@ -230,7 +230,7 @@ export function ShipmentDiagnostics() {
 						<Area
 							dataKey="exceptions"
 							type="monotone"
-							fill="url(#fillExceptions-diag)"
+							fill={`url(#fillExceptions-${id})`}
 							fillOpacity={0.4}
 							stroke="var(--color-exceptions)"
 							strokeWidth={2}
@@ -240,7 +240,7 @@ export function ShipmentDiagnostics() {
 						<Area
 							dataKey="delivered"
 							type="monotone"
-							fill="url(#fillDelivered-diag)"
+							fill={`url(#fillDelivered-${id})`}
 							fillOpacity={0.4}
 							stroke="var(--color-delivered)"
 							strokeWidth={2}

@@ -20,10 +20,10 @@ import {
 import { LoginVisualPanel } from "@/components/auth/login-visual-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { GridPattern } from "@/components/ui/grid-pattern";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MorphicNavbar } from "@/components/ui/morphic-navbar";
-import { GridPattern } from "@/components/ui/grid-pattern";
 import {
 	clearLocationCache,
 	type DetectedLocation,

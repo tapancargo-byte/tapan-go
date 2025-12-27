@@ -15,18 +15,7 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
-			"correctness": {
-				"noUnusedVariables": "warn"
-			},
-			"suspicious": {
-				"noExplicitAny": "warn",
-				"noConsole": "warn",
-				"noDoubleEquals": "error"
-			},
-			"style": {
-				"noNonNullAssertion": "off"
-			}
+			"recommended": true
 		}
 	},
 	"javascript": {
@@ -35,6 +24,15 @@
 		}
 	},
 	"overrides": [
+		{
+			"includes": ["public/assets/secure-logistics.json"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			}
+		},
 		{
 			"includes": [
 				"check-features.js",

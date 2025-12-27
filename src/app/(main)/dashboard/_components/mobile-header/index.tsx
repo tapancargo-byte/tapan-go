@@ -3,11 +3,11 @@ import ChatDrawer from "@/components/ai/chat-drawer";
 import MobileNotifications from "@/components/dashboard/notifications/mobile-notifications";
 import BellIcon from "@/components/icons/bell";
 import { Badge } from "@/components/ui/badge";
-import { UnifiedLogo } from "@/components/ui/unified-logo";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { UnifiedLogo } from "@/components/ui/unified-logo";
 import type { Notification as DashboardNotification } from "@/types/dashboard";
 
 interface MobileHeaderProps {

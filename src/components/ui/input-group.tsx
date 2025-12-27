@@ -14,7 +14,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 			role="group"
 			className={cn(
 				"group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
-				"h-9 min-w-0 has-[>textarea]:h-auto",
+				"h-9 min-w-0 has-[>[data-slot=input-group-control][data-type=textarea]]:h-auto",
 
 				// Variants based on alignment.
 				"has-[>[data-align=inline-start]]:[&>input]:pl-2",
@@ -41,9 +41,9 @@ const inputGroupAddonVariants = cva(
 		variants: {
 			align: {
 				"inline-start":
-					"order-first pl-3 has-[>button]:ml-[-0.45rem] has-[>kbd]:ml-[-0.35rem]",
+					"order-first pl-3 has-[[data-slot=input-group-button]]:ml-[-0.45rem] has-[>kbd]:ml-[-0.35rem]",
 				"inline-end":
-					"order-last pr-3 has-[>button]:mr-[-0.45rem] has-[>kbd]:mr-[-0.35rem]",
+					"order-last pr-3 has-[[data-slot=input-group-button]]:mr-[-0.45rem] has-[>kbd]:mr-[-0.35rem]",
 				"block-start":
 					"order-first w-full justify-start px-3 pt-3 [.border-b]:pb-3 group-has-[>input]/input-group:pt-2.5",
 				"block-end":
@@ -73,6 +73,14 @@ function InputGroupAddon({
 				}
 				e.currentTarget.parentElement?.querySelector("input")?.focus();
 			}}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					if (!(e.target as HTMLElement).closest("button")) {
+						e.currentTarget.parentElement?.querySelector("input")?.focus();
+					}
+				}
+			}}
+			tabIndex={0}
 			{...props}
 		/>
 	);
@@ -107,6 +115,7 @@ function InputGroupButton({
 	return (
 		<Button
 			type={type}
+			data-slot="input-group-button"
 			data-size={size}
 			variant={variant}
 			className={cn(inputGroupButtonVariants({ size }), className)}

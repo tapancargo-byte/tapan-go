@@ -2,7 +2,7 @@
 
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import InvoiceBarcode from "@/components/invoices/invoice-barcode";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";

@@ -74,19 +74,16 @@ export function MorphicNavbar({
 	];
 
 	const navButtonClasses = (id: string) =>
-		`flex items-center justify-center px-4 py-2 text-sm transition-all duration-300 first:rounded-l-xl last:rounded-r-xl ${activeSection === id
-			? "bg-foreground text-background font-semibold"
-			: "bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/60"
+		`flex items-center justify-center px-4 py-2 text-sm transition-all duration-300 first:rounded-l-xl last:rounded-r-xl ${
+			activeSection === id
+				? "bg-foreground text-background font-semibold"
+				: "bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/60"
 		}`;
 
 	return (
 		<nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/90 transition-colors duration-200">
 			<div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-				<Link
-					href="/"
-					className="block"
-					aria-label="Tapan Associate Home"
-				>
+				<Link href="/" className="block" aria-label="Tapan Associate Home">
 					<UnifiedLogo className="pointer-events-none" />
 				</Link>
 

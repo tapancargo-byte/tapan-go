@@ -54,12 +54,20 @@ export function useRealtimePresence(page: string) {
 
 					setOnlineUsers(users);
 				})
-				.on("presence", { event: "join" }, ({ key, newPresences }) => {
-					// User joined - presence state updated automatically
-				})
-				.on("presence", { event: "leave" }, ({ key, leftPresences }) => {
-					// User left - presence state updated automatically
-				})
+				.on(
+					"presence",
+					{ event: "join" },
+					({ key: _key, newPresences: _newPresences }) => {
+						// User joined - presence state updated automatically
+					},
+				)
+				.on(
+					"presence",
+					{ event: "leave" },
+					({ key: _key, leftPresences: _leftPresences }) => {
+						// User left - presence state updated automatically
+					},
+				)
 				.subscribe(async (status) => {
 					if (status === "SUBSCRIBED") {
 						setIsOnline(true);

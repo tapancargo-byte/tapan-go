@@ -250,6 +250,7 @@ export const ShipmentInvoice: React.FC<InvoiceProps> = ({ invoice }) => {
 								className="plane-svg w-[28px] h-[28px] text-[#f59e0b] rotate-45"
 								viewBox="0 0 24 24"
 								fill="currentColor"
+								aria-hidden="true"
 							>
 								<path d="M21.5,13.5L13,11V3.5C13,2.67 12.33,2 11.5,2C10.67,2 10,2.67 10,3.5V11L1.5,13.5V15.5L10,13V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13L21.5,15.5V13.5Z" />
 							</svg>

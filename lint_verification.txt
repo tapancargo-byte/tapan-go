@@ -1,0 +1,386 @@
+src\app\(auth)\_components\login-page-matrix.tsx:448:31 lint/suspicious/noCommentText  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Wrap comments inside children within braces.
+  
+    446 Γöé 								transition={{ delay: 1.5, duration: 1 }}
+    447 Γöé 							>
+  > 448 Γöé 								Tapan Associate Cargo // Authorized Access
+        Γöé 								                      ^^^^^^^^^^^^^^^^^^^^
+    449 Γöé 							</motion.p>
+    450 Γöé 						</motion.div>
+  
+  i Unsafe fix: Wrap the comments with braces
+  
+    446 446 Γöé   								transition={{ delay: 1.5, duration: 1 }}
+    447 447 Γöé   							>
+    448     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Tapan┬╖Associate┬╖Cargo┬╖//┬╖Authorized┬╖Access
+        448 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Tapan┬╖Associate┬╖Cargo┬╖{/*┬╖Authorized┬╖Access┬╖*/}
+    449 449 Γöé   							</motion.p>
+    450 450 Γöé   						</motion.div>
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:522:11 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    520 Γöé 									{/* Agent ID */}
+    521 Γöé 									<div className="space-y-2 group">
+  > 522 Γöé 										<label className="text-[10px] font-bold uppercase tracking-wider text-[#00FF41]/70 ml-1 group-focus-within:text-[#00FF41] transition-colors">
+        Γöé 										^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 523 Γöé 											Agent ID / Email
+  > 524 Γöé 										</label>
+        Γöé 										^^^^^^^^
+    525 Γöé 										<div className="relative">
+    526 Γöé 											<User className="absolute left-3 top-3.5 w-4 h-4 text-[#003B00] group-focus-within:text-[#00FF41] transition-colors" />
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:540:11 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    538 Γöé 									{/* Terminal Code */}
+    539 Γöé 									<div className="space-y-2 group">
+  > 540 Γöé 										<label className="text-[10px] font-bold uppercase tracking-wider text-[#00FF41]/70 ml-1 group-focus-within:text-[#00FF41] transition-colors">
+        Γöé 										^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 541 Γöé 											Terminal Code
+  > 542 Γöé 										</label>
+        Γöé 										^^^^^^^^
+    543 Γöé 										<div className="relative">
+    544 Γöé 											<Hash className="absolute left-3 top-3.5 w-4 h-4 text-[#003B00] group-focus-within:text-[#00FF41] transition-colors" />
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(external)\_components\landing\about-section.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     1  1 Γöé   "use client";
+     2  2 Γöé   
+     3    Γöé - 
+     4  3 Γöé   import dynamic from "next/dynamic";
+     5  4 Γöé   import React from "react";
+  
+
+src\app\(external)\track\page.tsx:174:20 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù performLookup changes on every re-render and should not be used as a hook dependency.
+  
+    172 Γöé 		setQuery(trimmed);
+    173 Γöé 		void performLookup(trimmed);
+  > 174 Γöé 	}, [searchParams, performLookup]);
+        Γöé 	                  ^^^^^^^^^^^^^
+    175 Γöé 
+    176 Γöé 	const hasBarcodes = (result?.barcodes?.length ?? 0) > 0;
+  
+  i To fix this, wrap the definition of performLookup in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\_components\notifications\notification-item.tsx:78:3 lint/a11y/noStaticElementInteractions ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Static Elements should not be interactive.
+  
+    77 Γöé 	return (
+  > 78 Γöé 		<div
+       Γöé 		^^^^
+  > 79 Γöé 			className={cn(
+        ...
+  > 86 Γöé 			onClick={handleNotificationClick}
+  > 87 Γöé 		>
+       Γöé 		^
+    88 Γöé 			<div className="flex items-start gap-3">
+    89 Γöé 				<div
+  
+  i To add interactivity such as a mouse or key event listener to a static element, give the element an appropriate role value.
+  
+
+src\app\(main)\dashboard\_components\notifications\notification-item.tsx:78:3 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    77 Γöé 	return (
+  > 78 Γöé 		<div
+       Γöé 		^^^^
+  > 79 Γöé 			className={cn(
+        ...
+  > 86 Γöé 			onClick={handleNotificationClick}
+  > 87 Γöé 		>
+       Γöé 		^
+    88 Γöé 			<div className="flex items-start gap-3">
+    89 Γöé 				<div
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\app\(main)\dashboard\_components\rebels-ranking\index.tsx:55:8 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    53 Γöé 						<div
+    54 Γöé 							key={rebel.id}
+  > 55 Γöé 							role="button"
+       Γöé 							^^^^^^^^^^^^^
+    56 Γöé 							tabIndex={0}
+    57 Γöé 							onClick={() => setActiveId(rebel.id)}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\(main)\dashboard\invoices\logs\page.tsx:105:9 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    103 Γöé 						<div className="flex flex-col sm:flex-row gap-4 items-end">
+    104 Γöé 							<div className="flex-1">
+  > 105 Γöé 								<label className="text-sm font-medium mb-2 block">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 106 Γöé 									Invoice ID
+  > 107 Γöé 								</label>
+        Γöé 								^^^^^^^^
+    108 Γöé 								<Input
+    109 Γöé 									placeholder="Enter invoice database ID (UUID)"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:121:6 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù loadCustomers changes on every re-render and should not be used as a hook dependency.
+  
+    119 Γöé 		loadShipments();
+    120 Γöé 		loadCustomers();
+  > 121 Γöé 	}, [loadCustomers, loadShipments]);
+        Γöé 	    ^^^^^^^^^^^^^
+    122 Γöé 
+    123 Γöé 	const handleSubmit = async (values: any) => {
+  
+  i To fix this, wrap the definition of loadCustomers in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:121:21 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù loadShipments changes on every re-render and should not be used as a hook dependency.
+  
+    119 Γöé 		loadShipments();
+    120 Γöé 		loadCustomers();
+  > 121 Γöé 	}, [loadCustomers, loadShipments]);
+        Γöé 	                   ^^^^^^^^^^^^^
+    122 Γöé 
+    123 Γöé 	const handleSubmit = async (values: any) => {
+  
+  i To fix this, wrap the definition of loadShipments in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:265:16 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù handleDelete changes on every re-render and should not be used as a hook dependency.
+  
+    263 Γöé 			},
+    264 Γöé 		],
+  > 265 Γöé 		[form.reset, handleDelete],
+        Γöé 		             ^^^^^^^^^^^^
+    266 Γöé 	);
+    267 Γöé 
+  
+  i To fix this, wrap the definition of handleDelete in its own useCallback() hook.
+  
+
+src\app\(main)\invoices\_components\invoice-preview.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    756 756 Γöé   								invoice.declaredValue != null ||
+    757 757 Γöé   								invoice.paymentMode) && (
+    758     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div┬╖className="text-xs"┬╖style={{┬╖color:┬╖COLORS.textMuted┬╖}}>
+    759     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div
+    760     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="font-semibold┬╖mb-1"
+    761     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ style={{┬╖color:┬╖COLORS.text┬╖}}
+    762     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    763     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Consignment┬╖details
+    764     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    765     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.origin┬╖||┬╖invoice.destination┬╖?┬╖(
+    766     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    767     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Route:┬╖{invoice.origin┬╖||┬╖"?"}
+    768     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <span┬╖className="mx-1">ΓåÆ</span>
+    769     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.destination┬╖||┬╖"?"}
+    770     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    771     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )┬╖:┬╖null}
+    772     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.pieces┬╖!=┬╖null┬╖&&┬╖(
+    773     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Pieces:┬╖{invoice.pieces}</div>
+    774     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    775     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.chargedWeight┬╖!=┬╖null┬╖&&┬╖(
+    776     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    777     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Charged┬╖weight:┬╖{invoice.chargedWeight.toFixed(2)}┬╖kg
+    778     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    779     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    780     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue┬╖!=┬╖null┬╖&&┬╖(
+    781     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    782     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Declared┬╖value:┬╖Γé╣
+    783     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue.toLocaleString("en-IN")}
+    784     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    785     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    786     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.paymentMode┬╖&&┬╖(
+    787     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Payment┬╖mode:┬╖{invoice.paymentMode}</div>
+    788     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    789     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    790     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        758 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div┬╖className="text-xs"┬╖style={{┬╖color:┬╖COLORS.textMuted┬╖}}>
+        759 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div
+        760 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="font-semibold┬╖mb-1"
+        761 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ style={{┬╖color:┬╖COLORS.text┬╖}}
+        762 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        763 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Consignment┬╖details
+        764 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        765 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.origin┬╖||┬╖invoice.destination┬╖?┬╖(
+        766 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        767 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Route:┬╖{invoice.origin┬╖||┬╖"?"}
+        768 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <span┬╖className="mx-1">ΓåÆ</span>
+        769 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.destination┬╖||┬╖"?"}
+        770 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        771 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )┬╖:┬╖null}
+        772 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.pieces┬╖!=┬╖null┬╖&&┬╖(
+        773 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Pieces:┬╖{invoice.pieces}</div>
+        774 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        775 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.chargedWeight┬╖!=┬╖null┬╖&&┬╖(
+        776 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        777 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Charged┬╖weight:┬╖{invoice.chargedWeight.toFixed(2)}┬╖kg
+        778 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        779 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        780 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue┬╖!=┬╖null┬╖&&┬╖(
+        781 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        782 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Declared┬╖value:┬╖Γé╣
+        783 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue.toLocaleString("en-IN")}
+        784 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        785 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        786 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.paymentMode┬╖&&┬╖(
+        787 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Payment┬╖mode:┬╖{invoice.paymentMode}</div>
+        788 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        789 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        790 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    791 791 Γöé   
+    792 792 Γöé   							<table className="w-full">
+  
+
+src\app\(main)\settings\page.tsx:475:10 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    473 Γöé 							<CardContent className="space-y-4">
+    474 Γöé 								<div className="space-y-2">
+  > 475 Γöé 									<label className="text-sm font-medium">Avatar</label>
+        Γöé 									^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    476 Γöé 									<Input
+    477 Γöé 										type="file"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\settings\page.tsx:499:10 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    497 Γöé 							<CardContent className="space-y-6">
+    498 Γöé 								<div className="space-y-2">
+  > 499 Γöé 									<label className="text-sm font-medium">
+        Γöé 									^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 500 Γöé 										Organization Name
+  > 501 Γöé 									</label>
+        Γöé 									^^^^^^^^
+    502 Γöé 									<Input
+    503 Γöé 										value={orgProfile.name}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\settings\page.tsx:515:10 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    513 Γöé 								</div>
+    514 Γöé 								<div className="space-y-2">
+  > 515 Γöé 									<label className="text-sm font-medium">Email</label>
+        Γöé 									^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    516 Γöé 									<Input
+    517 Γöé 										value={orgProfile.email}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\settings\page.tsx:529:10 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    527 Γöé 								</div>
+    528 Γöé 								<div className="space-y-2">
+  > 529 Γöé 									<label className="text-sm font-medium">Phone Number</label>
+        Γöé 									^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    530 Γöé 									<Input
+    531 Γöé 										value={orgProfile.phone}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\settings\page.tsx:543:10 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    541 Γöé 								</div>
+    542 Γöé 								<div className="space-y-2">
+  > 543 Γöé 									<label className="text-sm font-medium">Address</label>
+        Γöé 									^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    544 Γöé 									<Input
+    545 Γöé 										value={orgProfile.address}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\settings\page.tsx:662:10 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    660 Γöé 							<CardContent className="space-y-4">
+    661 Γöé 								<div className="space-y-2">
+  > 662 Γöé 									<label className="text-sm font-medium">
+        Γöé 									^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 663 Γöé 										Current Password
+  > 664 Γöé 									</label>
+        Γöé 									^^^^^^^^
+    665 Γöé 									<Input
+    666 Γöé 										type="password"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\lib\supabaseServer.ts:17:20 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    15 Γöé 				setAll(cookiesToSet) {
+    16 Γöé 					try {
+  > 17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+       Γöé 						             ^^^^^^^
+    18 Γöé 							cookieStore.set(name, value, options),
+    19 Γöé 						);
+  
+  i Either remove this return or remove the returned value.
+  
+    16 Γöé 					try {
+    17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+  > 18 Γöé 							cookieStore.set(name, value, options),
+       Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    19 Γöé 						);
+    20 Γöé 					} catch {
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 82.
+Checked 501 files in 1305ms. No fixes applied.
+Found 102 errors.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

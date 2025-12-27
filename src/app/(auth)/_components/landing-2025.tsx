@@ -1,10 +1,6 @@
 "use client";
 
-import {
-	motion,
-	useScroll,
-	useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
 	ArrowRight,
 	Globe,
@@ -15,15 +11,24 @@ import {
 	Truck,
 	Zap,
 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
-import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 // --- Custom Components ---
 
-const Badge = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-	<div className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}>
+const Badge = ({
+	children,
+	className = "",
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) => (
+	<div
+		className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}
+	>
 		{children}
 	</div>
 );
@@ -65,8 +70,11 @@ function Navbar() {
 
 	return (
 		<nav
-			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-xl border-b py-4" : "bg-transparent py-6"
-				}`}
+			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+				scrolled
+					? "bg-background/80 backdrop-blur-xl border-b py-4"
+					: "bg-transparent py-6"
+			}`}
 		>
 			<div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 				<div className="flex items-center gap-2">
@@ -77,13 +85,19 @@ function Navbar() {
 				</div>
 
 				<div className="hidden lg:flex items-center gap-10 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-					<Link href="#services" className="hover:text-primary transition-colors">
+					<Link
+						href="#services"
+						className="hover:text-primary transition-colors"
+					>
 						Services
 					</Link>
 					<Link href="#track" className="hover:text-primary transition-colors">
 						Tracking
 					</Link>
-					<Link href="#solutions" className="hover:text-primary transition-colors">
+					<Link
+						href="#solutions"
+						className="hover:text-primary transition-colors"
+					>
 						Solutions
 					</Link>
 				</div>
@@ -132,7 +146,8 @@ function Hero() {
 						className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter"
 					>
 						FUTURE <br />
-						<span className="text-primary italic font-serif serif">CARGO</span> <br />
+						<span className="text-primary italic font-serif serif">CARGO</span>{" "}
+						<br />
 						SYSTEMS.
 					</motion.h1>
 
@@ -142,8 +157,9 @@ function Hero() {
 						transition={{ delay: 0.2 }}
 						className="text-xl text-slate-400 max-w-xl leading-relaxed font-medium"
 					>
-						Enterprise-grade logistics infrastructure powered by real-time intelligence.
-						Specializing in the Delhi-Imphal supply chain corridor for over two decades.
+						Enterprise-grade logistics infrastructure powered by real-time
+						intelligence. Specializing in the Delhi-Imphal supply chain corridor
+						for over two decades.
 					</motion.p>
 
 					<motion.div
@@ -152,10 +168,17 @@ function Hero() {
 						transition={{ delay: 0.3 }}
 						className="flex flex-wrap gap-4 pt-4"
 					>
-						<Button size="xl" className="h-16 px-10 rounded-2xl text-lg font-bold">
+						<Button
+							size="xl"
+							className="h-16 px-10 rounded-2xl text-lg font-bold"
+						>
 							Initiate Booking <ArrowRight className="ml-3 h-5 w-5" />
 						</Button>
-						<Button size="xl" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-bold border-white/10 text-white hover:bg-white/5">
+						<Button
+							size="xl"
+							variant="outline"
+							className="h-16 px-10 rounded-2xl text-lg font-bold border-white/10 text-white hover:bg-white/5"
+						>
 							Network Map
 						</Button>
 					</motion.div>
@@ -171,27 +194,41 @@ function Hero() {
 								playsInline
 								className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
 							>
-								<source src="https://v0.one/storage/v1/object/public/videos/cargo-truck-night.mp4" type="video/mp4" />
+								<source
+									src="https://v0.one/storage/v1/object/public/videos/cargo-truck-night.mp4"
+									type="video/mp4"
+								/>
 							</video>
 
 							<div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-slate-950 to-transparent">
 								<div className="space-y-4">
 									<div className="flex items-center justify-between">
-										<p className="text-primary font-black uppercase tracking-widest text-xs">Live Ops</p>
+										<p className="text-primary font-black uppercase tracking-widest text-xs">
+											Live Ops
+										</p>
 										<div className="flex gap-1">
-											{[1, 2, 3].map(i => (
-												<div key={i} className="w-1 h-1 rounded-full bg-primary" />
+											{[1, 2, 3].map((i) => (
+												<div
+													key={i}
+													className="w-1 h-1 rounded-full bg-primary"
+												/>
 											))}
 										</div>
 									</div>
-									<h3 className="text-2xl font-bold text-white">Route X-04 Status</h3>
+									<h3 className="text-2xl font-bold text-white">
+										Route X-04 Status
+									</h3>
 									<div className="grid grid-cols-2 gap-4">
 										<div className="bg-white/5 p-3 rounded-xl border border-white/5">
-											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">Temp</p>
+											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">
+												Temp
+											</p>
 											<p className="text-white font-mono text-lg">-4°C</p>
 										</div>
 										<div className="bg-white/5 p-3 rounded-xl border border-white/5">
-											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">Load</p>
+											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">
+												Load
+											</p>
 											<p className="text-white font-mono text-lg">94%</p>
 										</div>
 									</div>
@@ -206,7 +243,9 @@ function Hero() {
 							className="absolute -right-8 top-20 z-20 bg-primary p-6 rounded-3xl shadow-3xl shadow-primary/40 text-black"
 						>
 							<Package className="h-8 w-8 mb-2" />
-							<p className="text-xs uppercase font-black tracking-widest opacity-80">Pending</p>
+							<p className="text-xs uppercase font-black tracking-widest opacity-80">
+								Pending
+							</p>
 							<p className="text-2xl font-black">2.4k</p>
 						</motion.div>
 					</motion.div>
@@ -220,19 +259,22 @@ function Services() {
 	const services = [
 		{
 			title: "Heavy-Haul Network",
-			description: "Industrial strength transport for machinery and raw materials with specialized flatbed fleets.",
+			description:
+				"Industrial strength transport for machinery and raw materials with specialized flatbed fleets.",
 			icon: Truck,
 			color: "blue",
 		},
 		{
 			title: "Critical Cold Chain",
-			description: "Temperature controlled environments for high-value pharma and perishables with 24/7 monitoring.",
+			description:
+				"Temperature controlled environments for high-value pharma and perishables with 24/7 monitoring.",
 			icon: Zap,
 			color: "amber",
 		},
 		{
 			title: "Secure Last Mile",
-			description: "Precise urban distribution with armored delivery vehicles and signature-encrypted tracking.",
+			description:
+				"Precise urban distribution with armored delivery vehicles and signature-encrypted tracking.",
 			icon: ShieldCheck,
 			color: "emerald",
 		},
@@ -248,9 +290,9 @@ function Services() {
 				/>
 
 				<div className="grid md:grid-cols-3 gap-8">
-					{services.map((s, i) => (
+					{services.map((s) => (
 						<motion.div
-							key={i}
+							key={`service-${s.title.toLowerCase().replace(/\s+/g, "-")}`}
 							whileHover={{ y: -10 }}
 							className="group relative p-10 rounded-[3rem] bg-muted/50 border border-border/60 hover:border-primary/40 transition-all duration-500"
 						>
@@ -261,7 +303,10 @@ function Services() {
 							<p className="text-muted-foreground leading-relaxed mb-6">
 								{s.description}
 							</p>
-							<Link href="#" className="inline-flex items-center text-sm font-black uppercase tracking-widest text-primary gap-2 hover:gap-4 transition-all">
+							<Link
+								href={`/services/${s.title.toLowerCase().split(" ")[0]}`}
+								className="inline-flex items-center text-sm font-black uppercase tracking-widest text-primary gap-2 hover:gap-4 transition-all"
+							>
 								Details <MoveRight className="h-4 w-4" />
 							</Link>
 						</motion.div>
@@ -301,13 +346,21 @@ function Tracking() {
 
 						<div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/5">
 							<div className="space-y-1">
-								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Global Reach</p>
-								<p className="text-4xl font-bold text-white tracking-tighter">110+</p>
+								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">
+									Global Reach
+								</p>
+								<p className="text-4xl font-bold text-white tracking-tighter">
+									110+
+								</p>
 								<p className="text-sm text-slate-400">Hub locations</p>
 							</div>
 							<div className="space-y-1">
-								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Throughput</p>
-								<p className="text-4xl font-bold text-white tracking-tighter">240k</p>
+								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">
+									Throughput
+								</p>
+								<p className="text-4xl font-bold text-white tracking-tighter">
+									240k
+								</p>
 								<p className="text-sm text-slate-400">Containers/Year</p>
 							</div>
 						</div>
@@ -352,10 +405,17 @@ function Contact() {
 					solution for your enterprise. Rapid response guaranteed.
 				</p>
 				<div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
-					<Button size="xl" className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl">
+					<Button
+						size="xl"
+						className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl"
+					>
 						Connect with Sales
 					</Button>
-					<Button size="xl" variant="outline" className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl border-border">
+					<Button
+						size="xl"
+						variant="outline"
+						className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl border-border"
+					>
 						Documentation
 					</Button>
 				</div>
@@ -377,40 +437,85 @@ function Footer() {
 							<span className="text-xl font-bold tracking-tighter">TAPAN</span>
 						</div>
 						<p className="text-muted-foreground text-sm leading-relaxed">
-							Enterprise logistics infrastructure for the next generation of trade.
+							Enterprise logistics infrastructure for the next generation of
+							trade.
 						</p>
 					</div>
 
 					<div className="space-y-6">
-						<h4 className="font-bold text-sm tracking-widest uppercase">Network</h4>
+						<h4 className="font-bold text-sm tracking-widest uppercase">
+							Network
+						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
-							<li><Link href="#" className="hover:text-primary transition-colors">Route Map</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Hub Locations</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Fleet Stats</Link></li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Route Map
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Hub Locations
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Fleet Stats
+								</Link>
+							</li>
 						</ul>
 					</div>
 
 					<div className="space-y-6">
-						<h4 className="font-bold text-sm tracking-widest uppercase">Company</h4>
+						<h4 className="font-bold text-sm tracking-widest uppercase">
+							Company
+						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
-							<li><Link href="#" className="hover:text-primary transition-colors">About Ops</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Security Specs</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Support Portal</Link></li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									About Ops
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Security Specs
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Support Portal
+								</Link>
+							</li>
 						</ul>
 					</div>
 
 					<div className="space-y-6">
-						<h4 className="font-bold text-sm tracking-widest uppercase">Legal</h4>
+						<h4 className="font-bold text-sm tracking-widest uppercase">
+							Legal
+						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
-							<li><Link href="#" className="hover:text-primary transition-colors">Terms of Op</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Privacy Shield</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Compliance</Link></li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Terms of Op
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Privacy Shield
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Compliance
+								</Link>
+							</li>
 						</ul>
 					</div>
 				</div>
 
 				<div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t">
-					<p className="text-sm text-muted-foreground font-medium">© 2026 Tapan Associate S&L. All rights reserved.</p>
+					<p className="text-sm text-muted-foreground font-medium">
+						© 2026 Tapan Associate S&L. All rights reserved.
+					</p>
 					<div className="flex items-center gap-6">
 						<div className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary/5 transition-colors cursor-pointer">
 							<Globe className="h-4 w-4" />

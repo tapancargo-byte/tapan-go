@@ -272,30 +272,42 @@ export default function ManifestScanSessionPage() {
 					<CardContent className="space-y-3">
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 							<div>
-								<label className="text-xs font-medium mb-1 block">
+								<label
+									htmlFor="scan-origin"
+									className="text-xs font-medium mb-1 block"
+								>
 									Origin hub
 								</label>
 								<Input
+									id="scan-origin"
 									value={originHub}
 									onChange={(e) => setOriginHub(e.target.value)}
 									placeholder="e.g. Imphal terminal"
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-medium mb-1 block">
+								<label
+									htmlFor="scan-destination"
+									className="text-xs font-medium mb-1 block"
+								>
 									Destination
 								</label>
 								<Input
+									id="scan-destination"
 									value={destination}
 									onChange={(e) => setDestination(e.target.value)}
 									placeholder="e.g. New Delhi terminal"
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-medium mb-1 block">
+								<label
+									htmlFor="scan-airline"
+									className="text-xs font-medium mb-1 block"
+								>
 									Airline code
 								</label>
 								<Input
+									id="scan-airline"
 									value={airlineCode}
 									onChange={(e) => setAirlineCode(e.target.value)}
 									placeholder="e.g. 6E, SG, G8"

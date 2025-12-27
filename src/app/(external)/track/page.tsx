@@ -3,13 +3,13 @@
 import { format } from "date-fns";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import SearchIcon from "@/components/icons/search";
 import { Badge } from "@/components/ui/badge";
-import { UnifiedLogo } from "@/components/ui/unified-logo";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { UnifiedLogo } from "@/components/ui/unified-logo";
 
 interface TrackShipment {
 	id: string;
@@ -123,7 +123,7 @@ function PublicTrackPageContent() {
 	const [result, setResult] = useState<TrackResponse | null>(null);
 	const searchParams = useSearchParams();
 
-	const performLookup = async (value: string) => {
+	const performLookup = useCallback(async (value: string) => {
 		const trimmed = value.trim();
 		if (!trimmed) {
 			setError("Enter a shipment or barcode number to track.");
@@ -143,7 +143,7 @@ function PublicTrackPageContent() {
 			if (!res.ok) {
 				setError(
 					(typeof json?.error === "string" && json.error) ||
-					"Unable to find tracking information.",
+						"Unable to find tracking information.",
 				);
 				return;
 			}
@@ -155,7 +155,7 @@ function PublicTrackPageContent() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -330,10 +330,11 @@ function PublicTrackPageContent() {
 									{/* Expected Delivery Banner - Most Important Info */}
 									{(result.shipment.eta || result.shipment.ata) && (
 										<div
-											className={`mb-4 p-4 rounded-lg text-center ${result.shipment.ata
+											className={`mb-4 p-4 rounded-lg text-center ${
+												result.shipment.ata
 													? "bg-success/10 border border-success/30"
 													: "bg-info/10 border border-info/30"
-												}`}
+											}`}
 										>
 											<div className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
 												{result.shipment.ata
@@ -341,8 +342,9 @@ function PublicTrackPageContent() {
 													: "Expected Delivery"}
 											</div>
 											<div
-												className={`text-xl font-bold ${result.shipment.ata ? "text-success" : "text-info"
-													}`}
+												className={`text-xl font-bold ${
+													result.shipment.ata ? "text-success" : "text-info"
+												}`}
 											>
 												{format(
 													new Date(result.shipment.ata || result.shipment.eta!),

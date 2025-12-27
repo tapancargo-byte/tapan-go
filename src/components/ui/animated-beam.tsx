@@ -37,8 +37,8 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 	pathColor = "gray",
 	pathWidth = 2,
 	pathOpacity = 0.2,
-	gradientStartColor = "#ffaa40",
-	gradientStopColor = "#9c40ff",
+	gradientStartColor = "#818cf8",
+	gradientStopColor = "#4f46e5",
 	startXOffset = 0,
 	startYOffset = 0,
 	endXOffset = 0,
@@ -130,6 +130,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 				className,
 			)}
 			viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
+			aria-hidden="true"
 		>
 			<path
 				d={pathD}

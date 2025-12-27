@@ -118,7 +118,7 @@ export default function InvoicesPage() {
 			},
 			{
 				id: "actions",
-				cell: ({ row }) => (
+				cell: ({ row: _row }) => (
 					<Button variant="ghost" size="sm">
 						<ExternalLink className="h-4 w-4 mr-2" />
 						View

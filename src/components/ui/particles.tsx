@@ -3,10 +3,10 @@
 import type React from "react";
 import {
 	type ComponentPropsWithoutRef,
+	useCallback,
 	useEffect,
 	useRef,
 	useState,
-	useCallback,
 } from "react";
 
 import { cn } from "@/lib/utils";
@@ -124,21 +124,24 @@ export const Particles: React.FC<ParticlesProps> = ({
 		};
 	}, [size]);
 
-	const drawCircle = useCallback((circle: Circle, update = false) => {
-		if (context.current) {
-			const { x, y, translateX, translateY, size, alpha } = circle;
-			context.current.translate(translateX, translateY);
-			context.current.beginPath();
-			context.current.arc(x, y, size, 0, 2 * Math.PI);
-			context.current.fillStyle = `rgba(${hexToRgb(color).join(", ")}, ${alpha})`;
-			context.current.fill();
-			context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
+	const drawCircle = useCallback(
+		(circle: Circle, update = false) => {
+			if (context.current) {
+				const { x, y, translateX, translateY, size, alpha } = circle;
+				context.current.translate(translateX, translateY);
+				context.current.beginPath();
+				context.current.arc(x, y, size, 0, 2 * Math.PI);
+				context.current.fillStyle = `rgba(${hexToRgb(color).join(", ")}, ${alpha})`;
+				context.current.fill();
+				context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-			if (!update) {
-				circles.current.push(circle);
+				if (!update) {
+					circles.current.push(circle);
+				}
 			}
-		}
-	}, [color, dpr]);
+		},
+		[color, dpr],
+	);
 
 	const clearContext = useCallback(() => {
 		if (context.current) {
@@ -236,7 +239,7 @@ export const Particles: React.FC<ParticlesProps> = ({
 			drawCircle(newCircle);
 		}
 		rafID.current = window.requestAnimationFrame(animate);
-	}, [circleParams, drawCircle, ease, staticity, vx, vy]);
+	}, [circleParams, drawCircle, ease, staticity, vx, vy, clearContext]);
 
 	useEffect(() => {
 		if (canvasRef.current) {

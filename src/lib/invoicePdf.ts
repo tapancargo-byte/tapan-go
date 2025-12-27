@@ -36,20 +36,20 @@ async function getBrowser() {
  */
 const PDF_COLORS = {
 	// Base colors
-	text: "#1a1a2e", // Deep navy text
-	textMuted: "#64748b", // Slate gray
+	text: "#0f172a", // Foreground (Dark Slate)
+	textMuted: "#64748b", // Muted Foreground
 	textLight: "#94a3b8", // Light slate
-	background: "#f8fafc", // Very light gray
+	background: "#f8fafc", // Background (Light)
 	white: "#ffffff", // Pure white
 
 	// Borders
 	border: "#e2e8f0", // Light border
 	borderLight: "#f1f5f9", // Very light border
 
-	// Brand/Accent - Tapan Associate Blue
-	brand: "#3b82f6", // Primary blue
-	brandDark: "#1e40af", // Dark blue
-	brandLight: "#dbeafe", // Light blue bg
+	// Brand/Accent - Primary Indigo
+	brand: "#818cf8", // Primary Indigo
+	brandDark: "#4338ca", // Darker Indigo (Chart 4)
+	brandLight: "#e0e7ff", // Light Indigo bg
 
 	// Status colors
 	success: "#10b981", // Emerald green
@@ -58,7 +58,7 @@ const PDF_COLORS = {
 	warningLight: "#fef3c7", // Light amber bg
 
 	// Accent
-	accent: "#8b5cf6", // Purple accent
+	accent: "#374151", // Sidebar Accent
 };
 
 export async function generateInvoicePdf(invoiceId: string) {

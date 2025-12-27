@@ -188,6 +188,8 @@ export function TapanAssociateSidebarWidget() {
 														>
 															{att.url && att.type.startsWith("image/") ? (
 																// eslint-disable-next-line @next/next/no-img-element
+																// eslint-disable-next-line @next/next/no-img-element
+																// biome-ignore lint/performance/noImgElement: External image source
 																<img
 																	src={att.url}
 																	alt={att.name}
@@ -253,6 +255,8 @@ export function TapanAssociateSidebarWidget() {
 								>
 									{att.url && att.type.startsWith("image/") ? (
 										// eslint-disable-next-line @next/next/no-img-element
+										// eslint-disable-next-line @next/next/no-img-element
+										// biome-ignore lint/performance/noImgElement: External image source
 										<img
 											src={att.url}
 											alt={att.name}

@@ -1,0 +1,263 @@
+public\assets\secure-logistics.json check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  i The size of the file is 1.1 MiB, which exceeds the configured maximum of 1.0 MiB for this project.
+    Use the `files.maxSize` configuration to change the maximum size of files processed, or `files.includes` to ignore the file.
+  
+
+src\lib\twilioClient.ts:64:17 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    62 Γöé 	}
+    63 Γöé 
+  > 64 Γöé 	const payload: any = {
+       Γöé 	               ^^^
+    65 Γöé 		to: params.to,
+    66 Γöé 		body: params.body,
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src\lib\use-location-query.ts:18:38 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    16 Γöé 		orderBy?: { column: string; ascending?: boolean };
+    17 Γöé 		limit?: number;
+  > 18 Γöé 		additionalFilters?: Record<string, any>;
+       Γöé 		                                   ^^^
+    19 Γöé 		enabled?: boolean;
+    20 Γöé 	},
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\ai-remote.d.ts:3:17 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    1 Γöé export interface GenerateTextResult {
+    2 Γöé 	text: string;
+  > 3 Γöé 	[key: string]: any;
+      Γöé 	               ^^^
+    4 Γöé }
+    5 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\ai-remote.d.ts:6:36 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    4 Γöé }
+    5 Γöé 
+  > 6 Γöé export function generateText(args: any): Promise<GenerateTextResult>;
+      Γöé                                    ^^^
+    7 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\openai-remote.d.ts:3:24 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    1 Γöé export function createOpenAI(config: {
+    2 Γöé 	apiKey: string;
+  > 3 Γöé }): (model: string) => any;
+      Γöé                        ^^^
+    4 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\resend-remote.d.ts:4:15 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    2 Γöé 	constructor(apiKey: string);
+    3 Γöé 	emails: {
+  > 4 Γöé 		send(input: any): Promise<any>;
+      Γöé 		            ^^^
+    5 Γöé 	};
+    6 Γöé }
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\resend-remote.d.ts:4:29 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    2 Γöé 	constructor(apiKey: string);
+    3 Γöé 	emails: {
+  > 4 Γöé 		send(input: any): Promise<any>;
+      Γöé 		                          ^^^
+    5 Γöé 	};
+    6 Γöé }
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\supabase-js-remote.d.ts:1:30 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+  > 1 Γöé export type SupabaseClient = any;
+      Γöé                              ^^^
+    2 Γöé export function createClient(...args: any[]): SupabaseClient;
+    3 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\_types\supabase-js-remote.d.ts:2:39 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    1 Γöé export type SupabaseClient = any;
+  > 2 Γöé export function createClient(...args: any[]): SupabaseClient;
+      Γöé                                       ^^^
+    3 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\daily-summary\index.ts:8:21 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+     6 Γöé import "../_shared/deno-env.ts";
+     7 Γöé 
+   > 8 Γöé const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+       Γöé                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     9 Γöé const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    10 Γöé const openAiKey = Deno.env.get("OPENAI_API_KEY")!;
+  
+
+supabase\functions\daily-summary\index.ts:9:28 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+     8 Γöé const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+   > 9 Γöé const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+       Γöé                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    10 Γöé const openAiKey = Deno.env.get("OPENAI_API_KEY")!;
+    11 Γöé 
+  
+
+supabase\functions\daily-summary\index.ts:10:19 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+     8 Γöé const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+     9 Γöé const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  > 10 Γöé const openAiKey = Deno.env.get("OPENAI_API_KEY")!;
+       Γöé                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    11 Γöé 
+    12 Γöé const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  
+
+supabase\functions\daily-summary\index.ts:53:18 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    51 Γöé 			headers: { "Content-Type": "application/json" },
+    52 Γöé 		});
+  > 53 Γöé 	} catch (error: any) {
+       Γöé 	                ^^^
+    54 Γöé 		return new Response(
+    55 Γöé 			JSON.stringify({ error: error.message || "Unknown error" }),
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\handle-events\index.ts:6:21 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+    4 Γöé import "../_shared/deno-env.ts";
+    5 Γöé 
+  > 6 Γöé const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      Γöé                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    7 Γöé const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    8 Γöé const resendApiKey = Deno.env.get("RESEND_API_KEY")!;
+  
+
+supabase\functions\handle-events\index.ts:7:28 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+    6 Γöé const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  > 7 Γöé const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      Γöé                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    8 Γöé const resendApiKey = Deno.env.get("RESEND_API_KEY")!;
+    9 Γöé 
+  
+
+supabase\functions\handle-events\index.ts:8:22 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+     6 Γöé const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+     7 Γöé const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+   > 8 Γöé const resendApiKey = Deno.env.get("RESEND_API_KEY")!;
+       Γöé                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     9 Γöé 
+    10 Γöé const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  
+
+supabase\functions\handle-events\index.ts:16:10 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    14 Γöé 	type: "INSERT" | "UPDATE" | "DELETE";
+    15 Γöé 	table: string;
+  > 16 Γöé 	record: any;
+       Γöé 	        ^^^
+    17 Γöé 	old_record: any;
+    18 Γöé 	schema: string;
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\handle-events\index.ts:17:14 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    15 Γöé 	table: string;
+    16 Γöé 	record: any;
+  > 17 Γöé 	old_record: any;
+       Γöé 	            ^^^
+    18 Γöé 	schema: string;
+    19 Γöé }
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+supabase\functions\handle-events\index.ts:34:18 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    32 Γöé 			headers: { "Content-Type": "application/json" },
+    33 Γöé 		});
+  > 34 Γöé 	} catch (error: any) {
+       Γöé 	                ^^^
+    35 Γöé 		console.error("Error processing webhook:", error);
+    36 Γöé 		return new Response(
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 565.
+Checked 540 files in 1563ms. No fixes applied.
+Found 97 errors.
+Found 486 warnings.
+Found 1 info.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

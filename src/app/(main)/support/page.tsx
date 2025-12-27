@@ -311,8 +311,14 @@ function SupportPageContent() {
 				{/* Search & Filters */}
 				<div className="flex gap-4 flex-col sm:flex-row items-end">
 					<div className="flex-1">
-						<label className="text-sm font-medium mb-2 block">Search</label>
+						<label
+							htmlFor="support-search"
+							className="text-sm font-medium mb-2 block"
+						>
+							Search
+						</label>
 						<Input
+							id="support-search"
 							placeholder="Search by subject or customer name..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
@@ -320,8 +326,14 @@ function SupportPageContent() {
 						/>
 					</div>
 					<div>
-						<label className="text-sm font-medium mb-2 block">Status</label>
+						<label
+							htmlFor="support-status"
+							className="text-sm font-medium mb-2 block"
+						>
+							Status
+						</label>
 						<select
+							id="support-status"
 							value={filterStatus}
 							onChange={(e) => setFilterStatus(e.target.value)}
 							className="px-3 py-2 bg-input text-foreground border border-pop"
@@ -333,8 +345,14 @@ function SupportPageContent() {
 						</select>
 					</div>
 					<div>
-						<label className="text-sm font-medium mb-2 block">Priority</label>
+						<label
+							htmlFor="support-priority"
+							className="text-sm font-medium mb-2 block"
+						>
+							Priority
+						</label>
 						<select
+							id="support-priority"
 							value={filterPriority}
 							onChange={(e) => setFilterPriority(e.target.value)}
 							className="px-3 py-2 bg-input text-foreground border border-pop"

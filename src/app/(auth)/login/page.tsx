@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { LoginPageRefactored } from "@/components/auth/login-page-refactored";
+import { LoginPageMatrix } from "@/components/auth/login-page-matrix";
 import { createClient } from "@/lib/supabaseServer";
 
 export const metadata: Metadata = {
-	title: "Login - Tapan Associate",
-	description: "Sign in to access the Tapan Associate cargo network dashboard.",
+	title: "TAC Logistics | Command Terminal",
+	description: "Secure terminal access for TAC Logistics personnel.",
 };
 
 export default async function LoginPage() {
@@ -18,5 +18,5 @@ export default async function LoginPage() {
 		redirect("/dashboard");
 	}
 
-	return <LoginPageRefactored />;
+	return <LoginPageMatrix />;
 }

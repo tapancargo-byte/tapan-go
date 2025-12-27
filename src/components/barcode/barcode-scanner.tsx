@@ -20,7 +20,9 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
 	useEffect(() => {
 		return () => {
 			if (streamRef.current) {
-				streamRef.current.getTracks().forEach((track) => track.stop());
+				streamRef.current.getTracks().forEach((track) => {
+					track.stop();
+				});
 			}
 		};
 	}, []);
@@ -44,7 +46,9 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
 
 	const stopCamera = () => {
 		if (streamRef.current) {
-			streamRef.current.getTracks().forEach((track) => track.stop());
+			streamRef.current.getTracks().forEach((track) => {
+				track.stop();
+			});
 		}
 		setIsCameraActive(false);
 	};
@@ -79,7 +83,9 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
 						autoPlay
 						playsInline
 						className="w-full max-w-md mx-auto rounded-lg border-2 border-primary/30"
-					/>
+					>
+						<track kind="captions" src="" label="English" />
+					</video>
 					<Button onClick={stopCamera} variant="outline" className="w-full">
 						Stop Camera
 					</Button>
@@ -92,11 +98,15 @@ export default function BarcodeScanner({ onScanResult }: BarcodeScannerProps) {
 
 			{/* Manual Input */}
 			<div className="space-y-2">
-				<label className="text-sm font-medium">
+				<label
+					htmlFor="barcode-input-component"
+					className="text-sm font-medium"
+				>
 					Or enter barcode manually:
 				</label>
 				<div className="flex gap-2">
 					<Input
+						id="barcode-input-component"
 						placeholder="Enter barcode number (e.g., TG240710001)"
 						value={manualInput}
 						onChange={(e) => setManualInput(e.target.value)}

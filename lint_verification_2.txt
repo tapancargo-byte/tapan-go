@@ -1,0 +1,378 @@
+src\app\(auth)\_components\login-page-matrix.tsx:448:31 lint/suspicious/noCommentText  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Wrap comments inside children within braces.
+  
+    446 Γöé 								transition={{ delay: 1.5, duration: 1 }}
+    447 Γöé 							>
+  > 448 Γöé 								Tapan Associate Cargo // Authorized Access
+        Γöé 								                      ^^^^^^^^^^^^^^^^^^^^
+    449 Γöé 							</motion.p>
+    450 Γöé 						</motion.div>
+  
+  i Unsafe fix: Wrap the comments with braces
+  
+    446 446 Γöé   								transition={{ delay: 1.5, duration: 1 }}
+    447 447 Γöé   							>
+    448     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Tapan┬╖Associate┬╖Cargo┬╖//┬╖Authorized┬╖Access
+        448 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Tapan┬╖Associate┬╖Cargo┬╖{/*┬╖Authorized┬╖Access┬╖*/}
+    449 449 Γöé   							</motion.p>
+    450 450 Γöé   						</motion.div>
+  
+
+src\app\(external)\_components\landing\about-section.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     1  1 Γöé   "use client";
+     2  2 Γöé   
+     3    Γöé - 
+     4  3 Γöé   import dynamic from "next/dynamic";
+     5  4 Γöé   import React from "react";
+  
+
+src\app\(external)\track\page.tsx:174:20 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù performLookup changes on every re-render and should not be used as a hook dependency.
+  
+    172 Γöé 		setQuery(trimmed);
+    173 Γöé 		void performLookup(trimmed);
+  > 174 Γöé 	}, [searchParams, performLookup]);
+        Γöé 	                  ^^^^^^^^^^^^^
+    175 Γöé 
+    176 Γöé 	const hasBarcodes = (result?.barcodes?.length ?? 0) > 0;
+  
+  i To fix this, wrap the definition of performLookup in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\_components\notifications\notification-item.tsx:93:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    91 Γöé 				}
+    92 Γöé 			}}
+  > 93 Γöé 			role="button"
+       Γöé 			^^^^^^^^^^^^^
+    94 Γöé 			tabIndex={0}
+    95 Γöé 		>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\(main)\dashboard\_components\rebels-ranking\index.tsx:53:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `)` but instead found `return`
+  
+    52 Γöé 					return (
+  > 53 Γöé 					return (
+       Γöé 					^^^^^^
+    54 Γöé 						<button
+    55 Γöé 							key={rebel.id}
+  
+  i Remove return
+  
+
+src\app\(main)\dashboard\_components\rebels-ranking\index.tsx:53:6 lint/correctness/noUnreachable ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This code will never be reached ...
+  
+     52 Γöé 					return (
+   > 53 Γöé 					return (
+        Γöé 					^^^^^^^^
+   > 54 Γöé 						<button
+         ...
+  > 118 Γöé 						</button>
+  > 119 Γöé 					);
+        Γöé 					^^
+    120 Γöé 				})}
+    121 Γöé 				{activeRebel && (
+  
+  i ... because this statement will return from the function beforehand
+  
+    50 Γöé 					const isActive = activeId === rebel.id;
+    51 Γöé 
+  > 52 Γöé 					return (
+       Γöé 					^^^^^^^^
+    53 Γöé 					return (
+    54 Γöé 						<button
+  
+
+src\app\(main)\dashboard\_components\rebels-ranking\index.tsx:53:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù expected `)` but instead found `return`
+  
+    52 Γöé 					return (
+  > 53 Γöé 					return (
+       Γöé 					^^^^^^
+    54 Γöé 						<button
+    55 Γöé 							key={rebel.id}
+  
+  i Remove return
+  
+
+src\app\(main)\dashboard\_components\rebels-ranking\index.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Code formatting aborted due to parsing errors. To format code with errors, enable the 'formatter.formatWithErrors' option.
+  
+
+src\app\(main)\dashboard\invoices\logs\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    103 103 Γöé   						<div className="flex flex-col sm:flex-row gap-4 items-end">
+    104 104 Γöé   							<div className="flex-1">
+    105     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="invoice-id"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">
+        105 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        106 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="invoice-id"
+        107 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        108 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    106 109 Γöé   									Invoice ID
+    107 110 Γöé   								</label>
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:121:6 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù loadCustomers changes on every re-render and should not be used as a hook dependency.
+  
+    119 Γöé 		loadShipments();
+    120 Γöé 		loadCustomers();
+  > 121 Γöé 	}, [loadCustomers, loadShipments]);
+        Γöé 	    ^^^^^^^^^^^^^
+    122 Γöé 
+    123 Γöé 	const handleSubmit = async (values: any) => {
+  
+  i To fix this, wrap the definition of loadCustomers in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:121:21 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù loadShipments changes on every re-render and should not be used as a hook dependency.
+  
+    119 Γöé 		loadShipments();
+    120 Γöé 		loadCustomers();
+  > 121 Γöé 	}, [loadCustomers, loadShipments]);
+        Γöé 	                   ^^^^^^^^^^^^^
+    122 Γöé 
+    123 Γöé 	const handleSubmit = async (values: any) => {
+  
+  i To fix this, wrap the definition of loadShipments in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:265:16 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù handleDelete changes on every re-render and should not be used as a hook dependency.
+  
+    263 Γöé 			},
+    264 Γöé 		],
+  > 265 Γöé 		[form.reset, handleDelete],
+        Γöé 		             ^^^^^^^^^^^^
+    266 Γöé 	);
+    267 Γöé 
+  
+  i To fix this, wrap the definition of handleDelete in its own useCallback() hook.
+  
+
+src\app\(main)\invoices\_components\invoice-preview.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    756 756 Γöé   								invoice.declaredValue != null ||
+    757 757 Γöé   								invoice.paymentMode) && (
+    758     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div┬╖className="text-xs"┬╖style={{┬╖color:┬╖COLORS.textMuted┬╖}}>
+    759     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div
+    760     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="font-semibold┬╖mb-1"
+    761     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ style={{┬╖color:┬╖COLORS.text┬╖}}
+    762     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    763     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Consignment┬╖details
+    764     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    765     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.origin┬╖||┬╖invoice.destination┬╖?┬╖(
+    766     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    767     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Route:┬╖{invoice.origin┬╖||┬╖"?"}
+    768     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <span┬╖className="mx-1">ΓåÆ</span>
+    769     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.destination┬╖||┬╖"?"}
+    770     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    771     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )┬╖:┬╖null}
+    772     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.pieces┬╖!=┬╖null┬╖&&┬╖(
+    773     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Pieces:┬╖{invoice.pieces}</div>
+    774     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    775     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.chargedWeight┬╖!=┬╖null┬╖&&┬╖(
+    776     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    777     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Charged┬╖weight:┬╖{invoice.chargedWeight.toFixed(2)}┬╖kg
+    778     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    779     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    780     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue┬╖!=┬╖null┬╖&&┬╖(
+    781     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    782     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Declared┬╖value:┬╖Γé╣
+    783     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue.toLocaleString("en-IN")}
+    784     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    785     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    786     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.paymentMode┬╖&&┬╖(
+    787     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Payment┬╖mode:┬╖{invoice.paymentMode}</div>
+    788     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    789     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    790     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        758 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div┬╖className="text-xs"┬╖style={{┬╖color:┬╖COLORS.textMuted┬╖}}>
+        759 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div
+        760 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="font-semibold┬╖mb-1"
+        761 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ style={{┬╖color:┬╖COLORS.text┬╖}}
+        762 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        763 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Consignment┬╖details
+        764 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        765 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.origin┬╖||┬╖invoice.destination┬╖?┬╖(
+        766 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        767 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Route:┬╖{invoice.origin┬╖||┬╖"?"}
+        768 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <span┬╖className="mx-1">ΓåÆ</span>
+        769 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.destination┬╖||┬╖"?"}
+        770 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        771 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )┬╖:┬╖null}
+        772 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.pieces┬╖!=┬╖null┬╖&&┬╖(
+        773 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Pieces:┬╖{invoice.pieces}</div>
+        774 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        775 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.chargedWeight┬╖!=┬╖null┬╖&&┬╖(
+        776 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        777 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Charged┬╖weight:┬╖{invoice.chargedWeight.toFixed(2)}┬╖kg
+        778 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        779 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        780 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue┬╖!=┬╖null┬╖&&┬╖(
+        781 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        782 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Declared┬╖value:┬╖Γé╣
+        783 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue.toLocaleString("en-IN")}
+        784 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        785 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        786 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.paymentMode┬╖&&┬╖(
+        787 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Payment┬╖mode:┬╖{invoice.paymentMode}</div>
+        788 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        789 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        790 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    791 791 Γöé   
+    792 792 Γöé   							<table className="w-full">
+  
+
+src\app\(main)\invoices\page.tsx:1579:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    1577 Γöé 				<div className="flex gap-4 flex-col sm:flex-row items-start sm:items-end">
+    1578 Γöé 					<div className="flex-1">
+  > 1579 Γöé 						<label className="text-sm font-medium mb-2 block">Search</label>
+         Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1580 Γöé 						<Input
+    1581 Γöé 							placeholder="Search by invoice ID or customer name..."
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\invoices\page.tsx:1588:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    1586 Γöé 					</div>
+    1587 Γöé 					<div className="w-full sm:w-auto">
+  > 1588 Γöé 						<label className="text-sm font-medium mb-2 block">Status</label>
+         Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    1589 Γöé 						<Select
+    1590 Γöé 							value={filterStatus}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\(main)\shipments\page.tsx:1151:13 lint/a11y/noStaticElementInteractions ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Static Elements should not be interactive.
+  
+    1150 Γöé 											return (
+  > 1151 Γöé 												<div
+         Γöé 												^^^^
+  > 1152 Γöé 													key={bc.id}
+          ...
+  > 1163 Γöé 													}}
+  > 1164 Γöé 												>
+         Γöé 												^
+    1165 Γöé 													<div className="flex justify-between items-center">
+    1166 Γöé 														<div>
+  
+  i To add interactivity such as a mouse or key event listener to a static element, give the element an appropriate role value.
+  
+
+src\app\(main)\shipments\page.tsx:1151:13 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    1150 Γöé 											return (
+  > 1151 Γöé 												<div
+         Γöé 												^^^^
+  > 1152 Γöé 													key={bc.id}
+          ...
+  > 1163 Γöé 													}}
+  > 1164 Γöé 												>
+         Γöé 												^
+    1165 Γöé 													<div className="flex justify-between items-center">
+    1166 Γöé 														<div>
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\app\aircargo\manifest-scanner\page.tsx:203:9 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    201 Γöé 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    202 Γöé 							<div>
+  > 203 Γöé 								<label className="text-sm font-medium mb-2 block">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 204 Γöé 									Origin Hub
+  > 205 Γöé 								</label>
+        Γöé 								^^^^^^^^
+    206 Γöé 								<Input
+    207 Γöé 									value={origin}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\aircargo\manifest-scanner\page.tsx:213:9 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    211 Γöé 							</div>
+    212 Γöé 							<div>
+  > 213 Γöé 								<label className="text-sm font-medium mb-2 block">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 214 Γöé 									Destination
+  > 215 Γöé 								</label>
+        Γöé 								^^^^^^^^
+    216 Γöé 								<Input
+    217 Γöé 									value={destination}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\lib\supabaseServer.ts:17:20 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    15 Γöé 				setAll(cookiesToSet) {
+    16 Γöé 					try {
+  > 17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+       Γöé 						             ^^^^^^^
+    18 Γöé 							cookieStore.set(name, value, options),
+    19 Γöé 						);
+  
+  i Either remove this return or remove the returned value.
+  
+    16 Γöé 					try {
+    17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+  > 18 Γöé 							cookieStore.set(name, value, options),
+       Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    19 Γöé 						);
+    20 Γöé 					} catch {
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 75.
+Checked 501 files in 1379ms. No fixes applied.
+Found 95 errors.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

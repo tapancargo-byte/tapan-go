@@ -75,15 +75,22 @@ export default function NotificationItem({
 	};
 
 	return (
-		<div
+		<button
+			type="button"
 			className={cn(
-				"group p-3 border transition-all duration-200 hover:shadow-sm",
+				"w-full text-left group p-3 border transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
 				!notification.read && "cursor-pointer",
 				notification.read
 					? "bg-background/50 border-border/30"
 					: "bg-background border-border shadow-sm",
 			)}
 			onClick={handleNotificationClick}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					handleNotificationClick();
+				}
+			}}
 		>
 			<div className="flex items-start gap-3">
 				<div
@@ -129,6 +136,6 @@ export default function NotificationItem({
 					</div>
 				</div>
 			</div>
-		</div>
+		</button>
 	);
 }

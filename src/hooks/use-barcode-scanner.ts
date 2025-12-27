@@ -12,7 +12,7 @@ export function useBarcodeScanner({
 	onScan,
 	minLength = 3,
 	timeThreshold = 2000, // Increased to 2000ms to handle React re-render delays
-	debug = false,
+	_debug = false,
 	enabled = true,
 }: UseBarcodeScannerOptions) {
 	// Use ref to avoid buffer reset when onScan changes

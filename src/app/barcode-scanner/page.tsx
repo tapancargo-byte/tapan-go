@@ -36,10 +36,14 @@ export default function BarcodeScannerPage() {
 					</div>
 
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-muted-foreground">
+						<label
+							htmlFor="barcode-input-page"
+							className="text-sm font-medium text-muted-foreground"
+						>
 							Scan or type a barcode
 						</label>
 						<Input
+							id="barcode-input-page"
 							ref={inputRef}
 							value={value}
 							onChange={(e) => {

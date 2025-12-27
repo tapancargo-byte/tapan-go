@@ -1,5 +1,5 @@
-import { Landing2025 } from "@/components/auth/landing-2025";
+import { LandingRedesign } from "./_components/landing-redesign";
 
 export default function Home() {
-	return <Landing2025 />;
+	return <LandingRedesign />;
 }

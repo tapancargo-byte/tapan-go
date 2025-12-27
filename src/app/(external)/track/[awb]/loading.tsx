@@ -22,7 +22,7 @@ export default function TrackingLoadingSkeleton() {
 							<div className="space-y-2">
 								{Array.from({ length: 4 }).map((_, i) => (
 									<div
-										key={i}
+										key={`skeleton-a-${i}`}
 										className="h-10 rounded bg-muted/30 animate-pulse"
 									/>
 								))}
@@ -33,7 +33,7 @@ export default function TrackingLoadingSkeleton() {
 						<GlassCardContent className="p-6 space-y-3">
 							{Array.from({ length: 4 }).map((_, i) => (
 								<div
-									key={i}
+									key={`skeleton-b-${i}`}
 									className="h-6 rounded bg-muted/30 animate-pulse"
 								/>
 							))}

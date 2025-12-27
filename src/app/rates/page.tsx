@@ -454,8 +454,14 @@ export default function RatesPage() {
 				{/* Search and New Rate */}
 				<div className="flex gap-3 flex-col sm:flex-row sm:items-end">
 					<div className="flex-1">
-						<label className="text-sm font-medium mb-2 block">Search</label>
+						<label
+							htmlFor="rates-search"
+							className="text-sm font-medium mb-2 block"
+						>
+							Search
+						</label>
 						<Input
+							id="rates-search"
 							placeholder="Search by origin or destination..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
@@ -504,8 +510,11 @@ export default function RatesPage() {
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-2">
 						<div className="space-y-1">
-							<label className="text-xs font-medium">Origin</label>
+							<label htmlFor="quote-origin" className="text-xs font-medium">
+								Origin
+							</label>
 							<Input
+								id="quote-origin"
 								placeholder="Imphal"
 								value={quoteOrigin}
 								onChange={(e) => setQuoteOrigin(e.target.value)}
@@ -514,8 +523,14 @@ export default function RatesPage() {
 						</div>
 
 						<div className="space-y-1">
-							<label className="text-xs font-medium">Destination</label>
+							<label
+								htmlFor="quote-destination"
+								className="text-xs font-medium"
+							>
+								Destination
+							</label>
 							<Input
+								id="quote-destination"
 								placeholder="New Delhi"
 								value={quoteDestination}
 								onChange={(e) => setQuoteDestination(e.target.value)}
@@ -524,8 +539,11 @@ export default function RatesPage() {
 						</div>
 
 						<div className="space-y-1">
-							<label className="text-xs font-medium">Weight (kg)</label>
+							<label htmlFor="quote-weight" className="text-xs font-medium">
+								Weight (kg)
+							</label>
 							<Input
+								id="quote-weight"
 								type="number"
 								min="0"
 								step="0.01"
@@ -537,12 +555,21 @@ export default function RatesPage() {
 						</div>
 
 						<div className="space-y-1">
-							<label className="text-xs font-medium">Service type</label>
+							<label
+								htmlFor="quote-service-type"
+								className="text-xs font-medium"
+							>
+								Service type
+							</label>
 							<Select
 								value={quoteServiceType}
 								onValueChange={setQuoteServiceType}
 							>
-								<SelectTrigger className="h-8">
+								<SelectTrigger
+									id="quote-service-type"
+									className="h-8"
+									aria-label="Service type"
+								>
 									<SelectValue placeholder="Select" />
 								</SelectTrigger>
 								<SelectContent>

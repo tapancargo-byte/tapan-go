@@ -28,8 +28,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -55,10 +55,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-	ScrollArea,
-	ScrollBar,
-} from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
 	Select,
 	SelectContent,
@@ -68,7 +65,6 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import type { Customer, Invoice, ShipmentRate } from "@/types/database";
@@ -114,7 +110,9 @@ interface InvoiceDialogEnhancedProps {
 	customers: Customer[];
 	onSave?: (data: any) => Promise<void>;
 	rates?: ShipmentRate[];
-	onQuickCreateCustomer: (type: "shipper" | "consignee" | "billing") => Promise<Customer | null>;
+	onQuickCreateCustomer: (
+		type: "shipper" | "consignee" | "billing",
+	) => Promise<Customer | null>;
 }
 
 export function InvoiceDialogEnhanced({
@@ -127,7 +125,9 @@ export function InvoiceDialogEnhanced({
 	onQuickCreateCustomer,
 }: InvoiceDialogEnhancedProps) {
 	const [isCreating, setIsCreating] = useState(false);
-	const [rateLookupStatus, setRateLookupStatus] = useState<"idle" | "searching" | "found" | "not_found">("idle");
+	const [rateLookupStatus, setRateLookupStatus] = useState<
+		"idle" | "searching" | "found" | "not_found"
+	>("idle");
 	const [matchedRate, setMatchedRate] = useState<ShipmentRate | null>(null);
 
 	const form = useForm<InvoiceFormValues>({
@@ -166,7 +166,9 @@ export function InvoiceDialogEnhanced({
 	useEffect(() => {
 		if (editingInvoice) {
 			form.reset({
-				invoiceDate: editingInvoice.invoiceDate ? new Date(editingInvoice.invoiceDate) : new Date(),
+				invoiceDate: editingInvoice.invoiceDate
+					? new Date(editingInvoice.invoiceDate)
+					: new Date(),
 				shipperName: editingInvoice.shipperName || "",
 				shipperAddress: editingInvoice.shipperAddress || "",
 				shipperPhone: editingInvoice.shipperPhone || "",
@@ -244,7 +246,9 @@ export function InvoiceDialogEnhanced({
 				await onSave(data);
 			}
 			onOpenChange(false);
-			toast.success(editingInvoice ? "Invoice updated" : "Invoice created successfully");
+			toast.success(
+				editingInvoice ? "Invoice updated" : "Invoice created successfully",
+			);
 		} catch (error) {
 			console.error("Save error:", error);
 			toast.error("Failed to save invoice");
@@ -259,7 +263,8 @@ export function InvoiceDialogEnhanced({
 	};
 
 	// Calculate totals for UI summary
-	const calcFreight = (form.watch("chargedWeight") || 0) * (form.watch("rate") || 0);
+	const calcFreight =
+		(form.watch("chargedWeight") || 0) * (form.watch("rate") || 0);
 	const subtotal =
 		calcFreight +
 		(form.watch("pickupCharge") || 0) +
@@ -289,7 +294,13 @@ export function InvoiceDialogEnhanced({
 
 	const canEdit = true; // For now
 
-	const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
+	const SectionHeader = ({
+		icon: Icon,
+		title,
+	}: {
+		icon: any;
+		title: string;
+	}) => (
 		<div className="flex items-center gap-2 mb-4">
 			<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
 				<Icon className="w-4 h-4 text-primary" />
@@ -298,7 +309,13 @@ export function InvoiceDialogEnhanced({
 		</div>
 	);
 
-	const AddNewButton = ({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) => (
+	const AddNewButton = ({
+		onClick,
+		disabled,
+	}: {
+		onClick: () => void;
+		disabled?: boolean;
+	}) => (
 		<Button
 			type="button"
 			variant="ghost"
@@ -353,9 +370,13 @@ export function InvoiceDialogEnhanced({
 													form.setValue("shipperName", created.name, {
 														shouldDirty: true,
 													});
-													form.setValue("shipperAddress", created.address || "", {
-														shouldDirty: true,
-													});
+													form.setValue(
+														"shipperAddress",
+														created.address || "",
+														{
+															shouldDirty: true,
+														},
+													);
 													form.setValue("shipperPhone", created.phone || "", {
 														shouldDirty: true,
 													});
@@ -683,7 +704,7 @@ export function InvoiceDialogEnhanced({
 														className={cn(
 															"flex-1 gap-2 h-10",
 															field.value === "air" &&
-															"bg-blue-600 hover:bg-blue-700",
+																"bg-blue-600 hover:bg-blue-700",
 														)}
 														onClick={() => field.onChange("air")}
 													>
@@ -693,15 +714,13 @@ export function InvoiceDialogEnhanced({
 													<Button
 														type="button"
 														variant={
-															field.value === "express"
-																? "default"
-																: "outline"
+															field.value === "express" ? "default" : "outline"
 														}
 														size="sm"
 														className={cn(
 															"flex-1 gap-2 h-10",
 															field.value === "express" &&
-															"bg-amber-600 hover:bg-amber-700",
+																"bg-amber-600 hover:bg-amber-700",
 														)}
 														onClick={() => field.onChange("express")}
 													>
@@ -711,15 +730,13 @@ export function InvoiceDialogEnhanced({
 													<Button
 														type="button"
 														variant={
-															field.value === "surface"
-																? "default"
-																: "outline"
+															field.value === "surface" ? "default" : "outline"
 														}
 														size="sm"
 														className={cn(
 															"flex-1 gap-2 h-10",
 															field.value === "surface" &&
-															"bg-emerald-600 hover:bg-emerald-700",
+																"bg-emerald-600 hover:bg-emerald-700",
 														)}
 														onClick={() => field.onChange("surface")}
 													>
@@ -939,11 +956,7 @@ export function InvoiceDialogEnhanced({
 													Remarks
 												</FormLabel>
 												<FormControl>
-													<Input
-														placeholder="DUE"
-														className="h-9"
-														{...field}
-													/>
+													<Input placeholder="DUE" className="h-9" {...field} />
 												</FormControl>
 												<FormMessage />
 											</FormItem>
@@ -1263,8 +1276,7 @@ export function InvoiceDialogEnhanced({
 													Insurance Charge
 												</span>
 												<span>
-													₹
-													{calculatedTotals.insurance.toLocaleString("en-IN")}
+													₹{calculatedTotals.insurance.toLocaleString("en-IN")}
 												</span>
 											</div>
 											<div className="flex justify-between">
@@ -1272,8 +1284,7 @@ export function InvoiceDialogEnhanced({
 													GST ({calculatedTotals.gstPercent}%)
 												</span>
 												<span>
-													₹
-													{calculatedTotals.gstAmount.toLocaleString("en-IN")}
+													₹{calculatedTotals.gstAmount.toLocaleString("en-IN")}
 												</span>
 											</div>
 											{calculatedTotals.other > 0 && (

@@ -10,6 +10,7 @@ export function ServiceRouteVisual() {
 				className="absolute inset-0 h-full w-full text-foreground/10 dark:text-foreground/20"
 				viewBox="0 0 400 200"
 				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
 			>
 				<pattern
 					id="grid-pattern"
@@ -33,6 +34,7 @@ export function ServiceRouteVisual() {
 				viewBox="0 0 300 150"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
 			>
 				{/* Path Line */}
 				<motion.path

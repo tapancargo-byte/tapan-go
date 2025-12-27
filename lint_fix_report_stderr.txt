@@ -1,0 +1,311 @@
+public\assets\secure-logistics.json check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  i The size of the file is 1.1 MiB, which exceeds the configured maximum of 1.0 MiB for this project.
+    Use the `files.maxSize` configuration to change the maximum size of files processed, or `files.includes` to ignore the file.
+  
+
+src\app\(auth)\_components\dashboard-landing.tsx:28:5 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    26 Γöé 			.then((data) => setAnimationData(data))
+    27 Γöé 			.catch((err) => {
+  > 28 Γöé 				// biome-ignore lint/suspicious/noConsole: valid error logging
+       Γöé 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    29 Γöé 				console.error("Failed to load animation", err);
+    30 Γöé 			});
+  
+
+src\app\(main)\dashboard\_components\tapan-associate-widget.tsx:191:17 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    189 Γöé 															{att.url && att.type.startsWith("image/") ? (
+    190 Γöé 																// eslint-disable-next-line @next/next/no-img-element
+  > 191 Γöé 																<img
+        Γöé 																^^^^
+  > 192 Γöé 																	src={att.url}
+  > 193 Γöé 																	alt={att.name}
+  > 194 Γöé 																	className="h-16 w-16 object-cover"
+  > 195 Γöé 																/>
+        Γöé 																^^
+    196 Γöé 															) : (
+    197 Γöé 																<div className="px-2 py-1 text-xs max-w-[120px] truncate">
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\app\(main)\dashboard\_components\tapan-associate-widget.tsx:256:11 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    254 Γöé 									{att.url && att.type.startsWith("image/") ? (
+    255 Γöé 										// eslint-disable-next-line @next/next/no-img-element
+  > 256 Γöé 										<img
+        Γöé 										^^^^
+  > 257 Γöé 											src={att.url}
+  > 258 Γöé 											alt={att.name}
+  > 259 Γöé 											className="h-8 w-8 rounded object-cover"
+  > 260 Γöé 										/>
+        Γöé 										^^
+    261 Γöé 									) : (
+    262 Γöé 										<div className="h-8 w-8 flex items-center justify-center rounded bg-muted text-xs">
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\app\(main)\dashboard\invoices\[invoiceId]\page.tsx:263:8 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    261 Γöé 						</div>
+    262 Γöé 						<div className="bg-white border rounded-lg p-2">
+  > 263 Γöé 							<img
+        Γöé 							^^^^
+  > 264 Γöé 								src={qrDataUrl}
+  > 265 Γöé 								alt="Scan to pay"
+  > 266 Γöé 								className="w-32 h-32 object-contain"
+  > 267 Γöé 							/>
+        Γöé 							^^
+    268 Γöé 						</div>
+    269 Γöé 						<div className="text-xs text-muted-foreground">
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\app\(main)\dashboard\invoices\page.tsx:121:14 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    119 Γöé 			{
+    120 Γöé 				id: "actions",
+  > 121 Γöé 				cell: ({ row }) => (
+        Γöé 				         ^^^
+    122 Γöé 					<Button variant="ghost" size="sm">
+    123 Γöé 						<ExternalLink className="h-4 w-4 mr-2" />
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\app\(main)\invoices\_components\invoice-preview.tsx:713:11 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    711 Γöé 								>
+    712 Γöé 									{qrDataUrl && (
+  > 713 Γöé 										<img
+        Γöé 										^^^^
+  > 714 Γöé 											src={qrDataUrl}
+  > 715 Γöé 											alt="Scan to pay"
+  > 716 Γöé 											className="w-full h-full"
+  > 717 Γöé 										/>
+        Γöé 										^^
+    718 Γöé 									)}
+    719 Γöé 								</div>
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\app\(main)\settings\page.tsx:769:13 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    767 Γöé 											</p>
+    768 Γöé 											<div className="flex flex-col items-center gap-3 sm:flex-row">
+  > 769 Γöé 												<img
+        Γöé 												^^^^
+  > 770 Γöé 													src={qrCode}
+  > 771 Γöé 													alt="Authenticator QR code"
+  > 772 Γöé 													className="h-32 w-32 shrink-0"
+  > 773 Γöé 												/>
+        Γöé 												^^
+    774 Γöé 												<div className="w-full space-y-2">
+    775 Γöé 													<Input
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\features\invoices\invoices-table.tsx:57:2 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    55 Γöé 	canEdit,
+    56 Γöé 	renderSmsStatus,
+  > 57 Γöé 	getStatusColor,
+       Γöé 	^^^^^^^^^^^^^^
+    58 Γöé 	onOpenManageShipments,
+    59 Γöé 	onViewInvoice,
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\hooks\use-barcode-scanner.ts:15:2 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    13 Γöé 	minLength = 3,
+    14 Γöé 	timeThreshold = 2000, // Increased to 2000ms to handle React re-render delays
+  > 15 Γöé 	debug = false,
+       Γöé 	^^^^^
+    16 Γöé 	enabled = true,
+    17 Γöé }: UseBarcodeScannerOptions) {
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\hooks\useRealtimePresence.ts:57:43 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    55 Γöé 					setOnlineUsers(users);
+    56 Γöé 				})
+  > 57 Γöé 				.on("presence", { event: "join" }, ({ key, newPresences }) => {
+       Γöé 				                                      ^^^
+    58 Γöé 					// User joined - presence state updated automatically
+    59 Γöé 				})
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\hooks\useRealtimePresence.ts:57:48 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    55 Γöé 					setOnlineUsers(users);
+    56 Γöé 				})
+  > 57 Γöé 				.on("presence", { event: "join" }, ({ key, newPresences }) => {
+       Γöé 				                                           ^^^^^^^^^^^^
+    58 Γöé 					// User joined - presence state updated automatically
+    59 Γöé 				})
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\hooks\useRealtimePresence.ts:60:44 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    58 Γöé 					// User joined - presence state updated automatically
+    59 Γöé 				})
+  > 60 Γöé 				.on("presence", { event: "leave" }, ({ key, leftPresences }) => {
+       Γöé 				                                       ^^^
+    61 Γöé 					// User left - presence state updated automatically
+    62 Γöé 				})
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\hooks\useRealtimePresence.ts:60:49 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    58 Γöé 					// User joined - presence state updated automatically
+    59 Γöé 				})
+  > 60 Γöé 				.on("presence", { event: "leave" }, ({ key, leftPresences }) => {
+       Γöé 				                                            ^^^^^^^^^^^^^
+    61 Γöé 					// User left - presence state updated automatically
+    62 Γöé 				})
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\lib\location-context.tsx:34:53 lint/complexity/noBannedTypes ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use '{}' as a type.
+  
+    33 Γöé 	// Helper to build query filter for current scope
+  > 34 Γöé 	getLocationFilter: () => { location?: Location } | {};
+       Γöé 	                                                   ^^
+    35 Γöé 
+    36 Γöé 	// Check if viewing all locations
+  
+  i '{}' accepts any non-nullable value, including non-object primitives like '123' and 'true'.
+    - If you want a type meaning "any arbitrary object", use 'object' instead.
+    - If you want a type meaning "any value", use 'unknown' instead.
+    - If you want a type meaning "an object without any properties", use '{ [k: string]: never }' or 'Record<string, never>' instead.
+  
+  i If that's really what you want, use an inline disable comment.
+  
+
+src\lib\queues\setup.ts:157:6 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    155 Γöé 	invoiceEvents.on(
+    156 Γöé 		"completed",
+  > 157 Γöé 		({ jobId, returnvalue }: { jobId: string; returnvalue: any }) => {},
+        Γöé 		   ^^^^^
+    158 Γöé 	);
+    159 Γöé 
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\lib\queues\setup.ts:157:13 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    155 Γöé 	invoiceEvents.on(
+    156 Γöé 		"completed",
+  > 157 Γöé 		({ jobId, returnvalue }: { jobId: string; returnvalue: any }) => {},
+        Γöé 		          ^^^^^^^^^^^
+    158 Γöé 	);
+    159 Γöé 
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\lib\queues\setup.ts:167:33 lint/correctness/noUnusedFunctionParameters ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    165 Γöé 	);
+    166 Γöé 
+  > 167 Γöé 	emailEvents.on("completed", ({ jobId }: { jobId: string }) => {});
+        Γöé 	                               ^^^^^
+    168 Γöé 
+    169 Γöé 	emailEvents.on(
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src\lib\use-location-query.ts:109:30 lint/complexity/noBannedTypes ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use '{}' as a type.
+  
+    107 Γöé export function buildLocationFilter(
+    108 Γöé 	scope: LocationScope,
+  > 109 Γöé ): { location?: Location } | {} {
+        Γöé                              ^^
+    110 Γöé 	if (scope === "all") {
+    111 Γöé 		return {};
+  
+  i '{}' accepts any non-nullable value, including non-object primitives like '123' and 'true'.
+    - If you want a type meaning "any arbitrary object", use 'object' instead.
+    - If you want a type meaning "any value", use 'unknown' instead.
+    - If you want a type meaning "an object without any properties", use '{ [k: string]: never }' or 'Record<string, never>' instead.
+  
+  i If that's really what you want, use an inline disable comment.
+  
+
+biome.json format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    94 94 Γöé   		}
+    95 95 Γöé   	}
+    96    Γöé - }
+       96 Γöé + }
+       97 Γöé + 
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 46.
+Checked 540 files in 1954ms. No fixes applied.
+Found 31 errors.
+Found 34 warnings.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

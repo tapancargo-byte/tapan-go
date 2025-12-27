@@ -1,0 +1,451 @@
+src\app\(external)\_components\landing\about-section.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     1  1 Γöé   "use client";
+     2  2 Γöé   
+     3    Γöé - 
+     4  3 Γöé   import dynamic from "next/dynamic";
+     5  4 Γöé   import React from "react";
+  
+
+src\app\(external)\track\page.tsx:174:20 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù performLookup changes on every re-render and should not be used as a hook dependency.
+  
+    172 Γöé 		setQuery(trimmed);
+    173 Γöé 		void performLookup(trimmed);
+  > 174 Γöé 	}, [searchParams, performLookup]);
+        Γöé 	                  ^^^^^^^^^^^^^
+    175 Γöé 
+    176 Γöé 	const hasBarcodes = (result?.barcodes?.length ?? 0) > 0;
+  
+  i To fix this, wrap the definition of performLookup in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\_components\notifications\notification-item.tsx:93:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    91 Γöé 				}
+    92 Γöé 			}}
+  > 93 Γöé 			role="button"
+       Γöé 			^^^^^^^^^^^^^
+    94 Γöé 			tabIndex={0}
+    95 Γöé 		>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\(main)\dashboard\_components\rebels-ranking\index.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     51  51 Γöé   
+     52  52 Γöé   					return (
+     53     Γöé - 
+     54  53 Γöé   						<button
+     55  54 Γöé   							key={rebel.id}
+  
+
+src\app\(main)\dashboard\invoices\logs\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    103 103 Γöé   						<div className="flex flex-col sm:flex-row gap-4 items-end">
+    104 104 Γöé   							<div className="flex-1">
+    105     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="invoice-id"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">
+        105 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        106 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="invoice-id"
+        107 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        108 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    106 109 Γöé   									Invoice ID
+    107 110 Γöé   								</label>
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:121:6 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù loadCustomers changes on every re-render and should not be used as a hook dependency.
+  
+    119 Γöé 		loadShipments();
+    120 Γöé 		loadCustomers();
+  > 121 Γöé 	}, [loadCustomers, loadShipments]);
+        Γöé 	    ^^^^^^^^^^^^^
+    122 Γöé 
+    123 Γöé 	const handleSubmit = async (values: any) => {
+  
+  i To fix this, wrap the definition of loadCustomers in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:121:21 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù loadShipments changes on every re-render and should not be used as a hook dependency.
+  
+    119 Γöé 		loadShipments();
+    120 Γöé 		loadCustomers();
+  > 121 Γöé 	}, [loadCustomers, loadShipments]);
+        Γöé 	                   ^^^^^^^^^^^^^
+    122 Γöé 
+    123 Γöé 	const handleSubmit = async (values: any) => {
+  
+  i To fix this, wrap the definition of loadShipments in its own useCallback() hook.
+  
+
+src\app\(main)\dashboard\shipments\page.tsx:265:16 lint/correctness/useExhaustiveDependencies ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù handleDelete changes on every re-render and should not be used as a hook dependency.
+  
+    263 Γöé 			},
+    264 Γöé 		],
+  > 265 Γöé 		[form.reset, handleDelete],
+        Γöé 		             ^^^^^^^^^^^^
+    266 Γöé 	);
+    267 Γöé 
+  
+  i To fix this, wrap the definition of handleDelete in its own useCallback() hook.
+  
+
+src\app\(main)\invoices\_components\invoice-preview.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    756 756 Γöé   								invoice.declaredValue != null ||
+    757 757 Γöé   								invoice.paymentMode) && (
+    758     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div┬╖className="text-xs"┬╖style={{┬╖color:┬╖COLORS.textMuted┬╖}}>
+    759     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div
+    760     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="font-semibold┬╖mb-1"
+    761     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ style={{┬╖color:┬╖COLORS.text┬╖}}
+    762     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    763     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Consignment┬╖details
+    764     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    765     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.origin┬╖||┬╖invoice.destination┬╖?┬╖(
+    766     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    767     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Route:┬╖{invoice.origin┬╖||┬╖"?"}
+    768     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <span┬╖className="mx-1">ΓåÆ</span>
+    769     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.destination┬╖||┬╖"?"}
+    770     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    771     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )┬╖:┬╖null}
+    772     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.pieces┬╖!=┬╖null┬╖&&┬╖(
+    773     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Pieces:┬╖{invoice.pieces}</div>
+    774     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    775     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.chargedWeight┬╖!=┬╖null┬╖&&┬╖(
+    776     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    777     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Charged┬╖weight:┬╖{invoice.chargedWeight.toFixed(2)}┬╖kg
+    778     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    779     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    780     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue┬╖!=┬╖null┬╖&&┬╖(
+    781     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+    782     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Declared┬╖value:┬╖Γé╣
+    783     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue.toLocaleString("en-IN")}
+    784     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    785     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    786     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.paymentMode┬╖&&┬╖(
+    787     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Payment┬╖mode:┬╖{invoice.paymentMode}</div>
+    788     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    789     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+    790     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        758 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div┬╖className="text-xs"┬╖style={{┬╖color:┬╖COLORS.textMuted┬╖}}>
+        759 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div
+        760 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="font-semibold┬╖mb-1"
+        761 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ style={{┬╖color:┬╖COLORS.text┬╖}}
+        762 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        763 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Consignment┬╖details
+        764 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        765 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.origin┬╖||┬╖invoice.destination┬╖?┬╖(
+        766 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        767 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Route:┬╖{invoice.origin┬╖||┬╖"?"}
+        768 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <span┬╖className="mx-1">ΓåÆ</span>
+        769 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.destination┬╖||┬╖"?"}
+        770 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        771 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )┬╖:┬╖null}
+        772 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.pieces┬╖!=┬╖null┬╖&&┬╖(
+        773 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Pieces:┬╖{invoice.pieces}</div>
+        774 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        775 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.chargedWeight┬╖!=┬╖null┬╖&&┬╖(
+        776 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        777 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Charged┬╖weight:┬╖{invoice.chargedWeight.toFixed(2)}┬╖kg
+        778 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        779 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        780 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue┬╖!=┬╖null┬╖&&┬╖(
+        781 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>
+        782 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Declared┬╖value:┬╖Γé╣
+        783 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.declaredValue.toLocaleString("en-IN")}
+        784 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        785 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        786 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {invoice.paymentMode┬╖&&┬╖(
+        787 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <div>Payment┬╖mode:┬╖{invoice.paymentMode}</div>
+        788 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+        789 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </div>
+        790 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ )}
+    791 791 Γöé   
+    792 792 Γöé   							<table className="w-full">
+  
+
+src\app\(main)\invoices\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    1219 1219 Γöé   					const extra =
+    1220 1220 Γöé   						(json as any)?.code || (json as any)?.details || (json as any)?.hint
+    1221      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ?┬╖`┬╖${(json┬╖as┬╖any)?.code┬╖?┬╖`[${(json┬╖as┬╖any).code}]`┬╖:┬╖""}${(json┬╖as┬╖any)?.details┬╖?┬╖`┬╖${(json┬╖as┬╖any).details}`┬╖:┬╖""
+    1222      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ }${(json┬╖as┬╖any)?.hint┬╖?┬╖`┬╖${(json┬╖as┬╖any).hint}`┬╖:┬╖""}`
+         1221 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ?┬╖`┬╖${(json┬╖as┬╖any)?.code┬╖?┬╖`[${(json┬╖as┬╖any).code}]`┬╖:┬╖""}${
+         1222 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ (json┬╖as┬╖any)?.details┬╖?┬╖`┬╖${(json┬╖as┬╖any).details}`┬╖:┬╖""
+         1223 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ }${(json┬╖as┬╖any)?.hint┬╖?┬╖`┬╖${(json┬╖as┬╖any).hint}`┬╖:┬╖""}`
+    1223 1224 Γöé   							: "";
+    1224 1225 Γöé   					const err: any = new Error(
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    1576 1577 Γöé   				<div className="flex gap-4 flex-col sm:flex-row items-start sm:items-end">
+    1577 1578 Γöé   					<div className="flex-1">
+    1578      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="invoice-search"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Search</label>
+         1579 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+         1580 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="invoice-search"
+         1581 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+         1582 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+         1583 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Search
+         1584 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    1579 1585 Γöé   						<Input
+    1580 1586 Γöé   							id="invoice-search"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    1586 1592 Γöé   					</div>
+    1587 1593 Γöé   					<div className="w-full sm:w-auto">
+    1588      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="status-filter"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Status</label>
+         1594 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+         1595 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="status-filter"
+         1596 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+         1597 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+         1598 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Status
+         1599 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    1589 1600 Γöé   						<Select
+    1590 1601 Γöé   							value={filterStatus}
+  
+
+src\app\(main)\settings\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    473 473 Γöé   							<CardContent className="space-y-4">
+    474 474 Γöé   								<div className="space-y-2">
+    475     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="avatar-upload"┬╖className="text-sm┬╖font-medium">
+        475 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        476 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="avatar-upload"
+        477 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium"
+        478 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    476 479 Γöé   										Avatar
+    477 480 Γöé   									</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    673 676 Γöé   							<CardContent className="space-y-4">
+    674 677 Γöé   								<div className="space-y-2">
+    675     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="current-password"┬╖className="text-sm┬╖font-medium">
+        678 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        679 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="current-password"
+        680 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium"
+        681 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    676 682 Γöé   										Current Password
+    677 683 Γöé   									</label>
+  
+
+src\app\(main)\shipments\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     376  376 Γöé   							s.dbId === (payload.new as any).id
+     377  377 Γöé   								? {
+     378      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ...s,
+     379      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖(payload.new┬╖as┬╖any).status,
+     380      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ progress:┬╖(payload.new┬╖as┬╖any).progress,
+     381      Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ }
+          378 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ...s,
+          379 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖(payload.new┬╖as┬╖any).status,
+          380 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ progress:┬╖(payload.new┬╖as┬╖any).progress,
+          381 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ }
+     382  382 Γöé   								: s,
+     383  383 Γöé   						),
+  
+
+src\app\(main)\support\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    312 312 Γöé   				<div className="flex gap-4 flex-col sm:flex-row items-end">
+    313 313 Γöé   					<div className="flex-1">
+    314     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="support-search"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Search</label>
+        314 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        315 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="support-search"
+        316 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        317 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        318 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Search
+        319 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    315 320 Γöé   						<Input
+    316 321 Γöé   							id="support-search"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    322 327 Γöé   					</div>
+    323 328 Γöé   					<div>
+    324     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="support-status"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Status</label>
+        329 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        330 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="support-status"
+        331 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        332 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        333 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Status
+        334 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    325 335 Γöé   						<select
+    326 336 Γöé   							id="support-status"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    336 346 Γöé   					</div>
+    337 347 Γöé   					<div>
+    338     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="support-priority"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Priority</label>
+        348 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        349 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="support-priority"
+        350 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        351 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        352 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Priority
+        353 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    339 354 Γöé   						<select
+    340 355 Γöé   							id="support-priority"
+  
+
+src\app\aircargo\manifest-scanner\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    201 201 Γöé   						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    202 202 Γöé   							<div>
+    203     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="origin-hub"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">
+        203 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        204 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="origin-hub"
+        205 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        206 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    204 207 Γöé   									Origin Hub
+    205 208 Γöé   								</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    212 215 Γöé   							</div>
+    213 216 Γöé   							<div>
+    214     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="destination"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">
+        217 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        218 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="destination"
+        219 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        220 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    215 221 Γöé   									Destination
+    216 222 Γöé   								</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    223 229 Γöé   							</div>
+    224 230 Γöé   							<div>
+    225     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="airline-code"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">
+        231 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        232 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="airline-code"
+        233 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        234 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    226 235 Γöé   									Airline Code
+    227 236 Γöé   								</label>
+  
+
+src\app\aircargo\page.tsx:536:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    534 Γöé 				<div className="flex gap-4 flex-col sm:flex-row items-end">
+    535 Γöé 					<div className="flex-1">
+  > 536 Γöé 						<label className="text-sm font-medium mb-2 block">Search</label>
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    537 Γöé 						<Input
+    538 Γöé 							placeholder="Search by manifest ID, reference, or location..."
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\aircargo\page.tsx:545:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    543 Γöé 					</div>
+    544 Γöé 					<div>
+  > 545 Γöé 						<label className="text-sm font-medium mb-2 block">Status</label>
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    546 Γöé 						<select
+    547 Γöé 							value={filterStatus}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\aircargo\scan-session\page.tsx:275:9 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    273 Γöé 						<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    274 Γöé 							<div>
+  > 275 Γöé 								<label className="text-xs font-medium mb-1 block">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 276 Γöé 									Origin hub
+  > 277 Γöé 								</label>
+        Γöé 								^^^^^^^^
+    278 Γöé 								<Input
+    279 Γöé 									value={originHub}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\aircargo\scan-session\page.tsx:285:9 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    283 Γöé 							</div>
+    284 Γöé 							<div>
+  > 285 Γöé 								<label className="text-xs font-medium mb-1 block">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 286 Γöé 									Destination
+  > 287 Γöé 								</label>
+        Γöé 								^^^^^^^^
+    288 Γöé 								<Input
+    289 Γöé 									value={destination}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\aircargo\scan-session\page.tsx:295:9 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    293 Γöé 							</div>
+    294 Γöé 							<div>
+  > 295 Γöé 								<label className="text-xs font-medium mb-1 block">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 296 Γöé 									Airline code
+  > 297 Γöé 								</label>
+        Γöé 								^^^^^^^^
+    298 Γöé 								<Input
+    299 Γöé 									value={airlineCode}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\lib\supabaseServer.ts:17:20 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    15 Γöé 				setAll(cookiesToSet) {
+    16 Γöé 					try {
+  > 17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+       Γöé 						             ^^^^^^^
+    18 Γöé 							cookieStore.set(name, value, options),
+    19 Γöé 						);
+  
+  i Either remove this return or remove the returned value.
+  
+    16 Γöé 					try {
+    17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+  > 18 Γöé 							cookieStore.set(name, value, options),
+       Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    19 Γöé 						);
+    20 Γöé 					} catch {
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 65.
+Checked 501 files in 1110ms. No fixes applied.
+Found 85 errors.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

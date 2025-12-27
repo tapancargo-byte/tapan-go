@@ -31,7 +31,7 @@ interface LocationContextType {
 	isLoading: boolean;
 
 	// Helper to build query filter for current scope
-	getLocationFilter: () => { location?: Location } | {};
+	getLocationFilter: () => { location?: Location } | Record<string, never>;
 
 	// Check if viewing all locations
 	isViewingAll: boolean;

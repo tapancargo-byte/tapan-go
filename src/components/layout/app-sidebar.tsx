@@ -53,7 +53,10 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 			<div className="flex flex-col items-center gap-2 px-2">
 				<Popover>
 					<PopoverTrigger asChild>
-						<button className="flex items-center justify-center w-10 h-10 rounded-md bg-muted/50 hover:bg-muted transition-colors">
+						<button
+							type="button"
+							className="flex items-center justify-center w-10 h-10 rounded-md bg-muted/50 hover:bg-muted transition-colors"
+						>
 							<MapPin className="h-4 w-4 text-primary" />
 						</button>
 					</PopoverTrigger>
@@ -63,6 +66,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 								Branch Location
 							</p>
 							<button
+								type="button"
 								onClick={() => setLocationScope("imphal")}
 								className={cn(
 									"w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
@@ -75,6 +79,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 								<span>Imphal</span>
 							</button>
 							<button
+								type="button"
 								onClick={() => setLocationScope("newdelhi")}
 								className={cn(
 									"w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
@@ -88,6 +93,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 							</button>
 							<div className="border-t my-1" />
 							<button
+								type="button"
 								onClick={() => setLocationScope("all")}
 								className={cn(
 									"w-full flex items-center gap-2 px-3 py-2 text-xs rounded-md transition-colors",
@@ -120,7 +126,10 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 		<div className="flex items-center gap-2 px-3">
 			<Popover>
 				<PopoverTrigger asChild>
-					<button className="flex-1 flex items-center gap-2 px-3 py-2 rounded-md bg-muted/50 hover:bg-muted transition-colors text-left">
+					<button
+						type="button"
+						className="flex-1 flex items-center gap-2 px-3 py-2 rounded-md bg-muted/50 hover:bg-muted transition-colors text-left"
+					>
 						<MapPin className="h-3.5 w-3.5 text-primary" />
 						<span className="text-xs font-medium truncate flex-1">
 							{locationScope === "all"
@@ -136,6 +145,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 							Branch Location
 						</p>
 						<button
+							type="button"
 							onClick={() => setLocationScope("imphal")}
 							className={cn(
 								"w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
@@ -148,6 +158,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 							<span>Imphal</span>
 						</button>
 						<button
+							type="button"
 							onClick={() => setLocationScope("newdelhi")}
 							className={cn(
 								"w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
@@ -161,6 +172,7 @@ function LocationNotificationBar({ isCollapsed }: { isCollapsed: boolean }) {
 						</button>
 						<div className="border-t my-1" />
 						<button
+							type="button"
 							onClick={() => setLocationScope("all")}
 							className={cn(
 								"w-full flex items-center gap-2 px-3 py-2 text-xs rounded-md transition-colors",
@@ -202,6 +214,8 @@ export function AppSidebar() {
 		alerts: null,
 	});
 
+	const memoizedSupabase = React.useMemo(() => supabase, []);
+
 	// Check if admin for filtering nav items
 	// Since we don't have profile here anymore, we can fetch it or just allow all for now
 	// OR we can fetch basic user roles here if needed for nav filtering.
@@ -216,14 +230,14 @@ export function AppSidebar() {
 
 			try {
 				const [warehousesRes, shipmentsRes, invoicesRes] = await Promise.all([
-					supabase
+					memoizedSupabase
 						.from("warehouses")
 						.select("*", { count: "exact", head: true }),
-					supabase
+					memoizedSupabase
 						.from("shipments")
 						.select("*", { count: "exact", head: true })
 						.in("status", ["pending", "in-transit", "at-warehouse"]),
-					supabase
+					memoizedSupabase
 						.from("invoices")
 						.select("*", { count: "exact", head: true })
 						.in("status", ["pending", "overdue"]),
@@ -232,14 +246,14 @@ export function AppSidebar() {
 				if (cancelled) return;
 
 				setSidebarCounts({
-					warehouses: warehousesRes.count ?? null,
-					shipments: shipmentsRes.count ?? null,
-					invoices: invoicesRes.count ?? null,
+					warehouses: warehousesRes.count,
+					shipments: shipmentsRes.count,
+					invoices: invoicesRes.count,
 					alerts: null,
 				});
 			} catch (error) {
 				if (cancelled) return;
-				console.warn("Failed to load sidebar counts", error);
+				console.warn("Failed to load sidebarCounts", error);
 			}
 		}, 500);
 
@@ -247,15 +261,15 @@ export function AppSidebar() {
 			cancelled = true;
 			clearTimeout(timeoutId);
 		};
-	}, []);
+	}, [memoizedSupabase]);
 
 	React.useEffect(() => {
 		async function checkRole() {
 			const {
 				data: { user },
-			} = await supabase.auth.getUser();
+			} = await memoizedSupabase.auth.getUser();
 			if (user) {
-				const { data } = await supabase
+				const { data } = await memoizedSupabase
 					.from("users")
 					.select("role")
 					.eq("id", user.id)
@@ -264,7 +278,7 @@ export function AppSidebar() {
 			}
 		}
 		checkRole();
-	}, []);
+	}, [memoizedSupabase]);
 
 	const toPositiveBadge = (value: number | null) =>
 		typeof value === "number" && value > 0 ? value : undefined;
