@@ -106,6 +106,7 @@ export function Safari({
 				xmlns="http://www.w3.org/2000/svg"
 				className="absolute inset-0 z-10 size-full pointer-events-none"
 				style={{ transform: "translateZ(0)" }}
+				aria-hidden="true"
 			>
 				<defs>
 					<mask id="safariPunch" maskUnits="userSpaceOnUse">

@@ -1,0 +1,768 @@
+src\app\barcode-scanner\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    37 37 │   
+    38 38 │   					<div className="space-y-2">
+    39    │ - → → → → → → <label·htmlFor="barcode-input-page"·className="text-sm·font-medium·text-muted-foreground">
+       39 │ + → → → → → → <label
+       40 │ + → → → → → → → htmlFor="barcode-input-page"
+       41 │ + → → → → → → → className="text-sm·font-medium·text-muted-foreground"
+       42 │ + → → → → → → >
+    40 43 │   							Scan or type a barcode
+    41 44 │   						</label>
+  
+
+src\app\globals.css:3:2 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Tailwind-specific syntax is disabled.
+  
+      1 │ @import "tailwindcss";
+      2 │ 
+    > 3 │ @theme {
+        │  ^^^^^^^
+    > 4 │   --color-background: var(--background);
+         ...
+   > 98 │   }
+   > 99 │ }
+        │ ^
+    100 │ 
+    101 │ :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:213:6 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Tailwind-specific syntax is disabled.
+  
+    211 │ @layer base {
+    212 │   * {
+  > 213 │     @apply border-border outline-ring/50;
+        │      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 │   }
+    215 │ 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:217:6 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Tailwind-specific syntax is disabled.
+  
+    216 │   body {
+  > 217 │     @apply bg-background text-foreground antialiased;
+        │      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 │   }
+    219 │ }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:3:2 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Tailwind-specific syntax is disabled.
+  
+      1 │ @import "tailwindcss";
+      2 │ 
+    > 3 │ @theme {
+        │  ^^^^^^^
+    > 4 │   --color-background: var(--background);
+         ...
+   > 98 │   }
+   > 99 │ }
+        │ ^
+    100 │ 
+    101 │ :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:213:6 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Tailwind-specific syntax is disabled.
+  
+    211 │ @layer base {
+    212 │   * {
+  > 213 │     @apply border-border outline-ring/50;
+        │      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 │   }
+    215 │ 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:217:6 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Tailwind-specific syntax is disabled.
+  
+    216 │   body {
+  > 217 │     @apply bg-background text-foreground antialiased;
+        │      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 │   }
+    219 │ }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Code formatting aborted due to parsing errors. To format code with errors, enable the 'formatter.formatWithErrors' option.
+  
+
+src\app\payments\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    370 370 │   				<div className="flex gap-4 flex-col lg:flex-row items-end">
+    371 371 │   					<div className="flex-1">
+    372     │ - → → → → → → <label·htmlFor="payments-search"·className="text-sm·font-medium·mb-2·block">Search</label>
+        372 │ + → → → → → → <label
+        373 │ + → → → → → → → htmlFor="payments-search"
+        374 │ + → → → → → → → className="text-sm·font-medium·mb-2·block"
+        375 │ + → → → → → → >
+        376 │ + → → → → → → → Search
+        377 │ + → → → → → → </label>
+    373 378 │   						<Input
+    374 379 │   							id="payments-search"
+    ······· │ 
+    381 386 │   
+    382 387 │   					<div className="w-full sm:w-[180px]">
+    383     │ - → → → → → → <label·htmlFor="payments-mode-filter"·className="text-sm·font-medium·mb-2·block">Mode</label>
+        388 │ + → → → → → → <label
+        389 │ + → → → → → → → htmlFor="payments-mode-filter"
+        390 │ + → → → → → → → className="text-sm·font-medium·mb-2·block"
+        391 │ + → → → → → → >
+        392 │ + → → → → → → → Mode
+        393 │ + → → → → → → </label>
+    384 394 │   						<Select
+    385 395 │   							value={modeFilter}
+    386 396 │   							onValueChange={(value) => setModeFilter(value)}
+    387 397 │   						>
+    388     │ - → → → → → → → <SelectTrigger·id="payments-mode-filter"·className="w-full"·aria-label="Mode·filter">
+        398 │ + → → → → → → → <SelectTrigger
+        399 │ + → → → → → → → → id="payments-mode-filter"
+        400 │ + → → → → → → → → className="w-full"
+        401 │ + → → → → → → → → aria-label="Mode·filter"
+        402 │ + → → → → → → → >
+    389 403 │   								<SelectValue placeholder="All modes" />
+    390 404 │   							</SelectTrigger>
+    ······· │ 
+    402 416 │   					<div className="flex gap-2 w-full sm:w-auto">
+    403 417 │   						<div className="flex-1">
+    404     │ - → → → → → → → <label·htmlFor="payments-date-from"·className="text-sm·font-medium·mb-2·block">From</label>
+        418 │ + → → → → → → → <label
+        419 │ + → → → → → → → → htmlFor="payments-date-from"
+        420 │ + → → → → → → → → className="text-sm·font-medium·mb-2·block"
+        421 │ + → → → → → → → >
+        422 │ + → → → → → → → → From
+        423 │ + → → → → → → → </label>
+    405 424 │   							<Input
+    406 425 │   								id="payments-date-from"
+    ······· │ 
+    411 430 │   						</div>
+    412 431 │   						<div className="flex-1">
+    413     │ - → → → → → → → <label·htmlFor="payments-date-to"·className="text-sm·font-medium·mb-2·block">To</label>
+        432 │ + → → → → → → → <label
+        433 │ + → → → → → → → → htmlFor="payments-date-to"
+        434 │ + → → → → → → → → className="text-sm·font-medium·mb-2·block"
+        435 │ + → → → → → → → >
+        436 │ + → → → → → → → → To
+        437 │ + → → → → → → → </label>
+    414 438 │   							<Input
+    415 439 │   								id="payments-date-to"
+  
+
+src\app\rates\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    455 455 │   				<div className="flex gap-3 flex-col sm:flex-row sm:items-end">
+    456 456 │   					<div className="flex-1">
+    457     │ - → → → → → → <label·htmlFor="rates-search"·className="text-sm·font-medium·mb-2·block">Search</label>
+        457 │ + → → → → → → <label
+        458 │ + → → → → → → → htmlFor="rates-search"
+        459 │ + → → → → → → → className="text-sm·font-medium·mb-2·block"
+        460 │ + → → → → → → >
+        461 │ + → → → → → → → Search
+        462 │ + → → → → → → </label>
+    458 463 │   						<Input
+    459 464 │   							id="rates-search"
+    ······· │ 
+    506 511 │   					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-2">
+    507 512 │   						<div className="space-y-1">
+    508     │ - → → → → → → → <label·htmlFor="quote-origin"·className="text-xs·font-medium">Origin</label>
+        513 │ + → → → → → → → <label·htmlFor="quote-origin"·className="text-xs·font-medium">
+        514 │ + → → → → → → → → Origin
+        515 │ + → → → → → → → </label>
+    509 516 │   							<Input
+    510 517 │   								id="quote-origin"
+    ······· │ 
+    517 524 │   
+    518 525 │   						<div className="space-y-1">
+    519     │ - → → → → → → → <label·htmlFor="quote-destination"·className="text-xs·font-medium">Destination</label>
+        526 │ + → → → → → → → <label
+        527 │ + → → → → → → → → htmlFor="quote-destination"
+        528 │ + → → → → → → → → className="text-xs·font-medium"
+        529 │ + → → → → → → → >
+        530 │ + → → → → → → → → Destination
+        531 │ + → → → → → → → </label>
+    520 532 │   							<Input
+    521 533 │   								id="quote-destination"
+    ······· │ 
+    528 540 │   
+    529 541 │   						<div className="space-y-1">
+    530     │ - → → → → → → → <label·htmlFor="quote-weight"·className="text-xs·font-medium">Weight·(kg)</label>
+        542 │ + → → → → → → → <label·htmlFor="quote-weight"·className="text-xs·font-medium">
+        543 │ + → → → → → → → → Weight·(kg)
+        544 │ + → → → → → → → </label>
+    531 545 │   							<Input
+    532 546 │   								id="quote-weight"
+    ······· │ 
+    542 556 │   
+    543 557 │   						<div className="space-y-1">
+    544     │ - → → → → → → → <label·htmlFor="quote-service-type"·className="text-xs·font-medium">Service·type</label>
+        558 │ + → → → → → → → <label
+        559 │ + → → → → → → → → htmlFor="quote-service-type"
+        560 │ + → → → → → → → → className="text-xs·font-medium"
+        561 │ + → → → → → → → >
+        562 │ + → → → → → → → → Service·type
+        563 │ + → → → → → → → </label>
+    545 564 │   							<Select
+    546 565 │   								value={quoteServiceType}
+    547 566 │   								onValueChange={setQuoteServiceType}
+    548 567 │   							>
+    549     │ - → → → → → → → → <SelectTrigger·id="quote-service-type"·className="h-8"·aria-label="Service·type">
+        568 │ + → → → → → → → → <SelectTrigger
+        569 │ + → → → → → → → → → id="quote-service-type"
+        570 │ + → → → → → → → → → className="h-8"
+        571 │ + → → → → → → → → → aria-label="Service·type"
+        572 │ + → → → → → → → → >
+    550 573 │   									<SelectValue placeholder="Select" />
+    551 574 │   								</SelectTrigger>
+  
+
+src\app\search\page.tsx:113:13 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <button>
+  
+    111 │ 													)
+    112 │ 												}
+  > 113 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    114 │ 												tabIndex={0}
+    115 │ 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:113:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ━━━━━━━━━━
+
+  × The HTML element li is non-interactive and should not have an interactive role.
+  
+    111 │ 													)
+    112 │ 												}
+  > 113 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    114 │ 												tabIndex={0}
+    115 │ 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    111 111 │   													)
+    112 112 │   												}
+    113     │ - → → → → → → → → → → → → role="button"
+    114 113 │   												tabIndex={0}
+    115 114 │   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:173:13 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <button>
+  
+    171 │ 													)
+    172 │ 												}
+  > 173 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    174 │ 												tabIndex={0}
+    175 │ 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:173:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ━━━━━━━━━━
+
+  × The HTML element li is non-interactive and should not have an interactive role.
+  
+    171 │ 													)
+    172 │ 												}
+  > 173 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    174 │ 												tabIndex={0}
+    175 │ 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    171 171 │   													)
+    172 172 │   												}
+    173     │ - → → → → → → → → → → → → role="button"
+    174 173 │   												tabIndex={0}
+    175 174 │   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:233:13 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <button>
+  
+    231 │ 													)
+    232 │ 												}
+  > 233 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    234 │ 												tabIndex={0}
+    235 │ 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:233:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ━━━━━━━━━━
+
+  × The HTML element li is non-interactive and should not have an interactive role.
+  
+    231 │ 													)
+    232 │ 												}
+  > 233 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    234 │ 												tabIndex={0}
+    235 │ 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    231 231 │   													)
+    232 232 │   												}
+    233     │ - → → → → → → → → → → → → role="button"
+    234 233 │   												tabIndex={0}
+    235 234 │   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:295:13 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <button>
+  
+    293 │ 													)
+    294 │ 												}
+  > 295 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    296 │ 												tabIndex={0}
+    297 │ 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:295:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ━━━━━━━━━━
+
+  × The HTML element li is non-interactive and should not have an interactive role.
+  
+    293 │ 													)
+    294 │ 												}
+  > 295 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    296 │ 												tabIndex={0}
+    297 │ 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    293 293 │   													)
+    294 294 │   												}
+    295     │ - → → → → → → → → → → → → role="button"
+    296 295 │   												tabIndex={0}
+    297 296 │   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:352:13 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <button>
+  
+    350 │ 													)
+    351 │ 												}
+  > 352 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    353 │ 												tabIndex={0}
+    354 │ 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:352:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ━━━━━━━━━━
+
+  × The HTML element li is non-interactive and should not have an interactive role.
+  
+    350 │ 													)
+    351 │ 												}
+  > 352 │ 												role="button"
+        │ 												^^^^^^^^^^^^^
+    353 │ 												tabIndex={0}
+    354 │ 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    350 350 │   													)
+    351 351 │   												}
+    352     │ - → → → → → → → → → → → → role="button"
+    353 352 │   												tabIndex={0}
+    354 353 │   												onKeyDown={(e) => {
+  
+
+src\components\barcode\barcode-scanner.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     99  99 │   			{/* Manual Input */}
+    100 100 │   			<div className="space-y-2">
+    101     │ - → → → → <label·htmlFor="barcode-input-component"·className="text-sm·font-medium">
+        101 │ + → → → → <label
+        102 │ + → → → → → htmlFor="barcode-input-component"
+        103 │ + → → → → → className="text-sm·font-medium"
+        104 │ + → → → → >
+    102 105 │   					Or enter barcode manually:
+    103 106 │   				</label>
+  
+
+src\components\contact-section.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    126 126 │   									<div className="grid sm:grid-cols-2 gap-5">
+    127 127 │   										<div>
+    128     │ - → → → → → → → → → → → <label·htmlFor="contact-name"·className="text-xs·font-medium·text-muted-foreground·mb-1.5·block">
+        128 │ + → → → → → → → → → → → <label
+        129 │ + → → → → → → → → → → → → htmlFor="contact-name"
+        130 │ + → → → → → → → → → → → → className="text-xs·font-medium·text-muted-foreground·mb-1.5·block"
+        131 │ + → → → → → → → → → → → >
+    129 132 │   												Full Name *
+    130 133 │   											</label>
+    ······· │ 
+    140 143 │   										</div>
+    141 144 │   										<div>
+    142     │ - → → → → → → → → → → → <label·htmlFor="contact-email"·className="text-xs·font-medium·text-muted-foreground·mb-1.5·block">
+        145 │ + → → → → → → → → → → → <label
+        146 │ + → → → → → → → → → → → → htmlFor="contact-email"
+        147 │ + → → → → → → → → → → → → className="text-xs·font-medium·text-muted-foreground·mb-1.5·block"
+        148 │ + → → → → → → → → → → → >
+    143 149 │   												Email *
+    144 150 │   											</label>
+    ······· │ 
+    158 164 │   									<div className="grid sm:grid-cols-2 gap-5">
+    159 165 │   										<div>
+    160     │ - → → → → → → → → → → → <label·htmlFor="contact-phone"·className="text-xs·font-medium·text-muted-foreground·mb-1.5·block">
+        166 │ + → → → → → → → → → → → <label
+        167 │ + → → → → → → → → → → → → htmlFor="contact-phone"
+        168 │ + → → → → → → → → → → → → className="text-xs·font-medium·text-muted-foreground·mb-1.5·block"
+        169 │ + → → → → → → → → → → → >
+    161 170 │   												Phone
+    162 171 │   											</label>
+    ······· │ 
+    171 180 │   										</div>
+    172 181 │   										<div>
+    173     │ - → → → → → → → → → → → <label·htmlFor="contact-company"·className="text-xs·font-medium·text-muted-foreground·mb-1.5·block">
+        182 │ + → → → → → → → → → → → <label
+        183 │ + → → → → → → → → → → → → htmlFor="contact-company"
+        184 │ + → → → → → → → → → → → → className="text-xs·font-medium·text-muted-foreground·mb-1.5·block"
+        185 │ + → → → → → → → → → → → >
+    174 186 │   												Company
+    175 187 │   											</label>
+    ······· │ 
+    186 198 │   
+    187 199 │   									<div>
+    188     │ - → → → → → → → → → → <label·htmlFor="contact-subject"·className="text-xs·font-medium·text-muted-foreground·mb-1.5·block">
+        200 │ + → → → → → → → → → → <label
+        201 │ + → → → → → → → → → → → htmlFor="contact-subject"
+        202 │ + → → → → → → → → → → → className="text-xs·font-medium·text-muted-foreground·mb-1.5·block"
+        203 │ + → → → → → → → → → → >
+    189 204 │   											Subject *
+    190 205 │   										</label>
+    ······· │ 
+    201 216 │   
+    202 217 │   									<div>
+    203     │ - → → → → → → → → → → <label·htmlFor="contact-message"·className="text-xs·font-medium·text-muted-foreground·mb-1.5·block">
+        218 │ + → → → → → → → → → → <label
+        219 │ + → → → → → → → → → → → htmlFor="contact-message"
+        220 │ + → → → → → → → → → → → className="text-xs·font-medium·text-muted-foreground·mb-1.5·block"
+        221 │ + → → → → → → → → → → >
+    204 222 │   											Message *
+    205 223 │   										</label>
+  
+
+src\components\floating-actions.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+    292 292 │   				<div className="p-4 space-y-4">
+    293 293 │   					<div>
+    294     │ - → → → → → → <label·htmlFor="floating-consignment-number"·className="text-xs·font-semibold·text-muted-foreground·uppercase·tracking-wide·mb-2·block">
+        294 │ + → → → → → → <label
+        295 │ + → → → → → → → htmlFor="floating-consignment-number"
+        296 │ + → → → → → → → className="text-xs·font-semibold·text-muted-foreground·uppercase·tracking-wide·mb-2·block"
+        297 │ + → → → → → → >
+    295 298 │   							Consignment Number
+    296 299 │   						</label>
+  
+
+src\components\support\landing-ticket-form.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     27  27 │   	const handleChange =
+     28  28 │   		(field: keyof TicketState) =>
+     29     │ - → → → (e:·React.ChangeEvent<HTMLInputElement·|·HTMLTextAreaElement>)·=>·{
+     30     │ - → → → → setForm((prev)·=>·({·...prev,·[field]:·e.target.value·}));
+     31     │ - → → → };
+         29 │ + → → (e:·React.ChangeEvent<HTMLInputElement·|·HTMLTextAreaElement>)·=>·{
+         30 │ + → → → setForm((prev)·=>·({·...prev,·[field]:·e.target.value·}));
+         31 │ + → → };
+     32  32 │   
+     33  33 │   	async function handleSubmit(e: FormEvent) {
+    ······· │ 
+     64  64 │   				setError(
+     65  65 │   					(json && typeof json.error === "string" && json.error) ||
+     66     │ - → → → → → "Could·not·create·support·ticket.·Please·try·again.",
+         66 │ + → → → → → → "Could·not·create·support·ticket.·Please·try·again.",
+     67  67 │   				);
+     68  68 │   				return;
+    ······· │ 
+     92  92 │   			<form onSubmit={handleSubmit} className="space-y-3 text-xs">
+     93  93 │   				<div className="space-y-1">
+     94     │ - → → → → → <label·htmlFor="ticket-email"·className="block·font-medium">Email</label>
+         94 │ + → → → → → <label·htmlFor="ticket-email"·className="block·font-medium">
+         95 │ + → → → → → → Email
+         96 │ + → → → → → </label>
+     95  97 │   					<Input
+     96  98 │   						id="ticket-email"
+    ······· │ 
+    117 119 │   
+    118 120 │   				<div className="space-y-1">
+    119     │ - → → → → → <label·htmlFor="ticket-subject"·className="block·font-medium">Subject</label>
+        121 │ + → → → → → <label·htmlFor="ticket-subject"·className="block·font-medium">
+        122 │ + → → → → → → Subject
+        123 │ + → → → → → </label>
+    120 124 │   					<Input
+    121 125 │   						id="ticket-subject"
+    ······· │ 
+    128 132 │   
+    129 133 │   				<div className="space-y-1">
+    130     │ - → → → → → <label·htmlFor="ticket-details"·className="block·font-medium">Details</label>
+        134 │ + → → → → → <label·htmlFor="ticket-details"·className="block·font-medium">
+        135 │ + → → → → → → Details
+        136 │ + → → → → → </label>
+    131 137 │   					<Textarea
+    132 138 │   						id="ticket-details"
+  
+
+src\components\ui\carousel.tsx:128:5 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <section>
+  
+    126 │ 				onKeyDownCapture={handleKeyDown}
+    127 │ 				className={cn("relative", className)}
+  > 128 │ 				role="region"
+        │ 				^^^^^^^^^^^^^
+    129 │ 				aria-roledescription="carousel"
+    130 │ 				data-slot="carousel"
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\carousel.tsx:165:4 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    163 │ 	return (
+    164 │ 		<div
+  > 165 │ 			role="group"
+        │ 			^^^^^^^^^^^^
+    166 │ 			aria-roledescription="slide"
+    167 │ 			data-slot="carousel-item"
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\chart.tsx:83:4 lint/security/noDangerouslySetInnerHtml ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Avoid passing content using the dangerouslySetInnerHTML prop.
+  
+    81 │ 	return (
+    82 │ 		<style
+  > 83 │ 			dangerouslySetInnerHTML={{
+       │ 			^^^^^^^^^^^^^^^^^^^^^^^
+    84 │ 				__html: Object.entries(THEMES)
+    85 │ 					.map(
+  
+  ! Setting content using code can expose users to cross-site scripting (XSS) attacks
+  
+
+src\components\ui\error-states.tsx:87:30 lint/suspicious/noAssignInExpressions ━━━━━━━━━━━━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    85 │ 				)}
+    86 │ 				{showHomeButton && (
+  > 87 │ 					<Button onClick={() => (window.location.href = "/")}>
+       │ 					                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    88 │ 						<Home className="h-4 w-4" />
+    89 │ 						Go Home
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+src\components\ui\field.tsx:87:4 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    85 │ 	return (
+    86 │ 		<div
+  > 87 │ 			role="group"
+       │ 			^^^^^^^^^^^^
+    88 │ 			data-slot="field"
+    89 │ 			data-orientation={orientation}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\input-group.tsx:14:4 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    12 │ 		<div
+    13 │ 			data-slot="input-group"
+  > 14 │ 			role="group"
+       │ 			^^^^^^^^^^^^
+    15 │ 			className={cn(
+    16 │ 				"group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\input-group.tsx:65:3 lint/a11y/useKeyWithClickEvents ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    63 │ }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
+    64 │ 	return (
+  > 65 │ 		<div
+       │ 		^^^^
+  > 66 │ 			role="group"
+        ...
+  > 76 │ 			{...props}
+  > 77 │ 		/>
+       │ 		^^
+    78 │ 	);
+    79 │ }
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\components\ui\input-group.tsx:66:4 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    64 │ 	return (
+    65 │ 		<div
+  > 66 │ 			role="group"
+       │ 			^^^^^^^^^^^^
+    67 │ 			data-slot="input-group-addon"
+    68 │ 			data-align={align}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\lens.tsx:108:4 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The elements with this role can be changed to the following elements:
+    <section>
+  
+    106 │ 			onMouseMove={handleMouseMove}
+    107 │ 			onKeyDown={handleKeyDown}
+  > 108 │ 			role="region"
+        │ 			^^^^^^^^^^^^^
+    109 │ 			aria-label={ariaLabel}
+    110 │ 		>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\particles.tsx:190:18 lint/correctness/useExhaustiveDependencies  FIXABLE  ━━━━━━━━━━
+
+  × This hook does not specify its dependency on clearContext.
+  
+    188 │ 	}, [resizeCanvas, drawParticles]);
+    189 │ 
+  > 190 │ 	const animate = useCallback(() => {
+        │ 	                ^^^^^^^^^^^
+    191 │ 		clearContext();
+    192 │ 		const circlesToRemove: number[] = [];
+  
+  i This dependency is being used here, but is not specified in the hook dependency list.
+  
+    190 │ 	const animate = useCallback(() => {
+  > 191 │ 		clearContext();
+        │ 		^^^^^^^^^^^^
+    192 │ 		const circlesToRemove: number[] = [];
+    193 │ 		circles.current.forEach((circle: Circle, i: number) => {
+  
+  i React relies on hook dependencies to determine when to re-compute Effects.
+    Failing to specify dependencies can result in Effects not updating correctly when state changes.
+    These "stale closures" are a common source of surprising bugs.
+  
+  i Unsafe fix: Add the missing dependency to the list.
+  
+    242 │ → },·[circleParams,·drawCircle,·ease,·staticity,·vx,·vy,·clearContext]);
+        │                                                        ++++++++++++++   
+
+src\lib\supabaseServer.ts:17:20 lint/suspicious/useIterableCallbackReturn ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × This callback passed to forEach() iterable method should not return a value.
+  
+    15 │ 				setAll(cookiesToSet) {
+    16 │ 					try {
+  > 17 │ 						cookiesToSet.forEach(({ name, value, options }) =>
+       │ 						             ^^^^^^^
+    18 │ 							cookieStore.set(name, value, options),
+    19 │ 						);
+  
+  i Either remove this return or remove the returned value.
+  
+    16 │ 					try {
+    17 │ 						cookiesToSet.forEach(({ name, value, options }) =>
+  > 18 │ 							cookieStore.set(name, value, options),
+       │ 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    19 │ 						);
+    20 │ 					} catch {
+  
+
+Checked 501 files in 1719ms. No fixes applied.
+Found 35 errors.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

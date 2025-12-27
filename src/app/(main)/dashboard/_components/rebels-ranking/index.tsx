@@ -50,10 +50,10 @@ export default function RebelsRanking({ rebels }: RebelsRankingProps) {
 					const isActive = activeId === rebel.id;
 
 					return (
-						<div
-							key={rebel.id}
-							role="button"
-							tabIndex={0}
+						<button
+							key={`rebel-${rebel.id}-${rebel.handle}`}
+							type="button"
+							aria-label={`Select ${rebel.name}`}
 							onClick={() => setActiveId(rebel.id)}
 							onKeyDown={(event) => {
 								if (event.key === "Enter" || event.key === " ") {
@@ -62,7 +62,7 @@ export default function RebelsRanking({ rebels }: RebelsRankingProps) {
 								}
 							}}
 							className={cn(
-								"flex w-full items-stretch border border-transparent px-2.5 py-2 text-sm transition-colors cursor-pointer",
+								"flex w-full items-stretch border border-transparent px-2.5 py-2 text-sm transition-colors cursor-pointer text-left bg-transparent",
 								isActive ? "bg-accent/40 border-border" : "hover:bg-accent/20",
 							)}
 						>
@@ -115,7 +115,7 @@ export default function RebelsRanking({ rebels }: RebelsRankingProps) {
 									</div>
 								</div>
 							</div>
-						</div>
+						</button>
 					);
 				})}
 				{activeRebel && (

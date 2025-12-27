@@ -1,11 +1,34 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import type {
+	BarcodeRecord,
+	Customer,
+	InvoiceRecord,
+	PackageScanRecord,
+	ShipmentRecord,
+} from "@/types/logistics";
 
-interface TrackResult {
-	shipment: any | null;
-	shipments: any[];
-	barcodes: any[];
-	scans: any[];
-	invoice: any | null;
+export interface TrackedScan extends Omit<PackageScanRecord, "metadata"> {
+	barcode_number: string | null;
+}
+
+export interface TrackedInvoice extends InvoiceRecord {
+	customer:
+		| Customer
+		| null
+		| (Customer & {
+				id: string;
+				name: string;
+				phone: string | null;
+				email: string | null;
+		  });
+}
+
+export interface TrackResult {
+	shipment: ShipmentRecord | null;
+	shipments: ShipmentRecord[];
+	barcodes: BarcodeRecord[];
+	scans: TrackedScan[];
+	invoice: TrackedInvoice | null;
 	lookup: {
 		type: "shipment_ref" | "barcode" | "invoice_ref";
 		value: string;
@@ -13,8 +36,8 @@ interface TrackResult {
 }
 
 async function fetchBarcodesAndScans(shipmentIds: string[]) {
-	let barcodes: any[] = [];
-	let scans: any[] = [];
+	let barcodes: BarcodeRecord[] = [];
+	let scans: TrackedScan[] = [];
 
 	if (shipmentIds.length === 0) {
 		return { barcodes, scans };
@@ -31,17 +54,17 @@ async function fetchBarcodesAndScans(shipmentIds: string[]) {
 		throw barcodesError;
 	}
 
-	barcodes = shipmentBarcodes ?? [];
+	barcodes = (shipmentBarcodes as BarcodeRecord[]) ?? [];
 
 	const barcodeIds: string[] = barcodes
-		.map((b) => b.id as string | null)
+		.map((b) => b.id)
 		.filter((id): id is string => !!id);
 
 	if (barcodeIds.length > 0) {
 		const idToBarcode: Record<string, string> = {};
-		barcodes.forEach((b) => {
+		for (const b of barcodes) {
 			if (b.id) idToBarcode[b.id] = b.barcode_number ?? "";
-		});
+		}
 
 		const { data: scanRows, error: scansError } = await supabaseAdmin
 			.from("scan_events")
@@ -54,14 +77,14 @@ async function fetchBarcodesAndScans(shipmentIds: string[]) {
 		}
 
 		scans =
-			scanRows?.map((row) => ({
-				id: row.id as string,
-				barcode_id: row.barcode_id as string,
+			(scanRows?.map((row) => ({
+				id: row.id,
+				barcode_id: row.barcode_id,
 				barcode_number: idToBarcode[row.barcode_id ?? ""] || null,
-				scanned_at: row.created_at as string,
+				scanned_at: row.created_at,
 				location: (row.location as string | null) ?? null,
 				scan_type: (row.new_status as string | null) ?? null, // Mapping new_status to scan_type for UI compatibility
-			})) ?? [];
+			})) as TrackedScan[]) ?? [];
 	}
 
 	return { barcodes, scans };
@@ -87,8 +110,8 @@ export async function performTracking(
 	if (shipment) {
 		const { barcodes, scans } = await fetchBarcodesAndScans([shipment.id]);
 		return {
-			shipment,
-			shipments: [shipment],
+			shipment: shipment as ShipmentRecord,
+			shipments: [shipment as ShipmentRecord],
 			barcodes,
 			scans,
 			invoice: null,
@@ -110,9 +133,9 @@ export async function performTracking(
 	}
 
 	if (barcodeRow) {
-		let finalShipment: any | null = null;
-		let barcodes: any[] = [barcodeRow];
-		let scans: any[] = [];
+		let finalShipment: ShipmentRecord | null = null;
+		let barcodes: BarcodeRecord[] = [barcodeRow as BarcodeRecord];
+		let scans: TrackedScan[] = [];
 
 		if (barcodeRow.shipment_id) {
 			const { data: linkedShipment, error: linkedShipmentError } =
@@ -129,7 +152,7 @@ export async function performTracking(
 				throw linkedShipmentError;
 			}
 
-			finalShipment = linkedShipment ?? null;
+			finalShipment = (linkedShipment as ShipmentRecord) ?? null;
 
 			if (finalShipment) {
 				const result = await fetchBarcodesAndScans([finalShipment.id]);
@@ -145,14 +168,14 @@ export async function performTracking(
 				.order("created_at", { ascending: true });
 
 			scans =
-				scanRows?.map((row) => ({
-					id: row.id as string,
-					barcode_id: row.barcode_id as string,
+				(scanRows?.map((row) => ({
+					id: row.id,
+					barcode_id: row.barcode_id,
 					barcode_number: barcodeRow.barcode_number,
-					scanned_at: row.created_at as string, // scan_events uses created_at
+					scanned_at: row.created_at, // scan_events uses created_at
 					location: (row.location as string | null) ?? null,
 					scan_type: (row.new_status as string | null) ?? null, // Mapping new_status to scan_type
-				})) ?? [];
+				})) as TrackedScan[]) ?? [];
 		}
 
 		return {
@@ -166,11 +189,11 @@ export async function performTracking(
 	}
 
 	// 3. Try to find by invoice_ref
-	const { data: invoice, error: invoiceError } = await supabaseAdmin
+	const { data: invoiceData, error: invoiceError } = await supabaseAdmin
 		.from("invoices")
 		.select(
 			`id, invoice_ref, amount, status, invoice_date, due_date, created_at,
-       customers (id, name, phone, email)`,
+       customer:customers (id, name, phone, email)`,
 		)
 		.eq("invoice_ref", trimmed)
 		.maybeSingle();
@@ -179,7 +202,8 @@ export async function performTracking(
 		throw invoiceError;
 	}
 
-	if (invoice) {
+	if (invoiceData) {
+		const invoice = invoiceData as unknown as TrackedInvoice;
 		// Get linked shipments via invoice_items
 		const { data: invoiceItems, error: itemsError } = await supabaseAdmin
 			.from("invoice_items")
@@ -194,9 +218,9 @@ export async function performTracking(
 			.map((item) => item.shipment_id)
 			.filter((id): id is string => !!id);
 
-		let shipments: any[] = [];
-		let barcodes: any[] = [];
-		let scans: any[] = [];
+		let shipments: ShipmentRecord[] = [];
+		let barcodes: BarcodeRecord[] = [];
+		let scans: TrackedScan[] = [];
 
 		if (shipmentIds.length > 0) {
 			const { data: linkedShipments, error: shipmentsError } =
@@ -212,7 +236,7 @@ export async function performTracking(
 				throw shipmentsError;
 			}
 
-			shipments = linkedShipments ?? [];
+			shipments = (linkedShipments as ShipmentRecord[]) ?? [];
 
 			const result = await fetchBarcodesAndScans(shipmentIds);
 			barcodes = result.barcodes;
@@ -232,8 +256,8 @@ export async function performTracking(
 				invoice_date: invoice.invoice_date,
 				due_date: invoice.due_date,
 				created_at: invoice.created_at,
-				customer: invoice.customers,
-			},
+				customer: invoice.customer as Customer,
+			} as TrackedInvoice,
 			lookup: { type: "invoice_ref", value: trimmed },
 		};
 	}

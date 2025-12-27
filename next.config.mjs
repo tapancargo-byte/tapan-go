@@ -15,6 +15,10 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "api.dicebear.com",
 			},
+			{
+				protocol: "https",
+				hostname: "images.unsplash.com",
+			},
 		],
 		formats: ["image/webp", "image/avif"],
 	},
@@ -29,7 +33,7 @@ const nextConfig = {
 			"@radix-ui/react-dropdown-menu",
 			"react-hook-form",
 			"framer-motion",
-			"motion/react"
+			"motion/react",
 		],
 	},
 	// Add security headers for production
@@ -58,7 +62,10 @@ const nextConfig = {
 	webpack: (config) => {
 		config.ignoreWarnings = [
 			{ module: /node_modules\/require-in-the-middle/ },
-			{ message: /Critical dependency: require function is used in a way in which dependencies cannot be statically extracted/ },
+			{
+				message:
+					/Critical dependency: require function is used in a way in which dependencies cannot be statically extracted/,
+			},
 		];
 		return config;
 	},

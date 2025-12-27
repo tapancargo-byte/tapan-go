@@ -24,6 +24,7 @@ export function NetworkMapVisual() {
 				viewBox="0 0 300 150"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
 			>
 				{/* Connection Lines */}
 				{nodes.slice(1).map((node, i) => (

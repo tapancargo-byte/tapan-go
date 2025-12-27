@@ -2,10 +2,17 @@ import { supabaseAdmin } from "./supabaseAdmin";
 
 const DEFAULT_BUCKET = process.env.SUPABASE_STORAGE_BUCKET || "invoices";
 
-function isBucketNotFoundError(error: any) {
+interface StorageError {
+	message?: string;
+	statusCode?: string | number;
+	status?: string | number;
+}
+
+function isBucketNotFoundError(error: unknown) {
 	if (!error) return false;
-	const message = String(error.message ?? "").toLowerCase();
-	const statusCode = (error as any).statusCode ?? (error as any).status;
+	const err = error as StorageError;
+	const message = String(err.message ?? "").toLowerCase();
+	const statusCode = err.statusCode ?? err.status;
 	return (
 		typeof statusCode !== "undefined" &&
 		String(statusCode) === "404" &&

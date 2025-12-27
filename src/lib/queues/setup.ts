@@ -26,7 +26,7 @@ try {
 } catch (_error) {
 	console.warn(
 		"⚠️  Background job queue packages not installed. " +
-			"Run: npm install bullmq ioredis",
+		"Run: npm install bullmq ioredis",
 	);
 }
 
@@ -60,49 +60,49 @@ if (queueConfigured) {
 export const invoiceQueue =
 	queueConfigured && Queue
 		? new Queue("invoice-generation", {
-				connection,
-				defaultJobOptions: {
-					attempts: 3,
-					backoff: {
-						type: "exponential",
-						delay: 2000,
-					},
-					removeOnComplete: {
-						count: 100, // Keep last 100 completed jobs
-					},
-					removeOnFail: {
-						count: 50, // Keep last 50 failed jobs
-					},
+			connection,
+			defaultJobOptions: {
+				attempts: 3,
+				backoff: {
+					type: "exponential",
+					delay: 2000,
 				},
-			})
+				removeOnComplete: {
+					count: 100, // Keep last 100 completed jobs
+				},
+				removeOnFail: {
+					count: 50, // Keep last 50 failed jobs
+				},
+			},
+		})
 		: null;
 
 export const invoiceWorker =
 	queueConfigured && Worker
 		? new Worker(
-				"invoice-generation",
-				async (job: any) => {
-					const { invoiceId } = job.data;
+			"invoice-generation",
+			async (job: any) => {
+				const { invoiceId } = job.data;
 
-					try {
-						// Import dynamically to avoid bundling in client
-						const { generateInvoicePdf } = await import("@/lib/invoicePdf");
-						const result = await generateInvoicePdf(invoiceId);
-						return result;
-					} catch (error: any) {
-						console.error(`[Invoice Worker] Error:`, error);
-						throw error;
-					}
+				try {
+					// Import dynamically to avoid bundling in client
+					const { generateInvoicePdf } = await import("@/lib/invoicePdf");
+					const result = await generateInvoicePdf(invoiceId);
+					return result;
+				} catch (error: any) {
+					console.error(`[Invoice Worker] Error:`, error);
+					throw error;
+				}
+			},
+			{
+				connection,
+				concurrency: 5, // Process 5 jobs simultaneously
+				limiter: {
+					max: 10,
+					duration: 1000, // Max 10 jobs per second
 				},
-				{
-					connection,
-					concurrency: 5, // Process 5 jobs simultaneously
-					limiter: {
-						max: 10,
-						duration: 1000, // Max 10 jobs per second
-					},
-				},
-			)
+			},
+		)
 		: null;
 
 // ========================================
@@ -112,36 +112,36 @@ export const invoiceWorker =
 export const emailQueue =
 	queueConfigured && Queue
 		? new Queue("email-notifications", {
-				connection,
-				defaultJobOptions: {
-					attempts: 3,
-					backoff: {
-						type: "exponential",
-						delay: 3000,
-					},
+			connection,
+			defaultJobOptions: {
+				attempts: 3,
+				backoff: {
+					type: "exponential",
+					delay: 3000,
 				},
-			})
+			},
+		})
 		: null;
 
 export const emailWorker =
 	queueConfigured && Worker
 		? new Worker(
-				"email-notifications",
-				async (job: any) => {
-					const { to, subject, html, attachments } = job.data;
+			"email-notifications",
+			async (job: any) => {
+				const { to, subject, html, attachments } = job.data;
 
-					try {
-						return { success: true, to, subject };
-					} catch (error: any) {
-						console.error(`[Email Worker] Error:`, error);
-						throw error;
-					}
-				},
-				{
-					connection,
-					concurrency: 10,
-				},
-			)
+				try {
+					return { success: true, to, subject };
+				} catch (error: any) {
+					console.error(`[Email Worker] Error:`, error);
+					throw error;
+				}
+			},
+			{
+				connection,
+				concurrency: 10,
+			},
+		)
 		: null;
 
 // ========================================
@@ -154,7 +154,13 @@ if (queueConfigured && QueueEvents) {
 
 	invoiceEvents.on(
 		"completed",
-		({ jobId, returnvalue }: { jobId: string; returnvalue: any }) => {},
+		({
+			jobId: _jobId,
+			returnvalue: _returnvalue,
+		}: {
+			jobId: string;
+			returnvalue: any;
+		}) => { },
 	);
 
 	invoiceEvents.on(
@@ -164,7 +170,7 @@ if (queueConfigured && QueueEvents) {
 		},
 	);
 
-	emailEvents.on("completed", ({ jobId }: { jobId: string }) => {});
+	emailEvents.on("completed", ({ jobId: _jobId }: { jobId: string }) => { });
 
 	emailEvents.on(
 		"failed",

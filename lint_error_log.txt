@@ -1,0 +1,997 @@
+src\app\barcode-scanner\page.tsx:39:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    38 Γöé 					<div className="space-y-2">
+  > 39 Γöé 						<label className="text-sm font-medium text-muted-foreground">
+       Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 40 Γöé 							Scan or type a barcode
+  > 41 Γöé 						</label>
+       Γöé 						^^^^^^^^
+    42 Γöé 						<Input
+    43 Γöé 							ref={inputRef}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\dashboard-shell-01\page.tsx:152:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    150 Γöé 									<SidebarMenuItem>
+    151 Γöé 										<SidebarMenuButton isActive asChild tooltip="Dashboard">
+  > 152 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    153 Γöé 												<LayoutDashboardIcon />
+    154 Γöé 												<span>Dashboard</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:163:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    161 Γöé 									<SidebarMenuItem>
+    162 Γöé 										<SidebarMenuButton asChild tooltip="Warehouse">
+  > 163 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    164 Γöé 												<WarehouseIcon />
+    165 Γöé 												<span>Warehouse</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:172:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    170 Γöé 									<SidebarMenuItem>
+    171 Γöé 										<SidebarMenuButton asChild tooltip="Shipments">
+  > 172 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    173 Γöé 												<TruckIcon />
+    174 Γöé 												<span>Shipments</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:181:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    179 Γöé 									<SidebarMenuItem>
+    180 Γöé 										<SidebarMenuButton asChild tooltip="Inventory">
+  > 181 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    182 Γöé 												<BoxIcon />
+    183 Γöé 												<span>Inventory</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:197:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    195 Γöé 									<SidebarMenuItem>
+    196 Γöé 										<SidebarMenuButton asChild tooltip="Customers">
+  > 197 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    198 Γöé 												<UsersIcon />
+    199 Γöé 												<span>Customers</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:205:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    203 Γöé 									<SidebarMenuItem>
+    204 Γöé 										<SidebarMenuButton asChild tooltip="Invoices">
+  > 205 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    206 Γöé 												<FileTextIcon />
+    207 Γöé 												<span>Invoices</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:214:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    212 Γöé 									<SidebarMenuItem>
+    213 Γöé 										<SidebarMenuButton asChild tooltip="Rates">
+  > 214 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    215 Γöé 												<ClipboardListIcon />
+    216 Γöé 												<span>Rates</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:222:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    220 Γöé 									<SidebarMenuItem>
+    221 Γöé 										<SidebarMenuButton asChild tooltip="Aircargo Manifests">
+  > 222 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    223 Γöé 												<ArchiveIcon />
+    224 Γöé 												<span>Aircargo Manifests</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:230:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    228 Γöé 									<SidebarMenuItem>
+    229 Γöé 										<SidebarMenuButton asChild tooltip="Manifest Scan Session">
+  > 230 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    231 Γöé 												<BarcodeIcon />
+    232 Γöé 												<span>Manifest Scan Session</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:238:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    236 Γöé 									<SidebarMenuItem>
+    237 Γöé 										<SidebarMenuButton asChild tooltip="Barcode Tracking">
+  > 238 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    239 Γöé 												<BarcodeIcon />
+    240 Γöé 												<span>Barcode Tracking</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:254:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    252 Γöé 									<SidebarMenuItem>
+    253 Γöé 										<SidebarMenuButton asChild tooltip="Global Search">
+  > 254 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    255 Γöé 												<GlobeIcon />
+    256 Γöé 												<span>Global Search</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:262:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    260 Γöé 									<SidebarMenuItem>
+    261 Γöé 										<SidebarMenuButton asChild tooltip="Notifications">
+  > 262 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    263 Γöé 												<BellIcon />
+    264 Γöé 												<span>Notifications</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:271:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    269 Γöé 									<SidebarMenuItem>
+    270 Γöé 										<SidebarMenuButton asChild tooltip="Settings">
+  > 271 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    272 Γöé 												<SettingsIcon />
+    273 Γöé 												<span>Settings</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\global-error.tsx:17:3 lint/a11y/useHtmlLang ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a lang attribute when using the html element.
+  
+    16 Γöé 	return (
+  > 17 Γöé 		<html>
+       Γöé 		^^^^^^
+    18 Γöé 			<body>
+    19 Γöé 				{/* `NextError` is the default Next.js error page component. Its type
+  
+  i Setting a lang attribute on HTML document elements configures the languageused by screen readers when no user default is specified.
+  
+
+src\app\globals.css:217:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    216 Γöé   body {
+  > 217 Γöé     @apply bg-background text-foreground antialiased;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 Γöé   }
+    219 Γöé }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:213:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    211 Γöé @layer base {
+    212 Γöé   * {
+  > 213 Γöé     @apply border-border outline-ring/50;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 Γöé   }
+    215 Γöé 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:217:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    216 Γöé   body {
+  > 217 Γöé     @apply bg-background text-foreground antialiased;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 Γöé   }
+    219 Γöé }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:3:2 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+      1 Γöé @import "tailwindcss";
+      2 Γöé 
+    > 3 Γöé @theme {
+        Γöé  ^^^^^^^
+    > 4 Γöé   --color-background: var(--background);
+         ...
+   > 98 Γöé   }
+   > 99 Γöé }
+        Γöé ^
+    100 Γöé 
+    101 Γöé :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:213:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    211 Γöé @layer base {
+    212 Γöé   * {
+  > 213 Γöé     @apply border-border outline-ring/50;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 Γöé   }
+    215 Γöé 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:3:2 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+      1 Γöé @import "tailwindcss";
+      2 Γöé 
+    > 3 Γöé @theme {
+        Γöé  ^^^^^^^
+    > 4 Γöé   --color-background: var(--background);
+         ...
+   > 98 Γöé   }
+   > 99 Γöé }
+        Γöé ^
+    100 Γöé 
+    101 Γöé :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Code formatting aborted due to parsing errors. To format code with errors, enable the 'formatter.formatWithErrors' option.
+  
+
+src\app\payments\page.tsx:372:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    370 Γöé 				<div className="flex gap-4 flex-col lg:flex-row items-end">
+    371 Γöé 					<div className="flex-1">
+  > 372 Γöé 						<label className="text-sm font-medium mb-2 block">Search</label>
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    373 Γöé 						<Input
+    374 Γöé 							placeholder="Search by invoice, customer, or reference..."
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\payments\page.tsx:382:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    381 Γöé 					<div className="w-full sm:w-[180px]">
+  > 382 Γöé 						<label className="text-sm font-medium mb-2 block">Mode</label>
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    383 Γöé 						<Select
+    384 Γöé 							value={modeFilter}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\payments\page.tsx:403:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    401 Γöé 					<div className="flex gap-2 w-full sm:w-auto">
+    402 Γöé 						<div className="flex-1">
+  > 403 Γöé 							<label className="text-sm font-medium mb-2 block">From</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    404 Γöé 							<Input
+    405 Γöé 								type="date"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\payments\page.tsx:411:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    409 Γöé 						</div>
+    410 Γöé 						<div className="flex-1">
+  > 411 Γöé 							<label className="text-sm font-medium mb-2 block">To</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    412 Γöé 							<Input
+    413 Γöé 								type="date"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\rates\page.tsx:457:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    455 Γöé 				<div className="flex gap-3 flex-col sm:flex-row sm:items-end">
+    456 Γöé 					<div className="flex-1">
+  > 457 Γöé 						<label className="text-sm font-medium mb-2 block">Search</label>
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    458 Γöé 						<Input
+    459 Γöé 							placeholder="Search by origin or destination..."
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\rates\page.tsx:507:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    505 Γöé 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-2">
+    506 Γöé 						<div className="space-y-1">
+  > 507 Γöé 							<label className="text-xs font-medium">Origin</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    508 Γöé 							<Input
+    509 Γöé 								placeholder="Imphal"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\rates\page.tsx:517:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    516 Γöé 						<div className="space-y-1">
+  > 517 Γöé 							<label className="text-xs font-medium">Destination</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    518 Γöé 							<Input
+    519 Γöé 								placeholder="New Delhi"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\rates\page.tsx:527:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    526 Γöé 						<div className="space-y-1">
+  > 527 Γöé 							<label className="text-xs font-medium">Weight (kg)</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    528 Γöé 							<Input
+    529 Γöé 								type="number"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\rates\page.tsx:540:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    539 Γöé 						<div className="space-y-1">
+  > 540 Γöé 							<label className="text-xs font-medium">Service type</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    541 Γöé 							<Select
+    542 Γöé 								value={quoteServiceType}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\search\page.tsx:102:12 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    100 Γöé 									<ul className="space-y-2 text-sm">
+    101 Γöé 										{results.shipments.map((s: any) => (
+  > 102 Γöé 											<li
+        Γöé 											^^^
+  > 103 Γöé 												key={s.id}
+         ...
+  > 111 Γöé 												}
+  > 112 Γöé 											>
+        Γöé 											^
+    113 Γöé 												<div>
+    114 Γöé 													<div className="font-mono text-xs">
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\app\search\page.tsx:149:12 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    147 Γöé 									<ul className="space-y-2 text-sm">
+    148 Γöé 										{results.barcodes.map((b: any) => (
+  > 149 Γöé 											<li
+        Γöé 											^^^
+  > 150 Γöé 												key={b.id}
+         ...
+  > 158 Γöé 												}
+  > 159 Γöé 											>
+        Γöé 											^
+    160 Γöé 												<div>
+    161 Γöé 													<div className="font-mono text-xs">
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\app\search\page.tsx:196:12 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    194 Γöé 									<ul className="space-y-2 text-sm">
+    195 Γöé 										{results.invoices.map((inv: any) => (
+  > 196 Γöé 											<li
+        Γöé 											^^^
+  > 197 Γöé 												key={inv.id}
+         ...
+  > 205 Γöé 												}
+  > 206 Γöé 											>
+        Γöé 											^
+    207 Γöé 												<div>
+    208 Γöé 													<div className="font-mono text-xs">
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\app\search\page.tsx:243:12 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    241 Γöé 									<ul className="space-y-2 text-sm">
+    242 Γöé 										{results.customers.map((c: any) => (
+  > 243 Γöé 											<li
+        Γöé 											^^^
+  > 244 Γöé 												key={c.id}
+         ...
+  > 254 Γöé 												}
+  > 255 Γöé 											>
+        Γöé 											^
+    256 Γöé 												<div>
+    257 Γöé 													<div className="text-xs font-semibold">{c.name}</div>
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\app\search\page.tsx:287:12 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    285 Γöé 									<ul className="space-y-2 text-sm">
+    286 Γöé 										{results.manifests.map((m: any) => (
+  > 287 Γöé 											<li
+        Γöé 											^^^
+  > 288 Γöé 												key={m.id}
+         ...
+  > 296 Γöé 												}
+  > 297 Γöé 											>
+        Γöé 											^
+    298 Γöé 												<div>
+    299 Γöé 													<div className="font-mono text-xs">
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\components\barcode\barcode-scanner.tsx:23:35 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    21 Γöé 		return () => {
+    22 Γöé 			if (streamRef.current) {
+  > 23 Γöé 				streamRef.current.getTracks().forEach((track) => track.stop());
+       Γöé 				                              ^^^^^^^
+    24 Γöé 			}
+    25 Γöé 		};
+  
+  i Either remove this return or remove the returned value.
+  
+    21 Γöé 		return () => {
+    22 Γöé 			if (streamRef.current) {
+  > 23 Γöé 				streamRef.current.getTracks().forEach((track) => track.stop());
+       Γöé 				                                                 ^^^^^^^^^^^^
+    24 Γöé 			}
+    25 Γöé 		};
+  
+
+src\components\barcode\barcode-scanner.tsx:47:34 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    45 Γöé 	const stopCamera = () => {
+    46 Γöé 		if (streamRef.current) {
+  > 47 Γöé 			streamRef.current.getTracks().forEach((track) => track.stop());
+       Γöé 			                              ^^^^^^^
+    48 Γöé 		}
+    49 Γöé 		setIsCameraActive(false);
+  
+  i Either remove this return or remove the returned value.
+  
+    45 Γöé 	const stopCamera = () => {
+    46 Γöé 		if (streamRef.current) {
+  > 47 Γöé 			streamRef.current.getTracks().forEach((track) => track.stop());
+       Γöé 			                                                 ^^^^^^^^^^^^
+    48 Γöé 		}
+    49 Γöé 		setIsCameraActive(false);
+  
+
+src\components\barcode\barcode-scanner.tsx:77:6 lint/a11y/useMediaCaption ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a track for captions when using audio or video elements.
+  
+    75 Γöé 			{isCameraActive ? (
+    76 Γöé 				<div className="space-y-4">
+  > 77 Γöé 					<video
+       Γöé 					^^^^^^
+  > 78 Γöé 						ref={videoRef}
+  > 79 Γöé 						autoPlay
+  > 80 Γöé 						playsInline
+  > 81 Γöé 						className="w-full max-w-md mx-auto rounded-lg border-2 border-primary/30"
+  > 82 Γöé 					/>
+       Γöé 					^^
+    83 Γöé 					<Button onClick={stopCamera} variant="outline" className="w-full">
+    84 Γöé 						Stop Camera
+  
+  i Captions support users with hearing-impairments. They should be a transcription or translation of the dialogue, sound effects, musical cues, and other relevant audio information.
+  
+
+src\components\barcode\barcode-scanner.tsx:95:5 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    93 Γöé 			{/* Manual Input */}
+    94 Γöé 			<div className="space-y-2">
+  > 95 Γöé 				<label className="text-sm font-medium">
+       Γöé 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 96 Γöé 					Or enter barcode manually:
+  > 97 Γöé 				</label>
+       Γöé 				^^^^^^^^
+    98 Γöé 				<div className="flex gap-2">
+    99 Γöé 					<Input
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\contact-section.tsx:128:12 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    126 Γöé 									<div className="grid sm:grid-cols-2 gap-5">
+    127 Γöé 										<div>
+  > 128 Γöé 											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+        Γöé 											^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 129 Γöé 												Full Name *
+  > 130 Γöé 											</label>
+        Γöé 											^^^^^^^^
+    131 Γöé 											<Input
+    132 Γöé 												name="name"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\contact-section.tsx:141:12 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    139 Γöé 										</div>
+    140 Γöé 										<div>
+  > 141 Γöé 											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+        Γöé 											^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 142 Γöé 												Email *
+  > 143 Γöé 											</label>
+        Γöé 											^^^^^^^^
+    144 Γöé 											<Input
+    145 Γöé 												name="email"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\contact-section.tsx:158:12 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    156 Γöé 									<div className="grid sm:grid-cols-2 gap-5">
+    157 Γöé 										<div>
+  > 158 Γöé 											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+        Γöé 											^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 159 Γöé 												Phone
+  > 160 Γöé 											</label>
+        Γöé 											^^^^^^^^
+    161 Γöé 											<Input
+    162 Γöé 												name="phone"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\contact-section.tsx:170:12 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    168 Γöé 										</div>
+    169 Γöé 										<div>
+  > 170 Γöé 											<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+        Γöé 											^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 171 Γöé 												Company
+  > 172 Γöé 											</label>
+        Γöé 											^^^^^^^^
+    173 Γöé 											<Input
+    174 Γöé 												name="company"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\contact-section.tsx:184:11 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    183 Γöé 									<div>
+  > 184 Γöé 										<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+        Γöé 										^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 185 Γöé 											Subject *
+  > 186 Γöé 										</label>
+        Γöé 										^^^^^^^^
+    187 Γöé 										<Input
+    188 Γöé 											name="subject"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\contact-section.tsx:198:11 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    197 Γöé 									<div>
+  > 198 Γöé 										<label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+        Γöé 										^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 199 Γöé 											Message *
+  > 200 Γöé 										</label>
+        Γöé 										^^^^^^^^
+    201 Γöé 										<Textarea
+    202 Γöé 											name="message"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\floating-actions.tsx:294:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    292 Γöé 				<div className="p-4 space-y-4">
+    293 Γöé 					<div>
+  > 294 Γöé 						<label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 block">
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 295 Γöé 							Consignment Number
+  > 296 Γöé 						</label>
+        Γöé 						^^^^^^^^
+    297 Γöé 						<Input
+    298 Γöé 							placeholder="e.g., TAC-2025-12345"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\support\landing-ticket-form.tsx:105:6 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    104 Γöé 				<div className="space-y-1">
+  > 105 Γöé 					<label className="block font-medium">
+        Γöé 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 106 Γöé 						Shipment or invoice reference (optional)
+  > 107 Γöé 					</label>
+        Γöé 					^^^^^^^^
+    108 Γöé 					<Input
+    109 Γöé 						value={form.shipmentRef}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\support\landing-ticket-form.tsx:94:6 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    92 Γöé 			<form onSubmit={handleSubmit} className="space-y-3 text-xs">
+    93 Γöé 				<div className="space-y-1">
+  > 94 Γöé 					<label className="block font-medium">Email</label>
+       Γöé 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    95 Γöé 					<Input
+    96 Γöé 						type="email"
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\support\landing-ticket-form.tsx:117:6 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    116 Γöé 				<div className="space-y-1">
+  > 117 Γöé 					<label className="block font-medium">Subject</label>
+        Γöé 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    118 Γöé 					<Input
+    119 Γöé 						value={form.subject}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\support\landing-ticket-form.tsx:127:6 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    126 Γöé 				<div className="space-y-1">
+  > 127 Γöé 					<label className="block font-medium">Details</label>
+        Γöé 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    128 Γöé 					<Textarea
+    129 Γöé 						rows={4}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\components\ui\carousel.tsx:128:5 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <section>
+  
+    126 Γöé 				onKeyDownCapture={handleKeyDown}
+    127 Γöé 				className={cn("relative", className)}
+  > 128 Γöé 				role="region"
+        Γöé 				^^^^^^^^^^^^^
+    129 Γöé 				aria-roledescription="carousel"
+    130 Γöé 				data-slot="carousel"
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\carousel.tsx:165:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    163 Γöé 	return (
+    164 Γöé 		<div
+  > 165 Γöé 			role="group"
+        Γöé 			^^^^^^^^^^^^
+    166 Γöé 			aria-roledescription="slide"
+    167 Γöé 			data-slot="carousel-item"
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\chart.tsx:83:4 lint/security/noDangerouslySetInnerHtml ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid passing content using the dangerouslySetInnerHTML prop.
+  
+    81 Γöé 	return (
+    82 Γöé 		<style
+  > 83 Γöé 			dangerouslySetInnerHTML={{
+       Γöé 			^^^^^^^^^^^^^^^^^^^^^^^
+    84 Γöé 				__html: Object.entries(THEMES)
+    85 Γöé 					.map(
+  
+  ! Setting content using code can expose users to cross-site scripting (XSS) attacks
+  
+
+src\components\ui\error-states.tsx:87:30 lint/suspicious/noAssignInExpressions ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The assignment should not be in an expression.
+  
+    85 Γöé 				)}
+    86 Γöé 				{showHomeButton && (
+  > 87 Γöé 					<Button onClick={() => (window.location.href = "/")}>
+       Γöé 					                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    88 Γöé 						<Home className="h-4 w-4" />
+    89 Γöé 						Go Home
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+src\components\ui\field.tsx:87:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    85 Γöé 	return (
+    86 Γöé 		<div
+  > 87 Γöé 			role="group"
+       Γöé 			^^^^^^^^^^^^
+    88 Γöé 			data-slot="field"
+    89 Γöé 			data-orientation={orientation}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\input-group.tsx:14:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    12 Γöé 		<div
+    13 Γöé 			data-slot="input-group"
+  > 14 Γöé 			role="group"
+       Γöé 			^^^^^^^^^^^^
+    15 Γöé 			className={cn(
+    16 Γöé 				"group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\input-group.tsx:65:3 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    63 Γöé }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
+    64 Γöé 	return (
+  > 65 Γöé 		<div
+       Γöé 		^^^^
+  > 66 Γöé 			role="group"
+        ...
+  > 76 Γöé 			{...props}
+  > 77 Γöé 		/>
+       Γöé 		^^
+    78 Γöé 	);
+    79 Γöé }
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\components\ui\input-group.tsx:66:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    64 Γöé 	return (
+    65 Γöé 		<div
+  > 66 Γöé 			role="group"
+       Γöé 			^^^^^^^^^^^^
+    67 Γöé 			data-slot="input-group-addon"
+    68 Γöé 			data-align={align}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\lens.tsx:108:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <section>
+  
+    106 Γöé 			onMouseMove={handleMouseMove}
+    107 Γöé 			onKeyDown={handleKeyDown}
+  > 108 Γöé 			role="region"
+        Γöé 			^^^^^^^^^^^^^
+    109 Γöé 			aria-label={ariaLabel}
+    110 Γöé 		>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\particles.tsx:190:18 lint/correctness/useExhaustiveDependencies  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This hook does not specify its dependency on clearContext.
+  
+    188 Γöé 	}, [resizeCanvas, drawParticles]);
+    189 Γöé 
+  > 190 Γöé 	const animate = useCallback(() => {
+        Γöé 	                ^^^^^^^^^^^
+    191 Γöé 		clearContext();
+    192 Γöé 		const circlesToRemove: number[] = [];
+  
+  i This dependency is being used here, but is not specified in the hook dependency list.
+  
+    190 Γöé 	const animate = useCallback(() => {
+  > 191 Γöé 		clearContext();
+        Γöé 		^^^^^^^^^^^^
+    192 Γöé 		const circlesToRemove: number[] = [];
+    193 Γöé 		circles.current.forEach((circle: Circle, i: number) => {
+  
+  i React relies on hook dependencies to determine when to re-compute Effects.
+    Failing to specify dependencies can result in Effects not updating correctly when state changes.
+    These "stale closures" are a common source of surprising bugs.
+  
+  i Unsafe fix: Add the missing dependency to the list.
+  
+    242 Γöé ΓåÆ },┬╖[circleParams,┬╖drawCircle,┬╖ease,┬╖staticity,┬╖vx,┬╖vy,┬╖clearContext]);
+        Γöé                                                        ++++++++++++++   
+
+src\lib\supabaseServer.ts:17:20 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    15 Γöé 				setAll(cookiesToSet) {
+    16 Γöé 					try {
+  > 17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+       Γöé 						             ^^^^^^^
+    18 Γöé 							cookieStore.set(name, value, options),
+    19 Γöé 						);
+  
+  i Either remove this return or remove the returned value.
+  
+    16 Γöé 					try {
+    17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+  > 18 Γöé 							cookieStore.set(name, value, options),
+       Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    19 Γöé 						);
+    20 Γöé 					} catch {
+  
+
+Checked 501 files in 1579ms. No fixes applied.
+Found 62 errors.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

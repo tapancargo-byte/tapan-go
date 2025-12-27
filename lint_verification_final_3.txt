@@ -1,0 +1,971 @@
+src\app\barcode-scanner\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    37 37 Γöé   
+    38 38 Γöé   					<div className="space-y-2">
+    39    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="barcode-input-page"┬╖className="text-sm┬╖font-medium┬╖text-muted-foreground">
+       39 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+       40 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="barcode-input-page"
+       41 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖text-muted-foreground"
+       42 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    40 43 Γöé   							Scan or type a barcode
+    41 44 Γöé   						</label>
+  
+
+src\app\dashboard-shell-01\page.tsx:262:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    260 Γöé 									<SidebarMenuItem>
+    261 Γöé 										<SidebarMenuButton asChild tooltip="Notifications">
+  > 262 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    263 Γöé 												<BellIcon />
+    264 Γöé 												<span>Notifications</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:271:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    269 Γöé 									<SidebarMenuItem>
+    270 Γöé 										<SidebarMenuButton asChild tooltip="Settings">
+  > 271 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    272 Γöé 												<SettingsIcon />
+    273 Γöé 												<span>Settings</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:152:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    150 Γöé 									<SidebarMenuItem>
+    151 Γöé 										<SidebarMenuButton isActive asChild tooltip="Dashboard">
+  > 152 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    153 Γöé 												<LayoutDashboardIcon />
+    154 Γöé 												<span>Dashboard</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:163:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    161 Γöé 									<SidebarMenuItem>
+    162 Γöé 										<SidebarMenuButton asChild tooltip="Warehouse">
+  > 163 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    164 Γöé 												<WarehouseIcon />
+    165 Γöé 												<span>Warehouse</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:172:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    170 Γöé 									<SidebarMenuItem>
+    171 Γöé 										<SidebarMenuButton asChild tooltip="Shipments">
+  > 172 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    173 Γöé 												<TruckIcon />
+    174 Γöé 												<span>Shipments</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:181:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    179 Γöé 									<SidebarMenuItem>
+    180 Γöé 										<SidebarMenuButton asChild tooltip="Inventory">
+  > 181 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    182 Γöé 												<BoxIcon />
+    183 Γöé 												<span>Inventory</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:197:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    195 Γöé 									<SidebarMenuItem>
+    196 Γöé 										<SidebarMenuButton asChild tooltip="Customers">
+  > 197 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    198 Γöé 												<UsersIcon />
+    199 Γöé 												<span>Customers</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:205:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    203 Γöé 									<SidebarMenuItem>
+    204 Γöé 										<SidebarMenuButton asChild tooltip="Invoices">
+  > 205 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    206 Γöé 												<FileTextIcon />
+    207 Γöé 												<span>Invoices</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:214:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    212 Γöé 									<SidebarMenuItem>
+    213 Γöé 										<SidebarMenuButton asChild tooltip="Rates">
+  > 214 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    215 Γöé 												<ClipboardListIcon />
+    216 Γöé 												<span>Rates</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:222:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    220 Γöé 									<SidebarMenuItem>
+    221 Γöé 										<SidebarMenuButton asChild tooltip="Aircargo Manifests">
+  > 222 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    223 Γöé 												<ArchiveIcon />
+    224 Γöé 												<span>Aircargo Manifests</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:230:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    228 Γöé 									<SidebarMenuItem>
+    229 Γöé 										<SidebarMenuButton asChild tooltip="Manifest Scan Session">
+  > 230 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    231 Γöé 												<BarcodeIcon />
+    232 Γöé 												<span>Manifest Scan Session</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:238:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    236 Γöé 									<SidebarMenuItem>
+    237 Γöé 										<SidebarMenuButton asChild tooltip="Barcode Tracking">
+  > 238 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    239 Γöé 												<BarcodeIcon />
+    240 Γöé 												<span>Barcode Tracking</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\dashboard-shell-01\page.tsx:254:15 lint/a11y/useValidAnchor ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a valid value for the attribute href.
+  
+    252 Γöé 									<SidebarMenuItem>
+    253 Γöé 										<SidebarMenuButton asChild tooltip="Global Search">
+  > 254 Γöé 											<a href="#">
+        Γöé 											   ^^^^^^^^
+    255 Γöé 												<GlobeIcon />
+    256 Γöé 												<span>Global Search</span>
+  
+  i The href attribute should be a valid a URL
+  
+  i Check this thorough explanation to better understand the context.
+  
+
+src\app\global-error.tsx:17:3 lint/a11y/useHtmlLang ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Provide a lang attribute when using the html element.
+  
+    16 Γöé 	return (
+  > 17 Γöé 		<html>
+       Γöé 		^^^^^^
+    18 Γöé 			<body>
+    19 Γöé 				{/* `NextError` is the default Next.js error page component. Its type
+  
+  i Setting a lang attribute on HTML document elements configures the languageused by screen readers when no user default is specified.
+  
+
+src\app\globals.css:213:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    211 Γöé @layer base {
+    212 Γöé   * {
+  > 213 Γöé     @apply border-border outline-ring/50;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 Γöé   }
+    215 Γöé 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:213:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    211 Γöé @layer base {
+    212 Γöé   * {
+  > 213 Γöé     @apply border-border outline-ring/50;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 Γöé   }
+    215 Γöé 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:217:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    216 Γöé   body {
+  > 217 Γöé     @apply bg-background text-foreground antialiased;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 Γöé   }
+    219 Γöé }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Code formatting aborted due to parsing errors. To format code with errors, enable the 'formatter.formatWithErrors' option.
+  
+
+src\app\globals.css:217:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    216 Γöé   body {
+  > 217 Γöé     @apply bg-background text-foreground antialiased;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 Γöé   }
+    219 Γöé }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:3:2 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+      1 Γöé @import "tailwindcss";
+      2 Γöé 
+    > 3 Γöé @theme {
+        Γöé  ^^^^^^^
+    > 4 Γöé   --color-background: var(--background);
+         ...
+   > 98 Γöé   }
+   > 99 Γöé }
+        Γöé ^
+    100 Γöé 
+    101 Γöé :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:3:2 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+      1 Γöé @import "tailwindcss";
+      2 Γöé 
+    > 3 Γöé @theme {
+        Γöé  ^^^^^^^
+    > 4 Γöé   --color-background: var(--background);
+         ...
+   > 98 Γöé   }
+   > 99 Γöé }
+        Γöé ^
+    100 Γöé 
+    101 Γöé :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\payments\page.tsx:383:7 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    382 Γöé 					<div className="w-full sm:w-[180px]">
+  > 383 Γöé 						<label className="text-sm font-medium mb-2 block">Mode</label>
+        Γöé 						^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    384 Γöé 						<Select
+    385 Γöé 							value={modeFilter}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\payments\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    370 370 Γöé   				<div className="flex gap-4 flex-col lg:flex-row items-end">
+    371 371 Γöé   					<div className="flex-1">
+    372     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="payments-search"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Search</label>
+        372 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        373 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="payments-search"
+        374 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        375 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        376 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Search
+        377 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    373 378 Γöé   						<Input
+    374 379 Γöé   							id="payments-search"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    402 407 Γöé   					<div className="flex gap-2 w-full sm:w-auto">
+    403 408 Γöé   						<div className="flex-1">
+    404     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="payments-date-from"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">From</label>
+        409 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        410 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="payments-date-from"
+        411 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        412 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        413 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ From
+        414 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    405 415 Γöé   							<Input
+    406 416 Γöé   								id="payments-date-from"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    411 421 Γöé   						</div>
+    412 422 Γöé   						<div className="flex-1">
+    413     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="payments-date-to"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">To</label>
+        423 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        424 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="payments-date-to"
+        425 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        426 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        427 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ To
+        428 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    414 429 Γöé   							<Input
+    415 430 Γöé   								id="payments-date-to"
+  
+
+src\app\rates\page.tsx:544:8 lint/a11y/noLabelWithoutControl ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù A form label must be associated with an input.
+  
+    543 Γöé 						<div className="space-y-1">
+  > 544 Γöé 							<label className="text-xs font-medium">Service type</label>
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    545 Γöé 							<Select
+    546 Γöé 								value={quoteServiceType}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+src\app\rates\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    455 455 Γöé   				<div className="flex gap-3 flex-col sm:flex-row sm:items-end">
+    456 456 Γöé   					<div className="flex-1">
+    457     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="rates-search"┬╖className="text-sm┬╖font-medium┬╖mb-2┬╖block">Search</label>
+        457 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        458 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="rates-search"
+        459 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium┬╖mb-2┬╖block"
+        460 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        461 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Search
+        462 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    458 463 Γöé   						<Input
+    459 464 Γöé   							id="rates-search"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    506 511 Γöé   					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-2">
+    507 512 Γöé   						<div className="space-y-1">
+    508     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="quote-origin"┬╖className="text-xs┬╖font-medium">Origin</label>
+        513 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="quote-origin"┬╖className="text-xs┬╖font-medium">
+        514 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Origin
+        515 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    509 516 Γöé   							<Input
+    510 517 Γöé   								id="quote-origin"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    517 524 Γöé   
+    518 525 Γöé   						<div className="space-y-1">
+    519     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="quote-destination"┬╖className="text-xs┬╖font-medium">Destination</label>
+        526 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        527 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="quote-destination"
+        528 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium"
+        529 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        530 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Destination
+        531 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    520 532 Γöé   							<Input
+    521 533 Γöé   								id="quote-destination"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    528 540 Γöé   
+    529 541 Γöé   						<div className="space-y-1">
+    530     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="quote-weight"┬╖className="text-xs┬╖font-medium">Weight┬╖(kg)</label>
+        542 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="quote-weight"┬╖className="text-xs┬╖font-medium">
+        543 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Weight┬╖(kg)
+        544 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    531 545 Γöé   							<Input
+    532 546 Γöé   								id="quote-weight"
+  
+
+src\app\search\page.tsx:112:13 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    110 Γöé 													)
+    111 Γöé 												}
+  > 112 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    113 Γöé 												tabIndex={0}
+    114 Γöé 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:112:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The HTML element li is non-interactive and should not have an interactive role.
+  
+    110 Γöé 													)
+    111 Γöé 												}
+  > 112 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    113 Γöé 												tabIndex={0}
+    114 Γöé 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    110 110 Γöé   													)
+    111 111 Γöé   												}
+    112     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ role="button"
+    113 112 Γöé   												tabIndex={0}
+    114 113 Γöé   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:171:13 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    169 Γöé 													)
+    170 Γöé 												}
+  > 171 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    172 Γöé 												tabIndex={0}
+    173 Γöé 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:171:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The HTML element li is non-interactive and should not have an interactive role.
+  
+    169 Γöé 													)
+    170 Γöé 												}
+  > 171 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    172 Γöé 												tabIndex={0}
+    173 Γöé 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    169 169 Γöé   													)
+    170 170 Γöé   												}
+    171     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ role="button"
+    172 171 Γöé   												tabIndex={0}
+    173 172 Γöé   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:230:13 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    228 Γöé 													)
+    229 Γöé 												}
+  > 230 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    231 Γöé 												tabIndex={0}
+    232 Γöé 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:230:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The HTML element li is non-interactive and should not have an interactive role.
+  
+    228 Γöé 													)
+    229 Γöé 												}
+  > 230 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    231 Γöé 												tabIndex={0}
+    232 Γöé 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    228 228 Γöé   													)
+    229 229 Γöé   												}
+    230     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ role="button"
+    231 230 Γöé   												tabIndex={0}
+    232 231 Γöé   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:291:13 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    289 Γöé 													)
+    290 Γöé 												}
+  > 291 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    292 Γöé 												tabIndex={0}
+    293 Γöé 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:291:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The HTML element li is non-interactive and should not have an interactive role.
+  
+    289 Γöé 													)
+    290 Γöé 												}
+  > 291 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    292 Γöé 												tabIndex={0}
+    293 Γöé 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    289 289 Γöé   													)
+    290 290 Γöé   												}
+    291     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ role="button"
+    292 291 Γöé   												tabIndex={0}
+    293 292 Γöé   												onKeyDown={(e) => {
+  
+
+src\app\search\page.tsx:347:13 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <button>
+  
+    345 Γöé 													)
+    346 Γöé 												}
+  > 347 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    348 Γöé 												tabIndex={0}
+    349 Γöé 												onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\app\search\page.tsx:347:13 lint/a11y/noNoninteractiveElementToInteractiveRole  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The HTML element li is non-interactive and should not have an interactive role.
+  
+    345 Γöé 													)
+    346 Γöé 												}
+  > 347 Γöé 												role="button"
+        Γöé 												^^^^^^^^^^^^^
+    348 Γöé 												tabIndex={0}
+    349 Γöé 												onKeyDown={(e) => {
+  
+  i Replace li with a div or a span.
+  
+  i Unsafe fix: Remove the role attribute.
+  
+    345 345 Γöé   													)
+    346 346 Γöé   												}
+    347     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ role="button"
+    348 347 Γöé   												tabIndex={0}
+    349 348 Γöé   												onKeyDown={(e) => {
+  
+
+src\components\barcode\barcode-scanner.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     99  99 Γöé   			{/* Manual Input */}
+    100 100 Γöé   			<div className="space-y-2">
+    101     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="barcode-input-component"┬╖className="text-sm┬╖font-medium">
+        101 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        102 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="barcode-input-component"
+        103 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-sm┬╖font-medium"
+        104 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    102 105 Γöé   					Or enter barcode manually:
+    103 106 Γöé   				</label>
+  
+
+src\components\contact-section.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    126 126 Γöé   									<div className="grid sm:grid-cols-2 gap-5">
+    127 127 Γöé   										<div>
+    128     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="contact-name"┬╖className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block">
+        128 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        129 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="contact-name"
+        130 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block"
+        131 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    129 132 Γöé   												Full Name *
+    130 133 Γöé   											</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    140 143 Γöé   										</div>
+    141 144 Γöé   										<div>
+    142     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="contact-email"┬╖className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block">
+        145 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        146 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="contact-email"
+        147 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block"
+        148 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    143 149 Γöé   												Email *
+    144 150 Γöé   											</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    158 164 Γöé   									<div className="grid sm:grid-cols-2 gap-5">
+    159 165 Γöé   										<div>
+    160     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="contact-phone"┬╖className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block">
+        166 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        167 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="contact-phone"
+        168 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block"
+        169 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    161 170 Γöé   												Phone
+    162 171 Γöé   											</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    171 180 Γöé   										</div>
+    172 181 Γöé   										<div>
+    173     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="contact-company"┬╖className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block">
+        182 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        183 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="contact-company"
+        184 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block"
+        185 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    174 186 Γöé   												Company
+    175 187 Γöé   											</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    186 198 Γöé   
+    187 199 Γöé   									<div>
+    188     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="contact-subject"┬╖className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block">
+        200 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        201 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="contact-subject"
+        202 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block"
+        203 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    189 204 Γöé   											Subject *
+    190 205 Γöé   										</label>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    201 216 Γöé   
+    202 217 Γöé   									<div>
+    203     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="contact-message"┬╖className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block">
+        218 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        219 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="contact-message"
+        220 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-medium┬╖text-muted-foreground┬╖mb-1.5┬╖block"
+        221 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    204 222 Γöé   											Message *
+    205 223 Γöé   										</label>
+  
+
+src\components\floating-actions.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    292 292 Γöé   				<div className="p-4 space-y-4">
+    293 293 Γöé   					<div>
+    294     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="floating-consignment-number"┬╖className="text-xs┬╖font-semibold┬╖text-muted-foreground┬╖uppercase┬╖tracking-wide┬╖mb-2┬╖block">
+        294 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label
+        295 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ htmlFor="floating-consignment-number"
+        296 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="text-xs┬╖font-semibold┬╖text-muted-foreground┬╖uppercase┬╖tracking-wide┬╖mb-2┬╖block"
+        297 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+    295 298 Γöé   							Consignment Number
+    296 299 Γöé   						</label>
+  
+
+src\components\support\landing-ticket-form.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     27  27 Γöé   	const handleChange =
+     28  28 Γöé   		(field: keyof TicketState) =>
+     29     Γöé - ΓåÆ ΓåÆ ΓåÆ (e:┬╖React.ChangeEvent<HTMLInputElement┬╖|┬╖HTMLTextAreaElement>)┬╖=>┬╖{
+     30     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ setForm((prev)┬╖=>┬╖({┬╖...prev,┬╖[field]:┬╖e.target.value┬╖}));
+     31     Γöé - ΓåÆ ΓåÆ ΓåÆ };
+         29 Γöé + ΓåÆ ΓåÆ (e:┬╖React.ChangeEvent<HTMLInputElement┬╖|┬╖HTMLTextAreaElement>)┬╖=>┬╖{
+         30 Γöé + ΓåÆ ΓåÆ ΓåÆ setForm((prev)┬╖=>┬╖({┬╖...prev,┬╖[field]:┬╖e.target.value┬╖}));
+         31 Γöé + ΓåÆ ΓåÆ };
+     32  32 Γöé   
+     33  33 Γöé   	async function handleSubmit(e: FormEvent) {
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+     64  64 Γöé   				setError(
+     65  65 Γöé   					(json && typeof json.error === "string" && json.error) ||
+     66     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ "Could┬╖not┬╖create┬╖support┬╖ticket.┬╖Please┬╖try┬╖again.",
+         66 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ "Could┬╖not┬╖create┬╖support┬╖ticket.┬╖Please┬╖try┬╖again.",
+     67  67 Γöé   				);
+     68  68 Γöé   				return;
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+     92  92 Γöé   			<form onSubmit={handleSubmit} className="space-y-3 text-xs">
+     93  93 Γöé   				<div className="space-y-1">
+     94     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="ticket-email"┬╖className="block┬╖font-medium">Email</label>
+         94 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="ticket-email"┬╖className="block┬╖font-medium">
+         95 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Email
+         96 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+     95  97 Γöé   					<Input
+     96  98 Γöé   						id="ticket-email"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    117 119 Γöé   
+    118 120 Γöé   				<div className="space-y-1">
+    119     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="ticket-subject"┬╖className="block┬╖font-medium">Subject</label>
+        121 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="ticket-subject"┬╖className="block┬╖font-medium">
+        122 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Subject
+        123 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    120 124 Γöé   					<Input
+    121 125 Γöé   						id="ticket-subject"
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    128 132 Γöé   
+    129 133 Γöé   				<div className="space-y-1">
+    130     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="ticket-details"┬╖className="block┬╖font-medium">Details</label>
+        134 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <label┬╖htmlFor="ticket-details"┬╖className="block┬╖font-medium">
+        135 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Details
+        136 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </label>
+    131 137 Γöé   					<Textarea
+    132 138 Γöé   						id="ticket-details"
+  
+
+src\components\ui\carousel.tsx:165:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    163 Γöé 	return (
+    164 Γöé 		<div
+  > 165 Γöé 			role="group"
+        Γöé 			^^^^^^^^^^^^
+    166 Γöé 			aria-roledescription="slide"
+    167 Γöé 			data-slot="carousel-item"
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\carousel.tsx:128:5 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <section>
+  
+    126 Γöé 				onKeyDownCapture={handleKeyDown}
+    127 Γöé 				className={cn("relative", className)}
+  > 128 Γöé 				role="region"
+        Γöé 				^^^^^^^^^^^^^
+    129 Γöé 				aria-roledescription="carousel"
+    130 Γöé 				data-slot="carousel"
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\chart.tsx:83:4 lint/security/noDangerouslySetInnerHtml ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid passing content using the dangerouslySetInnerHTML prop.
+  
+    81 Γöé 	return (
+    82 Γöé 		<style
+  > 83 Γöé 			dangerouslySetInnerHTML={{
+       Γöé 			^^^^^^^^^^^^^^^^^^^^^^^
+    84 Γöé 				__html: Object.entries(THEMES)
+    85 Γöé 					.map(
+  
+  ! Setting content using code can expose users to cross-site scripting (XSS) attacks
+  
+
+src\components\ui\error-states.tsx:87:30 lint/suspicious/noAssignInExpressions ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The assignment should not be in an expression.
+  
+    85 Γöé 				)}
+    86 Γöé 				{showHomeButton && (
+  > 87 Γöé 					<Button onClick={() => (window.location.href = "/")}>
+       Γöé 					                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    88 Γöé 						<Home className="h-4 w-4" />
+    89 Γöé 						Go Home
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+src\components\ui\field.tsx:87:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    85 Γöé 	return (
+    86 Γöé 		<div
+  > 87 Γöé 			role="group"
+       Γöé 			^^^^^^^^^^^^
+    88 Γöé 			data-slot="field"
+    89 Γöé 			data-orientation={orientation}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\input-group.tsx:14:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    12 Γöé 		<div
+    13 Γöé 			data-slot="input-group"
+  > 14 Γöé 			role="group"
+       Γöé 			^^^^^^^^^^^^
+    15 Γöé 			className={cn(
+    16 Γöé 				"group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\input-group.tsx:65:3 lint/a11y/useKeyWithClickEvents ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    63 Γöé }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
+    64 Γöé 	return (
+  > 65 Γöé 		<div
+       Γöé 		^^^^
+  > 66 Γöé 			role="group"
+        ...
+  > 76 Γöé 			{...props}
+  > 77 Γöé 		/>
+       Γöé 		^^
+    78 Γöé 	);
+    79 Γöé }
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+src\components\ui\input-group.tsx:66:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <fieldset>
+  
+    64 Γöé 	return (
+    65 Γöé 		<div
+  > 66 Γöé 			role="group"
+       Γöé 			^^^^^^^^^^^^
+    67 Γöé 			data-slot="input-group-addon"
+    68 Γöé 			data-align={align}
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\lens.tsx:108:4 lint/a11y/useSemanticElements ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The elements with this role can be changed to the following elements:
+    <section>
+  
+    106 Γöé 			onMouseMove={handleMouseMove}
+    107 Γöé 			onKeyDown={handleKeyDown}
+  > 108 Γöé 			role="region"
+        Γöé 			^^^^^^^^^^^^^
+    109 Γöé 			aria-label={ariaLabel}
+    110 Γöé 		>
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+src\components\ui\particles.tsx:190:18 lint/correctness/useExhaustiveDependencies  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This hook does not specify its dependency on clearContext.
+  
+    188 Γöé 	}, [resizeCanvas, drawParticles]);
+    189 Γöé 
+  > 190 Γöé 	const animate = useCallback(() => {
+        Γöé 	                ^^^^^^^^^^^
+    191 Γöé 		clearContext();
+    192 Γöé 		const circlesToRemove: number[] = [];
+  
+  i This dependency is being used here, but is not specified in the hook dependency list.
+  
+    190 Γöé 	const animate = useCallback(() => {
+  > 191 Γöé 		clearContext();
+        Γöé 		^^^^^^^^^^^^
+    192 Γöé 		const circlesToRemove: number[] = [];
+    193 Γöé 		circles.current.forEach((circle: Circle, i: number) => {
+  
+  i React relies on hook dependencies to determine when to re-compute Effects.
+    Failing to specify dependencies can result in Effects not updating correctly when state changes.
+    These "stale closures" are a common source of surprising bugs.
+  
+  i Unsafe fix: Add the missing dependency to the list.
+  
+    242 Γöé ΓåÆ },┬╖[circleParams,┬╖drawCircle,┬╖ease,┬╖staticity,┬╖vx,┬╖vy,┬╖clearContext]);
+        Γöé                                                        ++++++++++++++   
+
+src\lib\supabaseServer.ts:17:20 lint/suspicious/useIterableCallbackReturn ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù This callback passed to forEach() iterable method should not return a value.
+  
+    15 Γöé 				setAll(cookiesToSet) {
+    16 Γöé 					try {
+  > 17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+       Γöé 						             ^^^^^^^
+    18 Γöé 							cookieStore.set(name, value, options),
+    19 Γöé 						);
+  
+  i Either remove this return or remove the returned value.
+  
+    16 Γöé 					try {
+    17 Γöé 						cookiesToSet.forEach(({ name, value, options }) =>
+  > 18 Γöé 							cookieStore.set(name, value, options),
+       Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    19 Γöé 						);
+    20 Γöé 					} catch {
+  
+
+Checked 501 files in 1488ms. No fixes applied.
+Found 51 errors.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

@@ -149,7 +149,7 @@ const DashboardShell = () => {
 								<SidebarMenu>
 									<SidebarMenuItem>
 										<SidebarMenuButton isActive asChild tooltip="Dashboard">
-											<a href="#">
+											<a href="/">
 												<LayoutDashboardIcon />
 												<span>Dashboard</span>
 											</a>
@@ -160,7 +160,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Warehouse">
-											<a href="#">
+											<a href="/">
 												<WarehouseIcon />
 												<span>Warehouse</span>
 											</a>
@@ -169,7 +169,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Shipments">
-											<a href="#">
+											<a href="/">
 												<TruckIcon />
 												<span>Shipments</span>
 											</a>
@@ -178,7 +178,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Inventory">
-											<a href="#">
+											<a href="/">
 												<BoxIcon />
 												<span>Inventory</span>
 											</a>
@@ -194,7 +194,7 @@ const DashboardShell = () => {
 								<SidebarMenu>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Customers">
-											<a href="#">
+											<a href="/">
 												<UsersIcon />
 												<span>Customers</span>
 											</a>
@@ -202,7 +202,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Invoices">
-											<a href="#">
+											<a href="/">
 												<FileTextIcon />
 												<span>Invoices</span>
 											</a>
@@ -211,7 +211,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Rates">
-											<a href="#">
+											<a href="/">
 												<ClipboardListIcon />
 												<span>Rates</span>
 											</a>
@@ -219,7 +219,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Aircargo Manifests">
-											<a href="#">
+											<a href="/">
 												<ArchiveIcon />
 												<span>Aircargo Manifests</span>
 											</a>
@@ -227,7 +227,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Manifest Scan Session">
-											<a href="#">
+											<a href="/">
 												<BarcodeIcon />
 												<span>Manifest Scan Session</span>
 											</a>
@@ -235,7 +235,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Barcode Tracking">
-											<a href="#">
+											<a href="/">
 												<BarcodeIcon />
 												<span>Barcode Tracking</span>
 											</a>
@@ -251,7 +251,7 @@ const DashboardShell = () => {
 								<SidebarMenu>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Global Search">
-											<a href="#">
+											<a href="/">
 												<GlobeIcon />
 												<span>Global Search</span>
 											</a>
@@ -259,7 +259,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Notifications">
-											<a href="#">
+											<a href="/">
 												<BellIcon />
 												<span>Notifications</span>
 											</a>
@@ -268,7 +268,7 @@ const DashboardShell = () => {
 									</SidebarMenuItem>
 									<SidebarMenuItem>
 										<SidebarMenuButton asChild tooltip="Settings">
-											<a href="#">
+											<a href="/">
 												<SettingsIcon />
 												<span>Settings</span>
 											</a>

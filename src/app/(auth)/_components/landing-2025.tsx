@@ -1,39 +1,34 @@
 "use client";
 
-import {
-	AnimatePresence,
-	motion,
-	useMotionValue,
-	useScroll,
-	useSpring,
-	useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
 	ArrowRight,
-	CheckCircle2,
-	Clock,
-	FileSearch,
 	Globe,
 	MoveRight,
 	Package,
-	Phone,
 	Search,
 	ShieldCheck,
 	Truck,
-	Cpu,
-	Box,
 	Zap,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 
 // --- Custom Components ---
 
-const Badge = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-	<div className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}>
+const Badge = ({
+	children,
+	className = "",
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) => (
+	<div
+		className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}
+	>
 		{children}
 	</div>
 );
@@ -76,7 +71,9 @@ function Navbar() {
 	return (
 		<nav
 			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-				scrolled ? "bg-background/80 backdrop-blur-xl border-b py-4" : "bg-transparent py-6"
+				scrolled
+					? "bg-background/80 backdrop-blur-xl border-b py-4"
+					: "bg-transparent py-6"
 			}`}
 		>
 			<div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -88,13 +85,19 @@ function Navbar() {
 				</div>
 
 				<div className="hidden lg:flex items-center gap-10 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-					<Link href="#services" className="hover:text-primary transition-colors">
+					<Link
+						href="#services"
+						className="hover:text-primary transition-colors"
+					>
 						Services
 					</Link>
 					<Link href="#track" className="hover:text-primary transition-colors">
 						Tracking
 					</Link>
-					<Link href="#solutions" className="hover:text-primary transition-colors">
+					<Link
+						href="#solutions"
+						className="hover:text-primary transition-colors"
+					>
 						Solutions
 					</Link>
 				</div>
@@ -143,7 +146,8 @@ function Hero() {
 						className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter"
 					>
 						FUTURE <br />
-						<span className="text-primary italic font-serif serif">CARGO</span> <br />
+						<span className="text-primary italic font-serif serif">CARGO</span>{" "}
+						<br />
 						SYSTEMS.
 					</motion.h1>
 
@@ -153,8 +157,9 @@ function Hero() {
 						transition={{ delay: 0.2 }}
 						className="text-xl text-slate-400 max-w-xl leading-relaxed font-medium"
 					>
-						Enterprise-grade logistics infrastructure powered by real-time intelligence. 
-						Specializing in the Delhi-Imphal supply chain corridor for over two decades.
+						Enterprise-grade logistics infrastructure powered by real-time
+						intelligence. Specializing in the Delhi-Imphal supply chain corridor
+						for over two decades.
 					</motion.p>
 
 					<motion.div
@@ -163,10 +168,17 @@ function Hero() {
 						transition={{ delay: 0.3 }}
 						className="flex flex-wrap gap-4 pt-4"
 					>
-						<Button size="xl" className="h-16 px-10 rounded-2xl text-lg font-bold">
+						<Button
+							size="xl"
+							className="h-16 px-10 rounded-2xl text-lg font-bold"
+						>
 							Initiate Booking <ArrowRight className="ml-3 h-5 w-5" />
 						</Button>
-						<Button size="xl" variant="outline" className="h-16 px-10 rounded-2xl text-lg font-bold border-white/10 text-white hover:bg-white/5">
+						<Button
+							size="xl"
+							variant="outline"
+							className="h-16 px-10 rounded-2xl text-lg font-bold border-white/10 text-white hover:bg-white/5"
+						>
 							Network Map
 						</Button>
 					</motion.div>
@@ -175,34 +187,48 @@ function Hero() {
 				<div className="lg:col-span-5 relative hidden lg:block">
 					<motion.div style={{ y: y1, opacity }} className="relative">
 						<div className="relative z-10 rounded-[3rem] overflow-hidden border border-white/10 bg-slate-900 aspect-[4/5] shadow-2xl">
-							<video 
-								autoPlay 
-								loop 
-								muted 
+							<video
+								autoPlay
+								loop
+								muted
 								playsInline
 								className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
 							>
-								<source src="https://v0.one/storage/v1/object/public/videos/cargo-truck-night.mp4" type="video/mp4" />
+								<source
+									src="https://v0.one/storage/v1/object/public/videos/cargo-truck-night.mp4"
+									type="video/mp4"
+								/>
 							</video>
-							
+
 							<div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-slate-950 to-transparent">
 								<div className="space-y-4">
 									<div className="flex items-center justify-between">
-										<p className="text-primary font-black uppercase tracking-widest text-xs">Live Ops</p>
+										<p className="text-primary font-black uppercase tracking-widest text-xs">
+											Live Ops
+										</p>
 										<div className="flex gap-1">
-											{[1, 2, 3].map(i => (
-												<div key={i} className="w-1 h-1 rounded-full bg-primary" />
+											{[1, 2, 3].map((i) => (
+												<div
+													key={i}
+													className="w-1 h-1 rounded-full bg-primary"
+												/>
 											))}
 										</div>
 									</div>
-									<h3 className="text-2xl font-bold text-white">Route X-04 Status</h3>
+									<h3 className="text-2xl font-bold text-white">
+										Route X-04 Status
+									</h3>
 									<div className="grid grid-cols-2 gap-4">
 										<div className="bg-white/5 p-3 rounded-xl border border-white/5">
-											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">Temp</p>
+											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">
+												Temp
+											</p>
 											<p className="text-white font-mono text-lg">-4°C</p>
 										</div>
 										<div className="bg-white/5 p-3 rounded-xl border border-white/5">
-											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">Load</p>
+											<p className="text-[10px] text-slate-500 uppercase font-black mb-1">
+												Load
+											</p>
 											<p className="text-white font-mono text-lg">94%</p>
 										</div>
 									</div>
@@ -211,13 +237,15 @@ function Hero() {
 						</div>
 
 						{/* Floating Element */}
-						<motion.div 
+						<motion.div
 							animate={{ y: [0, -20, 0] }}
 							transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
 							className="absolute -right-8 top-20 z-20 bg-primary p-6 rounded-3xl shadow-3xl shadow-primary/40 text-black"
 						>
 							<Package className="h-8 w-8 mb-2" />
-							<p className="text-xs uppercase font-black tracking-widest opacity-80">Pending</p>
+							<p className="text-xs uppercase font-black tracking-widest opacity-80">
+								Pending
+							</p>
 							<p className="text-2xl font-black">2.4k</p>
 						</motion.div>
 					</motion.div>
@@ -231,19 +259,22 @@ function Services() {
 	const services = [
 		{
 			title: "Heavy-Haul Network",
-			description: "Industrial strength transport for machinery and raw materials with specialized flatbed fleets.",
+			description:
+				"Industrial strength transport for machinery and raw materials with specialized flatbed fleets.",
 			icon: Truck,
 			color: "blue",
 		},
 		{
 			title: "Critical Cold Chain",
-			description: "Temperature controlled environments for high-value pharma and perishables with 24/7 monitoring.",
+			description:
+				"Temperature controlled environments for high-value pharma and perishables with 24/7 monitoring.",
 			icon: Zap,
 			color: "amber",
 		},
 		{
 			title: "Secure Last Mile",
-			description: "Precise urban distribution with armored delivery vehicles and signature-encrypted tracking.",
+			description:
+				"Precise urban distribution with armored delivery vehicles and signature-encrypted tracking.",
 			icon: ShieldCheck,
 			color: "emerald",
 		},
@@ -252,16 +283,16 @@ function Services() {
 	return (
 		<section id="services" className="py-32 bg-background">
 			<div className="max-w-7xl mx-auto px-6">
-				<SectionHeading 
+				<SectionHeading
 					badge="Capabilities"
 					title="Industrial Logistics. Redefined."
 					description="We combine operational excellence with technical innovation to solve the cargo industry's toughest challenges."
 				/>
 
 				<div className="grid md:grid-cols-3 gap-8">
-					{services.map((s, i) => (
+					{services.map((s) => (
 						<motion.div
-							key={i}
+							key={`service-${s.title.toLowerCase().replace(/\s+/g, "-")}`}
 							whileHover={{ y: -10 }}
 							className="group relative p-10 rounded-[3rem] bg-muted/50 border border-border/60 hover:border-primary/40 transition-all duration-500"
 						>
@@ -272,7 +303,10 @@ function Services() {
 							<p className="text-muted-foreground leading-relaxed mb-6">
 								{s.description}
 							</p>
-							<Link href="#" className="inline-flex items-center text-sm font-black uppercase tracking-widest text-primary gap-2 hover:gap-4 transition-all">
+							<Link
+								href={`/services/${s.title.toLowerCase().split(" ")[0]}`}
+								className="inline-flex items-center text-sm font-black uppercase tracking-widest text-primary gap-2 hover:gap-4 transition-all"
+							>
 								Details <MoveRight className="h-4 w-4" />
 							</Link>
 						</motion.div>
@@ -288,21 +322,21 @@ function Tracking() {
 		<section id="track" className="py-32 bg-slate-950 relative overflow-hidden">
 			{/* Scanline Effect */}
 			<div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,163,0.06))] bg-[length:100%_2px,3px_100%] pointer-events-none z-10" />
-			
+
 			<div className="max-w-7xl mx-auto px-6 relative z-20">
 				<div className="grid lg:grid-cols-2 gap-20 items-center">
 					<div className="space-y-8">
-						<SectionHeading 
+						<SectionHeading
 							badge="Real-time Engine"
 							title="Know exactly where your cargo is 24/7."
 							description="Enter your consignment ID below to access the deep-tracking dashboard featuring GPS positioning, temperature logs, and estimated arrival."
 						/>
-						
+
 						<div className="relative group p-1.5 rounded-3xl bg-white/5 border border-white/10 focus-within:border-primary/50 transition-all duration-500">
 							<Search className="absolute left-6 top-1/2 -translate-y-1/2 h-6 w-6 text-slate-500 group-focus-within:text-primary transition-colors" />
-							<input 
-								type="text" 
-								placeholder="Consignment Ref..." 
+							<input
+								type="text"
+								placeholder="Consignment Ref..."
 								className="w-full h-16 pl-16 pr-44 bg-transparent border-none focus:ring-0 text-white text-lg font-mono placeholder:text-slate-600"
 							/>
 							<Button className="absolute right-1.5 top-1.5 bottom-1.5 px-8 rounded-2xl font-black uppercase tracking-widest">
@@ -312,13 +346,21 @@ function Tracking() {
 
 						<div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/5">
 							<div className="space-y-1">
-								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Global Reach</p>
-								<p className="text-4xl font-bold text-white tracking-tighter">110+</p>
+								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">
+									Global Reach
+								</p>
+								<p className="text-4xl font-bold text-white tracking-tighter">
+									110+
+								</p>
 								<p className="text-sm text-slate-400">Hub locations</p>
 							</div>
 							<div className="space-y-1">
-								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Throughput</p>
-								<p className="text-4xl font-bold text-white tracking-tighter">240k</p>
+								<p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">
+									Throughput
+								</p>
+								<p className="text-4xl font-bold text-white tracking-tighter">
+									240k
+								</p>
 								<p className="text-sm text-slate-400">Containers/Year</p>
 							</div>
 						</div>
@@ -326,16 +368,16 @@ function Tracking() {
 
 					<div className="relative">
 						<div className="rounded-[4rem] overflow-hidden border border-white/10 shadow-3xl bg-slate-900 group">
-							<Image 
-								src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=2000" 
+							<Image
+								src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=2000"
 								alt="Control center"
 								width={1000}
 								height={1200}
 								className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700"
 							/>
-							
+
 							<div className="absolute inset-0 flex items-center justify-center">
-								<motion.div 
+								<motion.div
 									animate={{ scale: [1, 1.1, 1] }}
 									transition={{ duration: 2, repeat: Infinity }}
 									className="w-24 h-24 rounded-full bg-primary/20 backdrop-blur-3xl border border-primary/40 flex items-center justify-center"
@@ -359,14 +401,21 @@ function Contact() {
 			<div className="max-w-3xl mx-auto px-6 text-center space-y-10">
 				<h2 className="text-5xl font-black tracking-tighter">READY TO SHIP?</h2>
 				<p className="text-xl text-muted-foreground leading-relaxed">
-					Connect with our logistics engineers to build a custom supply chain 
+					Connect with our logistics engineers to build a custom supply chain
 					solution for your enterprise. Rapid response guaranteed.
 				</p>
 				<div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
-					<Button size="xl" className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl">
+					<Button
+						size="xl"
+						className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl"
+					>
 						Connect with Sales
 					</Button>
-					<Button size="xl" variant="outline" className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl border-border">
+					<Button
+						size="xl"
+						variant="outline"
+						className="w-full sm:w-auto px-12 h-16 text-lg font-black rounded-2xl border-border"
+					>
 						Documentation
 					</Button>
 				</div>
@@ -388,40 +437,85 @@ function Footer() {
 							<span className="text-xl font-bold tracking-tighter">TAPAN</span>
 						</div>
 						<p className="text-muted-foreground text-sm leading-relaxed">
-							Enterprise logistics infrastructure for the next generation of trade.
+							Enterprise logistics infrastructure for the next generation of
+							trade.
 						</p>
 					</div>
 
 					<div className="space-y-6">
-						<h4 className="font-bold text-sm tracking-widest uppercase">Network</h4>
+						<h4 className="font-bold text-sm tracking-widest uppercase">
+							Network
+						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
-							<li><Link href="#" className="hover:text-primary transition-colors">Route Map</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Hub Locations</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Fleet Stats</Link></li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Route Map
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Hub Locations
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Fleet Stats
+								</Link>
+							</li>
 						</ul>
 					</div>
 
 					<div className="space-y-6">
-						<h4 className="font-bold text-sm tracking-widest uppercase">Company</h4>
+						<h4 className="font-bold text-sm tracking-widest uppercase">
+							Company
+						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
-							<li><Link href="#" className="hover:text-primary transition-colors">About Ops</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Security Specs</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Support Portal</Link></li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									About Ops
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Security Specs
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Support Portal
+								</Link>
+							</li>
 						</ul>
 					</div>
 
 					<div className="space-y-6">
-						<h4 className="font-bold text-sm tracking-widest uppercase">Legal</h4>
+						<h4 className="font-bold text-sm tracking-widest uppercase">
+							Legal
+						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
-							<li><Link href="#" className="hover:text-primary transition-colors">Terms of Op</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Privacy Shield</Link></li>
-							<li><Link href="#" className="hover:text-primary transition-colors">Compliance</Link></li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Terms of Op
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Privacy Shield
+								</Link>
+							</li>
+							<li>
+								<Link href="#" className="hover:text-primary transition-colors">
+									Compliance
+								</Link>
+							</li>
 						</ul>
 					</div>
 				</div>
 
 				<div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t">
-					<p className="text-sm text-muted-foreground font-medium">© 2026 Tapan Associate S&L. All rights reserved.</p>
+					<p className="text-sm text-muted-foreground font-medium">
+						© 2026 Tapan Associate S&L. All rights reserved.
+					</p>
 					<div className="flex items-center gap-6">
 						<div className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary/5 transition-colors cursor-pointer">
 							<Globe className="h-4 w-4" />
@@ -439,14 +533,6 @@ function Footer() {
 // --- Main Component ---
 
 export function Landing2025() {
-	const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-		e.preventDefault();
-		const el = document.getElementById(id);
-		if (el) {
-			el.scrollIntoView({ behavior: "smooth" });
-		}
-	};
-
 	const servicesRef = useRef<HTMLElement>(null);
 	const trackRef = useRef<HTMLElement>(null);
 	const contactRef = useRef<HTMLElement>(null);
@@ -469,8 +555,4 @@ export function Landing2025() {
 			<Footer />
 		</div>
 	);
-}
-
-function cn(...inputs: any) {
-	return inputs.filter(Boolean).join(" ");
 }

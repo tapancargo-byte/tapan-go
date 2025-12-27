@@ -76,8 +76,12 @@ export default function Example() {
 					</div>
 
 					<div className="flex h-12 w-full items-center gap-2 overflow-hidden rounded-full border border-input bg-background px-6">
+						<label htmlFor="email-input" className="sr-only">
+							Work email
+						</label>
 						<Mail className="h-4 w-4 text-muted-foreground" />
 						<input
+							id="email-input"
 							type="email"
 							placeholder="Work email"
 							className="h-full w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
@@ -88,8 +92,12 @@ export default function Example() {
 					</div>
 
 					<div className="mt-6 flex h-12 w-full items-center gap-2 overflow-hidden rounded-full border border-input bg-background px-6">
+						<label htmlFor="password-input" className="sr-only">
+							Password
+						</label>
 						<Lock className="h-4 w-4 text-muted-foreground" />
 						<input
+							id="password-input"
 							type="password"
 							placeholder="Password"
 							className="h-full w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"

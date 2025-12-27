@@ -66,7 +66,9 @@ export function DashboardAuthOverlay() {
 
 				<div className="space-y-2">
 					<h2 className="text-2xl font-bold tracking-tight">
-						{status === "checking" ? "Authenticating Session" : "Access Restricted"}
+						{status === "checking"
+							? "Authenticating Session"
+							: "Access Restricted"}
 					</h2>
 					<p className="text-muted-foreground">
 						{status === "checking"

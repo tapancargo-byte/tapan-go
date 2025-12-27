@@ -56,7 +56,10 @@ export function AboutAppsStory() {
 					From UI design systems to automation-ready layouts, PrebuiltUI
 					empowers you to build beautifully and scale effortlessly.
 				</p>
-				<button className="flex items-center gap-2 mt-8 hover:-translate-y-0.5 transition bg-gradient-to-r from-indigo-600 to-[#8A7DFF] py-3 px-8 rounded-full text-white">
+				<button
+					type="button"
+					className="flex items-center gap-2 mt-8 hover:-translate-y-0.5 transition bg-gradient-to-r from-indigo-600 to-[#8A7DFF] py-3 px-8 rounded-full text-white"
+				>
 					<span>Read more</span>
 					<ArrowRight className="h-3 w-3" />
 				</button>

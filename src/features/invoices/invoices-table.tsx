@@ -54,7 +54,6 @@ export function InvoicesTable({
 	actionLoading,
 	canEdit,
 	renderSmsStatus,
-	getStatusColor,
 	onOpenManageShipments,
 	onViewInvoice,
 	onDownload,

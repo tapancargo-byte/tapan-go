@@ -472,8 +472,14 @@ export default function SettingsPage() {
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div className="space-y-2">
-									<label className="text-sm font-medium">Avatar</label>
+									<label
+										htmlFor="avatar-upload"
+										className="text-sm font-medium"
+									>
+										Avatar
+									</label>
 									<Input
+										id="avatar-upload"
 										type="file"
 										accept="image/*"
 										onChange={handleAvatarChange}
@@ -496,10 +502,11 @@ export default function SettingsPage() {
 							</CardHeader>
 							<CardContent className="space-y-6">
 								<div className="space-y-2">
-									<label className="text-sm font-medium">
+									<label htmlFor="org-name" className="text-sm font-medium">
 										Organization Name
 									</label>
 									<Input
+										id="org-name"
 										value={orgProfile.name}
 										onChange={(e) =>
 											setOrgProfile((prev) => ({
@@ -512,8 +519,11 @@ export default function SettingsPage() {
 									/>
 								</div>
 								<div className="space-y-2">
-									<label className="text-sm font-medium">Email</label>
+									<label htmlFor="org-email" className="text-sm font-medium">
+										Email
+									</label>
 									<Input
+										id="org-email"
 										value={orgProfile.email}
 										onChange={(e) =>
 											setOrgProfile((prev) => ({
@@ -526,8 +536,11 @@ export default function SettingsPage() {
 									/>
 								</div>
 								<div className="space-y-2">
-									<label className="text-sm font-medium">Phone Number</label>
+									<label htmlFor="org-phone" className="text-sm font-medium">
+										Phone Number
+									</label>
 									<Input
+										id="org-phone"
 										value={orgProfile.phone}
 										onChange={(e) =>
 											setOrgProfile((prev) => ({
@@ -540,8 +553,11 @@ export default function SettingsPage() {
 									/>
 								</div>
 								<div className="space-y-2">
-									<label className="text-sm font-medium">Address</label>
+									<label htmlFor="org-address" className="text-sm font-medium">
+										Address
+									</label>
 									<Input
+										id="org-address"
 										value={orgProfile.address}
 										onChange={(e) =>
 											setOrgProfile((prev) => ({
@@ -659,10 +675,14 @@ export default function SettingsPage() {
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div className="space-y-2">
-									<label className="text-sm font-medium">
+									<label
+										htmlFor="current-password"
+										className="text-sm font-medium"
+									>
 										Current Password
 									</label>
 									<Input
+										id="current-password"
 										type="password"
 										placeholder="Enter current password"
 										value={currentPassword}
@@ -671,8 +691,11 @@ export default function SettingsPage() {
 									/>
 								</div>
 								<div className="space-y-2">
-									<label className="text-sm font-medium">New Password</label>
+									<label htmlFor="new-password" className="text-sm font-medium">
+										New Password
+									</label>
 									<Input
+										id="new-password"
 										type="password"
 										placeholder="Enter new password"
 										value={newPassword}
@@ -681,10 +704,14 @@ export default function SettingsPage() {
 									/>
 								</div>
 								<div className="space-y-2">
-									<label className="text-sm font-medium">
+									<label
+										htmlFor="confirm-password"
+										className="text-sm font-medium"
+									>
 										Confirm Password
 									</label>
 									<Input
+										id="confirm-password"
 										type="password"
 										placeholder="Confirm new password"
 										value={confirmPassword}

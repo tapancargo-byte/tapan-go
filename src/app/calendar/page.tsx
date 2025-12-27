@@ -3,9 +3,9 @@
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
 import * as React from "react";
+import shipments from "@/app/(main)/dashboard/shipments-table-data.json";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import shipments from "@/app/(main)/dashboard/shipments-table-data.json";
 
 export default function CalendarPage() {
 	type Shipment = {

@@ -116,6 +116,7 @@ export function UserProfile() {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<button
+					type="button"
 					className={cn(
 						"flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
 						"data-[state=open]:bg-muted data-[state=open]:text-foreground",

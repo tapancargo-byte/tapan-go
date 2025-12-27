@@ -1,0 +1,262 @@
+public\assets\secure-logistics.json check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  i The size of the file is 1.1 MiB, which exceeds the configured maximum of 1.0 MiB for this project.
+    Use the `files.maxSize` configuration to change the maximum size of files processed, or `files.includes` to ignore the file.
+  
+
+src\lib\rateLimit.ts:12:16 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    10 Γöé import { NextResponse } from "next/server";
+    11 Γöé 
+  > 12 Γöé let Ratelimit: any;
+       Γöé                ^^^
+    13 Γöé let Redis: any;
+    14 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src\lib\rateLimit.ts:13:12 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    12 Γöé let Ratelimit: any;
+  > 13 Γöé let Redis: any;
+       Γöé            ^^^
+    14 Γöé 
+    15 Γöé // Try to import optional dependencies
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src\lib\rateLimit.ts:34:10 lint/style/noNonNullAssertion ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Forbidden non-null assertion.
+  
+    32 Γöé 	packagesAvailable && process.env.UPSTASH_REDIS_REST_URL && Redis
+    33 Γöé 		? new Redis({
+  > 34 Γöé 				url: process.env.UPSTASH_REDIS_REST_URL!,
+       Γöé 				     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    35 Γöé 				token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    36 Γöé 			})
+  
+
+biome.json format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    26 26 Γöé   	"overrides": [
+    27 27 Γöé   		{
+    28    Γöé - ΓåÆ ΓåÆ ΓåÆ "includes":┬╖[
+    29    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ "public/assets/secure-logistics.json"
+    30    Γöé - ΓåÆ ΓåÆ ΓåÆ ],
+       28 Γöé + ΓåÆ ΓåÆ ΓåÆ "includes":┬╖["public/assets/secure-logistics.json"],
+    31 29 Γöé   			"linter": {
+    32 30 Γöé   				"enabled": false
+    ┬╖┬╖┬╖┬╖┬╖ Γöé 
+    89 87 Γöé   		}
+    90 88 Γöé   	}
+    91    Γöé - }
+       89 Γöé + }
+       90 Γöé + 
+  
+
+lint_results.json:1:1 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù String values must be double quoted.
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé ^^^^^
+    2 Γöé 
+  
+
+lint_results.json:1:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù End of file expected
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé 
+  
+  i Use an array for a sequence of values: `[1, 2]`
+  
+
+lint_results.json:1:8 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù unexpected character ```
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé        ^
+    2 Γöé 
+  
+
+lint_results.json:1:9 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Minus must be followed by a digit
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé         ^
+    2 Γöé 
+  
+
+lint_results.json:1:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Minus must be followed by a digit
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé          ^
+    2 Γöé 
+  
+
+lint_results.json:1:20 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù unexpected character ```
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé                    ^
+    2 Γöé 
+  
+
+lint_results.json:1:1 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù String values must be double quoted.
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé ^^^^^
+    2 Γöé 
+  
+
+lint_results.json:1:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù End of file expected
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé 
+  
+  i Use an array for a sequence of values: `[1, 2]`
+  
+
+lint_results.json:1:8 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù unexpected character ```
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé        ^
+    2 Γöé 
+  
+
+lint_results.json:1:9 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Minus must be followed by a digit
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé         ^
+    2 Γöé 
+  
+
+lint_results.json:1:10 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Minus must be followed by a digit
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé          ^
+    2 Γöé 
+  
+
+lint_results.json:1:20 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù unexpected character ```
+  
+  > 1 Γöé Error: `--formatter` is not expected in this context
+      Γöé                    ^
+    2 Γöé 
+  
+
+lint_results.json format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Code formatting aborted due to parsing errors. To format code with errors, enable the 'formatter.formatWithErrors' option.
+  
+
+src\lib\supabaseServer.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     8  8 Γöé   	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+     9  9 Γöé   
+    10    Γöé - ΓåÆ return┬╖createServerClient(
+    11    Γöé - ΓåÆ ΓåÆ supabaseUrl,
+    12    Γöé - ΓåÆ ΓåÆ supabaseKey,
+    13    Γöé - ΓåÆ ΓåÆ {
+    14    Γöé - ΓåÆ ΓåÆ ΓåÆ cookies:┬╖{
+    15    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ getAll()┬╖{
+    16    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ return┬╖cookieStore.getAll();
+    17    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ },
+    18    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ setAll(cookiesToSet)┬╖{
+    19    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ try┬╖{
+    20    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ cookiesToSet.forEach(({┬╖name,┬╖value,┬╖options┬╖})┬╖=>┬╖{
+    21    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ cookieStore.set(name,┬╖value,┬╖options);
+    22    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ });
+    23    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ }┬╖catch┬╖{
+    24    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ //┬╖The┬╖`setAll`┬╖method┬╖was┬╖called┬╖from┬╖a┬╖Server┬╖Component.
+    25    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ //┬╖This┬╖can┬╖be┬╖ignored┬╖if┬╖you┬╖have┬╖middleware┬╖refreshing
+    26    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ //┬╖user┬╖sessions.
+    27    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ }
+    28    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ },
+    29    Γöé - ΓåÆ ΓåÆ ΓåÆ },
+    30    Γöé - ΓåÆ ΓåÆ },
+    31    Γöé - ΓåÆ );
+       10 Γöé + ΓåÆ return┬╖createServerClient(supabaseUrl,┬╖supabaseKey,┬╖{
+       11 Γöé + ΓåÆ ΓåÆ cookies:┬╖{
+       12 Γöé + ΓåÆ ΓåÆ ΓåÆ getAll()┬╖{
+       13 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ return┬╖cookieStore.getAll();
+       14 Γöé + ΓåÆ ΓåÆ ΓåÆ },
+       15 Γöé + ΓåÆ ΓåÆ ΓåÆ setAll(cookiesToSet)┬╖{
+       16 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ try┬╖{
+       17 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ cookiesToSet.forEach(({┬╖name,┬╖value,┬╖options┬╖})┬╖=>┬╖{
+       18 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ cookieStore.set(name,┬╖value,┬╖options);
+       19 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ });
+       20 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ }┬╖catch┬╖{
+       21 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ //┬╖The┬╖`setAll`┬╖method┬╖was┬╖called┬╖from┬╖a┬╖Server┬╖Component.
+       22 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ //┬╖This┬╖can┬╖be┬╖ignored┬╖if┬╖you┬╖have┬╖middleware┬╖refreshing
+       23 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ //┬╖user┬╖sessions.
+       24 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ }
+       25 Γöé + ΓåÆ ΓåÆ ΓåÆ },
+       26 Γöé + ΓåÆ ΓåÆ },
+       27 Γöé + ΓåÆ });
+    32 28 Γöé   }
+    33 29 Γöé   
+  
+
+src\lib\tracking.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     13  13 Γöé   
+     14  14 Γöé   export interface TrackedInvoice extends InvoiceRecord {
+     15     Γöé - ΓåÆ customer:┬╖Customer┬╖|┬╖null┬╖|┬╖(Customer┬╖&┬╖{┬╖id:┬╖string;┬╖name:┬╖string;┬╖phone:┬╖string┬╖|┬╖null;┬╖email:┬╖string┬╖|┬╖null┬╖});
+         15 Γöé + ΓåÆ customer:
+         16 Γöé + ΓåÆ ΓåÆ |┬╖Customer
+         17 Γöé + ΓåÆ ΓåÆ |┬╖null
+         18 Γöé + ΓåÆ ΓåÆ |┬╖(Customer┬╖&┬╖{
+         19 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ id:┬╖string;
+         20 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ name:┬╖string;
+         21 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ phone:┬╖string┬╖|┬╖null;
+         22 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ email:┬╖string┬╖|┬╖null;
+         23 Γöé + ΓåÆ ΓåÆ ┬╖┬╖});
+     16  24 Γöé   }
+     17  25 Γöé   
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 530.
+Checked 541 files in 1996ms. No fixes applied.
+Found 115 errors.
+Found 434 warnings.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

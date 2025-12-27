@@ -1,0 +1,27 @@
+
+> my-v0-project@0.1.0 build
+> next build
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+[@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+  - Experiments (use with caution):
+    ┬╖ instrumentationHook
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./next-colocation-template-main/src/app/(main)/auth/layout.tsx:3:32
+Type error: Cannot find module '@/config/project-config' or its corresponding type declarations.
+
+  1 | import type { ReactNode } from "react";
+  2 | import { GalleryVerticalEnd } from "lucide-react";
+> 3 | import { PROJECT_CONFIG } from "@/config/project-config";
+    |                                ^
+  4 |
+  5 | interface LayoutProps {
+  6 |   readonly children: ReactNode;
+Next.js build worker exited with code: 1 and signal: null

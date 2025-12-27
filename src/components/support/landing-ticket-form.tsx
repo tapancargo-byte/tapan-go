@@ -91,8 +91,11 @@ export function LandingTicketForm() {
 
 			<form onSubmit={handleSubmit} className="space-y-3 text-xs">
 				<div className="space-y-1">
-					<label className="block font-medium">Email</label>
+					<label htmlFor="ticket-email" className="block font-medium">
+						Email
+					</label>
 					<Input
+						id="ticket-email"
 						type="email"
 						value={form.email}
 						onChange={handleChange("email")}
@@ -102,10 +105,11 @@ export function LandingTicketForm() {
 				</div>
 
 				<div className="space-y-1">
-					<label className="block font-medium">
+					<label htmlFor="ticket-shipment-ref" className="block font-medium">
 						Shipment or invoice reference (optional)
 					</label>
 					<Input
+						id="ticket-shipment-ref"
 						value={form.shipmentRef}
 						onChange={handleChange("shipmentRef")}
 						placeholder="e.g. TG-SHP-2024-0001 or invoice number"
@@ -114,8 +118,11 @@ export function LandingTicketForm() {
 				</div>
 
 				<div className="space-y-1">
-					<label className="block font-medium">Subject</label>
+					<label htmlFor="ticket-subject" className="block font-medium">
+						Subject
+					</label>
 					<Input
+						id="ticket-subject"
 						value={form.subject}
 						onChange={handleChange("subject")}
 						placeholder="Short summary of the issue"
@@ -124,8 +131,11 @@ export function LandingTicketForm() {
 				</div>
 
 				<div className="space-y-1">
-					<label className="block font-medium">Details</label>
+					<label htmlFor="ticket-details" className="block font-medium">
+						Details
+					</label>
 					<Textarea
+						id="ticket-details"
 						rows={4}
 						value={form.description}
 						onChange={handleChange("description")}

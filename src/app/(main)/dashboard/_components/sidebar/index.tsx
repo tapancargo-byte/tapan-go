@@ -10,8 +10,6 @@ import BracketsIcon from "@/components/icons/brackets";
 import GearIcon from "@/components/icons/gear";
 import LockIcon from "@/components/icons/lock";
 import MonkeyIcon from "@/components/icons/monkey";
-// import { useIsV0 } from '@/lib/v0-context';
-import { SidebarLogo } from "./sidebar-logo";
 import { Bullet } from "@/components/ui/bullet";
 import {
 	DropdownMenu,
@@ -42,6 +40,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { cn } from "@/lib/utils";
 // import { LOCATIONS, type Location } from "@/types/auth";
 import { type NavBadgeKey, navMain } from "../nav-config";
+// import { useIsV0 } from '@/lib/v0-context';
+import { SidebarLogo } from "./sidebar-logo";
 
 // Location Notification Bar removed as per clean up request
 
@@ -293,9 +293,9 @@ export function DashboardSidebar({
 												"transition-all duration-200 cursor-pointer overflow-hidden",
 												"hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
 												pathname === item.url &&
-												"bg-sidebar-accent text-sidebar-accent-foreground font-semibold",
+													"bg-sidebar-accent text-sidebar-accent-foreground font-semibold",
 												item.locked &&
-												"opacity-50 cursor-not-allowed hover:bg-transparent",
+													"opacity-50 cursor-not-allowed hover:bg-transparent",
 											)}
 										>
 											{item.locked ? (
@@ -411,7 +411,10 @@ export function DashboardSidebar({
 								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
 								{/* Sign Out Item */}
-								<DropdownMenuItem onClick={handleSignOut} disabled={isSigningOut}>
+								<DropdownMenuItem
+									onClick={handleSignOut}
+									disabled={isSigningOut}
+								>
 									<LockIcon className="mr-2 h-4 w-4" />
 									{isSigningOut ? "Signing out..." : "Log out"}
 								</DropdownMenuItem>

@@ -3,8 +3,11 @@ import { Resend } from "npm:resend";
 
 import "../_shared/deno-env.ts";
 
+// biome-ignore lint/style/noNonNullAssertion: Env vars required
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+// biome-ignore lint/style/noNonNullAssertion: Env vars required
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+// biome-ignore lint/style/noNonNullAssertion: Env vars required
 const resendApiKey = Deno.env.get("RESEND_API_KEY")!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -13,7 +16,9 @@ const resend = new Resend(resendApiKey);
 interface WebhookPayload {
 	type: "INSERT" | "UPDATE" | "DELETE";
 	table: string;
+	// biome-ignore lint/suspicious/noExplicitAny: Dynamic payload
 	record: any;
+	// biome-ignore lint/suspicious/noExplicitAny: Dynamic payload
 	old_record: any;
 	schema: string;
 }
@@ -31,6 +36,7 @@ Deno.serve(async (req: Request) => {
 		return new Response(JSON.stringify({ success: true }), {
 			headers: { "Content-Type": "application/json" },
 		});
+		// biome-ignore lint/suspicious/noExplicitAny: Standard error handling
 	} catch (error: any) {
 		console.error("Error processing webhook:", error);
 		return new Response(

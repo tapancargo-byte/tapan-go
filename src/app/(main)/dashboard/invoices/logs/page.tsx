@@ -102,10 +102,14 @@ export default function InvoiceLogsPage() {
 					<CardContent>
 						<div className="flex flex-col sm:flex-row gap-4 items-end">
 							<div className="flex-1">
-								<label className="text-sm font-medium mb-2 block">
+								<label
+									htmlFor="invoice-id"
+									className="text-sm font-medium mb-2 block"
+								>
 									Invoice ID
 								</label>
 								<Input
+									id="invoice-id"
 									placeholder="Enter invoice database ID (UUID)"
 									value={invoiceId}
 									onChange={(e) => setInvoiceId(e.target.value)}

@@ -2,7 +2,7 @@
 
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import InvoiceBarcode from "@/components/invoices/invoice-barcode";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -31,11 +31,7 @@ export default function InvoiceBarcodesPage() {
 	const [loading, setLoading] = useState(true);
 	const [filter, setFilter] = useState("");
 
-	useEffect(() => {
-		fetchInvoices();
-	}, [fetchInvoices]);
-
-	const fetchInvoices = async () => {
+	const fetchInvoices = useCallback(async () => {
 		try {
 			setLoading(true);
 			// Fetch invoices with customer and linked shipments (via invoice_items)
@@ -76,7 +72,11 @@ export default function InvoiceBarcodesPage() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, []);
+
+	useEffect(() => {
+		fetchInvoices();
+	}, [fetchInvoices]);
 
 	const filtered = invoices.filter(
 		(i) =>

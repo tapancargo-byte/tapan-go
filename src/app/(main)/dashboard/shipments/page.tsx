@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Loader2, Pencil, Trash2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
@@ -70,7 +70,7 @@ export default function ShipmentsPage() {
 		},
 	});
 
-	const loadShipments = async () => {
+	const loadShipments = useCallback(async () => {
 		setLoading(true);
 		try {
 			const { data, error } = await supabase
@@ -106,14 +106,14 @@ export default function ShipmentsPage() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [toast]);
 
-	const loadCustomers = async () => {
+	const loadCustomers = useCallback(async () => {
 		const { data } = await supabase.from("customers").select("id, name");
 		if (data) {
 			setCustomers(data.map((c: any) => ({ id: c.id, name: c.name })));
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		loadShipments();
@@ -159,22 +159,28 @@ export default function ShipmentsPage() {
 		}
 	};
 
-	const handleDelete = async (id: string) => {
-		if (!confirm("Are you sure you want to delete this shipment?")) return;
+	const handleDelete = useCallback(
+		async (id: string) => {
+			if (!confirm("Are you sure you want to delete this shipment?")) return;
 
-		try {
-			const { error } = await supabase.from("shipments").delete().eq("id", id);
-			if (error) throw error;
-			toast({ title: "Shipment deleted" });
-			loadShipments();
-		} catch (error: any) {
-			toast({
-				title: "Error deleting shipment",
-				description: error.message,
-				variant: "destructive",
-			});
-		}
-	};
+			try {
+				const { error } = await supabase
+					.from("shipments")
+					.delete()
+					.eq("id", id);
+				if (error) throw error;
+				toast({ title: "Shipment deleted" });
+				loadShipments();
+			} catch (error: any) {
+				toast({
+					title: "Error deleting shipment",
+					description: error.message,
+					variant: "destructive",
+				});
+			}
+		},
+		[loadShipments, toast],
+	);
 
 	const columns: ColumnDef<UIShipment>[] = useMemo(
 		() => [

@@ -15,7 +15,7 @@ export function useLocationQuery<T>(
 		select?: string;
 		orderBy?: { column: string; ascending?: boolean };
 		limit?: number;
-		additionalFilters?: Record<string, any>;
+		additionalFilters?: Record<string, unknown>;
 		enabled?: boolean;
 	},
 ) {
@@ -75,9 +75,9 @@ export function useLocationQuery<T>(
 	}, [
 		tableName,
 		options?.select,
-		options?.orderBy,
+		JSON.stringify(options?.orderBy),
 		options?.limit,
-		options?.additionalFilters,
+		JSON.stringify(options?.additionalFilters),
 		options?.enabled,
 		getLocationFilter,
 	]);
@@ -106,9 +106,9 @@ export function useLocationQuery<T>(
  */
 export function buildLocationFilter(
 	scope: LocationScope,
-): { location?: Location } | {} {
+): { location?: Location } | Record<string, never> {
 	if (scope === "all") {
-		return {};
+		return {} as Record<string, never>;
 	}
 	return { location: scope };
 }

@@ -3,7 +3,13 @@ import type { Metadata, Viewport } from "next";
 import type React from "react";
 import "./globals.css";
 
-import { DM_Sans, Inter, Source_Serif_4 } from "next/font/google";
+import {
+	DM_Sans,
+	Inter,
+	JetBrains_Mono,
+	Source_Serif_4,
+	Space_Grotesk,
+} from "next/font/google";
 import { CommandMenu } from "@/components/command-menu";
 import { TapanAssociateProvider } from "@/components/layout/tapan-associate-context";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -18,6 +24,14 @@ const sourceSerif = Source_Serif_4({
 	weight: ["400", "600", "700"],
 	variable: "--font-serif",
 });
+const spaceGrotesk = Space_Grotesk({
+	subsets: ["latin"],
+	variable: "--font-heading",
+});
+const jetbrainsMono = JetBrains_Mono({
+	subsets: ["latin"],
+	variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
 	title: "TAC - Tapan Associate Cargo | Enterprise Logistics Solutions",
@@ -27,9 +41,6 @@ export const metadata: Metadata = {
 	metadataBase: new URL(
 		process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 	),
-	icons: {
-		icon: "/favicon.ico",
-	},
 };
 
 export const viewport: Viewport = {
@@ -46,7 +57,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${inter.variable} ${dmSans.variable} ${sourceSerif.variable} font-sans antialiased`}
+				className={`${inter.variable} ${dmSans.variable} ${sourceSerif.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased`}
 			>
 				<ThemeProvider>
 					<LocationProvider>

@@ -1,20 +1,10 @@
 "use client";
 
+import { motion } from "framer-motion";
 import {
-	AnimatePresence,
-	motion,
-	useMotionValue,
-	useScroll,
-	useSpring,
-	useTransform,
-} from "framer-motion";
-import {
-	ArrowRight,
 	CheckCircle2,
 	Clock,
-	FileSearch,
 	Globe,
-	MoveRight,
 	Package,
 	Phone,
 	Search,
@@ -25,7 +15,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 // --- Components ---
 
@@ -41,13 +30,19 @@ function Nav() {
 				</div>
 
 				<div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-					<Link href="#services" className="hover:text-primary transition-colors">
+					<Link
+						href="#services"
+						className="hover:text-primary transition-colors"
+					>
 						Services
 					</Link>
 					<Link href="#track" className="hover:text-primary transition-colors">
 						Tracking
 					</Link>
-					<Link href="#contact" className="hover:text-primary transition-colors">
+					<Link
+						href="#contact"
+						className="hover:text-primary transition-colors"
+					>
 						Support
 					</Link>
 				</div>
@@ -89,7 +84,8 @@ function Hero() {
 						transition={{ delay: 0.1 }}
 						className="text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1]"
 					>
-						Moving <span className="text-primary">Cargo</span> with Precision and{" "}
+						Moving <span className="text-primary">Cargo</span> with Precision
+						and{" "}
 						<span className="italic font-serif serif text-muted-foreground/40">
 							Speed
 						</span>
@@ -101,8 +97,8 @@ function Hero() {
 						transition={{ delay: 0.2 }}
 						className="text-xl text-muted-foreground max-w-lg leading-relaxed"
 					>
-						Specialized transport solutions from Imphal to New Delhi. Reliability
-						built over 20 years of nationwide operations.
+						Specialized transport solutions from Imphal to New Delhi.
+						Reliability built over 20 years of nationwide operations.
 					</motion.p>
 
 					<motion.div
@@ -128,12 +124,12 @@ function Hero() {
 						<div className="flex -space-x-3">
 							{[1, 2, 3, 4].map((i) => (
 								<div
-									key={i}
+									key={`avatar-${i}`}
 									className="w-10 h-10 rounded-full border-2 border-background bg-muted overflow-hidden"
 								>
 									<Image
 										src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 20}`}
-										alt="avatar"
+										alt={`User ${i}`}
 										width={40}
 										height={40}
 										className="h-full w-full object-cover"
@@ -143,7 +139,9 @@ function Hero() {
 						</div>
 						<div className="text-sm">
 							<p className="font-bold">5,000+ Active Clients</p>
-							<p className="text-muted-foreground">Trusted by top manufacturers</p>
+							<p className="text-muted-foreground">
+								Trusted by top manufacturers
+							</p>
 						</div>
 					</motion.div>
 				</div>
@@ -188,7 +186,9 @@ function Hero() {
 								<CheckCircle2 className="text-green-500 h-6 w-6" />
 							</div>
 							<div>
-								<p className="text-sm text-muted-foreground">Delivery Success</p>
+								<p className="text-sm text-muted-foreground">
+									Delivery Success
+								</p>
 								<p className="text-2xl font-bold">99.8%</p>
 							</div>
 						</div>
@@ -208,8 +208,8 @@ function Stats() {
 					{ label: "Fleet Size", value: "850+" },
 					{ label: "Cities Served", value: "110+" },
 					{ label: "Years Experience", value: "20+" },
-				].map((stat, i) => (
-					<div key={i} className="text-center space-y-2">
+				].map((stat) => (
+					<div key={stat.label} className="text-center space-y-2">
 						<p className="text-4xl lg:text-5xl font-bold tracking-tight">
 							{stat.value}
 						</p>
@@ -251,7 +251,9 @@ function TrackingInput() {
 						<div
 							className={cn(
 								"w-full max-w-2xl relative transition-all duration-500 rounded-2xl md:rounded-full bg-white/10 backdrop-blur-md p-2 border",
-								focused ? "border-primary ring-4 ring-primary/20" : "border-white/20",
+								focused
+									? "border-primary ring-4 ring-primary/20"
+									: "border-white/20",
 							)}
 						>
 							<div className="flex flex-col md:flex-row items-center gap-2">
@@ -334,15 +336,15 @@ function Services() {
 						</h2>
 					</div>
 					<p className="text-muted-foreground max-w-md text-lg leading-relaxed">
-						We provide a comprehensive range of transportation services tailored to
-						your business needs.
+						We provide a comprehensive range of transportation services tailored
+						to your business needs.
 					</p>
 				</div>
 
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-					{services.map((s, i) => (
+					{services.map((s) => (
 						<div
-							key={i}
+							key={s.title}
 							className="group p-8 rounded-[2rem] bg-background border border-border/60 hover:border-primary/40 hover:shadow-xl transition-all duration-300"
 						>
 							<div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -379,8 +381,8 @@ function Footer() {
 							</span>
 						</div>
 						<p className="text-muted-foreground text-sm max-w-xs leading-relaxed">
-							The most reliable logistics partner for the Imphal-Delhi corridor since
-							2003. Leading with innovation and trust.
+							The most reliable logistics partner for the Imphal-Delhi corridor
+							since 2003. Leading with innovation and trust.
 						</p>
 					</div>
 
@@ -391,12 +393,18 @@ function Footer() {
 						</h4>
 						<ul className="space-y-4 text-sm text-muted-foreground">
 							<li>
-								<Link href="/login" className="hover:text-primary transition-colors">
+								<Link
+									href="/login"
+									className="hover:text-primary transition-colors"
+								>
 									Dashboard
 								</Link>
 							</li>
 							<li>
-								<Link href="#track" className="hover:text-primary transition-colors">
+								<Link
+									href="#track"
+									className="hover:text-primary transition-colors"
+								>
 									Shipment Tracking
 								</Link>
 							</li>
@@ -465,6 +473,6 @@ export function LandingPage() {
 	);
 }
 
-function cn(...inputs: any) {
+function cn(...inputs: (string | undefined | null | boolean)[]) {
 	return inputs.filter(Boolean).join(" ");
 }

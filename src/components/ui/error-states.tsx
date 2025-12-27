@@ -84,7 +84,11 @@ export function NotFoundState({
 					</Button>
 				)}
 				{showHomeButton && (
-					<Button onClick={() => (window.location.href = "/")}>
+					<Button
+						onClick={() => {
+							window.location.href = "/";
+						}}
+					>
 						<Home className="h-4 w-4" />
 						Go Home
 					</Button>

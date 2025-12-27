@@ -1,0 +1,418 @@
+src\app\(auth)\_components\login-page-matrix.tsx:75:15 lint/style/useTemplate  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  i Template literals are preferred over string concatenation.
+  
+    73 Γöé 			ctx.fillRect(0, 0, canvas.width, canvas.height);
+    74 Γöé 
+  > 75 Γöé 			ctx.font = fontSize + "px monospace";
+       Γöé 			           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    76 Γöé 
+    77 Γöé 			for (let i = 0; i < drops.length; i++) {
+  
+  i Unsafe fix: Use a template literal.
+  
+     73  73 Γöé   			ctx.fillRect(0, 0, canvas.width, canvas.height);
+     74  74 Γöé   
+     75     Γöé - ΓåÆ ΓåÆ ΓåÆ ctx.font┬╖=┬╖fontSize┬╖+┬╖"px┬╖monospace";
+         75 Γöé + ΓåÆ ΓåÆ ΓåÆ ctx.font┬╖=┬╖`${fontSize}px┬╖monospace`;
+     76  76 Γöé   
+     77  77 Γöé   			for (let i = 0; i < drops.length; i++) {
+  
+
+src\app\(auth)\_components\dashboard-landing.tsx:28:5 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    26 Γöé 			.then((data) => setAnimationData(data))
+    27 Γöé 			.catch((err) => {
+  > 28 Γöé 				// biome-ignore lint/suspicious/noConsole: valid error logging
+       Γöé 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    29 Γöé 				console.error("Failed to load animation", err);
+    30 Γöé 			});
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:21:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    19 Γöé import { useEffect, useRef, useState } from "react";
+    20 Γöé import { supabase } from "@/lib/supabaseClient";
+  > 21 Γöé import { cn } from "@/lib/utils";
+       Γöé        ^^^^^^
+    22 Γöé 
+    23 Γöé // --- Types ---
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     19  19 Γöé   import { useEffect, useRef, useState } from "react";
+     20  20 Γöé   import { supabase } from "@/lib/supabaseClient";
+     21     Γöé - import┬╖{┬╖cn┬╖}┬╖from┬╖"@/lib/utils";
+     22  21 Γöé   
+     23  22 Γöé   // --- Types ---
+  
+
+src\app\(external)\_components\landing\about-section.tsx:4:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    3 Γöé import dynamic from "next/dynamic";
+  > 4 Γöé import React from "react";
+      Γöé        ^^^^^
+    5 Γöé 
+    6 Γöé const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     2  2 Γöé   
+     3  3 Γöé   import dynamic from "next/dynamic";
+     4    Γöé - import┬╖React┬╖from┬╖"react";
+     5  4 Γöé   
+     6  5 Γöé   const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+  
+
+src\app\(external)\_components\landing\cta.tsx:5:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    3 Γöé import { ArrowRight } from "lucide-react";
+    4 Γöé import Link from "next/link";
+  > 5 Γöé import React from "react";
+      Γöé        ^^^^^
+    6 Γöé import { Button } from "@/components/ui/button";
+    7 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     3  3 Γöé   import { ArrowRight } from "lucide-react";
+     4  4 Γöé   import Link from "next/link";
+     5    Γöé - import┬╖React┬╖from┬╖"react";
+     6  5 Γöé   import { Button } from "@/components/ui/button";
+     7  6 Γöé   
+  
+
+src\app\(external)\_components\landing\footer.tsx:3:10 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Several of these imports are unused.
+  
+    1 Γöé "use client";
+    2 Γöé 
+  > 3 Γöé import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+      Γöé          ^^^^^^^^
+    4 Γöé import React from "react";
+    5 Γöé import { Button } from "@/components/ui/button";
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+    3 Γöé import┬╖{┬╖Facebook,┬╖Instagram,┬╖Linkedin,┬╖Twitter┬╖}┬╖from┬╖"lucide-react";
+      Γöé          ----------                                                   
+
+src\app\(external)\_components\landing\hero.tsx:6:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    4 Γöé import dynamic from "next/dynamic";
+    5 Γöé import Link from "next/link";
+  > 6 Γöé import React from "react";
+      Γöé        ^^^^^
+    7 Γöé import { Button } from "@/components/ui/button";
+    8 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+      4   4 Γöé   import dynamic from "next/dynamic";
+      5   5 Γöé   import Link from "next/link";
+      6     Γöé - import┬╖React┬╖from┬╖"react";
+      7   6 Γöé   import { Button } from "@/components/ui/button";
+      8   7 Γöé   
+  
+
+src\app\(external)\_components\landing\navbar.tsx:4:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! These imports are unused.
+  
+    3 Γöé import Link from "next/link";
+  > 4 Γöé import React, { useEffect, useState } from "react";
+      Γöé        ^^^^^
+    5 Γöé import { ThemeToggle } from "@/components/theme-toggle";
+    6 Γöé import { Button } from "@/components/ui/button";
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+    4 Γöé import┬╖React,┬╖{┬╖useEffect,┬╖useState┬╖}┬╖from┬╖"react";
+      Γöé        -------                                     
+
+src\app\(external)\_components\landing\network-map.tsx:3:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    1 Γöé "use client";
+    2 Γöé 
+  > 3 Γöé import { motion } from "framer-motion";
+      Γöé        ^^^^^^^^^^
+    4 Γöé import dynamic from "next/dynamic";
+    5 Γöé import React from "react";
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     1  1 Γöé   "use client";
+     2    Γöé - 
+     3    Γöé - import┬╖{┬╖motion┬╖}┬╖from┬╖"framer-motion";
+        2 Γöé + 
+     4  3 Γöé   import dynamic from "next/dynamic";
+     5  4 Γöé   import React from "react";
+  
+
+src\app\(external)\_components\landing\network-map.tsx:5:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    3 Γöé import { motion } from "framer-motion";
+    4 Γöé import dynamic from "next/dynamic";
+  > 5 Γöé import React from "react";
+      Γöé        ^^^^^
+    6 Γöé 
+    7 Γöé const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     3  3 Γöé   import { motion } from "framer-motion";
+     4  4 Γöé   import dynamic from "next/dynamic";
+     5    Γöé - import┬╖React┬╖from┬╖"react";
+     6  5 Γöé   
+     7  6 Γöé   const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+  
+
+src\app\tapan-associate\page.tsx:324:22 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    322 Γöé 																				att.type.startsWith("image/") ? (
+    323 Γöé 																					// eslint-disable-next-line @next/next/no-img-element
+  > 324 Γöé 																					<img
+        Γöé 																					^^^^
+  > 325 Γöé 																						src={att.url}
+  > 326 Γöé 																						alt={att.name}
+  > 327 Γöé 																						className="h-24 w-24 object-cover"
+  > 328 Γöé 																					/>
+        Γöé 																					^^
+    329 Γöé 																				) : (
+    330 Γöé 																					<div className="px-2 py-1 text-xs max-w-[120px] truncate">
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\app\tapan-associate\page.tsx:400:14 lint/performance/noImgElement ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Don't use <img> element.
+  
+    398 Γöé 												{att.url && att.type.startsWith("image/") ? (
+    399 Γöé 													// eslint-disable-next-line @next/next/no-img-element
+  > 400 Γöé 													<img
+        Γöé 													^^^^
+  > 401 Γöé 														src={att.url}
+  > 402 Γöé 														alt={att.name}
+  > 403 Γöé 														className="h-8 w-8 rounded object-cover"
+  > 404 Γöé 													/>
+        Γöé 													^^
+    405 Γöé 												) : (
+    406 Γöé 													<div className="h-8 w-8 flex items-center justify-center rounded bg-muted text-xs">
+  
+  i Using the <img> can lead to slower LCP and higher bandwidth. Consider using <Image /> from next/image to automatically optimize images.
+  
+
+src\app\tapan-associate\page.tsx:49:31 lint/correctness/noUnusedVariables ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This variable error is unused.
+  
+    47 Γöé 		ChatAttachment[]
+    48 Γöé 	>([]);
+  > 49 Γöé 	const { messages, isLoading, error, ask, clear, loadMessages } =
+       Γöé 	                             ^^^^^
+    50 Γöé 		useTapanAssociateChat({
+    51 Γöé 			module,
+  
+  i Unused variables are often the result of typos, incomplete refactors, or other sources of bugs.
+  
+
+C:\dashboard\_components\rebels-ranking\index.tsx internalError/io  INTERNAL  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The system cannot find the path specified. (os error 3)
+  
+  ! This diagnostic was derived from an internal Biome error. Potential bug, please report it if necessary.
+  
+
+src\app\(auth)\_components\dashboard-landing-refactored.tsx:212:16 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    210 Γöé 					{ label: "Years Experience", value: "20+" },
+    211 Γöé 				].map((stat, i) => (
+  > 212 Γöé 					<div key={i} className="text-center space-y-2">
+        Γöé 					          ^
+    213 Γöé 						<p className="text-4xl lg:text-5xl font-bold tracking-tight">
+    214 Γöé 							{stat.value}
+  
+  i This is the source of the key value.
+  
+    209 Γöé 					{ label: "Cities Served", value: "110+" },
+    210 Γöé 					{ label: "Years Experience", value: "20+" },
+  > 211 Γöé 				].map((stat, i) => (
+        Γöé 				             ^
+    212 Γöé 					<div key={i} className="text-center space-y-2">
+    213 Γöé 						<p className="text-4xl lg:text-5xl font-bold tracking-tight">
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\dashboard-landing-refactored.tsx:347:13 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    345 Γöé 					{services.map((s, i) => (
+    346 Γöé 						<div
+  > 347 Γöé 							key={i}
+        Γöé 							     ^
+    348 Γöé 							className="group p-8 rounded-[2rem] bg-background border border-border/60 hover:border-primary/40 hover:shadow-xl transition-all duration-300"
+    349 Γöé 						>
+  
+  i This is the source of the key value.
+  
+    344 Γöé 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+  > 345 Γöé 					{services.map((s, i) => (
+        Γöé 					                  ^
+    346 Γöé 						<div
+    347 Γöé 							key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\landing-2025.tsx:295:13 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    293 Γöé 					{services.map((s, i) => (
+    294 Γöé 						<motion.div
+  > 295 Γöé 							key={i}
+        Γöé 							     ^
+    296 Γöé 							whileHover={{ y: -10 }}
+    297 Γöé 							className="group relative p-10 rounded-[3rem] bg-muted/50 border border-border/60 hover:border-primary/40 transition-all duration-500"
+  
+  i This is the source of the key value.
+  
+    292 Γöé 				<div className="grid md:grid-cols-3 gap-8">
+  > 293 Γöé 					{services.map((s, i) => (
+        Γöé 					                  ^
+    294 Γöé 						<motion.div
+    295 Γöé 							key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:387:18 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    385 Γöé 										{codeStreamLines.map((line, i) => (
+    386 Γöé 											<motion.div
+  > 387 Γöé 												key={i}
+        Γöé 												     ^
+    388 Γöé 												initial={{ opacity: 0, x: -10 }}
+    389 Γöé 												animate={{ opacity: 1 - i * 0.3, x: 0 }}
+  
+  i This is the source of the key value.
+  
+    383 Γöé 									{/* Code Stream */}
+    384 Γöé 									<div className="text-[10px] text-[#00FF41] font-mono h-14 overflow-hidden border-t border-[#00FF41]/20 pt-2 opacity-90 font-medium leading-tight">
+  > 385 Γöé 										{codeStreamLines.map((line, i) => (
+        Γöé 										                            ^
+    386 Γöé 											<motion.div
+    387 Γöé 												key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:412:26 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    410 Γöé 									{Array.from("TAPAN").map((char, index) => (
+    411 Γöé 										<motion.span
+  > 412 Γöé 											key={`tapan-${index}`}
+        Γöé 											              ^^^^^
+    413 Γöé 											variants={letterVariants}
+    414 Γöé 										>
+  
+  i This is the source of the key value.
+  
+    408 Γöé 								{/* Word 1: TAPAN */}
+    409 Γöé 								<span className="flex">
+  > 410 Γöé 									{Array.from("TAPAN").map((char, index) => (
+        Γöé 									                                ^^^^^
+    411 Γöé 										<motion.span
+    412 Γöé 											key={`tapan-${index}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:423:26 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    421 Γöé 									{Array.from("CARGO").map((char, index) => (
+    422 Γöé 										<motion.span
+  > 423 Γöé 											key={`cargo-${index}`}
+        Γöé 											              ^^^^^
+    424 Γöé 											variants={letterVariants}
+    425 Γöé 										>
+  
+  i This is the source of the key value.
+  
+    419 Γöé 								{/* Word 2: CARGO */}
+    420 Γöé 								<span className="flex">
+  > 421 Γöé 									{Array.from("CARGO").map((char, index) => (
+        Γöé 									                                ^^^^^
+    422 Γöé 										<motion.span
+    423 Γöé 											key={`cargo-${index}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 391.
+Checked 236 files in 538ms. No fixes applied.
+Found 55 errors.
+Found 354 warnings.
+Found 1 info.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

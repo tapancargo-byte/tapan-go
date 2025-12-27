@@ -1,0 +1,533 @@
+src\app\(auth)\_components\login-page-matrix.tsx:75:15 lint/style/useTemplate  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  i Template literals are preferred over string concatenation.
+  
+    73 Γöé 			ctx.fillRect(0, 0, canvas.width, canvas.height);
+    74 Γöé 
+  > 75 Γöé 			ctx.font = fontSize + "px monospace";
+       Γöé 			           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    76 Γöé 
+    77 Γöé 			for (let i = 0; i < drops.length; i++) {
+  
+  i Unsafe fix: Use a template literal.
+  
+     73  73 Γöé   			ctx.fillRect(0, 0, canvas.width, canvas.height);
+     74  74 Γöé   
+     75     Γöé - ΓåÆ ΓåÆ ΓåÆ ctx.font┬╖=┬╖fontSize┬╖+┬╖"px┬╖monospace";
+         75 Γöé + ΓåÆ ΓåÆ ΓåÆ ctx.font┬╖=┬╖`${fontSize}px┬╖monospace`;
+     76  76 Γöé   
+     77  77 Γöé   			for (let i = 0; i < drops.length; i++) {
+  
+
+src\app\(auth)\_components\dashboard-landing.tsx:28:5 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    26 Γöé 			.then((data) => setAnimationData(data))
+    27 Γöé 			.catch((err) => {
+  > 28 Γöé 				// biome-ignore lint/suspicious/noConsole: valid error logging
+       Γöé 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    29 Γöé 				console.error("Failed to load animation", err);
+    30 Γöé 			});
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:21:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    19 Γöé import { useEffect, useRef, useState } from "react";
+    20 Γöé import { supabase } from "@/lib/supabaseClient";
+  > 21 Γöé import { cn } from "@/lib/utils";
+       Γöé        ^^^^^^
+    22 Γöé 
+    23 Γöé // --- Types ---
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     19  19 Γöé   import { useEffect, useRef, useState } from "react";
+     20  20 Γöé   import { supabase } from "@/lib/supabaseClient";
+     21     Γöé - import┬╖{┬╖cn┬╖}┬╖from┬╖"@/lib/utils";
+     22  21 Γöé   
+     23  22 Γöé   // --- Types ---
+  
+
+src\app\(external)\_components\landing-redesign.tsx:3:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    1 Γöé "use client";
+    2 Γöé 
+  > 3 Γöé import React from "react";
+      Γöé        ^^^^^
+    4 Γöé import { AboutSection } from "./landing/about-section";
+    5 Γöé import { CTA } from "./landing/cta";
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     1  1 Γöé   "use client";
+     2    Γöé - 
+     3    Γöé - import┬╖React┬╖from┬╖"react";
+        2 Γöé + 
+     4  3 Γöé   import { AboutSection } from "./landing/about-section";
+     5  4 Γöé   import { CTA } from "./landing/cta";
+  
+
+src\app\(external)\_components\landing-refactored.tsx:20:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Several of these imports are unused.
+  
+    18 Γöé import Link from "next/link";
+    19 Γöé import { useRouter } from "next/navigation";
+  > 20 Γöé import React, { useEffect, useState } from "react";
+       Γöé        ^^^^^^^^^^^^^^^^^^
+    21 Γöé import { cn } from "@/lib/utils";
+    22 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+    20 Γöé import┬╖React,┬╖{┬╖useEffect,┬╖useState┬╖}┬╖from┬╖"react";
+       Γöé        ------- -----------                         
+
+src\app\(external)\_components\landing-refactored.tsx:21:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    19 Γöé import { useRouter } from "next/navigation";
+    20 Γöé import React, { useEffect, useState } from "react";
+  > 21 Γöé import { cn } from "@/lib/utils";
+       Γöé        ^^^^^^
+    22 Γöé 
+    23 Γöé // --- Components ---
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     19  19 Γöé   import { useRouter } from "next/navigation";
+     20  20 Γöé   import React, { useEffect, useState } from "react";
+     21     Γöé - import┬╖{┬╖cn┬╖}┬╖from┬╖"@/lib/utils";
+     22  21 Γöé   
+     23  22 Γöé   // --- Components ---
+  
+
+src\app\(external)\_components\landing\footer.tsx:5:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    3 Γöé import { Instagram, Linkedin, Twitter } from "lucide-react";
+    4 Γöé import Link from "next/link";
+  > 5 Γöé import React from "react";
+      Γöé        ^^^^^
+    6 Γöé import { TacLogo } from "@/components/ui/tac-logo";
+    7 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+      3   3 Γöé   import { Instagram, Linkedin, Twitter } from "lucide-react";
+      4   4 Γöé   import Link from "next/link";
+      5     Γöé - import┬╖React┬╖from┬╖"react";
+      6   5 Γöé   import { TacLogo } from "@/components/ui/tac-logo";
+      7   6 Γöé   
+  
+
+src\app\(external)\_components\landing\services.tsx:11:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+     9 Γöé 	Zap,
+    10 Γöé } from "lucide-react";
+  > 11 Γöé import React from "react";
+       Γöé        ^^^^^
+    12 Γöé import { cn } from "@/lib/utils";
+    13 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+      9   9 Γöé   	Zap,
+     10  10 Γöé   } from "lucide-react";
+     11     Γöé - import┬╖React┬╖from┬╖"react";
+     12  11 Γöé   import { cn } from "@/lib/utils";
+     13  12 Γöé   
+  
+
+src\app\(external)\_components\landing\trust-ticker.tsx:4:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    3 Γöé import { motion } from "framer-motion";
+  > 4 Γöé import React from "react";
+      Γöé        ^^^^^
+    5 Γöé 
+    6 Γöé const stats = [
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     2  2 Γöé   
+     3  3 Γöé   import { motion } from "framer-motion";
+     4    Γöé - import┬╖React┬╖from┬╖"react";
+     5  4 Γöé   
+     6  5 Γöé   const stats = [
+  
+
+C:\dashboard\_components\rebels-ranking\index.tsx internalError/io  INTERNAL  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The system cannot find the path specified. (os error 3)
+  
+  ! This diagnostic was derived from an internal Biome error. Potential bug, please report it if necessary.
+  
+
+src\app\(auth)\_components\landing-2025.tsx:295:13 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    293 Γöé 					{services.map((s, i) => (
+    294 Γöé 						<motion.div
+  > 295 Γöé 							key={i}
+        Γöé 							     ^
+    296 Γöé 							whileHover={{ y: -10 }}
+    297 Γöé 							className="group relative p-10 rounded-[3rem] bg-muted/50 border border-border/60 hover:border-primary/40 transition-all duration-500"
+  
+  i This is the source of the key value.
+  
+    292 Γöé 				<div className="grid md:grid-cols-3 gap-8">
+  > 293 Γöé 					{services.map((s, i) => (
+        Γöé 					                  ^
+    294 Γöé 						<motion.div
+    295 Γöé 							key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:387:18 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    385 Γöé 										{codeStreamLines.map((line, i) => (
+    386 Γöé 											<motion.div
+  > 387 Γöé 												key={i}
+        Γöé 												     ^
+    388 Γöé 												initial={{ opacity: 0, x: -10 }}
+    389 Γöé 												animate={{ opacity: 1 - i * 0.3, x: 0 }}
+  
+  i This is the source of the key value.
+  
+    383 Γöé 									{/* Code Stream */}
+    384 Γöé 									<div className="text-[10px] text-[#00FF41] font-mono h-14 overflow-hidden border-t border-[#00FF41]/20 pt-2 opacity-90 font-medium leading-tight">
+  > 385 Γöé 										{codeStreamLines.map((line, i) => (
+        Γöé 										                            ^
+    386 Γöé 											<motion.div
+    387 Γöé 												key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:412:26 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    410 Γöé 									{Array.from("TAPAN").map((char, index) => (
+    411 Γöé 										<motion.span
+  > 412 Γöé 											key={`tapan-${index}`}
+        Γöé 											              ^^^^^
+    413 Γöé 											variants={letterVariants}
+    414 Γöé 										>
+  
+  i This is the source of the key value.
+  
+    408 Γöé 								{/* Word 1: TAPAN */}
+    409 Γöé 								<span className="flex">
+  > 410 Γöé 									{Array.from("TAPAN").map((char, index) => (
+        Γöé 									                                ^^^^^
+    411 Γöé 										<motion.span
+    412 Γöé 											key={`tapan-${index}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(auth)\_components\login-page-matrix.tsx:423:26 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    421 Γöé 									{Array.from("CARGO").map((char, index) => (
+    422 Γöé 										<motion.span
+  > 423 Γöé 											key={`cargo-${index}`}
+        Γöé 											              ^^^^^
+    424 Γöé 											variants={letterVariants}
+    425 Γöé 										>
+  
+  i This is the source of the key value.
+  
+    419 Γöé 								{/* Word 2: CARGO */}
+    420 Γöé 								<span className="flex">
+  > 421 Γöé 									{Array.from("CARGO").map((char, index) => (
+        Γöé 									                                ^^^^^
+    422 Γöé 										<motion.span
+    423 Γöé 											key={`cargo-${index}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(external)\_components\landing\footer.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     60  60 Γöé   						</h4>
+     61  61 Γöé   						<ul className="space-y-4 text-sm text-muted-foreground font-mono">
+     62     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/services/air"┬╖className="hover:text-primary┬╖transition-colors">Air┬╖Expedite</Link></li>
+     63     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/services/surface"┬╖className="hover:text-primary┬╖transition-colors">Surface┬╖Heavy</Link></li>
+     64     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/services/warehouse"┬╖className="hover:text-primary┬╖transition-colors">Warehousing</Link></li>
+     65     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/services/customs"┬╖className="hover:text-primary┬╖transition-colors">Customs┬╖Brokerage</Link></li>
+         62 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+         63 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+         64 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/services/air"
+         65 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+         66 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+         67 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Air┬╖Expedite
+         68 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+         69 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+         70 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+         71 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+         72 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/services/surface"
+         73 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+         74 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+         75 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Surface┬╖Heavy
+         76 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+         77 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+         78 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+         79 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+         80 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/services/warehouse"
+         81 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+         82 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+         83 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Warehousing
+         84 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+         85 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+         86 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+         87 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+         88 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/services/customs"
+         89 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+         90 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+         91 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Customs┬╖Brokerage
+         92 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+         93 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+     66  94 Γöé   						</ul>
+     67  95 Γöé   					</div>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+     72 100 Γöé   						</h4>
+     73 101 Γöé   						<ul className="space-y-4 text-sm text-muted-foreground font-mono">
+     74     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/about"┬╖className="hover:text-primary┬╖transition-colors">About┬╖Us</Link></li>
+     75     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/network"┬╖className="hover:text-primary┬╖transition-colors">Network┬╖Maps</Link></li>
+     76     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/careers"┬╖className="hover:text-primary┬╖transition-colors">Careers</Link></li>
+     77     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/contact"┬╖className="hover:text-primary┬╖transition-colors">Contact</Link></li>
+        102 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        103 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        104 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/about"
+        105 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        106 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        107 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ About┬╖Us
+        108 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        109 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+        110 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        111 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        112 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/network"
+        113 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        114 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        115 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Network┬╖Maps
+        116 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        117 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+        118 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        119 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        120 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/careers"
+        121 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        122 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        123 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Careers
+        124 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        125 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+        126 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        127 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        128 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/contact"
+        129 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        130 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        131 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Contact
+        132 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        133 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+     78 134 Γöé   						</ul>
+     79 135 Γöé   					</div>
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+     84 140 Γöé   						</h4>
+     85 141 Γöé   						<ul className="space-y-4 text-sm text-muted-foreground font-mono">
+     86     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/privacy"┬╖className="hover:text-primary┬╖transition-colors">Privacy┬╖Policy</Link></li>
+     87     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/terms"┬╖className="hover:text-primary┬╖transition-colors">Terms┬╖of┬╖Carriage</Link></li>
+     88     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li><Link┬╖href="/iso"┬╖className="hover:text-primary┬╖transition-colors">ISO┬╖Certifications</Link></li>
+        142 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        143 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        144 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/privacy"
+        145 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        146 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        147 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Privacy┬╖Policy
+        148 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        149 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+        150 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        151 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        152 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/terms"
+        153 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        154 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        155 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ Terms┬╖of┬╖Carriage
+        156 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        157 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+        158 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <li>
+        159 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <Link
+        160 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ href="/iso"
+        161 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ className="hover:text-primary┬╖transition-colors"
+        162 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ >
+        163 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ISO┬╖Certifications
+        164 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </Link>
+        165 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ </li>
+     89 166 Γöé   						</ul>
+     90 167 Γöé   					</div>
+  
+
+src\app\(external)\_components\landing\services.tsx:88:13 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    86 Γöé 					{services.map((service, index) => (
+    87 Γöé 						<div
+  > 88 Γöé 							key={index}
+       Γöé 							     ^^^^^
+    89 Γöé 							className={cn(
+    90 Γöé 								"group relative p-8 border border-border bg-card hover:border-primary transition-all duration-300 overflow-hidden",
+  
+  i This is the source of the key value.
+  
+    85 Γöé 				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  > 86 Γöé 					{services.map((service, index) => (
+       Γöé 					                        ^^^^^
+    87 Γöé 						<div
+    88 Γöé 							key={index}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(external)\_components\landing\trust-ticker.tsx:26:17 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    24 Γöé 				>
+    25 Γöé 					{[...stats, ...stats, ...stats, ...stats].map((item, i) => (
+  > 26 Γöé 						<div key={i} className="flex items-center gap-12">
+       Γöé 						          ^
+    27 Γöé 							<span className="text-sm font-black tracking-[0.2em] font-mono uppercase opacity-90">
+    28 Γöé 								{item}
+  
+  i This is the source of the key value.
+  
+    23 Γöé 					className="flex gap-12 items-center"
+    24 Γöé 				>
+  > 25 Γöé 					{[...stats, ...stats, ...stats, ...stats].map((item, i) => (
+       Γöé 					                                                     ^
+    26 Γöé 						<div key={i} className="flex items-center gap-12">
+    27 Γöé 							<span className="text-sm font-black tracking-[0.2em] font-mono uppercase opacity-90">
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(external)\track\[awb]\loading.tsx:25:16 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    23 Γöé 								{Array.from({ length: 4 }).map((_, i) => (
+    24 Γöé 									<div
+  > 25 Γöé 										key={i}
+       Γöé 										     ^
+    26 Γöé 										className="h-10 rounded bg-muted/30 animate-pulse"
+    27 Γöé 									/>
+  
+  i This is the source of the key value.
+  
+    21 Γöé 							<div className="h-5 w-40 rounded bg-muted/40 animate-pulse" />
+    22 Γöé 							<div className="space-y-2">
+  > 23 Γöé 								{Array.from({ length: 4 }).map((_, i) => (
+       Γöé 								                                   ^
+    24 Γöé 									<div
+    25 Γöé 										key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\(external)\track\[awb]\loading.tsx:36:15 lint/suspicious/noArrayIndexKey ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Avoid using the index of an array as key property in an element.
+  
+    34 Γöé 							{Array.from({ length: 4 }).map((_, i) => (
+    35 Γöé 								<div
+  > 36 Γöé 									key={i}
+       Γöé 									     ^
+    37 Γöé 									className="h-6 rounded bg-muted/30 animate-pulse"
+    38 Γöé 								/>
+  
+  i This is the source of the key value.
+  
+    32 Γöé 					<GlassCard variant="elevated">
+    33 Γöé 						<GlassCardContent className="p-6 space-y-3">
+  > 34 Γöé 							{Array.from({ length: 4 }).map((_, i) => (
+       Γöé 							                                   ^
+    35 Γöé 								<div
+    36 Γöé 									key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src\app\tapan-associate\page.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    320 320 Γöé   																			>
+    321 321 Γöé   																				{att.url &&
+    322     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ att.type.startsWith("image/")┬╖?┬╖(
+        322 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ att.type.startsWith("image/")┬╖?┬╖(
+    323 323 Γöé   																					// biome-ignore lint/performance/noImgElement: Dynamic legacy attachments
+    324 324 Γöé   																					<img
+    325     Γöé - 
+    326 325 Γöé   																						src={att.url}
+    327 326 Γöé   																						alt={att.name}
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 380.
+Checked 236 files in 599ms. No fixes applied.
+Found 55 errors.
+Found 343 warnings.
+Found 1 info.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

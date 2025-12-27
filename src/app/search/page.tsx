@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
 import DashboardPageLayout from "@/components/dashboard/layout";
 import ProcessorIcon from "@/components/icons/proccesor";
@@ -9,16 +9,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
+interface SearchShipment { id: string; shipment_ref: string | null; origin: string; destination: string; status: string; }
+interface SearchBarcode { id: string; barcode_number: string | null; shipment_id: string | null; status: string; }
+interface SearchInvoice { id: string; invoice_ref: string | null; amount: number; status: string; }
+interface SearchCustomer { id: string; name: string | null; email: string | null; phone: string | null; }
+interface SearchManifest { id: string; manifest_ref: string | null; origin_hub: string; destination: string; status: string; }
+
 interface SearchResult {
-	shipments: any[];
-	barcodes: any[];
-	invoices: any[];
-	customers: any[];
-	manifests: any[];
+	shipments: SearchShipment[];
+	barcodes: SearchBarcode[];
+	invoices: SearchInvoice[];
+	customers: SearchCustomer[];
+	manifests: SearchManifest[];
 }
 
 export default function GlobalSearchPage() {
-	const router = useRouter();
 	const [query, setQuery] = useState("");
 	const [results, setResults] = useState<SearchResult | null>(null);
 	const [loading, setLoading] = useState(false);
@@ -98,29 +103,26 @@ export default function GlobalSearchPage() {
 							<CardContent>
 								{results.shipments.length ? (
 									<ul className="space-y-2 text-sm">
-										{results.shipments.map((s: any) => (
-											<li
-												key={s.id}
-												className="p-2 rounded border border-border flex justify-between items-center cursor-pointer hover:bg-accent/40"
-												onClick={() =>
-													router.push(
-														`/shipments?q=${encodeURIComponent(
-															(s.shipment_ref as string | null) ?? s.id,
-														)}`,
-													)
-												}
-											>
-												<div>
-													<div className="font-mono text-xs">
-														{s.shipment_ref}
+										{results.shipments.map((s) => (
+											<li key={s.id}>
+												<Link
+													href={`/shipments?q=${encodeURIComponent(
+														(s.shipment_ref as string | null) ?? s.id,
+													)}`}
+													className="p-2 rounded border border-border flex justify-between items-center hover:bg-accent/40 outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 block w-full"
+												>
+													<div>
+														<div className="font-mono text-xs">
+															{s.shipment_ref}
+														</div>
+														<div className="text-xs text-muted-foreground">
+															{s.origin} → {s.destination}
+														</div>
 													</div>
-													<div className="text-xs text-muted-foreground">
-														{s.origin} → {s.destination}
-													</div>
-												</div>
-												<Badge className="text-xs px-2 py-0.5">
-													{s.status?.toString().toUpperCase() ?? "UNKNOWN"}
-												</Badge>
+													<Badge className="text-xs px-2 py-0.5">
+														{s.status?.toString().toUpperCase() ?? "UNKNOWN"}
+													</Badge>
+												</Link>
 											</li>
 										))}
 									</ul>
@@ -145,29 +147,26 @@ export default function GlobalSearchPage() {
 							<CardContent>
 								{results.barcodes.length ? (
 									<ul className="space-y-2 text-sm">
-										{results.barcodes.map((b: any) => (
-											<li
-												key={b.id}
-												className="p-2 rounded border border-border flex justify-between items-center cursor-pointer hover:bg-accent/40"
-												onClick={() =>
-													router.push(
-														`/barcodes?q=${encodeURIComponent(
-															(b.barcode_number as string | null) ?? b.id,
-														)}`,
-													)
-												}
-											>
-												<div>
-													<div className="font-mono text-xs">
-														{b.barcode_number}
+										{results.barcodes.map((b) => (
+											<li key={b.id}>
+												<Link
+													href={`/barcodes?q=${encodeURIComponent(
+														(b.barcode_number as string | null) ?? b.id,
+													)}`}
+													className="p-2 rounded border border-border flex justify-between items-center hover:bg-accent/40 outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 block w-full"
+												>
+													<div>
+														<div className="font-mono text-xs">
+															{b.barcode_number}
+														</div>
+														<div className="text-xs text-muted-foreground">
+															Shipment: {b.shipment_id ?? "N/A"}
+														</div>
 													</div>
-													<div className="text-xs text-muted-foreground">
-														Shipment: {b.shipment_id ?? "N/A"}
-													</div>
-												</div>
-												<Badge className="text-xs px-2 py-0.5">
-													{b.status?.toString().toUpperCase() ?? "UNKNOWN"}
-												</Badge>
+													<Badge className="text-xs px-2 py-0.5">
+														{b.status?.toString().toUpperCase() ?? "UNKNOWN"}
+													</Badge>
+												</Link>
 											</li>
 										))}
 									</ul>
@@ -192,29 +191,26 @@ export default function GlobalSearchPage() {
 							<CardContent>
 								{results.invoices.length ? (
 									<ul className="space-y-2 text-sm">
-										{results.invoices.map((inv: any) => (
-											<li
-												key={inv.id}
-												className="p-2 rounded border border-border flex justify-between items-center cursor-pointer hover:bg-accent/40"
-												onClick={() =>
-													router.push(
-														`/invoices?q=${encodeURIComponent(
-															(inv.invoice_ref as string | null) ?? inv.id,
-														)}`,
-													)
-												}
-											>
-												<div>
-													<div className="font-mono text-xs">
-														{inv.invoice_ref ?? inv.id}
+										{results.invoices.map((inv) => (
+											<li key={inv.id}>
+												<Link
+													href={`/invoices?q=${encodeURIComponent(
+														(inv.invoice_ref as string | null) ?? inv.id,
+													)}`}
+													className="p-2 rounded border border-border flex justify-between items-center hover:bg-accent/40 outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 block w-full"
+												>
+													<div>
+														<div className="font-mono text-xs">
+															{inv.invoice_ref ?? inv.id}
+														</div>
+														<div className="text-xs text-muted-foreground">
+															Amount: ₹{Number(inv.amount ?? 0).toLocaleString()}
+														</div>
 													</div>
-													<div className="text-xs text-muted-foreground">
-														Amount: ₹{Number(inv.amount ?? 0).toLocaleString()}
-													</div>
-												</div>
-												<Badge className="text-xs px-2 py-0.5">
-													{inv.status?.toString().toUpperCase() ?? "UNKNOWN"}
-												</Badge>
+													<Badge className="text-xs px-2 py-0.5">
+														{inv.status?.toString().toUpperCase() ?? "UNKNOWN"}
+													</Badge>
+												</Link>
 											</li>
 										))}
 									</ul>
@@ -239,26 +235,21 @@ export default function GlobalSearchPage() {
 							<CardContent>
 								{results.customers.length ? (
 									<ul className="space-y-2 text-sm">
-										{results.customers.map((c: any) => (
-											<li
-												key={c.id}
-												className="p-2 rounded border border-border flex justify-between items-center cursor-pointer hover:bg-accent/40"
-												onClick={() =>
-													router.push(
-														`/customers?q=${encodeURIComponent(
-															((c.name as string | null) ??
-																c.email ??
-																"") as string,
-														)}`,
-													)
-												}
-											>
-												<div>
-													<div className="text-xs font-semibold">{c.name}</div>
-													<div className="text-xs text-muted-foreground">
-														{c.email} · {c.phone}
+										{results.customers.map((c) => (
+											<li key={c.id}>
+												<Link
+													href={`/customers?q=${encodeURIComponent(
+														((c.name as string | null) ?? c.email ?? "") as string,
+													)}`}
+													className="p-2 rounded border border-border flex justify-between items-center hover:bg-accent/40 outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 block w-full"
+												>
+													<div>
+														<div className="text-xs font-semibold">{c.name}</div>
+														<div className="text-xs text-muted-foreground">
+															{c.email} · {c.phone}
+														</div>
 													</div>
-												</div>
+												</Link>
 											</li>
 										))}
 									</ul>
@@ -283,29 +274,26 @@ export default function GlobalSearchPage() {
 							<CardContent>
 								{results.manifests.length ? (
 									<ul className="space-y-2 text-sm">
-										{results.manifests.map((m: any) => (
-											<li
-												key={m.id}
-												className="p-2 rounded border border-border flex justify-between items-center cursor-pointer hover:bg-accent/40"
-												onClick={() =>
-													router.push(
-														`/aircargo?q=${encodeURIComponent(
-															(m.manifest_ref as string | null) ?? m.id,
-														)}`,
-													)
-												}
-											>
-												<div>
-													<div className="font-mono text-xs">
-														{m.manifest_ref ?? m.id}
+										{results.manifests.map((m) => (
+											<li key={m.id}>
+												<Link
+													href={`/aircargo?q=${encodeURIComponent(
+														(m.manifest_ref as string | null) ?? m.id,
+													)}`}
+													className="p-2 rounded border border-border flex justify-between items-center hover:bg-accent/40 outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 block w-full"
+												>
+													<div>
+														<div className="font-mono text-xs">
+															{m.manifest_ref ?? m.id}
+														</div>
+														<div className="text-xs text-muted-foreground">
+															{m.origin_hub} → {m.destination}
+														</div>
 													</div>
-													<div className="text-xs text-muted-foreground">
-														{m.origin_hub} → {m.destination}
-													</div>
-												</div>
-												<Badge className="text-xs px-2 py-0.5">
-													{m.status?.toString().toUpperCase() ?? "UNKNOWN"}
-												</Badge>
+													<Badge className="text-xs px-2 py-0.5">
+														{m.status?.toString().toUpperCase() ?? "UNKNOWN"}
+													</Badge>
+												</Link>
 											</li>
 										))}
 									</ul>

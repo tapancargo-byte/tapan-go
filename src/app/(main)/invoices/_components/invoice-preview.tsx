@@ -411,7 +411,11 @@ export function InvoicePreview({ invoiceId, onClose }: InvoicePreviewProps) {
 									borderColor: COLORS.border,
 								}}
 							>
-								<svg viewBox="0 0 56 56" className="w-11 h-11">
+								<svg
+									viewBox="0 0 56 56"
+									className="w-11 h-11"
+									aria-hidden="true"
+								>
 									<path
 										d="M28 8L48 18V38L28 48L8 38V18L28 8Z"
 										stroke={COLORS.brand}

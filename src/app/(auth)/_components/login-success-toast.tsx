@@ -107,6 +107,7 @@ export function LoginSuccessToast({
 						<div className="relative p-5">
 							{/* Close button */}
 							<button
+								type="button"
 								onClick={onClose}
 								className="absolute top-3 right-3 p-1 rounded-full hover:bg-white/20 transition-colors"
 							>

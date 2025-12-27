@@ -53,6 +53,7 @@ export function FloatingActions() {
 			<div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
 				{/* Quick Track */}
 				<button
+					type="button"
 					onClick={() => togglePanel("track")}
 					aria-label="Quick track shipment"
 					className={cn(
@@ -67,6 +68,7 @@ export function FloatingActions() {
 
 				{/* Support Ticket */}
 				<button
+					type="button"
 					onClick={() => togglePanel("ticket")}
 					aria-label="Support tickets"
 					className={cn(
@@ -81,6 +83,7 @@ export function FloatingActions() {
 
 				{/* AI Chatbot */}
 				<button
+					type="button"
 					onClick={() => togglePanel("chat")}
 					aria-label="AI chat assistant"
 					className={cn(
@@ -118,6 +121,7 @@ export function FloatingActions() {
 						</div>
 					</div>
 					<button
+						type="button"
 						onClick={() => setActivePanel(null)}
 						className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
 					>
@@ -189,6 +193,7 @@ export function FloatingActions() {
 						</div>
 					</div>
 					<button
+						type="button"
 						onClick={() => setActivePanel(null)}
 						className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
 					>
@@ -277,6 +282,7 @@ export function FloatingActions() {
 						</div>
 					</div>
 					<button
+						type="button"
 						onClick={() => setActivePanel(null)}
 						className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
 					>
@@ -285,10 +291,14 @@ export function FloatingActions() {
 				</div>
 				<div className="p-4 space-y-4">
 					<div>
-						<label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 block">
+						<label
+							htmlFor="floating-consignment-number"
+							className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 block"
+						>
 							Consignment Number
 						</label>
 						<Input
+							id="floating-consignment-number"
 							placeholder="e.g., TAC-2025-12345"
 							className="rounded-xl border-border h-12 text-base"
 						/>

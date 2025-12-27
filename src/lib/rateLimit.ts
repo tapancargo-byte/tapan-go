@@ -23,17 +23,20 @@ try {
 } catch (_error) {
 	console.warn(
 		"⚠️  Rate limiting packages not installed. " +
-			"Run: npm install @upstash/ratelimit @upstash/redis",
+		"Run: npm install @upstash/ratelimit @upstash/redis",
 	);
 }
 
 // Initialize Upstash Redis (only if packages available)
 const redis =
-	packagesAvailable && process.env.UPSTASH_REDIS_REST_URL && Redis
+	packagesAvailable &&
+		process.env.UPSTASH_REDIS_REST_URL &&
+		process.env.UPSTASH_REDIS_REST_TOKEN &&
+		Redis
 		? new Redis({
-				url: process.env.UPSTASH_REDIS_REST_URL!,
-				token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-			})
+			url: process.env.UPSTASH_REDIS_REST_URL,
+			token: process.env.UPSTASH_REDIS_REST_TOKEN,
+		})
 		: null;
 
 // Create rate limiters for different use cases
@@ -41,41 +44,41 @@ export const rateLimiters = {
 	// API endpoints - 10 requests per 10 seconds
 	api: redis
 		? new Ratelimit({
-				redis,
-				limiter: Ratelimit.slidingWindow(10, "10 s"),
-				analytics: true,
-				prefix: "@ratelimit/api",
-			})
+			redis,
+			limiter: Ratelimit.slidingWindow(10, "10 s"),
+			analytics: true,
+			prefix: "@ratelimit/api",
+		})
 		: null,
 
 	// Authentication - 5 attempts per minute
 	auth: redis
 		? new Ratelimit({
-				redis,
-				limiter: Ratelimit.slidingWindow(5, "1 m"),
-				analytics: true,
-				prefix: "@ratelimit/auth",
-			})
+			redis,
+			limiter: Ratelimit.slidingWindow(5, "1 m"),
+			analytics: true,
+			prefix: "@ratelimit/auth",
+		})
 		: null,
 
 	// Public tracking - 30 requests per minute
 	tracking: redis
 		? new Ratelimit({
-				redis,
-				limiter: Ratelimit.slidingWindow(30, "1 m"),
-				analytics: true,
-				prefix: "@ratelimit/tracking",
-			})
+			redis,
+			limiter: Ratelimit.slidingWindow(30, "1 m"),
+			analytics: true,
+			prefix: "@ratelimit/tracking",
+		})
 		: null,
 
 	// File uploads - 5 uploads per 5 minutes
 	uploads: redis
 		? new Ratelimit({
-				redis,
-				limiter: Ratelimit.slidingWindow(5, "5 m"),
-				analytics: true,
-				prefix: "@ratelimit/uploads",
-			})
+			redis,
+			limiter: Ratelimit.slidingWindow(5, "5 m"),
+			analytics: true,
+			prefix: "@ratelimit/uploads",
+		})
 		: null,
 };
 

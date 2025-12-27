@@ -1,0 +1,10 @@
+src/app/(main)/invoices/page.tsx(197,7): error TS2345: Argument of type '{ id: any; origin: any; destination: any; ratePerKg: number; baseFee: number; serviceType: any; }[]' is not assignable to parameter of type 'SetStateAction<{ id: string; origin: string; destination: string; transportMode: string; ratePerKg: number; baseFee: number; serviceType: string; }[]>'.
+  Type '{ id: any; origin: any; destination: any; ratePerKg: number; baseFee: number; serviceType: any; }[]' is not assignable to type '{ id: string; origin: string; destination: string; transportMode: string; ratePerKg: number; baseFee: number; serviceType: string; }[]'.
+    Property 'transportMode' is missing in type '{ id: any; origin: any; destination: any; ratePerKg: number; baseFee: number; serviceType: any; }' but required in type '{ id: string; origin: string; destination: string; transportMode: string; ratePerKg: number; baseFee: number; serviceType: string; }'.
+src/features/invoices/invoice-dialog-enhanced.tsx(169,27): error TS2769: No overload matches this call.
+  Overload 1 of 4, '(value: string | number | Date): Date', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'string | number | Date'.
+      Type 'undefined' is not assignable to type 'string | number | Date'.
+  Overload 2 of 4, '(value: string | number): Date', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'string | number'.
+      Type 'undefined' is not assignable to type 'string | number'.

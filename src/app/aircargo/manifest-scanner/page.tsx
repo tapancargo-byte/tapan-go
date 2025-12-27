@@ -200,30 +200,42 @@ export default function ManifestScannerPage() {
 					<CardContent>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 							<div>
-								<label className="text-sm font-medium mb-2 block">
+								<label
+									htmlFor="origin-hub"
+									className="text-sm font-medium mb-2 block"
+								>
 									Origin Hub
 								</label>
 								<Input
+									id="origin-hub"
 									value={origin}
 									onChange={(e) => setOrigin(e.target.value)}
 									placeholder="e.g. BLR Hub"
 								/>
 							</div>
 							<div>
-								<label className="text-sm font-medium mb-2 block">
+								<label
+									htmlFor="destination"
+									className="text-sm font-medium mb-2 block"
+								>
 									Destination
 								</label>
 								<Input
+									id="destination"
 									value={destination}
 									onChange={(e) => setDestination(e.target.value)}
 									placeholder="e.g. DEL Airport"
 								/>
 							</div>
 							<div>
-								<label className="text-sm font-medium mb-2 block">
+								<label
+									htmlFor="airline-code"
+									className="text-sm font-medium mb-2 block"
+								>
 									Airline Code
 								</label>
 								<Input
+									id="airline-code"
 									value={airline}
 									onChange={(e) => setAirline(e.target.value)}
 									placeholder="e.g. AI"

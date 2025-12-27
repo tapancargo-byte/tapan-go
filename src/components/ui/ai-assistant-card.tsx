@@ -111,6 +111,7 @@ export function AiAssistantCard({
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				className="size-4 text-muted-foreground"
+				aria-hidden="true"
 			>
 				<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 				<path d="M18 6l-12 12" />
@@ -134,6 +135,7 @@ export function AiAssistantCard({
 						height="1em"
 						viewBox="0 0 24 24"
 						className="size-4 text-muted-foreground"
+						aria-hidden="true"
 					>
 						<path
 							fill="none"
@@ -162,6 +164,7 @@ export function AiAssistantCard({
 							width="48"
 							xmlns="http://www.w3.org/2000/svg"
 							xmlnsXlink="http://www.w3.org/1999/xlink"
+							aria-hidden="true"
 						>
 							<filter
 								id="a"
@@ -501,6 +504,7 @@ export function AiAssistantCard({
 								height="1em"
 								viewBox="0 0 24 24"
 								className="size-4"
+								aria-hidden="true"
 							>
 								<g fill="none" stroke="currentColor" strokeWidth="1.5">
 									<circle cx="11.5" cy="11.5" r="9.5" />
@@ -521,6 +525,7 @@ export function AiAssistantCard({
 								height="1em"
 								viewBox="0 0 24 24"
 								className="size-4"
+								aria-hidden="true"
 							>
 								<path
 									fill="currentColor"
@@ -564,6 +569,7 @@ export function AiAssistantCard({
 									height="1em"
 									viewBox="0 0 24 24"
 									className="size-3.5 text-muted-foreground"
+									aria-hidden="true"
 								>
 									<path
 										fill="currentColor"
@@ -588,6 +594,7 @@ export function AiAssistantCard({
 									height="1em"
 									viewBox="0 0 24 24"
 									className="size-3.5 text-muted-foreground"
+									aria-hidden="true"
 								>
 									<g fill="none" stroke="currentColor" strokeWidth="1.5">
 										<path

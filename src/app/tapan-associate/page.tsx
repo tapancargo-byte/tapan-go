@@ -46,7 +46,7 @@ export default function TapanAssociateChatPage() {
 	const [pendingAttachments, setPendingAttachments] = useState<
 		ChatAttachment[]
 	>([]);
-	const { messages, isLoading, error, ask, clear, loadMessages } =
+	const { messages, isLoading, ask, clear, loadMessages } =
 		useTapanAssociateChat({
 			module,
 			pathname,
@@ -77,7 +77,6 @@ export default function TapanAssociateChatPage() {
 		} else {
 			clear();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeId, activeConversation, clear, loadMessages]);
 
 	// Save messages to conversation history (debounced to avoid loops)
@@ -87,7 +86,6 @@ export default function TapanAssociateChatPage() {
 		if (messages.length === messagesLengthRef.current) return;
 		messagesLengthRef.current = messages.length;
 		upsertFromMessages(messages);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages.length, messages, upsertFromMessages]);
 
 	// Auto-scroll to bottom
@@ -320,7 +318,7 @@ export default function TapanAssociateChatPage() {
 																			>
 																				{att.url &&
 																				att.type.startsWith("image/") ? (
-																					// eslint-disable-next-line @next/next/no-img-element
+																					// biome-ignore lint/performance/noImgElement: Dynamic legacy attachments
 																					<img
 																						src={att.url}
 																						alt={att.name}
@@ -396,7 +394,7 @@ export default function TapanAssociateChatPage() {
 												className="flex items-center gap-2 rounded-md border bg-background/80 px-2 py-1"
 											>
 												{att.url && att.type.startsWith("image/") ? (
-													// eslint-disable-next-line @next/next/no-img-element
+													// biome-ignore lint/performance/noImgElement: Dynamic legacy attachments
 													<img
 														src={att.url}
 														alt={att.name}
@@ -487,6 +485,7 @@ export default function TapanAssociateChatPage() {
 							<div className="space-y-1">
 								{conversations.map((conv) => (
 									<button
+										type="button"
 										key={conv.id}
 										onClick={() => {
 											setActiveId(conv.id);

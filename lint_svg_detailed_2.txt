@@ -1,0 +1,432 @@
+src\app\(external)\_components\landing-refactored.tsx:143:8 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    141 Γöé 						{/* Map Layer */}
+    142 Γöé 						<div className="absolute inset-0 opacity-40">
+  > 143 Γöé 							<svg className="w-full h-full" preserveAspectRatio="none">
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    144 Γöé 								<pattern
+    145 Γöé 									id="grid"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\app\(external)\_components\landing-refactored.tsx:163:8 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    161 Γöé 						{/* Route Visual */}
+    162 Γöé 						<div className="absolute inset-0 flex items-center justify-center">
+  > 163 Γöé 							<svg
+        Γöé 							^^^^
+  > 164 Γöé 								width="100%"
+         ...
+  > 168 Γöé 								className="w-full h-full"
+  > 169 Γöé 							>
+        Γöé 							^
+    170 Γöé 								{/* Connection Line */}
+    171 Γöé 								<path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\app\(external)\_components\landing-refactored.tsx:384:8 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    382 Γöé 						{/* Abstract Visual */}
+    383 Γöé 						<div className="absolute bottom-0 left-0 w-full h-[60%]">
+  > 384 Γöé 							<svg width="100%" height="100%" className="opacity-30">
+        Γöé 							^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    385 Γöé 								<path
+    386 Γöé 									d="M0,100 Q400,200 800,50"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\app\(main)\invoices\_components\invoice-preview.tsx:414:9 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    412 Γöé 								}}
+    413 Γöé 							>
+  > 414 Γöé 								<svg viewBox="0 0 56 56" className="w-11 h-11">
+        Γöé 								^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    415 Γöé 									<path
+    416 Γöé 										d="M28 8L48 18V38L28 48L8 38V18L28 8Z"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\app\(main)\invoices\_components\shipment-invoice.tsx:249:8 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    247 Γöé 						</div>
+    248 Γöé 						<div className="plane-wrapper relative w-[44px] h-[44px] flex items-center justify-center">
+  > 249 Γöé 							<svg
+        Γöé 							^^^^
+  > 250 Γöé 								className="plane-svg w-[28px] h-[28px] text-[#f59e0b] rotate-45"
+  > 251 Γöé 								viewBox="0 0 24 24"
+  > 252 Γöé 								fill="currentColor"
+  > 253 Γöé 							>
+        Γöé 							^
+    254 Γöé 								<path d="M21.5,13.5L13,11V3.5C13,2.67 12.33,2 11.5,2C10.67,2 10,2.67 10,3.5V11L1.5,13.5V15.5L10,13V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13L21.5,15.5V13.5Z" />
+    255 Γöé 							</svg>
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\app\globals.css:3:2 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+      1 Γöé @import "tailwindcss";
+      2 Γöé 
+    > 3 Γöé @theme {
+        Γöé  ^^^^^^^
+    > 4 Γöé   --color-background: var(--background);
+         ...
+   > 98 Γöé   }
+   > 99 Γöé }
+        Γöé ^
+    100 Γöé 
+    101 Γöé :root {
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:213:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    211 Γöé @layer base {
+    212 Γöé   * {
+  > 213 Γöé     @apply border-border outline-ring/50;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    214 Γöé   }
+    215 Γöé 
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\globals.css:217:6 parse ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Tailwind-specific syntax is disabled.
+  
+    216 Γöé   body {
+  > 217 Γöé     @apply bg-background text-foreground antialiased;
+        Γöé      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    218 Γöé   }
+    219 Γöé }
+  
+  i Enable `tailwindDirectives` in the css parser options, or remove this if you are not using Tailwind CSS.
+  
+
+src\app\sentry-example-page\page.tsx:35:5 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    33 Γöé 			<main>
+    34 Γöé 				<div className="flex-spacer" />
+  > 35 Γöé 				<svg
+       Γöé 				^^^^
+  > 36 Γöé 					height="40"
+  > 37 Γöé 					width="40"
+  > 38 Γöé 					fill="none"
+  > 39 Γöé 					xmlns="http://www.w3.org/2000/svg"
+  > 40 Γöé 				>
+       Γöé 				^
+    41 Γöé 					<path
+    42 Γöé 						d="M21.85 2.995a3.698 3.698 0 0 1 1.353 1.354l16.303 28.278a3.703 3.703 0 0 1-1.354 5.053 3.694 3.694 0 0 1-1.848.496h-3.828a31.149 31.149 0 0 0 0-3.09h3.815a.61.61 0 0 0 .537-.917L20.523 5.893a.61.61 0 0 0-1.057 0l-3.739 6.494a28.948 28.948 0 0 1 9.63 10.453 28.988 28.988 0 0 1 3.499 13.78v1.542h-9.852v-1.544a19.106 19.106 0 0 0-2.182-8.85 19.08 19.08 0 0 0-6.032-6.829l-1.85 3.208a15.377 15.377 0 0 1 6.382 12.484v1.542H3.696A3.694 3.694 0 0 1 0 34.473c0-.648.17-1.286.494-1.849l2.33-4.074a8.562 8.562 0 0 1 2.689 1.536L3.158 34.17a.611.611 0 0 0 .538.917h8.448a12.481 12.481 0 0 0-6.037-9.09l-1.344-.772 4.908-8.545 1.344.77a22.16 22.16 0 0 1 7.705 7.444 22.193 22.193 0 0 1 3.316 10.193h3.699a25.892 25.892 0 0 0-3.811-12.033 25.856 25.856 0 0 0-9.046-8.796l-1.344-.772 5.269-9.136a3.698 3.698 0 0 1 3.2-1.849c.648 0 1.285.17 1.847.495Z"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:103:4 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    101 Γöé 	const closeButton = (
+    102 Γöé 		<Button variant="ghost" size="icon" className="size-8" type="button">
+  > 103 Γöé 			<svg
+        Γöé 			^^^^
+  > 104 Γöé 				xmlns="http://www.w3.org/2000/svg"
+         ...
+  > 113 Γöé 				className="size-4 text-muted-foreground"
+  > 114 Γöé 			>
+        Γöé 			^
+    115 Γöé 				<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    116 Γöé 				<path d="M18 6l-12 12" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:131:6 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    129 Γöé 			<div className="flex flex-row items-center justify-end p-0">
+    130 Γöé 				<Button variant="ghost" size="icon" className="size-8" type="button">
+  > 131 Γöé 					<svg
+        Γöé 					^^^^
+  > 132 Γöé 						xmlns="http://www.w3.org/2000/svg"
+         ...
+  > 136 Γöé 						className="size-4 text-muted-foreground"
+  > 137 Γöé 					>
+        Γöé 					^
+    138 Γöé 						<path
+    139 Γöé 							fill="none"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:158:7 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    156 Γöé 				{messages.length === 0 ? (
+    157 Γöé 					<div className="flex flex-1 flex-col items-center justify-center space-y-8 p-6">
+  > 158 Γöé 						<svg
+        Γöé 						^^^^
+  > 159 Γöé 							fill="none"
+         ...
+  > 164 Γöé 							xmlnsXlink="http://www.w3.org/1999/xlink"
+  > 165 Γöé 						>
+        Γöé 						^
+    166 Γöé 							<filter
+    167 Γöé 								id="a"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:498:8 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    497 Γöé 						<div className="pointer-events-none absolute start-0 top-[14px] flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+  > 498 Γöé 							<svg
+        Γöé 							^^^^
+  > 499 Γöé 								xmlns="http://www.w3.org/2000/svg"
+         ...
+  > 503 Γöé 								className="size-4"
+  > 504 Γöé 							>
+        Γöé 							^
+    505 Γöé 								<g fill="none" stroke="currentColor" strokeWidth="1.5">
+    506 Γöé 									<circle cx="11.5" cy="11.5" r="9.5" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:518:8 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    516 Γöé 							disabled={isBusy}
+    517 Γöé 						>
+  > 518 Γöé 							<svg
+        Γöé 							^^^^
+  > 519 Γöé 								xmlns="http://www.w3.org/2000/svg"
+         ...
+  > 523 Γöé 								className="size-4"
+  > 524 Γöé 							>
+        Γöé 							^
+    525 Γöé 								<path
+    526 Γöé 									fill="currentColor"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:561:9 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    559 Γöé 								disabled={!input.trim() || isBusy}
+    560 Γöé 							>
+  > 561 Γöé 								<svg
+        Γöé 								^^^^
+  > 562 Γöé 									xmlns="http://www.w3.org/2000/svg"
+         ...
+  > 566 Γöé 									className="size-3.5 text-muted-foreground"
+  > 567 Γöé 								>
+        Γöé 								^
+    568 Γöé 									<path
+    569 Γöé 										fill="currentColor"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\ai-assistant-card.tsx:585:9 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    583 Γöé 								onClick={() => setWebSearch((prev) => !prev)}
+    584 Γöé 							>
+  > 585 Γöé 								<svg
+        Γöé 								^^^^
+  > 586 Γöé 									xmlns="http://www.w3.org/2000/svg"
+         ...
+  > 590 Γöé 									className="size-3.5 text-muted-foreground"
+  > 591 Γöé 								>
+        Γöé 								^
+    592 Γöé 									<g fill="none" stroke="currentColor" strokeWidth="1.5">
+    593 Γöé 										<path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\animated-beam.tsx:123:3 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    122 Γöé 	return (
+  > 123 Γöé 		<svg
+        Γöé 		^^^^
+  > 124 Γöé 			fill="none"
+         ...
+  > 132 Γöé 			viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
+  > 133 Γöé 		>
+        Γöé 		^
+    134 Γöé 			<path
+    135 Γöé 				d={pathD}
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\grid-pattern.tsx:55:5 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    53 Γöé 			<rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} />
+    54 Γöé 			{squares && (
+  > 55 Γöé 				<svg x={x} y={y} className="overflow-visible">
+       Γöé 				^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    56 Γöé 					{squares.map(([sx, sy]) => (
+    57 Γöé 						<rect
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\message-loading.tsx:5:3 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+     3 Γöé export function MessageLoading() {
+     4 Γöé 	return (
+   > 5 Γöé 		<svg
+       Γöé 		^^^^
+   > 6 Γöé 			width="24"
+        ...
+  > 10 Γöé 			className="text-foreground"
+  > 11 Γöé 		>
+       Γöé 		^
+    12 Γöé 			<circle cx="4" cy="12" r="2" fill="currentColor">
+    13 Γöé 				<animate
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\safari.tsx:103:4 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    101 Γöé 			)}
+    102 Γöé 
+  > 103 Γöé 			<svg
+        Γöé 			^^^^
+  > 104 Γöé 				viewBox={`0 0 ${SAFARI_WIDTH} ${SAFARI_HEIGHT}`}
+         ...
+  > 108 Γöé 				style={{ transform: "translateZ(0)" }}
+  > 109 Γöé 			>
+        Γöé 			^
+    110 Γöé 				<defs>
+    111 Γöé 					<mask id="safariPunch" maskUnits="userSpaceOnUse">
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\sparkles-text.tsx:31:3 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    29 Γöé const SparkleIcon: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => {
+    30 Γöé 	return (
+  > 31 Γöé 		<motion.svg
+       Γöé 		^^^^^^^^^^^
+  > 32 Γöé 			key={id}
+        ...
+  > 43 Γöé 			viewBox="0 0 21 21"
+  > 44 Γöé 		>
+       Γöé 		^
+    45 Γöé 			<path
+    46 Γöé 				d="M9.82531 0.843845C10.0553 0.215178 10.9446 0.215178 11.1746 0.843845L11.8618 2.72026C12.4006 4.19229 12.3916 6.39157 13.5 7.5C14.6084 8.60843 16.8077 8.59935 18.2797 9.13822L20.1561 9.82534C20.7858 10.0553 20.7858 10.9447 20.1561 11.1747L18.2797 11.8618C16.8077 12.4007 14.6084 12.3916 13.5 13.5C12.3916 14.6084 12.4006 16.8077 11.8618 18.2798L11.1746 20.1562C10.9446 20.7858 10.0553 20.7858 9.82531 20.1562L9.13819 18.2798C8.59932 16.8077 8.60843 14.6084 7.5 13.5C6.39157 12.3916 4.19225 12.4007 2.72023 11.8618L0.843814 11.1747C0.215148 10.9447 0.215148 10.0553 0.843814 9.82534L2.72023 9.13822C4.19225 8.59935 6.39157 8.60843 7.5 7.5C8.60843 6.39157 8.59932 4.19229 9.13819 2.72026L9.82531 0.843845Z"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\visuals\network-map-visual.tsx:22:4 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    20 Γöé 			</div>
+    21 Γöé 
+  > 22 Γöé 			<svg
+       Γöé 			^^^^
+  > 23 Γöé 				className="relative h-full w-full max-w-[300px]"
+  > 24 Γöé 				viewBox="0 0 300 150"
+  > 25 Γöé 				fill="none"
+  > 26 Γöé 				xmlns="http://www.w3.org/2000/svg"
+  > 27 Γöé 			>
+       Γöé 			^
+    28 Γöé 				{/* Connection Lines */}
+    29 Γöé 				{nodes.slice(1).map((node, i) => (
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\visuals\service-route-visual.tsx:9:4 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+     7 Γöé 		<div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-pop/80 dark:bg-background/80 p-4">
+     8 Γöé 			{/* Abstract Map Background */}
+   > 9 Γöé 			<svg
+       Γöé 			^^^^
+  > 10 Γöé 				className="absolute inset-0 h-full w-full text-foreground/10 dark:text-foreground/20"
+  > 11 Γöé 				viewBox="0 0 400 200"
+  > 12 Γöé 				xmlns="http://www.w3.org/2000/svg"
+  > 13 Γöé 			>
+       Γöé 			^
+    14 Γöé 				<pattern
+    15 Γöé 					id="grid-pattern"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src\components\ui\visuals\service-route-visual.tsx:31:4 lint/a11y/noSvgWithoutTitle ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Alternative text title element cannot be empty
+  
+    30 Γöé 			{/* Route Path */}
+  > 31 Γöé 			<svg
+       Γöé 			^^^^
+  > 32 Γöé 				className="relative h-full w-full max-w-[300px]"
+  > 33 Γöé 				viewBox="0 0 300 150"
+  > 34 Γöé 				fill="none"
+  > 35 Γöé 				xmlns="http://www.w3.org/2000/svg"
+  > 36 Γöé 			>
+       Γöé 			^
+    37 Γöé 				{/* Path Line */}
+    38 Γöé 				<motion.path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+Checked 501 files in 665ms. No fixes applied.
+Found 24 errors.
+lint ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

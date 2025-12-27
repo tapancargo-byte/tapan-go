@@ -1148,9 +1148,10 @@ function ShipmentsTrackingContent() {
 											const isActive = activeBarcodeId === bc.id;
 
 											return (
-												<div
+												<button
+													type="button"
 													key={bc.id}
-													className="text-xs py-1 border-b border-border/40 last:border-b-0 cursor-pointer"
+													className="text-xs py-1 border-b border-border/40 last:border-b-0 cursor-pointer w-full text-left bg-transparent"
 													onClick={() => {
 														if (isActive) {
 															setActiveBarcodeId(null);
@@ -1159,6 +1160,19 @@ function ShipmentsTrackingContent() {
 															setActiveBarcodeId(bc.id);
 															setActiveBarcodeScans([]);
 															void loadScansForBarcode(bc.id);
+														}
+													}}
+													onKeyDown={(e) => {
+														if (e.key === "Enter" || e.key === " ") {
+															e.preventDefault();
+															if (isActive) {
+																setActiveBarcodeId(null);
+																setActiveBarcodeScans([]);
+															} else {
+																setActiveBarcodeId(bc.id);
+																setActiveBarcodeScans([]);
+																void loadScansForBarcode(bc.id);
+															}
 														}
 													}}
 												>
@@ -1217,7 +1231,7 @@ function ShipmentsTrackingContent() {
 															)}
 														</div>
 													)}
-												</div>
+												</button>
 											);
 										})}
 									</div>

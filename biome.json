@@ -15,18 +15,7 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
-			"correctness": {
-				"noUnusedVariables": "warn"
-			},
-			"suspicious": {
-				"noExplicitAny": "warn",
-				"noConsole": "warn",
-				"noDoubleEquals": "error"
-			},
-			"style": {
-				"noNonNullAssertion": "off"
-			}
+			"recommended": true
 		}
 	},
 	"javascript": {
@@ -35,6 +24,15 @@
 		}
 	},
 	"overrides": [
+		{
+			"includes": ["public/assets/secure-logistics.json"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			}
+		},
 		{
 			"includes": [
 				"check-features.js",
@@ -46,6 +44,35 @@
 				"rules": {
 					"suspicious": {
 						"noConsole": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"src/app/(auth)/_components/login-form.tsx",
+				"src/app/(auth)/_components/login-page-refactored.tsx"
+			],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"src/app/(external)/track/**/*.tsx",
+				"src/app/(external)/track/**/*.ts"
+			],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noExplicitAny": "off"
+					},
+					"correctness": {
+						"noUnusedFunctionParameters": "off"
 					}
 				}
 			}

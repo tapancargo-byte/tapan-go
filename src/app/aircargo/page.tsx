@@ -533,8 +533,14 @@ export default function AircargoPage() {
 				{/* Search, Filters & New Manifest */}
 				<div className="flex gap-4 flex-col sm:flex-row items-end">
 					<div className="flex-1">
-						<label className="text-sm font-medium mb-2 block">Search</label>
+						<label
+							htmlFor="aircargo-search"
+							className="text-sm font-medium mb-2 block"
+						>
+							Search
+						</label>
 						<Input
+							id="aircargo-search"
 							placeholder="Search by manifest ID, reference, or location..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
@@ -542,8 +548,14 @@ export default function AircargoPage() {
 						/>
 					</div>
 					<div>
-						<label className="text-sm font-medium mb-2 block">Status</label>
+						<label
+							htmlFor="aircargo-status"
+							className="text-sm font-medium mb-2 block"
+						>
+							Status
+						</label>
 						<select
+							id="aircargo-status"
 							value={filterStatus}
 							onChange={(e) => setFilterStatus(e.target.value)}
 							className="px-3 py-2 bg-input text-foreground border border-pop"

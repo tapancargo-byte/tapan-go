@@ -1,0 +1,27 @@
+
+> my-v0-project@0.1.0 build
+> next build
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+[@sentry/nextjs] DEPRECATION WARNING: automaticVercelMonitors is deprecated and will be removed in a future version. Use webpack.automaticVercelMonitors instead.
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+  - Experiments (use with caution):
+    ┬╖ instrumentationHook
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/layout/app-sidebar.tsx:22:25
+Type error: Cannot find module '@/components/ui/tac-logo' or its corresponding type declarations.
+
+  20 | 	PopoverTrigger,
+  21 | } from "@/components/ui/popover";
+> 22 | import { TacLogo } from "@/components/ui/tac-logo";
+     |                         ^
+  23 | import { useLocation } from "@/lib/location-context";
+  24 | import { supabase } from "@/lib/supabaseClient";
+  25 | import { cn } from "@/lib/utils";
+Next.js build worker exited with code: 1 and signal: null
