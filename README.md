@@ -37,3 +37,4 @@ Logistics and cargo management platform for seamless nationwide transportation.
 - **Dependencies trimmed:** Removed unused packages like Puppeteer, Twilio, and extra Radix UI primitives.
 - **Required deps restored:** AI chat (`ai`, `@ai-sdk/react`, `@ai-sdk/perplexity`), animations (`lottie-react`), barcodes/QR (`react-barcode`, `qrcode`), and rate limiting (`@upstash/ratelimit`, `@upstash/redis`).
 - **Build health:** `npm run dev` and `npm run lint` both pass locally after cleanup.
+
